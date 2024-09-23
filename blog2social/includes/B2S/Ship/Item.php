@@ -1702,16 +1702,18 @@ class B2S_Ship_Item {
                 $url .= (!$hideInfo) ? '<div class="b2s-post-item-details-url-title hidden-xs">Link ' . $isRequiredText . '</div>' : '';
 
                 $urlValue = $this->postUrl;
+                $addLink = '1';
                 if (in_array($networkId, unserialize(B2S_PLUGIN_ALLOW_ADD_LINK)) && isset($this->post_template[$networkId][$networkType]['addLink']) && $this->post_template[$networkId][$networkType]['addLink'] == false) {
                     if (($networkId == 12) || (isset($this->post_template[$networkId][$networkType]['format']) && (int) $this->post_template[$networkId][$networkType]['format'] == 1)) {
                         $urlValue = '';
+                        $addLink = '0';
                     }
                 }
-
+                
                 if ($refeshBtn && (trim(strtolower($this->postStatus)) == 'publish' || $this->b2sPostType == 'ex')) {
-                    $url .= '<div class="input-group"><input class="form-control ' . esc_attr($class) . ' b2s-post-item-details-item-url-input ' . $isRequiredClass . ' complete_network_url" dir="ltr" name="b2s[' . esc_attr($networkAuthId) . '][url]" ' . $urlLimit . ' placeholder="' . esc_attr__('Link', 'blog2social') . '" data-network-count="-1" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '"  value="' . esc_attr($urlValue) . '" name="b2s[' . esc_attr($networkAuthId) . '][url]"/><span class="input-group-addon"><span class="glyphicon glyphicon-refresh b2s-post-item-details-preview-url-reload" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-network-id="' . esc_attr($networkId) . '" aria-hidden="true"></span></span></div>';
+                    $url .= '<div class="input-group"><input class="form-control ' . esc_attr($class) . ' b2s-post-item-details-item-url-input ' . $isRequiredClass . ' complete_network_url" dir="ltr" name="b2s[' . esc_attr($networkAuthId) . '][url]" ' . $urlLimit . ' placeholder="' . esc_attr__('Link', 'blog2social') . '" data-network-count="-1" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '"  value="' . esc_attr($urlValue) . '" name="b2s[' . esc_attr($networkAuthId) . '][url]" data-add-link="' . esc_attr($addLink) . '" /><span class="input-group-addon"><span class="glyphicon glyphicon-refresh b2s-post-item-details-preview-url-reload" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-network-id="' . esc_attr($networkId) . '" aria-hidden="true"></span></span></div>';
                 } else {
-                    $url .= '<input class="form-control ' . esc_attr($class) . ' b2s-post-item-details-item-url-input ' . $isRequiredClass . ' complete_network_url" dir="ltr" name="b2s[' . esc_attr($networkAuthId) . '][url]" ' . $urlLimit . ' placeholder="' . esc_attr__('Link', 'blog2social') . '" data-network-count="-1" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" value="' . esc_attr($urlValue) . '" name="b2s[' . esc_attr($networkAuthId) . '][url]"/>';
+                    $url .= '<input class="form-control ' . esc_attr($class) . ' b2s-post-item-details-item-url-input ' . $isRequiredClass . ' complete_network_url" dir="ltr" name="b2s[' . esc_attr($networkAuthId) . '][url]" ' . $urlLimit . ' placeholder="' . esc_attr__('Link', 'blog2social') . '" data-network-count="-1" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" value="' . esc_attr($urlValue) . '" name="b2s[' . esc_attr($networkAuthId) . '][url]" data-add-link="' . esc_attr($addLink) . '" />';
                 }
                 if ((in_array($networkId, $this->showImageAreaProfile) && $networkType == 0) || (in_array($networkId, $this->showImageAreaPage) && $networkType == 1) || (in_array($networkId, $this->showImageAreaGroup) && $networkType == 2)) {
                     $url .= '</div>';

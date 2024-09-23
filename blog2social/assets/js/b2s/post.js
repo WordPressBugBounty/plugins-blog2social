@@ -1646,7 +1646,6 @@ jQuery(document).on('click', '.b2s-post-notice-delete-all-confirm-btn', function
         },
         success: function (data) {
             jQuery('.b2s-delete-post-notice-all').modal('hide');
-            console.log(data);
             if (data.result == true) {
                 b2sSortFormSubmit();
             } else {

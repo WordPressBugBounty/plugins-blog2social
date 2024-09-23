@@ -1021,6 +1021,17 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                         }
                                         jQuery('.b2s-post-ship-item-post-format-text[data-network-auth-id="' + data.networkAuthId + '"]').html(postFormatText[postFormatType][jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val()]);
                                         jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + data.networkAuthId + '"]').val(jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val());
+                                       
+                                        // check for add link (posting templates)
+                                        if (jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val() == 1) {
+                                            if (jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + data.networkAuthId + '][url]"]').attr('data-add-link') == 1) { // add link true
+                                                url = jQuery("#b2sDefault_url").val();
+                                                jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val(url);
+                                            } else { // add link false
+                                                jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val('');
+                                            }
+                                        }
+
                                         var isMetaChecked = false;
                                         var ogMetaNetworks = jQuery('#ogMetaNetworks').val().split(";");
                                         if (typeof data.networkId != 'undefined' && jQuery.inArray(data.networkId.toString(), ogMetaNetworks) != -1 && jQuery('#isOgMetaChecked').val() == "1") {
@@ -3719,18 +3730,17 @@ function networkLimitAll(networkAuthId, networkId, limit) {
     }
 
     if (typeof text !== typeof undefined && text !== false) {
-
         var textLength = text.length;
         var newText = text;
         if (networkId == "2") { //twitter
-            if (url.length != "0") {
+            if (url != undefined && url.length != "0") {
                 limit = limit - 26;
             }
             var textStripped = text.replaceAll("{new tweet}", "");
             textLength = textStripped.length;
         }
         if (networkId == "3") { //linkedin
-            if (url.length != "0") {
+            if (url != undefined && url.length != "0") {
                 limit = limit - url.length;
             }
         }
@@ -3745,17 +3755,17 @@ function networkLimitAll(networkAuthId, networkId, limit) {
             }
         }
         if (networkId == "19" && jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + networkAuthId + '"]').attr('data-network-type') == 0 && jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + networkAuthId + '"]').val() == 1) { //xing
-            if (url.length != "0") {
+            if (url != undefined && url.length != "0") {
                 limit = limit - url.length;
             }
         }
         if (networkId == "38") { //mastodon
-            if (url.length != "0") {
+            if (url != undefined && url.length != "0") {
                 limit = limit - url.length;
             }
         }
         if (networkId == "43" && jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + networkAuthId + '"]').val() == 1) { //bluesky
-            if (url.length != "0") {
+            if (url != undefined && url.length != "0") {
                 limit = limit - getNetwork43UrlLength(url);
             }
         }
@@ -3770,7 +3780,7 @@ function networkLimitAll(networkAuthId, networkId, limit) {
             var textLength = text.length;
         }
         if (networkId == "38") { //mastodon
-            var mastodonLength = textLength + url.length;
+            var mastodonLength = textLength + (url != undefined && url.length != '0' ? url.length : 0);
             jQuery(".b2s-post-item-countChar[data-network-count='" + networkCountId + "'][data-network-auth-id='" + networkAuthId + "']").html(mastodonLength);
         } else if (networkId == "43" && jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + networkAuthId + '"]').val() == 1) { //bluesky
             var blueskyLength = textLength + getNetwork43UrlLength(url);
@@ -4617,6 +4627,21 @@ function changePostFormat(networkId, networkType, postFormat, networkAuthId, pos
         networkLimitAll(networkAuthId, networkId, textLimit);
     } else {
         networkCount(networkAuthId);
+    }
+
+    // check for add Link (posting templates)
+    if (networkId != 12) {
+        if (postFormat == 0) {
+            let addUrl = (jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + networkAuthId + '][url]"]').val().length > 0 ? jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + networkAuthId + '][url]"]').val() : jQuery("#b2sDefault_url").val());
+            jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val(addUrl);
+        } else {
+            if (jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + networkAuthId + '][url]"]').attr('data-add-link') == 1) {
+                let addUrl = (jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + networkAuthId + '][url]"]').val().length > 0 ? jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + networkAuthId + '][url]"]').val() : jQuery("#b2sDefault_url").val());
+                jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val(addUrl);
+            } else {
+                jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val('');
+            }
+        }
     }
 
     //Edit Meta Tags

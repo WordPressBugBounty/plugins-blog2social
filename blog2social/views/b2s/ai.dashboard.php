@@ -28,7 +28,7 @@ $b2sSiteUrl = get_option('siteurl') . ((substr(get_option('siteurl'), -1, 1) == 
                         <br/>
                         <div class="row">
                             <div class="col-md-6 hidden-sm hidden-xs text-center">
-                                <img class="b2s-ass-img-rewrite" src="<?php echo esc_url(plugins_url('/assets/images/ass/assistini-rewrite.png', B2S_PLUGIN_FILE)); ?>" alt="Assistini"> 
+                                <img class="img-responsive" src="<?php echo esc_url(plugins_url('/assets/images/ass/assistini-rewrite.png', B2S_PLUGIN_FILE)); ?>" alt="Assistini"> 
                             </div>                            
                             <div class="col-md-6">
                                 <h4 class="b2s-ass-title-strong"><?php esc_html_e("How can you work with Assistini AI in Blog2Social?", "blog2social"); ?></h4>  
