@@ -779,6 +779,44 @@ if (!B2S_System::isblockedArea('B2S_MENU_MODUL_RATING', B2S_PLUGIN_ADMIN)) {
     </div>
 </div>
 
+<div class="modal fade" id="b2sAssNoContentModal" class="b2sAssNoContentModal" tabindex="-1" role="dialog" aria-labelledby="b2sAssNoContentModal" aria-hidden="true" data-backdrop="false" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header b2s-modal-border-none">
+                <img class="pull-left b2s-ass-img-logo" src="<?php echo esc_url(plugins_url('/assets/images/ass/assistini-logo.png', B2S_PLUGIN_FILE)); ?>" alt="Assistini"> 
+                <button type="button" class="b2s-modal-close close b2s-padding-15" data-modal-name="#b2sAssNoContentModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body b2s-pt-0">
+                <div class="b2s-d-flex b2s-justify-content-center b2s-pb-1">
+                    <h2 class="b2s-text-bold"><?php esc_html_e('The content of your Wordpress post is empty!', 'blog2social') ?></h2>
+                </div>
+                <div class="b2s-d-flex text-center b2s-pb-1">
+                    <h4 class="alert alert-warning"><?php esc_html_e('Enter a content of your Wordpress post. Alternatively, you can enter content directly into the  input field. Assistini AI will then create suggestions for your social media post.', 'blog2social') ?></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="b2sAssNoContentVideoModal" class="b2sAssNoContentVideoModal" tabindex="-1" role="dialog" aria-labelledby="b2sAssNoContentVideoModal" aria-hidden="true" data-backdrop="false" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header b2s-modal-border-none">
+                <img class="pull-left b2s-ass-img-logo" src="<?php echo esc_url(plugins_url('/assets/images/ass/assistini-logo.png', B2S_PLUGIN_FILE)); ?>" alt="Assistini"> 
+                <button type="button" class="b2s-modal-close close b2s-padding-15" data-modal-name="#b2sAssNoContentVideoModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body b2s-pt-0">
+                <div class="b2s-d-flex b2s-justify-content-center b2s-pb-1">
+                    <h2 class="b2s-text-bold"><?php esc_html_e('Your video description is empty!', 'blog2social') ?></h2>
+                </div>
+                <div class="b2s-d-flex text-center b2s-pb-1">
+                    <h4 class="alert alert-warning"><?php esc_html_e('Enter a description for your video in the Media Library. Alternatively, you can enter content directly into the  input field. Assistini AI will then create suggestions for your social media post.', 'blog2social') ?></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="b2sAssDefaultErrorModal" class="b2sAssDefaultErrorModal" tabindex="-1" role="dialog" aria-labelledby="b2sAssDefaultErrorModal" aria-hidden="true" data-backdrop="false" style="display:none;">
     <div class="modal-dialog">
         <div class="modal-content">

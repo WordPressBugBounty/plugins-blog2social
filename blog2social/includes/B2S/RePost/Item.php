@@ -192,7 +192,7 @@ class B2S_RePost_Item {
                 foreach ($this->authData->data->auth as $a => $auth) {
                     foreach ($auth as $u => $item) {
                         if (in_array($item->networkId, $isVideoNetwork)) {
-                            if (!in_array($item->networkId, array(1, 2, 3, 6, 12, 38, 39))) {
+                            if (!in_array($item->networkId, array(1, 2, 3, 6, 7, 12, 38, 39))) {
                                 if (isset($a[$u])) {
                                     unset($this->authData->data->auth->{$a[$u]});
                                 }

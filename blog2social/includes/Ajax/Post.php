@@ -3181,85 +3181,92 @@ class Ajax_Post {
                 if (isset($sqlResult->id) && (int) $sqlResult->id > 0 && isset($sqlResult->access_token) && !empty($sqlResult->access_token) && (int) $_POST['post_id'] > 0) {
 
                     $postData = get_post((int) $_POST['post_id']);
+                    $postContent = '';
                     if (isset($postData->post_content) && !empty($postData->post_content)) {
-                        // $preContent = B2S_Util::prepareContent($this->postId, $this->postData->post_content, $this->postUrl, false, (in_array($data->networkId, $this->allowNoEmoji) ? false : true), $this->userLang);
-                        require_once(B2S_PLUGIN_DIR . 'includes/Options.php');
-                        $options = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID, 'B2S_PLUGIN_USER_TOOL');
-                        $optionData = $options->_getOption(1);
+                        $postContent = $postData->post_content;
+                    } else if (isset($_POST['input_text']) && !empty($_POST['input_text'])) {
+                        $postContent = $_POST['input_text'];
+                    } else {
+                        echo json_encode(array('result' => false, 'error' => 'no_content'));
+                        wp_die();
+                    }
+                    // $preContent = B2S_Util::prepareContent($this->postId, $this->postData->post_content, $this->postUrl, false, (in_array($data->networkId, $this->allowNoEmoji) ? false : true), $this->userLang);
+                    require_once(B2S_PLUGIN_DIR . 'includes/Options.php');
+                    $options = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID, 'B2S_PLUGIN_USER_TOOL');
+                    $optionData = $options->_getOption(1);
 
-                        $allowEmojis = false;
-                        if (isset($optionData['settings']['deactivate_emojis'])) {
-                            $allowEmojis = (!$optionData['settings']['deactivate_emojis'] ? true : false);
-                        }
+                    $allowEmojis = false;
+                    if (isset($optionData['settings']['deactivate_emojis'])) {
+                        $allowEmojis = (!$optionData['settings']['deactivate_emojis'] ? true : false);
+                    }
 
-                        $postData = array(
-                            'action' => 'assGenerateText',
-                            'generate_type' => 'sm',
-                            'access_token' => sanitize_text_field($sqlResult->access_token),
-                            'post_text' => sanitize_text_field(B2S_Util::prepareContent((int) $_POST['post_id'], $postData->post_content, esc_url_raw($_POST['post_url']), false, false, sanitize_text_field($_POST['post_lang']))), // only content
-                            'post_network_name' => sanitize_text_field($_POST['post_network_name']),
-                            'post_lang' => sanitize_text_field($_POST['post_lang']),
-                            'post_network_type' => (int)$_POST['network_type'],
-                            'allow_emojis' => $allowEmojis
-                        );
+                    $postData = array(
+                        'action' => 'assGenerateText',
+                        'generate_type' => 'sm',
+                        'access_token' => sanitize_text_field($sqlResult->access_token),
+                        'post_text' => sanitize_text_field(B2S_Util::prepareContent((int) $_POST['post_id'], $postContent, esc_url_raw($_POST['post_url']), false, false, sanitize_text_field($_POST['post_lang']))), // only content
+                        'post_network_name' => sanitize_text_field($_POST['post_network_name']),
+                        'post_lang' => sanitize_text_field($_POST['post_lang']),
+                        'post_network_type' => (int)$_POST['network_type'],
+                        'allow_emojis' => $allowEmojis
+                    );
 
-                        if(isset($_POST['post_format']) && (int) $_POST['post_format'] >= 0){
-                            $postData['post_type'] = (int) $_POST['post_format'];
-                        }
-                        
-                        $result = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, $postData), true);
-                        if (is_array($result) && !empty($result)) {
-                            if (isset($result['ass_text']) && !empty($result['ass_text']) && isset($result['ass_words_open'])) {
-                                $optionData['account']['words_open'] = (int) $result['ass_words_open'];
-                                $options->_setOption(1, $optionData);
+                    if(isset($_POST['post_format']) && (int) $_POST['post_format'] >= 0){
+                        $postData['post_type'] = (int) $_POST['post_format'];
+                    }
+                    
+                    $result = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, $postData), true);
+                    if (is_array($result) && !empty($result)) {
+                        if (isset($result['ass_text']) && !empty($result['ass_text']) && isset($result['ass_words_open'])) {
+                            $optionData['account']['words_open'] = (int) $result['ass_words_open'];
+                            $options->_setOption(1, $optionData);
 
-                                $assText = wp_kses($result['ass_text'], array(
-                                    'p' => array(),
-                                    'h1' => array(),
-                                    'h2' => array(),
-                                    'h3' => array(),
-                                    'strong' =>array(),
-                                    'b' => array(),
-                                    'i' => array(),
-                                    'br' => array(),
-                                    'a' => array(
-                                        'href' => array(),
-                                        'target' => array(),
-                                        'class' => array(),
-                                    ),
-                                ));
+                            $assText = wp_kses($result['ass_text'], array(
+                                'p' => array(),
+                                'h1' => array(),
+                                'h2' => array(),
+                                'h3' => array(),
+                                'strong' =>array(),
+                                'b' => array(),
+                                'i' => array(),
+                                'br' => array(),
+                                'a' => array(
+                                    'href' => array(),
+                                    'target' => array(),
+                                    'class' => array(),
+                                ),
+                            ));
 
-                                $b2sItem = null;
-                                require_once(B2S_PLUGIN_DIR . 'includes/B2S/Ship/Item.php');
-                                if (isset($optionData['settings']['post_template']) && (bool) $optionData['settings']['post_template'] == true) {
-                                    $b2sItem = new B2S_Ship_Item(isset($_POST['post_id']) ? (int) $_POST['post_id'] : 0, isset($_POST['post_lang']) ? sanitize_text_field($_POST['post_lang']) : 'en', '', sanitize_text_field($_POST['b2s_post_type']), isset($_POST['relay_count']) ? (int) $_POST['relay_count'] : 0, (isset($_POST['is_video_mode']) && (int) $_POST['is_video_mode'] == 1 ? true : false));
-                                    $networkData = array(
-                                        'networkId' => isset($_POST['network_id']) ? (int) $_POST['network_id'] : 0,
-                                        'networkType' => isset($_POST['network_type']) ? (int) $_POST['network_type'] : 0,
-                                        'networkKind' => isset($_POST['network_kind']) ? (int) $_POST['network_kind'] : 0,
-                                    );
-                                    $message = $b2sItem->getMessagebyTemplate((object) $networkData, $assText);
-                                    if (isset($message) && !empty($message)) {
-                                        $assText = $message;
-                                    }
-                                } else {
-                                    if (!isset($b2sItem)) {
-                                        $b2sItem = new B2S_Ship_Item((int) $_POST['post_id']);
-                                    }
-                                    $characterLimits = $b2sItem->getCharacterLimits();
-                                    if (isset($_POST['post_id']) && isset($_POST['network_id']) && isset($_POST['network_type']) && isset($characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]) && (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']] > 0) {
-                                        if (strlen($result['ass_text']) > (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]) {
-                                            $assText = B2S_Util::getExcerpt($assText, 0, (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]);
-                                        }
+                            $b2sItem = null;
+                            require_once(B2S_PLUGIN_DIR . 'includes/B2S/Ship/Item.php');
+                            if (isset($optionData['settings']['post_template']) && (bool) $optionData['settings']['post_template'] == true) {
+                                $b2sItem = new B2S_Ship_Item(isset($_POST['post_id']) ? (int) $_POST['post_id'] : 0, isset($_POST['post_lang']) ? sanitize_text_field($_POST['post_lang']) : 'en', '', sanitize_text_field($_POST['b2s_post_type']), isset($_POST['relay_count']) ? (int) $_POST['relay_count'] : 0, (isset($_POST['is_video_mode']) && (int) $_POST['is_video_mode'] == 1 ? true : false));
+                                $networkData = array(
+                                    'networkId' => isset($_POST['network_id']) ? (int) $_POST['network_id'] : 0,
+                                    'networkType' => isset($_POST['network_type']) ? (int) $_POST['network_type'] : 0,
+                                    'networkKind' => isset($_POST['network_kind']) ? (int) $_POST['network_kind'] : 0,
+                                );
+                                $message = $b2sItem->getMessagebyTemplate((object) $networkData, $assText);
+                                if (isset($message) && !empty($message)) {
+                                    $assText = $message;
+                                }
+                            } else {
+                                if (!isset($b2sItem)) {
+                                    $b2sItem = new B2S_Ship_Item((int) $_POST['post_id']);
+                                }
+                                $characterLimits = $b2sItem->getCharacterLimits();
+                                if (isset($_POST['post_id']) && isset($_POST['network_id']) && isset($_POST['network_type']) && isset($characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]) && (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']] > 0) {
+                                    if (strlen($result['ass_text']) > (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]) {
+                                        $assText = B2S_Util::getExcerpt($assText, 0, (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]);
                                     }
                                 }
-                                echo json_encode(array('result' => true, 'ass_text' => $assText, 'ass_words_open' => (int) $result['ass_words_open']));
-                                wp_die();
                             }
-                            if (isset($result['error']) && !empty($result['error'])) {
-                                echo json_encode(array('result' => false, 'error' => (int) $result['error']));
-                                wp_die();
-                            }
+                            echo json_encode(array('result' => true, 'ass_text' => $assText, 'ass_words_open' => (int) $result['ass_words_open']));
+                            wp_die();
+                        }
+                        if (isset($result['error']) && !empty($result['error'])) {
+                            echo json_encode(array('result' => false, 'error' => (int) $result['error']));
+                            wp_die();
                         }
                     }
                 }

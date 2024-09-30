@@ -957,7 +957,7 @@ jQuery(document).on('click', '.b2s-edit-template-btn', function () {
                 jQuery('.b2s-loading-area').hide();
                 jQuery('.b2s-edit-template-content').show();
                 jQuery('.b2s-edit-template-save-btn').show();
-                if (jQuery('#b2sUserVersion').val() < 1 && networkId != 1) {
+                if (jQuery('#b2sUserVersion').val() < 1 && networkId != 1 && networkId != 3 && networkId != 19) {
                     jQuery('.b2s-edit-template-save-btn').addClass('b2s-btn-disabled');
                 } else {
                     jQuery('.b2s-edit-template-save-btn').removeClass('b2s-btn-disabled');
@@ -1175,7 +1175,7 @@ jQuery(window).on("load", function () {
 });
 
 jQuery(document).on('click', '.b2s-edit-template-save-btn', function () {
-    if (jQuery('#b2sUserVersion').val() < 1 && jQuery('#b2s-edit-template-network-id').val() != 1) {
+    if (jQuery('#b2sUserVersion').val() < 1 && jQuery('#b2s-edit-template-network-id').val() != 1 && jQuery('#b2s-edit-template-network-id').val() != 3 && jQuery('#b2s-edit-template-network-id').val() != 19) {
         return false;
     }
 

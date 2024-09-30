@@ -63,11 +63,14 @@ class B2S_Ship_Navbar {
 
         if ($isVideoView) {
             if (!in_array($data->networkId, $this->isVideoNetwork) || (in_array($data->networkId, array(1, 6, 12)) && $data->networkType == 0) || (in_array($data->networkId, array(1)) && $data->networkType == 2)) {
-                return;
+                return '';
             }
+            /*
+             * since V7.0 Remove Video Networks
+             */
         } else if (in_array($data->networkId, $this->isVideoNetwork)) {
-            if (!in_array($data->networkId, array(1, 2, 3, 6, 12, 38, 39))) {
-                return;
+            if (!in_array($data->networkId, array(1, 2, 3, 6, 7, 12, 38, 39))) {
+                return '';
             }
         }
 
@@ -145,5 +148,4 @@ class B2S_Ship_Navbar {
 
         return $content;
     }
-
 }

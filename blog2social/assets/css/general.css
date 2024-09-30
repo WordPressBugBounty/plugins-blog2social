@@ -8400,3 +8400,7 @@ CSS CheckBOX
     margin-top: -20px;
     max-width: 33em;   
 }
+
+.b2s-justify-content-center {
+    justify-content: center !important;
+}

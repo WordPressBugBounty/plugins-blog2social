@@ -32,8 +32,12 @@ class B2S_Ship_Portale {
                     continue;
                 }
             }
+             /*
+             * since V7.0 Remove Video Networks
+             */
+           
             if (!$isVideoView && in_array($portal->id, $this->isVideoNetwork)) {
-                if (!in_array($portal->id, array(1, 2, 3, 6, 12, 38, 39))) {
+                if (!in_array($portal->id, array(1, 2, 3, 6, 7, 12, 38, 39))) {
                     continue;
                 }
             }
