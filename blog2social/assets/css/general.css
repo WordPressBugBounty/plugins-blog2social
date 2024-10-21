@@ -7218,6 +7218,9 @@ input[type="checkbox"].error + label{
 .b2s-loader-text{
     font-size: 80%;
 }
+.b2s-font-bold{
+    font-weight: 600 !important;
+}
 
 .clearfix{
     display: block !important;
@@ -7225,15 +7228,14 @@ input[type="checkbox"].error + label{
 }
 
 .b2s-color-green{
-    color: #79b232;
+    color: #79b331 !important;
 }
-.b2s-color-black{
-    color: #444;
+.b2s-color-black, .b2s-color-black li{
+    color: #3c434a !important;
 }
 .b2s-color-red{
     color: #f14242 !important;
 }
-
 
 .b2s-version-info{
     font-size: 12px;
@@ -7286,6 +7288,17 @@ input[type="checkbox"].error + label{
 
 .label-sm{
     font-size: 60%;
+}
+
+.b2s-img-with-32{
+    width: 32px !important;
+}
+
+.b2s-padding-top-5{
+    padding-top:5px;
+}
+.b2s-padding-top-8{
+    padding-top:8px;
 }
 
 .btn-label-premium {
@@ -7936,6 +7949,14 @@ CSS CheckBOX
 .btn-bluesky:hover {
     color: #fff;
 }
+.btn-threads {
+    background-color: #000 !important;
+    border-color: #000 !important;
+    color: #fff;
+}
+.btn-threads:hover {
+    color: #fff;
+}
 
 .btn-outline-dark {
     color: #343a40;
@@ -8043,9 +8064,15 @@ CSS CheckBOX
     font-weight: 500;
 }
 
+.b2s-font-size-24{
+    font-size: 24px;
+    font-weight: 500;
+}
+
 .b2s-font-size-11{
     font-size:11px;
 }
+
 
 .b2s-cal-padding-10{
     padding: 10px;
@@ -8126,12 +8153,12 @@ CSS CheckBOX
     max-height: 110px;
 }
 .b2s-ass-title-h5{
- font-weight: 600;
- font-size: 15px;
+    font-weight: 600;
+    font-size: 15px;
 }
 
 .b2s-ass-title-strong{
- font-weight: 600;
+    font-weight: 600;
 }
 
 .b2s-ass-img-rewrite{
@@ -8181,7 +8208,9 @@ CSS CheckBOX
 .b2s-padding-top-10{
     padding-top:10px !important;
 }
-
+.b2s-padding-top-36{
+    padding-top:36px !important;
+}
 
 .b2s-text-sm{
     margin-top: 5px;
@@ -8212,6 +8241,7 @@ CSS CheckBOX
     display: table-cell;
     text-align: center;
     position: relative;
+    width: 33%;
 }
 
 .b2s-stepwizard-btn-circle {
@@ -8377,7 +8407,7 @@ CSS CheckBOX
 /* Margin muss anders gesetzt werden für firefox browser */
 @-moz-document url-prefix() {
     .b2s-post-item-ass-margin {
-      margin-top: -5px !important;
+        margin-top: -5px !important;
     }
 }
 
@@ -8398,9 +8428,29 @@ CSS CheckBOX
 
 .b2s-header-trial-image {
     margin-top: -20px;
-    max-width: 33em;   
+    max-width: 33em;
 }
 
 .b2s-justify-content-center {
     justify-content: center !important;
+}
+
+.b2s-changelog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 10px;
+}
+.b2s-changelog-body {
+    margin: 0px 10px 0px 10px;
+}
+.b2s-changelog-list {
+    list-style-type: disc;
+    margin-left: 1.5em;
+    margin-top: 0.5em;
+}
+.b2s-font-size-12 {
+    font-size: 12px !important;
 }

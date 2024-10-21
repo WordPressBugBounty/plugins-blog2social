@@ -69,7 +69,8 @@ class B2S_Ship_Navbar {
              * since V7.0 Remove Video Networks
              */
         } else if (in_array($data->networkId, $this->isVideoNetwork)) {
-            if (!in_array($data->networkId, array(1, 2, 3, 6, 7, 12, 38, 39))) {
+            // if (!in_array($data->networkId, array(1, 2, 3, 6, 7, 12, 38, 39))) {
+            if (!in_array($data->networkId, unserialize(B2S_PLUGIN_NETWORK_SUPPORT_SOCIAL))) {
                 return '';
             }
         }

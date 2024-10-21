@@ -31,7 +31,7 @@ class Ajax_Get {
         add_action('wp_ajax_b2s_get_calendar_filter_network_auth', array($this, 'getCalendarFilterNetworkAuth'));
         add_action('wp_ajax_b2s_get_image_modal', array($this, 'getImageModal'));
         add_action('wp_ajax_b2s_get_multi_widget_content', array($this, 'getMultiWidgetContent'));
-        add_action('wp_ajax_b2s_get_stats', array($this, 'getStats'));
+        add_action('wp_ajax_b2s_get_calendar_widget_content', array($this, 'getCalendarWidgetContent'));
         add_action('wp_ajax_b2s_get_blog_post_status', array($this, 'getBlogPostStatus'));
         add_action('wp_ajax_b2s_support_systemrequirements', array($this, 'b2sSupportSystemRequirements'));
         add_action('wp_ajax_b2s_search_user', array($this, 'searchUser'));
@@ -47,6 +47,7 @@ class Ajax_Get {
         add_action('wp_ajax_get_posts_detail_data', array($this, 'getPostsDetailData'));
         add_action('wp_ajax_b2s_get_ass_details', array($this, 'getAssDetails'));
         add_action('wp_ajax_b2s_get_ass_settings', array($this, 'getAssSettings'));
+        add_action('wp_ajax_b2s_get_dashboard_activity', array($this, 'getDashboardActivity'));
     }
 
     public function getBlogPostStatus() {
@@ -93,7 +94,8 @@ class Ajax_Get {
                             foreach ($result->data->auth as $a => $auth) {
                                 foreach ($auth as $u => $item) {
                                     if (in_array($item->networkId, $isVideoNetwork)) {
-                                        if (!in_array($item->networkId, array(1, 2, 6, 7, 12, 38, 39))) {
+                                        // if (!in_array($item->networkId, array(1, 2, 6, 7, 12, 38, 39))) {
+                                        if (!in_array($item->networkId, unserialize(B2S_PLUGIN_NETWORK_SUPPORT_SOCIAL))) {
                                             if (isset($a[$u])) {
                                                 unset($result->data->auth->{$a[$u]});
                                             }
@@ -130,7 +132,7 @@ class Ajax_Get {
             $b2sShowPagination = !isset($_POST['b2sShowPagination']) || (int) $_POST['b2sShowPagination'] == 1;
             $b2sSortPostTitle = isset($_POST['b2sSortPostTitle']) ? trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostTitle']))) : "";
             $b2sSortPostAuthor = (isset($_POST['b2sSortPostAuthor']) && (int) $_POST['b2sSortPostAuthor'] > 0) ? (int) $_POST['b2sSortPostAuthor'] : 0;
-            $b2sSortPostSchedDate = isset($_POST['b2sSortPostSchedDate']) ? (in_array(trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostSchedDate']))), array('desc', 'asc', 'sched_desc', 'sched_asc')) ? trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostSchedDate']))) : '') : '';
+            $b2sSortPostSchedDate = isset($_POST['b2sSortPostSchedDate']) ? (in_array(trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostSchedDate']))), array('desc', 'asc', 'sched_desc', 'sched_asc', 'blog_desc', 'blog_asc')) ? trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostSchedDate']))) : '') : '';
             $b2sSortPostPublishDate = isset($_POST['b2sSortPostPublishDate']) ? (in_array(trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostPublishDate']))), array('desc', 'asc')) ? trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostPublishDate']))) : '') : '';
             $b2sSortPostStatus = isset($_POST['b2sSortPostStatus']) ? (in_array(trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostStatus']))), array('publish', 'future', 'pending')) ? trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostStatus']))) : '') : '';
             $b2sSortPostShareStatus = isset($_POST['b2sSortPostShareStatus']) ? (in_array(trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostShareStatus']))), array('never', 'shared', 'scheduled', 'autopost', 'repost')) ? trim(sanitize_text_field(wp_unslash($_POST['b2sSortPostShareStatus']))) : '') : '';
@@ -147,6 +149,7 @@ class Ajax_Get {
             $b2sSortSharedToNetwork = (isset($_POST['b2sSortSharedToNetwork']) && (int) $_POST['b2sSortSharedToNetwork'] > 0) ? (int) $_POST['b2sSortSharedToNetwork'] : 0;
             $b2sSortSharedAtDateStart = (isset($_POST['b2sSortSharedAtDateStart']) && (int) $_POST['b2sSortSharedAtDateStart'] > 0) ? (int) $_POST['b2sSortSharedAtDateStart'] : 0;
             $b2sSortSharedAtDateEnd = (isset($_POST['b2sSortSharedAtDateEnd']) && (int) $_POST['b2sSortSharedAtDateEnd'] > 0) ? (int) $_POST['b2sSortSharedAtDateEnd'] : 0;
+            $b2sRawResponse = (isset($_POST['b2sRawResponse']) && $_POST['b2sRawResponse'] == true ? true : false);
 
             require_once(B2S_PLUGIN_DIR . 'includes/Options.php');
             $options = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID);
@@ -166,7 +169,7 @@ class Ajax_Get {
             $options->_setOption('post_filters', $optionPostFilters);
 
             if (!empty($b2sType) && in_array($b2sType, array('all', 'sched', 'publish', 'notice', 'approve', 'draft', 'draft-post', 'favorites', 'video'))) {
-                $postItem = new B2S_Post_Item($b2sType, $b2sSortPostTitle, $b2sSortPostAuthor, $b2sSortPostStatus, $b2sSortPostShareStatus, $b2sSortPostPublishDate, $b2sSortPostSchedDate, $b2sShowByDate, $b2sShowByNetwork, $b2sUserAuthId, $b2sPostBlogId, $b2sPagination, $b2sSortPostCat, $b2sSortPostType, $b2sUserLang, $b2sResultsPerPage, $b2sSortPostSharedBy, $b2sSortSharedToNetwork, $b2sSortSharedAtDateStart, $b2sSortSharedAtDateEnd);
+                $postItem = new B2S_Post_Item($b2sType, $b2sSortPostTitle, $b2sSortPostAuthor, $b2sSortPostStatus, $b2sSortPostShareStatus, $b2sSortPostPublishDate, $b2sSortPostSchedDate, $b2sShowByDate, $b2sShowByNetwork, $b2sUserAuthId, $b2sPostBlogId, $b2sPagination, $b2sSortPostCat, $b2sSortPostType, $b2sUserLang, $b2sResultsPerPage, $b2sSortPostSharedBy, $b2sSortSharedToNetwork, $b2sSortSharedAtDateStart, $b2sSortSharedAtDateEnd, $b2sRawResponse);
                 $result = array('result' => true, 'content' => $postItem->getItemHtml($b2sSelectSchedDate), 'schedDates' => json_encode($postItem->getCalendarSchedDate()));
                 if ($b2sShowPagination) {
                     $result['pagination'] = $postItem->getPaginationHtml();
@@ -710,14 +713,26 @@ class Ajax_Get {
         }
     }
 
-    public function getStats() {
+    public function getCalendarWidgetContent() {
         if (current_user_can('read') && isset($_GET['b2s_security_nonce']) && (int) wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['b2s_security_nonce'])), 'b2s_security_nonce') > 0) {
-            require_once (B2S_PLUGIN_DIR . 'includes/B2S/Stats.php');
-            $stats = new B2S_Stats();
-            if (isset($_GET['from']) && !empty($_GET['from']) && preg_match("#^[0-9\-.\]]+$#", sanitize_text_field(wp_unslash($_GET['from'])))) {
-                $stats->set_from(sanitize_text_field(wp_unslash($_GET['from'])));
+            
+            require_once (B2S_PLUGIN_DIR . 'includes/B2S/Dashboard/Calendar.php');
+            $calendar = new B2S_Dashboard_Calendar();
+            $targetDates = $calendar->getCalendarEntries();
+            if (!isset($targetDates) || empty($targetDates)) {
+                echo json_encode(array('result' => array(), 'error' => 'no_data'));
+                wp_die();
             }
-            echo json_encode($stats->get_result());
+            
+            $highlightedDays = array();
+            foreach ($targetDates as $targetDate) {
+                $colors = isset($highlightedDays[$targetDate]) ? $highlightedDays[$targetDate] : [];
+                if (count($colors) < 3) {
+                    $colors[] = B2S_Util::getRandomColor();
+                }
+                $highlightedDays[$targetDate] = $colors;
+            }
+            echo json_encode(array('result' => $highlightedDays, 'error' => ''));
             wp_die();
         } else {
             echo json_encode(array('result' => false, 'error' => 'nonce'));
@@ -859,7 +874,8 @@ class Ajax_Get {
                 foreach ($result->data->auth as $a => $auth) {
                     foreach ($auth as $u => $item) {
                         if (in_array($item->networkId, $isVideoNetwork)) {
-                            if (!in_array($item->networkId, array(1, 2, 6, 7, 12, 38, 39))) {
+                            // if (!in_array($item->networkId, array(1, 2, 6, 7, 12, 38, 39))) {
+                            if (!in_array($item->networkId, unserialize(B2S_PLUGIN_NETWORK_SUPPORT_SOCIAL))) {
                                 if (isset($a[$u])) {
                                     unset($result->data->auth->{$a[$u]});
                                 }
@@ -997,7 +1013,7 @@ class Ajax_Get {
                     require_once(B2S_PLUGIN_DIR . 'includes/Options.php');
                     $options = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID, 'B2S_PLUGIN_USER_TOOL');
                     $optionData = $options->_getOption(1);
-                    
+
                     if (isset($result['result']) && $result['result'] == true && isset($result['ass_open_quota']) && isset($result['ass_total_quota'])) {
                         $wordsOpen = (int) $result['ass_open_quota'];
                         $wordsTotal = (int) $result['ass_total_quota'];
@@ -1028,5 +1044,50 @@ class Ajax_Get {
         }
         echo json_encode(array('result' => false, 'error' => 'nonce'));
         wp_die();
+    }
+
+    public function getDashboardActivity() {
+        if (current_user_can('read') && isset($_POST['b2s_security_nonce']) && (int) wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['b2s_security_nonce'])), 'b2s_security_nonce') > 0) {
+            require_once (B2S_PLUGIN_DIR . 'includes/B2S/Post/Item.php');
+            require_once (B2S_PLUGIN_DIR . 'includes/B2S/Dashboard/Activity.php');
+            require_once (B2S_PLUGIN_DIR . 'includes/Util.php');
+            
+            /* Sort */
+            $b2sType = isset($_POST['b2sType']) ? trim(sanitize_text_field(wp_unslash($_POST['b2sType']))) : "";
+            $b2sPagination = 1;
+            $b2sSortPostPublishDate = 'desc';
+            $b2sSortPostSchedDate = 'desc';
+            $b2sUserLang = isset($_POST['b2sUserLang']) ? trim(sanitize_text_field(wp_unslash($_POST['b2sUserLang']))) : strtolower(substr(B2S_LANGUAGE, 0, 2));
+            $b2sResultsPerPage = 3;
+            $b2sRawResponse = true;
+
+            $userData = array(
+                'user_version' => (int)B2S_PLUGIN_USER_VERSION,
+                'allow_trial' => (get_option('B2S_PLUGIN_DISABLE_TRAIL') == '0' ? true : false),
+            );
+
+            if (!empty($b2sType) && in_array($b2sType, array('sched', 'publish'))) {
+                $postItem = new B2S_Post_Item($b2sType, '', '', '', '', $b2sSortPostPublishDate, $b2sSortPostSchedDate, '', 0, 0, 0, $b2sPagination, 0, '', $b2sUserLang, $b2sResultsPerPage, 0, 0, 0, 0, $b2sRawResponse);
+                $postData = $postItem->getItemRaw();
+                if (!is_array($postData) || empty($postData)) {
+                    echo json_encode(array('result' => true, 'content' => '', 'user' => $userData));
+                    wp_die();
+                }
+                $activity = new B2S_Dashboard_Activity();
+                if ($b2sType == 'publish') {
+                    $listHtml = $activity->getPublishItemHtml($postData);
+                }
+                if ($b2sType == 'sched') {
+                    $listHtml = $activity->getSchedItemHtml($postData);
+                }
+                echo json_encode(array('result' => true, 'content' => $listHtml, 'user' => $userData));
+                wp_die();
+            }
+            echo json_encode(array('result' => false, 'content' => '', 'user' => $userData));
+            wp_die();
+        } else {
+            echo json_encode(array('result' => false, 'error' => 'nonce'));
+            wp_die();
+        }
     }
 }

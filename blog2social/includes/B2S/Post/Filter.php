@@ -93,7 +93,7 @@ class B2S_Post_Filter {
     }
 
     private function getSchedDateHtml() {
-        $typeData = array(array('key' => 'desc', 'value' => __('newest first', 'blog2social')), array('key' => 'asc', 'value' => __('oldest first', 'blog2social')));
+        $typeData = array(array('key' => 'asc', 'value' => __('next scheduled post first', 'blog2social')), array('key' => 'desc', 'value' => __('last scheduled post first', 'blog2social')), array('key' => 'blog_asc', 'value' => __('first publication on blog', 'blog2social')), array('key' => 'blog_desc', 'value' => __('last publication on blog', 'blog2social')));
         $type = '<div class="form-group"><select id="b2sSortPostSchedDate" name="b2sSortPostSchedDate" class="form-control b2s-select">';
         foreach ($typeData as $var) {
             $var = (object) $var;

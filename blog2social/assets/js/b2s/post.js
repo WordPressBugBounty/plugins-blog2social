@@ -37,8 +37,6 @@ jQuery(window).on("load", function () {
             autoclose: true
         });
     }
-
-
 });
 
 
@@ -306,6 +304,18 @@ function b2sSortFormSubmit(sched_dates) {
                     if (jQuery('#b2sPostBlogId').val() != "") {
                         jQuery('.b2sDetailsSchedPostBtn[data-post-id="' + jQuery('#b2sPostBlogId').val() + '"]').trigger('click');
                     }
+                }
+
+                let urlParams = new URLSearchParams(window.location.search);
+                let showPostId = urlParams.get('showPostId');
+                if (showPostId != null && showPostId > 0) {
+                    if (urlParams.get('page') == 'blog2social-publish') {
+                        jQuery('.b2sDetailsPublishPostBtn[data-post-id="' + showPostId + '"]').trigger('click');
+                    } else if (urlParams.get('page') == 'blog2social-sched') {
+                        jQuery('.b2sDetailsSchedPostBtn[data-post-id="' + showPostId + '"]').trigger('click');
+                    }
+                    urlParams.delete('showPostId');
+                    history.replaceState({}, '', '?' + urlParams.toString());
                 }
             } else {
                 if (data.error == 'nonce') {

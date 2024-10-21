@@ -66,6 +66,15 @@ class B2S_Util {
         }
     }
 
+    public static function getRandomColor() {
+        $letters = '0123456789ABCDEF';
+        $color = '#';
+        for ($i = 0; $i < 6; $i++) {
+            $color .= $letters[rand(0, 15)];
+        }
+        return $color;
+    }
+
     public static function returnInByts($val = "") {
         if (!empty($val)) {
             $last = strtolower(mb_substr(trim($val), -1));
@@ -553,7 +562,7 @@ class B2S_Util {
                 return trim($text);
             }
 
-            $tmpCount = (($max !== false) && (int) $count == 0) ? $max : $count;
+            $tmpCount = ($max !== false) ? $max : $count;
             $parts = preg_split('/([\s\n\r]+)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
             $length = 0;
             $last_part = 0;
@@ -569,7 +578,7 @@ class B2S_Util {
                 }
             }
             $tmpText = implode(array_slice($parts, 0, $last_taken));
-            
+
             //Old case: first whole set in $text is greater than $count, do cut off by word -until V7.5.5
             if (empty($tmpText)) {
 

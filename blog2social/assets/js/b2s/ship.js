@@ -682,28 +682,23 @@ jQuery(document).on("click", ".b2s-post-ship-item-full-text", function () {
 
 jQuery(document).on("click", ".b2s-post-item-option-share-as-story", function () {
     if (jQuery(this).prop('checked')) {
-        jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').first().hide();
+        if (jQuery(this).attr('data-network-count') >= 0) {
+            jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').children().not('.b2s-post-item-details-item-message-area-sched').hide();
+        } else {
+            jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').first().hide();
+        }
         jQuery('.b2s-post-item-details-item-message-input[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').attr('required', false);
         // hide assistini buttons
-        jQuery('.b2s-post-item-ass-auth-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
-        jQuery('.b2s-post-item-ass-create-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
-        jQuery('.b2s-post-item-ass-reset-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
-        jQuery('.b2s-post-item-ass-setting-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
+        hideAssButtons(jQuery(this).attr('data-network-auth-id'), jQuery(this).attr('data-network-count'));
     } else {
-        jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').first().show();
+        if (jQuery(this).attr('data-network-count') >= 0) {
+            jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').children().not('.b2s-post-item-textarea-loader').show();
+        } else {
+            jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').first().show();
+        }
         jQuery('.b2s-post-item-details-item-message-input[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').attr('required', true);
         // show assistini buttons
-        if (jQuery('#b2s-ship-ass-connected').val() == 1) {
-            jQuery('.b2s-post-item-ass-auth-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
-            jQuery('.b2s-post-item-ass-create-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
-            jQuery('.b2s-post-item-ass-reset-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
-            jQuery('.b2s-post-item-ass-setting-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
-        } else {
-            jQuery('.b2s-post-item-ass-auth-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
-            jQuery('.b2s-post-item-ass-create-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
-            jQuery('.b2s-post-item-ass-reset-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
-            jQuery('.b2s-post-item-ass-setting-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
-        }
+        showAssButtons(jQuery(this).attr('data-network-auth-id'), jQuery(this).attr('data-network-count'));
     }
     return true;
 });
@@ -1603,20 +1598,20 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-interval-sel
 //select shipping mode
 jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select', function () {
     var dataNetworkCount = 0;
+    var hideTextareaAfter = false;
     if (jQuery(this).val() == 0) {
         // start - enable assistini buttons for main textare of this network
         if (this.getAttribute('data-network-id') != 4) { // special case tumblr
+
             var networkAuthId = jQuery(this).data('network-auth-id');
-            if (jQuery('#b2s-ship-ass-connected').val() == 1) {
-                jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-                jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-                jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-                jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
+            if (jQuery(this).attr('data-network-id') == 12 && jQuery('.b2s-post-item-option-share-as-story[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').prop('checked') == true) {
+                // hide textarea
+                hideTextareaAfter = true;
+                // hide all ass buttons
+                hideAssButtons(networkAuthId);
             } else {
-                jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-                jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-                jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-                jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
+                // show ass buttons
+                showAssButtons(networkAuthId);
             }
         }
         // end
@@ -1635,17 +1630,7 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
         // start - enable assistini buttons for main textare of this network
         if (this.getAttribute('data-network-id') != 4) { // special case tumblr
             var networkAuthId = jQuery(this).data('network-auth-id');
-            if (jQuery('#b2s-ship-ass-connected').val() == 1) {
-                jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-                jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-                jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-                jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-            } else {
-                jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-                jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-                jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-                jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            }
+            showAssButtons(networkAuthId);
         }
         // end
 
@@ -1685,10 +1670,7 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
         // start - disable assistini buttons for main textarea of this network
         if (this.getAttribute('data-network-id') != 4) { // special case tumblr
             var networkAuthId = jQuery(this).data('network-auth-id');
-            jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
+            hideAssButtons(networkAuthId);
         }
         // end
 
@@ -1723,7 +1705,11 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
         }
     }
     releaseChoose(jQuery(this).val(), jQuery(this).attr('data-network-auth-id'), dataNetworkCount);
-//    jQuery('.b2s-post-item-details-item-message-input[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').focus();
+
+    if (hideTextareaAfter == true) { // in case of "share_as_story" hide textarea
+        jQuery('.b2s-post-item-details-item-message-area[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').first().hide();
+    }
+
     var textLimit = jQuery('.b2s-post-item-details-item-message-input[data-network-count="-1"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').attr('data-network-text-limit');
     if (textLimit != "0") {
         networkLimitAll(jQuery(this).attr('data-network-auth-id'), jQuery(this).attr('data-network-id'), textLimit);
@@ -3755,7 +3741,7 @@ function networkLimitAll(networkAuthId, networkId, limit) {
             var textStripped = text.replaceAll("{new tweet}", "");
             textLength = textStripped.length;
         }
-        if (networkId == "3") { //linkedin
+        if (networkId == "3" || networkId == "38" || networkId == "44") { //linkedin(3) - mastodon(38) - threads(44)
             if (url != undefined && url.length != "0") {
                 limit = limit - url.length;
             }
@@ -3775,11 +3761,11 @@ function networkLimitAll(networkAuthId, networkId, limit) {
                 limit = limit - url.length;
             }
         }
-        if (networkId == "38") { //mastodon
-            if (url != undefined && url.length != "0") {
-                limit = limit - url.length;
-            }
-        }
+        // if (networkId == "38") { //mastodon
+        //     if (url != undefined && url.length != "0") {
+        //         limit = limit - url.length;
+        //     }
+        // }
         if (networkId == "43" && jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + networkAuthId + '"]').val() == 1) { //bluesky
             if (url != undefined && url.length != "0") {
                 limit = limit - getNetwork43UrlLength(url);
@@ -4784,17 +4770,7 @@ jQuery(document).on('change', '.b2s-post-item-details-post-format[data-network-i
         jQuery('.b2s-post-item-details-item-message-area[data-network-auth-id="' + networkAuthId + '"]').show();
 
         // show assistini buttons
-        if (jQuery('#b2s-ship-ass-connected').val() == 1) {
-            jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-            jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-            jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-        } else {
-            jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-            jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-        }
+        showAssButtons(networkAuthId);
     }
     if (type == 1) {
         jQuery('.b2s-format-area-tumblr-link[data-network-auth-id="' + networkAuthId + '"]').show();
@@ -4802,10 +4778,7 @@ jQuery(document).on('change', '.b2s-post-item-details-post-format[data-network-i
         jQuery('.b2s-post-item-details-item-message-area[data-network-auth-id="' + networkAuthId + '"]').hide();
 
         // hide assistini buttons
-        jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-        jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-        jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-        jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
+        hideAssButtons(networkAuthId);
     }
     if (type == 0) {
         jQuery('.b2s-format-area-tumblr-link[data-network-auth-id="' + networkAuthId + '"]').hide();
@@ -4813,17 +4786,7 @@ jQuery(document).on('change', '.b2s-post-item-details-post-format[data-network-i
         jQuery('.b2s-post-item-details-item-message-area[data-network-auth-id="' + networkAuthId + '"]').show();
 
         // show assistini buttons
-        if (jQuery('#b2s-ship-ass-connected').val() == 1) {
-            jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-            jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-            jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-        } else {
-            jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
-            jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-            jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
-        }
+        showAssButtons(networkAuthId);
     }
 });
 
@@ -5032,6 +4995,7 @@ jQuery(document).on('click', '.b2s-post-item-ass-setting-btn', function () {
     jQuery('#b2sAssSettingsModal').modal('show');
     var postTemplateElm = jQuery('#b2s-ass-settings-checkbox-1');
     var emojiElm = jQuery('#b2s-ass-settings-checkbox-2');
+    var generateHashtagsElm = jQuery('#b2s-ass-settings-checkbox-3');
 
     jQuery.ajax({
         url: ajaxurl,
@@ -5049,17 +5013,22 @@ jQuery(document).on('click', '.b2s-post-item-ass-setting-btn', function () {
         beforeSend: function () {
             postTemplateElm.prop('disabled', true);
             emojiElm.prop('disabled', true);
+            generateHashtagsElm.prop('disabled', true);
         },
         success: function (data) {
             if (data.result == true) {
                 postTemplateElm.prop('disabled', false);
                 emojiElm.prop('disabled', false);
+                generateHashtagsElm.prop('disabled', false);
 
                 if (data.settings.post_template != null) {
                     postTemplateElm.prop('checked', data.settings.post_template);
                 }
                 if (data.settings.deactivate_emojis != null) {
                     emojiElm.prop('checked', data.settings.deactivate_emojis);
+                }
+                if (data.settings.generate_hashtags != null) {
+                    generateHashtagsElm.prop('checked', data.settings.generate_hashtags);
                 }
                 // jQuery('.b2s-draft-list-entry[data-b2s-draft-id="' + jQuery('#b2s-delete-confirm-draft-id').val() + '"]').remove();
                 // jQuery('.b2s-post-remove-success').show();
@@ -5080,6 +5049,7 @@ jQuery(document).on('click', '.b2s-post-item-ass-setting-btn', function () {
 jQuery(document).on('click', '#b2s-ass-settings-save-btn', function () {
     var postTemplateElm = jQuery('#b2s-ass-settings-checkbox-1');
     var emojiElm = jQuery('#b2s-ass-settings-checkbox-2');
+    var generateHashtagsElm = jQuery('#b2s-ass-settings-checkbox-3');
 
     jQuery.ajax({
         url: ajaxurl,
@@ -5090,7 +5060,8 @@ jQuery(document).on('click', '#b2s-ass-settings-save-btn', function () {
             'action': 'b2s_ass_settings_save',
             'b2s_security_nonce': jQuery('#b2s_security_nonce').val(),
             'setting_post_template': postTemplateElm.prop('checked'),
-            'setting_deactivate_emojis': emojiElm.prop('checked')
+            'setting_deactivate_emojis': emojiElm.prop('checked'),
+            'setting_generate_hashtags': generateHashtagsElm.prop('checked')
         },
         error: function () {
             jQuery('.b2s-server-connection-fail').show();
@@ -5385,3 +5356,24 @@ jQuery(document).on('click', '.b2s-post-item-ass-reset-btn', function () {
     }
     jQuery(".b2s-post-item-countChar[data-network-count='" + schedCount + "'][data-network-auth-id='" + networkAuthId + "']").html(originalMessage.length);
 });
+
+function hideAssButtons(networkAuthId = 0, schedCount = -1) {
+    jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+    jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+    jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+    jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+}
+
+function showAssButtons(networkAuthId = 0, schedCount = -1) {
+    if (jQuery('#b2s-ship-ass-connected').val() == 1) {
+        jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+        jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').show();
+        jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').show();
+        jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').show();
+    } else {
+        jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').show();
+        jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+        jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+        jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
+    }
+}

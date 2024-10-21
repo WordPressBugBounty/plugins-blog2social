@@ -3161,7 +3161,8 @@ class Ajax_Post {
                 ),
                 'settings' => array(
                     'post_template' => true,
-                    'deactivate_emojis' => false
+                    'deactivate_emojis' => false,
+                    'generate_hashtags' => false
                 ),
             );
             $options->_setOption(1, $toolData);
@@ -3239,6 +3240,10 @@ class Ajax_Post {
 
                             $b2sItem = null;
                             require_once(B2S_PLUGIN_DIR . 'includes/B2S/Ship/Item.php');
+                            $generateHashtags = false;
+                            if (isset($optionData['settings']['generate_hashtags']) && (bool) $optionData['settings']['generate_hashtags'] == true && isset($result['ass_hashtags']) && !empty($result['ass_hashtags'])) {
+                                $generateHashtags = true;
+                            }
                             if (isset($optionData['settings']['post_template']) && (bool) $optionData['settings']['post_template'] == true) {
                                 $b2sItem = new B2S_Ship_Item(isset($_POST['post_id']) ? (int) $_POST['post_id'] : 0, isset($_POST['post_lang']) ? sanitize_text_field($_POST['post_lang']) : 'en', '', sanitize_text_field($_POST['b2s_post_type']), isset($_POST['relay_count']) ? (int) $_POST['relay_count'] : 0, (isset($_POST['is_video_mode']) && (int) $_POST['is_video_mode'] == 1 ? true : false));
                                 $networkData = array(
@@ -3246,6 +3251,9 @@ class Ajax_Post {
                                     'networkType' => isset($_POST['network_type']) ? (int) $_POST['network_type'] : 0,
                                     'networkKind' => isset($_POST['network_kind']) ? (int) $_POST['network_kind'] : 0,
                                 );
+                                if ($generateHashtags) {
+                                    $networkData['custom_hashtags'] = $this->prepareAssHashtags($result['ass_hashtags']);
+                                }
                                 $message = $b2sItem->getMessagebyTemplate((object) $networkData, $assText);
                                 if (isset($message) && !empty($message)) {
                                     $assText = $message;
@@ -3256,8 +3264,15 @@ class Ajax_Post {
                                 }
                                 $characterLimits = $b2sItem->getCharacterLimits();
                                 if (isset($_POST['post_id']) && isset($_POST['network_id']) && isset($_POST['network_type']) && isset($characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]) && (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']] > 0) {
+                                    $networkCharacterLimit = (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']];
+                                    if ($generateHashtags) {
+                                        $networkCharacterLimit -= strlen($this->prepareAssHashtags($result['ass_hashtags']));
+                                    }
                                     if (strlen($result['ass_text']) > (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]) {
                                         $assText = B2S_Util::getExcerpt($assText, 0, (int) $characterLimits[(int) $_POST['network_type']][(int) $_POST['network_id']]);
+                                    }
+                                    if ($generateHashtags) {
+                                        $assText .= $this->prepareAssHashtags($result['ass_hashtags']);
                                     }
                                 }
                             }
@@ -3285,6 +3300,7 @@ class Ajax_Post {
             $optionData = $options->_getOption(1);
             $optionData['settings']['post_template'] = (isset($_POST['setting_post_template']) && $_POST['setting_post_template'] == 'true' ? true : false);
             $optionData['settings']['deactivate_emojis'] = (isset($_POST['setting_deactivate_emojis']) && $_POST['setting_deactivate_emojis'] == 'true' ? true : false);
+            $optionData['settings']['generate_hashtags'] = (isset($_POST['setting_generate_hashtags']) && $_POST['setting_generate_hashtags'] == 'true' ? true : false);
             $options->_setOption(1, $optionData);
 
             echo json_encode(array('result' => true));
@@ -3345,7 +3361,7 @@ class Ajax_Post {
                 $height = (int) $image[1];
             }
 
-            if ($width < $minImageDimensions[(int) $_POST['network_id']][0] || $height < $minImageDimensions[(int) $_POST['network_id']][1]) {
+            if (isset($minImageDimensions[(int) $_POST['network_id']]) && !empty($minImageDimensions[(int) $_POST['network_id']]) && ($width < $minImageDimensions[(int) $_POST['network_id']][0] || $height < $minImageDimensions[(int) $_POST['network_id']][1])) {
                 echo json_encode(array('result' => false, 'error' => array((int) $_POST['network_id'])));
                 wp_die();
             }
@@ -3402,6 +3418,13 @@ class Ajax_Post {
         }
         echo json_encode(array('result' => false, 'error' => 'nonce'));
         wp_die();
+    }
+
+    public function prepareAssHashtags(string $hashtags = '') {
+        if (!isset($hashtags) || empty($hashtags)) {
+            return '';
+        }
+        return '#' . trim(str_replace(', ', ' #', $hashtags));
     }
 
     // public function addUserApp() {
