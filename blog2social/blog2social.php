@@ -7,12 +7,12 @@
  * Author: Blog2Social, Adenion
  * Text Domain: blog2social
  * Domain Path: /languages
- * Version: 8.1.0
+ * Version: 8.1.1
  * Author URI: https://www.blog2social.com
  * License: GPL2+
  */
 
-define('B2S_PLUGIN_VERSION', '810');
+define('B2S_PLUGIN_VERSION', '811');
 define('B2S_PLUGIN_LANGUAGE', serialize(array('de_DE', 'en_US')));
 define('B2S_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('B2S_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -33,7 +33,7 @@ define('B2S_PLUGIN_CHANGELOG_CONTENT', serialize(array(
     'version_info' => esc_html__('Blog2Social Version 8.1 (October 2024)', 'blog2social'),
     'new' => array(esc_html__('Threads: Connect your Threads profile with Blog2Social', 'blog2social'), esc_html__('Flickr: Post videos to Flickr', 'blog2social'), esc_html__('Dashboard: Your dashboard has a new look!', 'blog2social')),
     'improvements' => array(esc_html__('Increased character limit for XING pages', 'blog2social')),
-    'fixed' => array(),
+    'fixed' => array(esc_html__('In Version 8.1.1: Changelog view', 'blog2social')),
     'upcoming' => array()
 )));
 
