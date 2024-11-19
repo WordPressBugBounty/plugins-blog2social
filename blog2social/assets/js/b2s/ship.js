@@ -680,6 +680,11 @@ jQuery(document).on("click", ".b2s-post-ship-item-full-text", function () {
     return false;
 });
 
+jQuery(document).on("click", ".b2s-post-item-option-share-type", function () {
+    jQuery('.b2s-post-item-option-share-type[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').not(this).prop('checked', false);
+    return true;
+});
+
 jQuery(document).on("click", ".b2s-post-item-option-share-as-story", function () {
     if (jQuery(this).prop('checked')) {
         if (jQuery(this).attr('data-network-count') >= 0) {
@@ -1035,7 +1040,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                         }
                                         jQuery('.b2s-post-ship-item-post-format-text[data-network-auth-id="' + data.networkAuthId + '"]').html(postFormatText[postFormatType][jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val()]);
                                         jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + data.networkAuthId + '"]').val(jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val());
-                                       
+
                                         // check for add link (posting templates)
                                         if (jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val() == 1) {
                                             if (jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + data.networkAuthId + '][url]"]').attr('data-add-link') == 1) { // add link true
@@ -5245,11 +5250,11 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
     }
     var postId = textareaElm.data('post-id');
     var postFormatElm = null;
-    
-    if(typeof jQuery('input[name="b2s[' + networkAuthId + '][post_format]"]').val() != undefined){
+
+    if (typeof jQuery('input[name="b2s[' + networkAuthId + '][post_format]"]').val() != undefined) {
         postFormatElm = jQuery('input[name="b2s[' + networkAuthId + '][post_format]"]').val();
     }
-    
+
     jQuery.ajax({
         url: ajaxurl,
         type: "POST",
@@ -5357,14 +5362,14 @@ jQuery(document).on('click', '.b2s-post-item-ass-reset-btn', function () {
     jQuery(".b2s-post-item-countChar[data-network-count='" + schedCount + "'][data-network-auth-id='" + networkAuthId + "']").html(originalMessage.length);
 });
 
-function hideAssButtons(networkAuthId = 0, schedCount = -1) {
+function hideAssButtons(networkAuthId = 0, schedCount = - 1) {
     jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
     jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
     jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
     jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
 }
 
-function showAssButtons(networkAuthId = 0, schedCount = -1) {
+function showAssButtons(networkAuthId = 0, schedCount = - 1) {
     if (jQuery('#b2s-ship-ass-connected').val() == 1) {
         jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
         jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').show();
@@ -5375,5 +5380,5 @@ function showAssButtons(networkAuthId = 0, schedCount = -1) {
         jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
         jQuery('.b2s-post-item-ass-reset-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
         jQuery('.b2s-post-item-ass-setting-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + schedCount + '"]').hide();
-    }
+}
 }

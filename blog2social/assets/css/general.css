@@ -7698,32 +7698,32 @@ CSS CheckBOX
     background-color: #1877F2 !important;
 }
 
-.btn-twitter {
+.btn-xtwitter {
     background-color: #55ACEE;
 }
 
 .btn-facebook {
     background-color:  #1877F2 !important;
     border-color:  #1877F2 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-facebook:hover {
     color: #fff;
 }
 
-.btn-twitter {
-    background-color:  #55ACEE !important;
-    border-color:  #55ACEE !important;
-    color: #fff;
+.btn-xtwitter {
+    background-color:  #000 !important;
+    border-color:  #000 !important;
+    color: #fff !important;
 }
-.btn-twitter:hover {
+.btn-xtwitter:hover {
     color: #fff;
 }
 
 .btn-linkedin {
     background-color:  #007bb6 !important;
     border-color:  #007bb6 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-linkedin:hover {
     color: #fff;
@@ -7732,7 +7732,7 @@ CSS CheckBOX
 .btn-tumblr {
     background-color:  #1C2D3F !important;
     border-color:  #1C2D3F !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-tumblr:hover {
     color: #fff;
@@ -7741,7 +7741,7 @@ CSS CheckBOX
 .btn-pinterest,.btn-pinterestbusiness {
     background-color:  #CB2027 !important;
     border-color:  #CB2027 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-pinterest:hover ,.btn-pinterestbusiness:hover {
     color: #fff;
@@ -7750,7 +7750,7 @@ CSS CheckBOX
 .btn-flickr {
     background-color:  #2BA9E1 !important;
     border-color:  #2BA9E1 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-flickr:hover {
     color: #fff;
@@ -7759,7 +7759,7 @@ CSS CheckBOX
 .btn-diigo {
     background-color:  #4b8af9  !important;
     border-color:  #4b8af9  !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-diigo:hover {
     color: #fff;
@@ -7768,7 +7768,7 @@ CSS CheckBOX
 .btn-medium {
     background-color:  #000000  !important;
     border-color:  #000000  !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-medium:hover {
     color: #fff;
@@ -7777,7 +7777,7 @@ CSS CheckBOX
 .btn-instagram {
     background-color:  #1877F2  !important;
     border-color:  #1877F2  !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-instagram:hover {
     color: #fff;
@@ -7786,7 +7786,7 @@ CSS CheckBOX
 .btn-torial {
     background-color:  #fcb914  !important;
     border-color:  #fcb914  !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-torial:hover {
     color: #fff;
@@ -7795,7 +7795,7 @@ CSS CheckBOX
 .btn-reddit {
     background-color:  #ff4500  !important;
     border-color:  #ff4500  !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-reddit:hover {
     color: #fff;
@@ -7804,7 +7804,7 @@ CSS CheckBOX
 .btn-bloglovin {
     background-color:  #000000   !important;
     border-color:  #000000   !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-bloglovin:hover {
     color: #fff;
@@ -7813,7 +7813,7 @@ CSS CheckBOX
 .btn-vk {
     background-color:  #4c75a3 !important;
     border-color:  #4c75a3 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-vk:hover {
     color: #fff;
@@ -7822,7 +7822,7 @@ CSS CheckBOX
 .btn-googlebusinessprofile {
     background-color:  #4285f4 !important;
     border-color:  #4285f4 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-googlebusinessprofile:hover {
     color: #fff;
@@ -7831,7 +7831,7 @@ CSS CheckBOX
 .btn-xing {
     background-color:  #006567  !important;
     border-color:  #006567  !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-xing:hover {
     color: #fff;
@@ -7840,7 +7840,7 @@ CSS CheckBOX
 .btn-telegram {
     background-color:  #34abe0 !important;
     border-color:  #34abe0 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-telegram:hover {
     color: #fff;
@@ -7849,25 +7849,29 @@ CSS CheckBOX
 .btn-blogger {
     background-color:  #f06a32 !important;
     border-color:  #f06a32 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-blogger:hover {
     color: #fff;
 }
 
-.btn-raverly {
-    background-color:  #ee6e62 !important;
-    border-color:  #ee6e62 !important;
+.btn-ravelry:hover {
     color: #fff;
 }
-.btn-raverly:hover {
+
+.btn-ravelry {
+    background-color:  #ee6e62 !important;
+    border-color:  #ee6e62 !important;
+    color: #fff !important;
+}
+.btn-ravelry:hover {
     color: #fff;
 }
 
 .btn-instapaper {
     background-color:  #000000   !important;
     border-color:  #000000   !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-instapaper:hover {
     color: #fff;
@@ -7876,7 +7880,7 @@ CSS CheckBOX
 .btn-youtube {
     background-color:  #ff0000   !important;
     border-color:  #ff0000   !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-youtube:hover {
     color: #fff;
@@ -7885,7 +7889,7 @@ CSS CheckBOX
 .btn-vimeo {
     background-color:  #41b1db   !important;
     border-color:  #41b1db   !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-vimeo:hover {
     color: #fff;
@@ -7894,7 +7898,7 @@ CSS CheckBOX
 .btn-tiktok {
     background-color:  #010101   !important;
     border-color:  #010101   !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-tiktok:hover {
     color: #fff;
@@ -7903,7 +7907,7 @@ CSS CheckBOX
 .btn-discord {
     background-color: #5865f2 !important;
     border-color: #5865f2 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-discord:hover {
     color: #fff;
@@ -7912,7 +7916,7 @@ CSS CheckBOX
 .btn-skyrock {
     background-color: #08aaff !important;
     border-color: #08aaff !important;
-    color: #fff;
+    color: #fff !important;
 
 }
 
@@ -7923,7 +7927,7 @@ CSS CheckBOX
 .btn-mastodon {
     background-color: #5b49de !important;
     border-color: #5b49de !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .btn-mastodon:hover {
@@ -7933,7 +7937,7 @@ CSS CheckBOX
 .btn-humhub {
     background-color: #61c3d1 !important;
     border-color: #61c3d1 !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .btn-humhub:hover {
@@ -7943,7 +7947,7 @@ CSS CheckBOX
 .btn-bluesky {
     background-color: #1185fe !important;
     border-color: #1185fe !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .btn-bluesky:hover {
@@ -7952,7 +7956,7 @@ CSS CheckBOX
 .btn-threads {
     background-color: #000 !important;
     border-color: #000 !important;
-    color: #fff;
+    color: #fff !important;
 }
 .btn-threads:hover {
     color: #fff;

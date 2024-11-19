@@ -1124,12 +1124,12 @@ class B2S_Ship_Item {
                     if ($this->canReel['result'] === false) {
                         $edit .= '<div class="alert alert-warning warning-for-reel"><span class="b2s-bold">' . esc_html__('Notice for Share as Reel', 'blog2social') . '</span>: ' . esc_html__($this->canReel['content'], 'blog2social') . '</div>';
                     }
-                    $edit .= '<input type="checkbox" name="b2s[' . esc_attr($networkAuthId) . '][share_as_reel]" id="b2s[' . esc_attr($networkAuthId) . '][isReelCB]" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '" ' . ($this->canReel['result'] === false ? 'disabled' : '') . ' value="1">';
+                    $edit .= '<input type="checkbox" class="b2s-post-item-option-share-type" name="b2s[' . esc_attr($networkAuthId) . '][share_as_reel]" id="b2s[' . esc_attr($networkAuthId) . '][isReelCB]" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '" ' . ($this->canReel['result'] === false ? 'disabled' : '') . ' value="1">';
                     $edit .= '<label ' . ($this->canReel['result'] === false ? 'class="dis-reel-cb"' : 'for="b2s[' . esc_attr($networkAuthId) . '][isReelCB]"') . '> ' . esc_html__('Share as Reel', 'blog2social') . '</label>';
                     $edit .= '</div>';
                 }
                 $edit .= '<div class="b2s-post-item-details-item-message-area b2s-margin-bottom-10" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '">';
-                $edit .= '<input type="checkbox" class="b2s-post-item-option-share-as-story" name="b2s[' . esc_attr($networkAuthId) . '][share_as_story]" value="1" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
+                $edit .= '<input type="checkbox" class="b2s-post-item-option-share-as-story b2s-post-item-option-share-type" name="b2s[' . esc_attr($networkAuthId) . '][share_as_story]" value="1" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
                 $edit .= '<label>' . esc_html__("Share as Story") . '</label>';
                 $edit .= '<br>';
                 $edit .= '</div>';
@@ -1227,12 +1227,12 @@ class B2S_Ship_Item {
                 if (isset($this->canReel['result']) && $this->canReel['result'] === false && isset($this->canReel['content'])) {
                     $edit .= '<div class="alert alert-warning warning-for-reel"><span class="b2s-bold">' . esc_html__('Notice for Share as Reel', 'blog2social') . '</span>: ' . $this->canReel['content'] . '</div>';
                 }
-                $edit .= '<input type="checkbox" name="b2s[' . esc_attr($networkAuthId) . '][sched_share_as_reel]" id="b2s[' . esc_attr($networkAuthId) . '][isReelCB]" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '" ' . ((isset($this->canReel['result']) && $this->canReel['result'] === false) ? 'disabled' : '') . ' value="1">';
+                $edit .= '<input type="checkbox" class="b2s-post-item-option-share-type" name="b2s[' . esc_attr($networkAuthId) . '][sched_share_as_reel]" id="b2s[' . esc_attr($networkAuthId) . '][isReelCB]" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '" ' . ((isset($this->canReel['result']) && $this->canReel['result'] === false) ? 'disabled' : '') . ' value="1">';
                 $edit .= '<label ' . ((isset($this->canReel['result']) && $this->canReel['result'] === false) ? 'class="dis-reel-cb"' : 'for="b2s[' . esc_attr($networkAuthId) . '][isReelCB]"') . '> ' . esc_html__('Share as Reel', 'blog2social') . '</label>';
                 $edit .= '<br>';
 
                 if ($networkId == 12) {
-                    $edit .= '<input type="checkbox" class="b2s-post-item-option-share-as-story" name="b2s[' . esc_attr($networkAuthId) . '][share_as_story]" value="1" data-network-count="' . esc_attr($schedCount) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
+                    $edit .= '<input type="checkbox" class="b2s-post-item-option-share-as-story b2s-post-item-option-share-type" name="b2s[' . esc_attr($networkAuthId) . '][share_as_story]" value="1" data-network-count="' . esc_attr($schedCount) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
                     $edit .= '<label>' . esc_html__("Share as Story") . '</label>';
                     $edit .= '<br>';
                 }
@@ -1688,7 +1688,7 @@ class B2S_Ship_Item {
 
                 if ($networkId == 12) {
                     $edit .= '<div class="b2s-post-item-details-option">';
-                    $edit .= '<input type="checkbox" class="b2s-post-item-option-share-as-story" name="b2s[' . esc_attr($networkAuthId) . '][share_as_story]" value="1" data-network-count="' . esc_attr($schedCount) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
+                    $edit .= '<input type="checkbox" class="b2s-post-item-option-share-as-story b2s-post-item-option-share-type" name="b2s[' . esc_attr($networkAuthId) . '][share_as_story]" value="1" data-network-count="' . esc_attr($schedCount) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
                     $edit .= '<label>' . esc_html__("Share as Story") . '</label>';
                     $edit .= '</div>';
                 }

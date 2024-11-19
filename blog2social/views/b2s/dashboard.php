@@ -273,21 +273,14 @@ $b2sGeneralOptions = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2s-dashboard-premium-enterprise-version-modal">&times;</button>
-                <h3 class="modal-title b2s-color-green"><?php esc_html_e('Thank you for your interest in upgrading!', 'blog2social') ?></h3>
+                <h3 class="modal-title b2s-color-green"><?php esc_html_e('Expand your Blog2Social experience!', 'blog2social') ?></h3>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        <p><?php esc_html_e('Since you are already using the Business version, we would like to inform you that additional enhancements, such as more users or networks, are available through our Enterprise versions.', 'blog2social') ?></p>
-                        <br>
-                        <p class="b2s-text-bold"><?php esc_html_e('What does this mean for you?', 'blog2social') ?></p>
-                        <ul class="b2s-list-dashboard">
-                            <li class="b2s-color-black"><?php esc_html_e('The Enterprise versions offer tailored solutions designed to meet your specific needs.', 'blog2social') ?></li>
-                            <li class="b2s-color-black"><?php esc_html_e('Benefit from additional features that go beyond our regular licenses.', 'blog2social') ?></li>
-                        </ul>
-                        <br>
-                        <p class="b2s-text-bold"><?php esc_html_e('Interested in more information?', 'blog2social') ?></p>
-                        <p><?php esc_html_e('Please contact our sales team to learn more about our Enterprise solutions.', 'blog2social') ?></p>
+                        <p><?php esc_html_e('Since you are already on our Business version, we would love to introduce you to the flexibility and enhanced features available with an individual plan just for you. Benefit from additional options that go beyond our regular licenses.', 'blog2social') ?></p>
+                        <p class="b2s-text-bold"><?php esc_html_e('Our sales team is here to help you explore all the options and create a personalized plan tailored just for you.', 'blog2social') ?></p>
+                        <p><?php esc_html_e('Contact us today to unlock the full potential of your Blog2Social experience for your business!', 'blog2social') ?></p>
                         <p class="b2s-text-bold"><?php esc_html_e('Email', 'blog2social') ?>: customer-service@blog2social.com</p>
                     </div>
                 </div>

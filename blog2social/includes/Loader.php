@@ -11,12 +11,24 @@ class B2S_Loader {
 
     public function load() {
 
-        if (!is_admin()) {
-            $this->call_public_hooks();
-        }
-        $this->call_global_hooks();
-        if (is_admin()) {
-            $this->call_admin_hooks();
+        load_plugin_textdomain('blog2social', false, B2S_PLUGIN_LANGUAGE_PATH);
+
+        $b2sCheck = new B2S_System();
+        if ($b2sCheck->check() === true) {
+            if (!is_admin()) {
+                $this->call_public_hooks();
+            }
+            $this->call_global_hooks();
+            if (is_admin()) {
+                $this->call_admin_hooks();
+            }
+            add_filter('safe_style_css', function ($styles) {
+                $styles[] = 'display';
+                return $styles;
+            });
+        } else {
+            require_once(B2S_PLUGIN_DIR . 'includes/Notice.php');
+            add_action('admin_notices', array('B2S_Notice', 'sytemNotice'));
         }
     }
 
@@ -53,9 +65,14 @@ class B2S_Loader {
         define('B2S_PLUGIN_DEFAULT_USER_APP_QUANTITY', serialize(array(0 => 1, 1 => 1, 2 => 3, 3 => 5)));
         define('B2S_PLUGIN_ALLOW_VIDEO_MIME_TYPE', serialize(array('video/x-msvideo', 'video/avi', 'video/mp4', 'video/mpeg', 'video/ogg', 'video/x-flv', 'video/quicktime', 'video/x-ms-asf')));
         define('B2S_PLUGIN_ALLOW_ADD_LINK', serialize(array(1, 2, 3, 12, 43, 44)));
-        define('B2S_PLUGIN_REMOVE_PAGE_TITLE', serialize(array('blog2social','blog2social-video','blog2social-onboarding','blog2social-curation','blog2social-ship')));
-        
-        
+        define('B2S_PLUGIN_REMOVE_PAGE_TITLE', serialize(array('blog2social', 'blog2social-video', 'blog2social-onboarding', 'blog2social-curation', 'blog2social-ship')));
+        define('B2S_PLUGIN_CHANGELOG_CONTENT', serialize(array(
+            'version_info' => esc_html__('Blog2Social Version 8.1 (October 2024)', 'blog2social'),
+            'new' => array(esc_html__('Threads: Connect your Threads profile with Blog2Social', 'blog2social'), esc_html__('Flickr: Post videos to Flickr', 'blog2social'), esc_html__('Dashboard: Your dashboard has a new look!', 'blog2social')),
+            'improvements' => array(esc_html__('Increased character limit for XING pages', 'blog2social')),
+            'fixed' => array(esc_html__('In Version 8.1.2: WP 6.7.0 Notice load_textdomain trigger', 'blog2social')),
+            'upcoming' => array()
+        )));
 
         define('B2S_PLUGIN_NETWORK_SETTINGS_TEMPLATE_DEFAULT', serialize(array(
             1 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 500), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true),
@@ -164,6 +181,7 @@ class B2S_Loader {
             $this->getToken();
             $this->getUserDetails();
         }
+
         $this->plugin_init_language();
     }
 
@@ -1069,7 +1087,7 @@ class B2S_Loader {
     }
 
     public function plugin_init_language() {
-        load_plugin_textdomain('blog2social', false, B2S_PLUGIN_LANGUAGE_PATH);
+        //load_plugin_textdomain('blog2social', false, B2S_PLUGIN_LANGUAGE_PATH);
         $this->defineText();
     }
 
@@ -1768,8 +1786,6 @@ class B2S_Loader {
         }
     }
 
-    
-    
     //PageFunktion
     public function b2sAiContentCreator() {
         if (B2S_Tools::showNotice() == false) {
@@ -1778,7 +1794,7 @@ class B2S_Loader {
             require_once( B2S_PLUGIN_DIR . 'views/notice.php');
         }
     }
-    
+
     //PageFunktion
     public function b2sPostDraft() {
         if (B2S_Tools::showNotice() == false) {

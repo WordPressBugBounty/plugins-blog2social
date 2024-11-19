@@ -120,6 +120,22 @@ $isPremium = (B2S_PLUGIN_USER_VERSION > 0 && !defined("B2S_PLUGIN_TRAIL_END")) ?
     <input type="hidden" id="b2s-user-license" value="<?php echo $isPremium ?>">
 
 
+    <div class="modal fade" id="b2sXViolationModal" tabindex="-1" role="dialog" aria-labelledby="b2sXViolationModal" aria-hidden="true" data-backdrop="false"  style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="b2s-modal-close close" data-modal-name="#b2sXViolationModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><?php esc_html_e('Important Notice: X has changed its policy', 'blog2social') ?></h4>
+                </div>
+                <div class="modal-body">
+                    <p>                     
+                        <?php esc_html_e('Due to a recent policy change, X (formerly Twitter) no longer permits the integration of personal API keys for social media management through any third-party tools, including Blog2Social. We are actively working on alternative solutions for your X access and will provide further information as soon as possible.', 'blog2social'); ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="modal fade" id="b2sAddUserAppModal" tabindex="-1" role="dialog" aria-labelledby="b2sAddUserAppModal" aria-hidden="true" data-backdrop="false"  style="display:none;">
         <div class="modal-dialog">

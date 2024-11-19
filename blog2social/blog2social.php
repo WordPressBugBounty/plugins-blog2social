@@ -7,12 +7,12 @@
  * Author: Blog2Social, Adenion
  * Text Domain: blog2social
  * Domain Path: /languages
- * Version: 8.1.1
+ * Version: 8.1.2
  * Author URI: https://www.blog2social.com
  * License: GPL2+
  */
 
-define('B2S_PLUGIN_VERSION', '811');
+define('B2S_PLUGIN_VERSION', '812');
 define('B2S_PLUGIN_LANGUAGE', serialize(array('de_DE', 'en_US')));
 define('B2S_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('B2S_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -29,13 +29,6 @@ define('B2S_PLUGIN_API_ENDPOINT_AUTH', 'https://developer.blog2social.com/wp/v3/
 define('B2S_PLUGIN_API_ENDPOINT_AUTH_SHORTENER', 'https://developer.blog2social.com/wp/v3/network/shortener.php');
 define('B2S_PLUGIN_PRG_API_ENDPOINT', 'http://developer.pr-gateway.de/wp/v3/');
 define('B2S_PLUGIN_SERVER_URL', 'https://developer.blog2social.com');
-define('B2S_PLUGIN_CHANGELOG_CONTENT', serialize(array(
-    'version_info' => esc_html__('Blog2Social Version 8.1 (October 2024)', 'blog2social'),
-    'new' => array(esc_html__('Threads: Connect your Threads profile with Blog2Social', 'blog2social'), esc_html__('Flickr: Post videos to Flickr', 'blog2social'), esc_html__('Dashboard: Your dashboard has a new look!', 'blog2social')),
-    'improvements' => array(esc_html__('Increased character limit for XING pages', 'blog2social')),
-    'fixed' => array(esc_html__('In Version 8.1.1: Changelog view', 'blog2social')),
-    'upcoming' => array()
-)));
 
 //B2SLoader
 require_once(B2S_PLUGIN_DIR . 'includes/Loader.php');
@@ -48,8 +41,9 @@ $b2sLoad = new B2S_Loader();
 register_uninstall_hook(B2S_PLUGIN_FILE, 'uninstallPlugin');
 register_activation_hook(B2S_PLUGIN_FILE, array($b2sLoad, 'activatePlugin'));
 register_deactivation_hook(B2S_PLUGIN_FILE, array($b2sLoad, 'deactivatePlugin'));
-
-$b2sCheck = new B2S_System();
+add_action('init', array($b2sLoad, 'load'));
+    
+/*$b2sCheck = new B2S_System();
 if ($b2sCheck->check() === true) {
     add_action('init', array($b2sLoad, 'load'));
     add_filter('safe_style_css', function ($styles) {
@@ -59,7 +53,7 @@ if ($b2sCheck->check() === true) {
 } else {
     require_once(B2S_PLUGIN_DIR . 'includes/Notice.php');
     add_action('admin_notices', array('B2S_Notice', 'sytemNotice'));
-}
+}*/
 
 function uninstallPlugin() {
     require_once(plugin_dir_path(__FILE__) . 'includes/Tools.php');
