@@ -80,6 +80,10 @@ class B2S_Tools {
                 $tokenInfo['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $version->licence_condition;
             }
 
+            if(isset($version->network_condition)){
+                $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $version->network_condition;
+            }
+                
             if (!isset($version->version)) {
                 define('B2S_PLUGIN_NOTICE', 'CONNECTION');
             } else {
@@ -548,6 +552,9 @@ class B2S_Tools {
         }
         if ($type == "addon_post_volume") {
             return 'https://service.blog2social.com/login?redirectUrl=/checkout?mode=addon&type=post_limit_yearly&token=' . B2S_PLUGIN_TOKEN;
+        }
+        if ($type == "addon_network_integration") {
+            return 'https://service.blog2social.com/login?redirectUrl=/checkout?mode=addon&type=network_integration&token=' . B2S_PLUGIN_TOKEN;
         }
         if ($type == "addon_video") {
             return 'https://service.blog2social.com/login?redirectUrl=/checkout?mode=addon&type=video&token=' . B2S_PLUGIN_TOKEN;

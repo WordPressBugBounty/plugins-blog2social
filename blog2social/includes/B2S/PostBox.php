@@ -84,6 +84,9 @@ class B2S_PostBox {
                     $versionDetails = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
                     if ($versionDetails !== false && is_array($versionDetails) && !empty($versionDetails)) {
                         $versionDetails['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $result->licence_condition;
+                        if (isset($result->network_condition)) {
+                            $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $result->network_condition;
+                        }
                         update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
 
                         if (isset($result->licence_condition->open_sched_post_quota) && B2S_PLUGIN_USER_VERSION > 0) {
@@ -351,7 +354,7 @@ class B2S_PostBox {
         foreach ($mandant as $k => $m) {
             if ((isset($auth->{$m->id}) && isset($auth->{$m->id}[0]) && !empty($auth->{$m->id}[0]))) {
                 foreach ($auth->{$m->id} as $key => $value) {
-                    if ($value->networkId == 2) {
+                    if ($value->networkId == 2 || $value->networkId == 45) {
                         $content .= '<option data-mandant-id="' . esc_attr($m->id) . '" value="' . esc_attr($value->networkAuthId) . '"  ' . (((int) $value->networkAuthId == (int) $selectedTwitterId) ? 'selected' : 'disabled="disabled"') . '>' . esc_html($value->networkUserName) . '</option>';
                     }
                 }
@@ -470,5 +473,4 @@ class B2S_PostBox {
 
         return array('active' => $autoPostActive, 'lastPostDate' => $lastPostDate, 'schedLimit' => $schedLimit, 'shareCount' => $shareCount);
     }
-
 }

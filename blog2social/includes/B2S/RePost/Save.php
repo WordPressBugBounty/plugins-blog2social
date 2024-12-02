@@ -86,7 +86,7 @@ class B2S_RePost_Save {
                     continue;
                 }
                 $selectedTwitterProfile = (isset($twitter) && !empty($twitter)) ? (int) $twitter : '';
-                if ((int) $value->networkId != 2 || ((int) $value->networkId == 2 && (empty($selectedTwitterProfile) || ((int) $selectedTwitterProfile == (int) $value->networkAuthId)))) {
+                if (((int) $value->networkId != 2 && (int) $value->networkId != 45) || (((int) $value->networkId == 2  || (int) $value->networkId != 45) && (empty($selectedTwitterProfile) || ((int) $selectedTwitterProfile == (int) $value->networkAuthId)))) {
                     $schedDate = $this->getPostDateTime($startDate, $settings, $value->networkAuthId);
                     $schedDateUtc = date('Y-m-d H:i:s', strtotime(B2S_Util::getUTCForDate($schedDate, ($this->userTimezone * -1))));
                     $shareApprove = (isset($value->instant_sharing) && (int) $value->instant_sharing == 1) ? 1 : 0;
@@ -185,7 +185,7 @@ class B2S_RePost_Save {
             }
 
             //PostFormat
-            if (in_array($networkId, array(1, 2, 3, 12, 17, 19, 24, 43, 44))) {
+            if (in_array($networkId, array(1, 2, 3, 12, 17, 19, 24, 43, 44, 45))) {
                 //Get: client settings
                 if (isset($tempOptionPostFormat[$networkId][$networkType]['format']) && ((int) $tempOptionPostFormat[$networkId][$networkType]['format'] === 0 || (int) $tempOptionPostFormat[$networkId][$networkType]['format'] === 1)) {
                     $postData['post_format'] = (int) $tempOptionPostFormat[$networkId][$networkType]['format'];
@@ -261,7 +261,7 @@ class B2S_RePost_Save {
                 }
 
                 if (isset($limit) && (int) $limit > 0) {
-                    if (!empty($this->url) && $networkId == 2) {
+                    if (!empty($this->url) && ($networkId == 2 || $networkId == 45)) {
                         $limit = 254;
                     }
                     if (!empty($this->url) && $networkId == 38) {

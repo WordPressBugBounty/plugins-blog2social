@@ -3,16 +3,16 @@
 /*
  * Plugin Name:Blog2Social: Social Media Auto Post & Scheduler
  * Plugin URI: https://www.blog2social.com
- * Description:Auto publish, schedule & share posts on social media: Facebook, Twitter, XING, LinkedIn, Instagram, ... crosspost to pages & groups
+ * Description:Auto publish, schedule & share posts on social media: Facebook, X, XING, LinkedIn, Instagram, ... crosspost to pages & groups
  * Author: Blog2Social, Adenion
  * Text Domain: blog2social
  * Domain Path: /languages
- * Version: 8.1.2
+ * Version: 8.2.0
  * Author URI: https://www.blog2social.com
  * License: GPL2+
  */
 
-define('B2S_PLUGIN_VERSION', '812');
+define('B2S_PLUGIN_VERSION', '820');
 define('B2S_PLUGIN_LANGUAGE', serialize(array('de_DE', 'en_US')));
 define('B2S_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('B2S_PLUGIN_URL', plugin_dir_url(__FILE__));

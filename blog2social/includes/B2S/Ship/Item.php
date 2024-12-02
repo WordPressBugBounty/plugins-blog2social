@@ -7,14 +7,14 @@ class B2S_Ship_Item {
     private $allowTitlePage = array(6);
     private $isInstantSharing = array(36);
     private $allowTitleGroup = array();
-    private $setPostFormat = array(1, 2, 3, 12, 19, 17, 24, 43, 44);
+    private $setPostFormat = array(1, 2, 3, 12, 19, 17, 24, 43, 44,45);
     private $isCommentProfile = array(1, 3, 15, 17, 19);
     private $isCommentPage = array(1);
     private $isCommentGroup = array(1);
     private $allowTag = array(4, 7, 9, 11, 16, 32, 37, 42);
     private $limitTag = array(11 => 5, 7 => 75); //networkId => Limit
     private $allowHtml = array(4, 11, 14, 25);
-    private $showTitleProfile = array(4, 6, 9, 11, 14, 16, 21, 15, 25, 26, 27, 32, 35, 37, 39);
+    private $showTitleProfile = array(4, 6, 7, 9, 11, 14, 16, 21, 15, 25, 26, 27, 32, 35, 37, 39);
     private $showTitlePage = array(6, 8, 19 => array(1), 37); //Xing Business Page
     private $showTitleGroup = array(8, 11, 19);
     private $onlyImage = array(6, 7, 12, 21);
@@ -24,23 +24,23 @@ class B2S_Ship_Item {
     private $allowPrivacyStatus = array(32);
     private $allowNoEmoji = array(9, 13, 14, 15, 16, 21, 35, 37, 42);
     private $allowNoImagePage = array(8);
-    private $allowEditUrl = array(1, 2, 3, 4, 6, 7, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21, 24, 25, 26, 27, 37, 38, 39, 42, 43, 44);
+    private $allowEditUrl = array(1, 2, 3, 4, 6, 7, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21, 24, 25, 26, 27, 37, 38, 39, 42, 43, 44,45);
     private $showBoards = array(6, 20);
-    private $showRelay = array(2);
+    private $showRelay = array(2,45);
     private $showBoardsGroup = array(10);
     private $showGroups = array(15, 19);
     private $changeDisplayName = array(8);
-    private $allowImageEditor = array(1, 2, 3, 6, 7, 12, 15, 18, 17, 19, 24, 26, 42, 43, 44); // Cropper
-    private $setShortTextProfile = array(1 => 239, 2 => 255, 3 => 239, 6 => 300, 9 => 200, 12 => 240, 16 => 250, 17 => 442, 18 => 800, 19 => 239, 21 => 500, 42 => 1000, 43 => 280, 44 => 450);
-    private $setShortTextProfileLimit = array(1 => 400, 2 => 254, 3 => 400, 6 => 400, 9 => 200, 12 => 400, 18 => 1000, 21 => 600, 42 => 2000, 43 => 279, 44 => 500);
+    private $allowImageEditor = array(1, 2, 3, 6, 7, 12, 15, 18, 17, 19, 24, 26, 42, 43, 44,45); // Cropper
+    private $setShortTextProfile = array(1 => 239, 2 => 255, 3 => 239, 6 => 300, 9 => 200, 12 => 240, 16 => 250, 17 => 442, 18 => 800, 19 => 239, 21 => 500, 42 => 1000, 43 => 280, 44 => 450, 45=> 255);
+    private $setShortTextProfileLimit = array(1 => 400, 2 => 254, 3 => 400, 6 => 400, 9 => 200, 12 => 400, 18 => 1000, 21 => 600, 42 => 2000, 43 => 279, 44 => 500, 45=>254);
     private $setShortTextPage = array(1 => 500, 3 => 239, 6 => 300, 17 => 442, 42 => 1000, 19 => 5000);
     private $setShortTextPageLimit = array(1 => 1000, 3 => 400, 6 => 400, 42 => 2000, 19 => array(0 => 400, 1 => 2000,4=> 5000));
     private $limitCharacterTitle = array(15 => array(0 => 300), 19 => array(1 => 150), 32 => array(0 => 100), 39 => array(0 => 256));
     private $setShortTextGroup = array(17 => 442, 19 => 239);
     private $setShortTextGroupLimit = array();
-    private $allowHashTags = array(1, 2, 3, 6, 12, 17, 21, 37, 43);
+    private $allowHashTags = array(1, 2, 3, 6, 12, 17, 21, 37, 43,45);
     private $limitHashTagCharacter = array(21 => 36);
-    private $limitCharacterProfile = array(1 => 500, 2 => 280, 3 => 3000, 6 => 495, 12 => 2000, 18 => 1500, 20 => 495, 21 => 65535, 38 => 500, 39 => 2000, 43 => 300, 44 => 500);
+    private $limitCharacterProfile = array(1 => 500, 2 => 280, 3 => 3000, 6 => 495, 12 => 2000, 18 => 1500, 20 => 495, 21 => 65535, 38 => 500, 39 => 2000, 43 => 300, 44 => 500, 45 => 280);
     private $showImageAreaProfile = array(6, 7, 12, 16, 18, 21, 26, 37, 38, 39, 42);
     private $showImageAreaPage = array(6, 12, 42);
     private $showImageAreaGroup = array();
@@ -49,9 +49,9 @@ class B2S_Ship_Item {
     private $limitCharacterGroup = array(19 => 10000);
     private $requiredUrl = array(1, 3, 9, 19, 27);
     private $getText = array(1, 7, 12, 16, 17, 18, 21, 42);
-    private $allowSchedCustomizeContent = array(1, 2, 3, 6, 7, 9, 12, 15, 17, 18, 19, 21, 24, 43, 44);
+    private $allowSchedCustomizeContent = array(1, 2, 3, 6, 7, 9, 12, 15, 17, 18, 19, 21, 24, 43, 44, 45);
     private $maxWeekTimeSelect = 52;
-    private $networkTosProfile = array(2);
+    private $networkTosProfile = array(2,45);
     private $networkTosGroup = array(19);
     private $maxMonthTimeSelect = 12;
     private $maxTimeSelect = 50;
@@ -62,7 +62,7 @@ class B2S_Ship_Item {
     private $selBoard = null;
     private $setRelayCount = 0;
     private $maxDaySelect = 31;
-    private $noScheduleRegularly = array(2, 4, 6, 11, 14, 15, 18, 42, 43);
+    private $noScheduleRegularly = array(2, 4, 6, 11, 14, 15, 18, 42, 43, 45);
     private $noScheduleRegularlyPage = array(6, 19, 42);
     private $addNoMoreSchedPage = array(19, 42);
     private $addNoMoreSchedGroup = array(19);
@@ -82,7 +82,7 @@ class B2S_Ship_Item {
     private $default_template;
     private $isVideoMode;
     private $canReel; // NOTE $this->canReel['result'] = true
-    private $videoScheduleNetworks = array(1, 2, 3, 6, 7, 12, 32, 35, 44); //NOTE Nur video Netzwerke der Video API
+    private $videoScheduleNetworks = array(1, 2, 3, 6, 7, 12, 32, 35, 44, 45); //NOTE Nur video Netzwerke der Video API
     private $assConnected;
 
     public function __construct($postId, $userLang = 'en', $selSchedDate = "", $b2sPostType = "", $relayCount = 0, $isVideoMode = false, $canReel = array(), $assConnected = false) {
@@ -169,7 +169,7 @@ class B2S_Ship_Item {
                 if (isset($this->limitCharacterProfile[$data->networkId]) && (int) $this->limitCharacterProfile[$data->networkId] > 0) {
                     $limitValue = $this->limitCharacterProfile[$data->networkId];
                     $limit = true;
-                    if ($data->networkId == 2 && defined('B2S_PLUGIN_USER_VERSION') && B2S_PLUGIN_USER_VERSION >= 2 && isset($this->post_template[$data->networkId][0]['twitterThreads']) && $this->post_template[$data->networkId][0]['twitterThreads'] == true) {
+                    if (($data->networkId == 2 || $data->networkId == 45) && defined('B2S_PLUGIN_USER_VERSION') && B2S_PLUGIN_USER_VERSION >= 2 && isset($this->post_template[$data->networkId][0]['twitterThreads']) && $this->post_template[$data->networkId][0]['twitterThreads'] == true) {
                         $limitValue = 0;
                         $limit = false;
                     }
@@ -218,7 +218,7 @@ class B2S_Ship_Item {
 
 //Hashtags
                         if (in_array($data->networkId, $this->allowHashTags)) {
-                            $add = ($data->networkId != 2) ? "\n\n" : "";
+                            $add = ($data->networkId != 2 && $data->networkId != 45) ? "\n\n" : "";
                             $message .= $this->getHashTagsString($add, ((isset($this->limitHashTagCharacter[$data->networkId])) ? $this->limitHashTagCharacter[$data->networkId] : 0));
                         }
                     }
@@ -236,13 +236,13 @@ class B2S_Ship_Item {
 
                 $countCharacter = 0;
                 if ($limit !== false) {
-                    $infoCharacterCount = ($data->networkId != 2 && $data->networkId != 3 && $data->networkId != 19 && $data->networkId != 21 && $data->networkId != 43 && $data->networkId != 44) ? ' (' . esc_html__('Text only', 'blog2social') . ')' : '';
+                    $infoCharacterCount = ($data->networkId != 2 && $data->networkId != 3 && $data->networkId != 19 && $data->networkId != 21 && $data->networkId != 43 && $data->networkId != 44 && $data->networkId != 45) ? ' (' . esc_html__('Text only', 'blog2social') . ')' : '';
                     $textareaLimitInfo .= '<span class="b2s-post-item-countChar" data-network-count="-1" data-network-auth-id="' . esc_attr($data->networkAuthId) . '">' . (int) esc_html($countCharacter) . '</span>/' . esc_html($limitValue) . ' ' . esc_html__('characters', 'blog2social') . $infoCharacterCount . '</span>';
                     $textareaOnKeyUp = 'onkeyup="networkLimitAll(\'' . esc_attr($data->networkAuthId) . '\',\'' . esc_attr($data->networkId) . '\',\'' . esc_attr($limitValue) . '\');"';
                 } else {
                     $textareaOnKeyUp = 'onkeyup="networkCount(\'' . esc_attr($data->networkAuthId) . '\');"';
                     $textareaLimitInfo = '<span class="b2s-post-item-countChar" data-network-count="-1" data-network-auth-id="' . esc_attr($data->networkAuthId) . '">' . (int) esc_html($countCharacter) . '</span> ' . esc_html__('characters', 'blog2social') . '</span>';
-                    if ($data->networkId == 2) {
+                    if ($data->networkId == 2 || $data->networkId == 45) {
                         $textareaLimitInfo .= '<span class="b2s-post-item-show-thread-count" data-network-count="-1" data-network-auth-id="' . esc_attr($data->networkAuthId) . '"> - <span class="b2s-post-item-count-threads" data-network-count="-1" data-network-auth-id="' . esc_attr($data->networkAuthId) . '">1</span> ' . esc_html__('Threads', 'blog2social') . '</span>';
                     }
                 }
@@ -430,8 +430,8 @@ class B2S_Ship_Item {
 
         //TOS Twitter, Pinterest 030218
         if ($data->networkType == 0 && in_array($data->networkId, $this->networkTosProfile)) {
-            if ($data->networkId == 2) {
-                $content .= '<div class="b2s-unique-content" data-network-id="' . esc_attr($data->networkId) . '" data-network-auth-id="' . esc_attr($data->networkAuthId) . '"><div class="clearfix"></div><div class="alert b2s-unique-content-alert alert-warning">' . esc_html__('Please keep in mind that according to Twitter’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in Twitter suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div></div>';
+            if ($data->networkId == 2 || $data->networkId == 45) {
+                $content .= '<div class="b2s-unique-content" data-network-id="' . esc_attr($data->networkId) . '" data-network-auth-id="' . esc_attr($data->networkAuthId) . '"><div class="clearfix"></div><div class="alert b2s-unique-content-alert alert-warning">' . esc_html__('Please keep in mind that according to X’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in Twitter suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div></div>';
             }
             if ($data->networkId == 43) {
                 $content .= '<div class="b2s-unique-content" data-network-id="' . esc_attr($data->networkId) . '" data-network-auth-id="' . esc_attr($data->networkAuthId) . '"><div class="clearfix"></div><div class="alert b2s-unique-content-alert alert-warning">' . esc_html__('Please keep in mind that according to Bluesky’s TOS, users are not allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in Bluesky suspending your account. Always vary your Posts with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div></div>';
@@ -539,7 +539,7 @@ class B2S_Ship_Item {
             $proBadge = ' <span class="label label-success">' . esc_html__("PRO", "blog2social") . '</span>';
         }
 
-        if ($networkId == 1 || ($networkId == 8 && $networkType == 0) || $networkId == 19 || $networkId == 3 || $networkId == 4 || $networkId == 2 || $networkId == 15 || $networkId == 17 || $networkId == 24 || $networkId == 43 || $networkId == 44) {
+        if ($networkId == 1 || ($networkId == 8 && $networkType == 0) || $networkId == 19 || $networkId == 3 || $networkId == 4 || $networkId == 2 || $networkId == 15 || $networkId == 17 || $networkId == 24 || $networkId == 43 || $networkId == 44 || $networkId == 45) {
 
             if (trim(strtolower($this->postStatus)) == 'publish' || $this->b2sPostType == 'ex') {
 
@@ -547,7 +547,7 @@ class B2S_Ship_Item {
                 //$editPostUrl = $this->viewMode == 'modal') ? (get_permalink($this->postData->ID) !== false ? get_permalink($this->postData->ID) : $this->postData->guid) : $this->postUrl;
                 $meta = B2S_Util::getMetaTags($this->postId, $this->postUrl, $networkId);
                 //Case: no twitter image tag try og image tag
-                if (($networkId == 2 || $networkId == 24) && !isset($meta['image'])) {
+                if (($networkId == 2 || $networkId == 24 || $networkId == 45) && !isset($meta['image'])) {
                     $meta = B2S_Util::getMetaTags($this->postId, $this->postUrl);
                 }
             } else {
@@ -655,7 +655,7 @@ class B2S_Ship_Item {
                 }
             }
 
-            if ($networkId == 2) {
+            if ($networkId == 2 || $networkId == 45) {
                 $threadChecked = (isset($this->post_template[$networkId][$networkType]['twitterThreads']) && $this->post_template[$networkId][$networkType]['twitterThreads'] !== false ) ? 'checked="checked"' : '';
 
                 $edit = '<div class="b2s-post-item-details-item-message-area" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '">';
@@ -676,9 +676,9 @@ class B2S_Ship_Item {
                     $edit .= '<input disabled type="checkbox" ' . $threadChecked . ' class="b2s-twitter-thread" id="b2s-twitter-thread" name="b2s[' . esc_attr($networkAuthId) . '][twitterThreads]" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
                     $edit .= ' <a class="btn-label-premium btn-label-premium-xs" data-meta-type="card" data-meta-origin="ship" href="#"><span class="label label-success">PRO</span></a> ';
                 }
-                $edit .= esc_html__('Share more than 280 characters by creating a Twitter thread!', 'blog2social');
+                $edit .= esc_html__('Share more than 280 characters by creating a X thread!', 'blog2social');
                 $edit .= '<button data-network-count="-1" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-meta-type="og" data-meta-origin="ship" class=" btn btn-xs hidden-xs btn-link b2s-load-info-twitter-thread-modal">';
-                $edit .= esc_html__('Use Twitter Threads!', 'blog2social');
+                $edit .= esc_html__('Use X Threads!', 'blog2social');
                 $edit .= '</button><br>';
                 if (B2S_PLUGIN_USER_VERSION >= 2) {
                     $btnDisabled = empty($threadChecked) ? 'disabled' : '';
@@ -715,7 +715,7 @@ class B2S_Ship_Item {
                     $edit .= '<button class="btn btn-link btn-xs center-block b2s-select-image-modal-open" data-meta-type="card" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-post-id="' . esc_attr($this->postId) . '" data-image-url="' . esc_attr($imageUrl) . '">' . esc_html__('Change image', 'blog2social') . $proBadge . '</button>';
                     $edit .= '</div>';
                     $edit .= '<div class="' . ((isset($this->viewMode) && $this->viewMode == 'modal') ? 'col-xs-12"' : 'col-xs-12 col-sm-7 col-lg-9 b2s-post-original-area" data-network-auth-id="' . $networkAuthId . '"') . '>';
-                    $edit .= '<div class="alert alert-warning margin-bottom-0 b2s-alert-twitter-card" data-network-auth-id="' . $networkAuthId . '">' . esc_html__('Please note: Twitter stores the Card parameters of a link for up to 7 days. Changes may not be immediately visible on Twitter.', 'blog2social') . '</div>';
+                    $edit .= '<div class="alert alert-warning margin-bottom-0 b2s-alert-twitter-card" data-network-auth-id="' . $networkAuthId . '">' . esc_html__('Please note: X stores the Card parameters of a link for up to 7 days. Changes may not be immediately visible on X.', 'blog2social') . '</div>';
                     if (B2S_PLUGIN_USER_VERSION > 0) {
                         $edit .= '<button data-network-auth-id="' . esc_attr($networkAuthId) . '" data-meta-type="card" data-meta-origin="ship" class=" btn btn-xs hidden-xs btn-link b2s-load-info-meta-tag-modal">' . esc_html__('Info: Change Card Meta tags image, title and description for this network', 'blog2social') . '</button>';
                     } else {
@@ -1214,7 +1214,7 @@ class B2S_Ship_Item {
         if ($this->isVideoMode && in_array($networkId, $this->videoScheduleNetworks)) {
             $edit = '<div class="row"><br>';
 
-            $edit .= '<div class="b2s-unique-content col-xs-12" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"><div class="clearfix"></div><div class="alert b2s-unique-content-alert alert-warning">' . esc_html__('Please keep in mind that according to Twitter’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in Twitter suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div><br></div>';
+            $edit .= '<div class="b2s-unique-content col-xs-12" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"><div class="clearfix"></div><div class="alert b2s-unique-content-alert alert-warning">' . esc_html__('Please keep in mind that according to X’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in X suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div><br></div>';
             $edit .= '<div class="col-xs-12 col-sm-7 col-lg-12">';
             $edit .= $infoArea;
 
@@ -1325,14 +1325,14 @@ class B2S_Ship_Item {
                 }
             }
 
-            if ($networkId == 2) {
+            if ($networkId == 2 || $networkId == 45) {
 
                 $threadChecked = (isset($this->post_template[$networkId][$networkType]['twitterThreads']) && $this->post_template[$networkId][$networkType]['twitterThreads'] !== false ) ? 'checked="checked"' : '';
 
                 $edit = '<div class="row"><br>';
 
 //TOS Twitter 032018
-                $edit .= '<div class="b2s-unique-content col-xs-12" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"><div class="clearfix"></div><div class="alert b2s-unique-content-alert alert-warning">' . esc_html__('Please keep in mind that according to Twitter’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in Twitter suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div><br></div>';
+                $edit .= '<div class="b2s-unique-content col-xs-12" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"><div class="clearfix"></div><div class="alert b2s-unique-content-alert alert-warning">' . esc_html__('Please keep in mind that according to X’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in X suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div><br></div>';
                 $edit .= '<div class="col-xs-12 col-sm-5 col-lg-3">';
                 $edit .= '<button class="btn btn-primary btn-circle b2s-image-remove-btn" data-network-id="' . esc_attr($networkId) . '" data-network-count="' . esc_attr($schedCount) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '" ' . ($imageUrl ? '' : 'style="display:none"') . '><i class="glyphicon glyphicon-trash"></i></button>';
                 $edit .= '<img src="' . esc_url($this->defaultImage) . '" class="tw-url-image b2s-post-item-details-url-image center-block img-responsive" data-network-count="' . esc_attr($schedCount) . '" data-network-id="' . esc_attr($networkId) . '" data-network-image-change="1" data-network-auth-id="' . esc_attr($networkAuthId) . '">';
@@ -1366,9 +1366,9 @@ class B2S_Ship_Item {
                     $edit .= '<input disabled type="checkbox" ' . $threadChecked . ' class="b2s-twitter-thread-sched" id="b2s-twitter-thread-sched" name="b2s[' . esc_attr($networkAuthId) . '][twitterThreadsSched]" data-network-count="' . esc_attr($schedCount) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="' . esc_attr($networkType) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> ';
                     $edit .= ' <a class="btn-label-premium btn-label-premium-xs" data-meta-type="card" data-meta-origin="ship" href="#"><span class="label label-success">PRO</span></a> ';
                 }
-                $edit .= esc_html__('Share more than 280 characters by creating a Twitter thread!', 'blog2social');
+                $edit .= esc_html__('Share more than 280 characters by creating a X thread!', 'blog2social');
                 $edit .= '<button data-network-count="-1" data-network-auth-id="' . esc_attr($networkAuthId) . '" data-meta-type="og" data-meta-origin="ship" class=" btn btn-xs hidden-xs btn-link b2s-load-info-twitter-thread-modal">';
-                $edit .= esc_html__('Use Twitter Threads!', 'blog2social');
+                $edit .= esc_html__('Use X Threads!', 'blog2social');
                 $edit .= '</button><br>';
 
                 if (B2S_PLUGIN_USER_VERSION >= 2) {
@@ -1994,7 +1994,7 @@ class B2S_Ship_Item {
         if (B2S_PLUGIN_USER_VERSION > 0) {
             $shipping .= '<div class="b2s-post-item-details-release-area-details">';
 //TOS Twitter 032018
-            $shipping .= '<div class="b2s-network-tos-sched-warning" data-network-auth-id="' . esc_attr($networkAuthId) . '" style="display: none;"><div class="clearfix"></div><div class="alert b2s-network-tos-sched-alert alert-warning">' . esc_html__('Please keep in mind that according to Twitter’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in Twitter suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div></div>';
+            $shipping .= '<div class="b2s-network-tos-sched-warning" data-network-auth-id="' . esc_attr($networkAuthId) . '" style="display: none;"><div class="clearfix"></div><div class="alert b2s-network-tos-sched-alert alert-warning">' . esc_html__('Please keep in mind that according to X’s new TOS, users are no longer allowed to post identical or substantially similar content to multiple accounts or multiple duplicate updates on one account.', 'blog2social') . '<br><strong>' . esc_html__('Violating these rules can result in X suspending your account. Always vary your Tweets with different comments, hashtags or handles to prevent duplicate posts.', 'blog2social') . '</strong> <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_blog_032018')) . '" target="_blank">' . esc_html__('Learn more about this', 'blog2social') . '</a></div></div>';
             $shipping .= '<ul class="list-group b2s-post-item-details-release-area-details-ul" data-network-auth-id="' . esc_attr($networkAuthId) . '" style="display:none;">';
             $shipping .= '<li class="list-group-item">';
 
@@ -2122,7 +2122,7 @@ class B2S_Ship_Item {
                         $textareaLimitInfo = '<span class="b2s-post-item-countChar" data-network-count="' . esc_attr($schedcount) . '"  data-network-auth-id="' . esc_attr($networkAuthId) . '">' . (int) esc_html($countCharacter) . '</span>/' . esc_html($limitValue) . ' ' . esc_html__('characters', 'blog2social') . '</span>';
                     } else {
                         $textareaLimitInfo = '<span class="b2s-post-item-countChar" data-network-count="' . esc_attr($schedcount) . '"  data-network-auth-id="' . esc_attr($networkAuthId) . '">' . (int) esc_html($countCharacter) . '</span> ' . esc_html__('characters', 'blog2social') . '</span>';
-                        if ($networkId == 2) {
+                        if ($networkId == 2 || $networkId == 45) {
                             $textareaLimitInfo .= '<span class="b2s-post-item-show-thread-count-sched" data-network-count="' . esc_attr($schedcount) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"> - <span class="b2s-post-item-count-threads" data-network-count="' . esc_attr($schedcount) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '">1</span> ' . esc_html__('Threads', 'blog2social') . '</span>';
                         }
                     }
@@ -2289,7 +2289,7 @@ class B2S_Ship_Item {
         }
 
         if (isset($limit) && (int) $limit > 0) {
-            if (!empty($this->postUrl) && $data->networkId == 2) {
+            if (!empty($this->postUrl) && ($data->networkId == 2 || $data->networkId == 45)) {
                 $limit = 254;
             }
             if (!empty($this->postUrl) && $data->networkId == 38) {

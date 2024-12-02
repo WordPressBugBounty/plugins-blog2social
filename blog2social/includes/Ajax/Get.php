@@ -83,9 +83,13 @@ class Ajax_Get {
                                 $versionDetails = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
                                 if ($versionDetails !== false && is_array($versionDetails) && !empty($versionDetails)) {
                                     $versionDetails['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $result->licence_condition;
+                                    if (isset($result->network_condition)) {
+                                        $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $result->network_condition;
+                                    }
                                     update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
                                 }
                             }
+
 
                             /*
                              * since V7.0 Remove Video Networks
@@ -715,7 +719,7 @@ class Ajax_Get {
 
     public function getCalendarWidgetContent() {
         if (current_user_can('read') && isset($_GET['b2s_security_nonce']) && (int) wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['b2s_security_nonce'])), 'b2s_security_nonce') > 0) {
-            
+
             require_once (B2S_PLUGIN_DIR . 'includes/B2S/Dashboard/Calendar.php');
             $calendar = new B2S_Dashboard_Calendar();
             $targetDates = $calendar->getCalendarEntries();
@@ -723,7 +727,7 @@ class Ajax_Get {
                 echo json_encode(array('result' => array(), 'error' => 'no_data'));
                 wp_die();
             }
-            
+
             $highlightedDays = array();
             foreach ($targetDates as $targetDate) {
                 $colors = isset($highlightedDays[$targetDate]) ? $highlightedDays[$targetDate] : [];
@@ -863,6 +867,9 @@ class Ajax_Get {
                     $versionDetails = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
                     if ($versionDetails !== false && is_array($versionDetails) && !empty($versionDetails)) {
                         $versionDetails['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $result->licence_condition;
+                        if (isset($result->network_condition)) {
+                            $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $result->network_condition;
+                        }
                         update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
                     }
                 }
@@ -1051,7 +1058,7 @@ class Ajax_Get {
             require_once (B2S_PLUGIN_DIR . 'includes/B2S/Post/Item.php');
             require_once (B2S_PLUGIN_DIR . 'includes/B2S/Dashboard/Activity.php');
             require_once (B2S_PLUGIN_DIR . 'includes/Util.php');
-            
+
             /* Sort */
             $b2sType = isset($_POST['b2sType']) ? trim(sanitize_text_field(wp_unslash($_POST['b2sType']))) : "";
             $b2sPagination = 1;
@@ -1062,7 +1069,7 @@ class Ajax_Get {
             $b2sRawResponse = true;
 
             $userData = array(
-                'user_version' => (int)B2S_PLUGIN_USER_VERSION,
+                'user_version' => (int) B2S_PLUGIN_USER_VERSION,
                 'allow_trial' => (get_option('B2S_PLUGIN_DISABLE_TRAIL') == '0' ? true : false),
             );
 

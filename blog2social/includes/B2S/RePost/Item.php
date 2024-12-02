@@ -22,12 +22,14 @@ class B2S_RePost_Item {
         $currentDate = new DateTime("now", wp_timezone());
         $this->authData = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, array('action' => 'getProfileUserAuth', 'current_date' => $currentDate->format('Y-m-d'), 'update_licence' => 1, 'token' => B2S_PLUGIN_TOKEN, 'version' => B2S_PLUGIN_VERSION)));
 
-        
         if (isset($this->authData->licence_condition)) {
             //update
             $versionDetails = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
             if ($versionDetails !== false && is_array($versionDetails) && !empty($versionDetails)) {
                 $versionDetails['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $this->authData->licence_condition;
+                if (isset($result->network_condition)) {
+                    $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $result->network_condition;
+                }
                 update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
 
                 if (isset($this->authData->licence_condition->open_sched_post_quota) && B2S_PLUGIN_USER_VERSION > 0) {
@@ -139,7 +141,7 @@ class B2S_RePost_Item {
         //Network Settings
         $content .= '<h4>' . esc_html__('Where should your content be shared?', 'blog2social') . '</h4>';
         $content .= $this->getMandantSelect();
-        $content .= '<input type="button" class="btn btn-primary pull-right ' . ((!$isPremium) ? 'b2s-re-post-submit-premium' : (($this->schedLimit <= 0) ? '':'b2s-re-post-submit-btn')) . '" '.(($isPremium && $this->schedLimit <= 0) ? 'disabled= "disabled "': '').'  value="' . esc_html__('Add to queue', 'blog2social') . '">';
+        $content .= '<input type="button" class="btn btn-primary pull-right ' . ((!$isPremium) ? 'b2s-re-post-submit-premium' : (($this->schedLimit <= 0) ? '' : 'b2s-re-post-submit-btn')) . '" ' . (($isPremium && $this->schedLimit <= 0) ? 'disabled= "disabled "' : '') . '  value="' . esc_html__('Add to queue', 'blog2social') . '">';
         $content .= '</div>';
         $content .= '</div>';
         $content .= '<input type="hidden" id="b2sUserLang" name="b2s-user-lang" value="' . esc_attr(strtolower(substr(get_locale(), 0, 2))) . '">';
@@ -221,7 +223,7 @@ class B2S_RePost_Item {
             foreach ($mandant as $k => $m) {
                 if ((isset($auth->{$m->id}) && isset($auth->{$m->id}[0]) && !empty($auth->{$m->id}[0]))) {
                     foreach ($auth->{$m->id} as $key => $value) {
-                        if ($value->networkId == 2) {
+                        if ($value->networkId == 2 || $value->networkId == 45) {
                             $content .= '<option data-mandant-id="' . esc_attr($m->id) . '" value="' . esc_attr($value->networkAuthId) . '" ' . (((int) $value->networkAuthId == (int) $twitterId) ? 'selected' : '') . '>' . esc_html($value->networkUserName) . '</option>';
                         }
                     }
@@ -332,5 +334,4 @@ class B2S_RePost_Item {
         }
         return $html;
     }
-
 }

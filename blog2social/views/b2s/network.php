@@ -456,6 +456,15 @@ $networkData = $networkItem->getData();
                 <div class="b2sInfoFormatText" data-network-id="12">
                     <?php esc_html_e('Decide in wich form you want to post your Content. Either as image with frame, or as image cut out.', 'blog2social') ?>
                 </div>
+                <div class="b2sInfoFormatText" data-network-id="43">
+                    <?php esc_html_e('Decide in which post format you want to post your content: Link post or image post.', 'blog2social') ?>
+                </div>
+                <div class="b2sInfoFormatText" data-network-id="44">
+                    <?php esc_html_e('Decide in which post format you want to post your content: Link post or image post.', 'blog2social') ?>
+                </div>
+                <div class="b2sInfoFormatText" data-network-id="45">
+                    <?php esc_html_e('Decide in which post format you want to post your content: Link post or image post.', 'blog2social') ?>
+                </div>
             </div>
         </div>
     </div>

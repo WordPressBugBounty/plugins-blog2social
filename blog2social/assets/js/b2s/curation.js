@@ -304,7 +304,6 @@ jQuery(document).on('click', '#b2s-btn-curation-share', function () {
             return false;
         }
     }
-
     var noContent = false;
     if (jQuery('#b2s-curation-post-format').val() == '0') {
         if (jQuery('#b2s-post-curation-preview-title').val().length === 0) {
@@ -367,6 +366,15 @@ jQuery(document).on('click', '#b2s-btn-curation-share', function () {
                 if (data.currenOpenDailyLimit <= 0) {
                     jQuery('.b2s-current-licence-open-daily-post-quota-sidebar-info').show();
                 }
+                
+                //Network Condition
+                jQuery('#current_network_open_sched_post_quota').html(data.currentNetwork45OpenSchedLimit);
+                jQuery('#current_network_open_daily_post_quota').val(data.currentNetwork45OpenDailyLimit);
+
+                if (data.currentNetwork45OpenDailyLimit <= 0) {
+                    jQuery('.b2s-current-network-open-daily-post-quota-sidebar-info').show();
+                }
+                
             } else {
                 jQuery('.b2s-loading-area').hide();
                 jQuery('.b2s-curation-post-list-area').hide();

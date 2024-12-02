@@ -249,7 +249,7 @@ class B2S_Settings_Item {
             $content .= '<hr></div>';
         }
 
-        foreach (array(1, 2, 3, 12, 19, 17, 24, 43, 44) as $n => $networkId) { //FB,TW,LI,IN
+        foreach (array(1, 2, 3, 12, 19, 17, 24, 43, 44, 45) as $n => $networkId) { //FB,TW,LI,IN
             $type = ($networkId == 1 || $networkId == 17) ? array(0, 1, 2) : (($networkId == 3 || $networkId == 19) ? array(0, 1) : (($networkId == 12) ? array(1) : array(0)));
             foreach ($type as $t => $typeId) { //Profile,Page,Group
                 if ($networkId == 17) {
@@ -306,7 +306,7 @@ class B2S_Settings_Item {
         }
         $optionPostFormat = $this->options->_getOption('post_template');
         $content = "<input type='hidden' class='b2sNetworkSettingsPostFormatText' value='" . json_encode(array('post' => array(__('Link Post', 'blog2social'), __('Image Post', 'blog2social')), 'image' => array(__('Image with frame'), __('Image cut out')))) . "'/>";
-        foreach (array(1, 2, 3, 12, 19, 15, 17, 24, 43, 44) as $n => $networkId) { //FB,TW,LI,IN
+        foreach (array(1, 2, 3, 12, 19, 15, 17, 24, 43, 44, 45) as $n => $networkId) { //FB,TW,LI,IN
             $postFormatType = ($networkId == 12) ? 'image' : 'post';
             $type = ($networkId == 1 || $networkId == 17) ? array(0, 1, 2) : (($networkId == 3 || $networkId == 19) ? array(0, 1) : (($networkId == 12) ? array(1) : array(0)));
             foreach ($type as $t => $typeId) { //Profile,Page,Group                
@@ -314,7 +314,7 @@ class B2S_Settings_Item {
                     if (is_array($defaultTemplate) && isset($defaultTemplate[$networkId][$typeId]['format']) && $defaultTemplate[$networkId][$typeId]['format'] >= 0 && $defaultTemplate[$networkId][$typeId]['format'] <= 1) {
                         $value = $defaultTemplate[$networkId][$typeId]['format'];
                     } else {
-                        $value = ($networkId == 2 || $networkId == 43) ? 1 : 0;  //default see B2S_PLUGIN_NETWORK_SETTINGS_TEMPLATE_DEFAULT
+                        $value = ($networkId == 2 || $networkId == 43 || $networkId == 45) ? 1 : 0;  //default see B2S_PLUGIN_NETWORK_SETTINGS_TEMPLATE_DEFAULT
                     }
                 } else {
                     $value = $optionPostFormat[$networkId][$typeId]['format'];

@@ -65,11 +65,12 @@ $isVideo = (isset($_GET['isVideo']) && (int) $_GET['isVideo'] == 1) ? true : fal
                                         <?php } ?>
                                     </div>
                                     <?php
-                                    if (!$isVideo) {
+                                    $cond = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
 
-                                        $licenceCond = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
-                                        if ($licenceCond !== false && is_array($licenceCond) && !empty($licenceCond) && isset($licenceCond['B2S_PLUGIN_LICENCE_CONDITION'])) {
-                                            $licenceCond = $licenceCond['B2S_PLUGIN_LICENCE_CONDITION'];
+                                    if (!$isVideo) {
+                                        //COND: All Network-Integration by licence
+                                        if ($cond !== false && is_array($cond) && !empty($cond) && isset($cond['B2S_PLUGIN_LICENCE_CONDITION'])) {
+                                            $licenceCond = $cond['B2S_PLUGIN_LICENCE_CONDITION'];
                                             if (isset($licenceCond['open_daily_post_quota']) && isset($licenceCond['open_sched_post_quota'])) {
                                                 ?>
                                                 <hr class="b2s-margin-bottom-10">
@@ -122,9 +123,52 @@ $isVideo = (isset($_GET['isVideo']) && (int) $_GET['isVideo'] == 1) ? true : fal
                                                 <?php
                                                 $dailyLimit = ((int) $licenceCond['open_daily_post_quota'] <= 0) ? '' : 'b2s-info-display-none';
                                                 ?>
-                                                <h3 class="b2s-h3 b2s-current-licence-open-daily-post-quota-sidebar-info b2s-color-red b2s-text-underline <?php echo $dailyLimit; ?> b2s-text-bold"><?php echo sprintf(__('Daily Limit of %d posts reached!', 'blog2social'), esc_html($licenceCond['total_daily_post_quota'])); ?></h3>
+                                                <h3 class="b2s-h3 b2s-current-licence-open-daily-post-quota-sidebar-info b2s-color-red b2s-margin-0 b2s-text-underline <?php echo $dailyLimit; ?> b2s-text-bold"><?php echo sprintf(__('Daily Limit of %d posts reached!', 'blog2social'), esc_html($licenceCond['total_daily_post_quota'])); ?></h3>
                                                 <?php
                                             }
+                                        }
+                                    }
+
+                                    //Cond: Network ADD X-Integration
+                                    if ($cond !== false && is_array($cond) && !empty($cond) && isset($cond['B2S_PLUGIN_NETWORK_CONDITION'][45]) && !empty($cond['B2S_PLUGIN_NETWORK_CONDITION'][45])) {
+                                        $networkCond = $cond['B2S_PLUGIN_NETWORK_CONDITION'][45];
+                                        $openNetCond = $networkCond->open_sched_post_quota;
+                                        $totalNetCond = $networkCond->total_sched_post_quota;
+                                        ?>
+                                        <br><h3 class="b2s-h3 b2s-stats-h3"><?php esc_html_e("Your monthly X post volume", "blog2social") ?></h3>                                     
+
+                                        <?php
+                                        echo wp_kses(B2S_Notice::getPostStats($openNetCond, $totalNetCond), array(
+                                            'div' => array(
+                                                'class' => array(),
+                                                'style' => array()
+                                            ),
+                                            'a' => array(
+                                                'target' => array(),
+                                                'href' => array(),
+                                                'class' => array()
+                                            ),
+                                            'span' => array(
+                                                'class' => array()
+                                            )
+                                        ));
+                                        ?>
+
+                                        <div class="media-body b2s-font-size-11">
+                                            <span class="b2s-span-float-left"><span id="current_network_open_sched_post_quota" class="b2s-text-bold"><?php echo (int) $openNetCond ?></span> <?php esc_html_e("remaining from", "blog2social") ?> <?php echo (int) $totalNetCond; ?></span>
+                                            <span class="b2s-span-float-right"><a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('addon_network_integration')); ?>"><?php esc_html_e("Need more?", "blog2social") ?></a></span>
+                                            <div class="clearfix"></div>
+                                        </div>
+
+                                        <?php
+                                        if (isset($networkCond->open_daily_post_quota)) {
+                                            ?>
+                                            <input type="hidden" id="current_network_open_daily_post_quota" name="current_network_open_daily_post_quota" value="<?php echo $networkCond->open_daily_post_quota; ?>" />
+                                            <?php
+                                            $dailyLimit = ((int) $networkCond->open_daily_post_quota <= 0) ? '' : 'b2s-info-display-none';
+                                            ?>
+                                            <h3 class="b2s-h3 b2s-current-network-open-daily-post-quota-sidebar-info b2s-color-red b2s-margin-0 b2s-text-underline <?php echo $dailyLimit; ?> b2s-text-bold"><?php echo sprintf(__('Daily Limit of %d X posts reached!', 'blog2social'), esc_html($networkCond->total_daily_post_quota)); ?></h3>
+                                            <?php
                                         }
                                     }
                                     ?>
@@ -152,7 +196,7 @@ $isVideo = (isset($_GET['isVideo']) && (int) $_GET['isVideo'] == 1) ? true : fal
                         </div>
 
                     </div>
-                <?php } ?>
+<?php } ?>
             </div>
             <div class="clearfix"></div>
         </div>

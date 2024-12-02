@@ -87,7 +87,7 @@ class B2S_AutoPost {
             }
 
             //PostFormat
-            if (in_array($networkId, array(1, 2, 3, 12, 17, 19, 24, 43, 44))) {
+            if (in_array($networkId, array(1, 2, 3, 12, 17, 19, 24, 43, 44, 45))) {
                 //Get: client settings
                 if (isset($tempOptionPostFormat[$networkId][$networkType]['format']) && ((int) $tempOptionPostFormat[$networkId][$networkType]['format'] === 0 || (int) $tempOptionPostFormat[$networkId][$networkType]['format'] === 1)) {
                     $postData['post_format'] = (int) $tempOptionPostFormat[$networkId][$networkType]['format'];
@@ -161,7 +161,7 @@ class B2S_AutoPost {
                 }
 
                 if (isset($limit) && (int) $limit > 0) {
-                    if (!empty($this->url) && $networkId == 2) {
+                    if (!empty($this->url) && ($networkId == 2 || $networkId == 45)) {
                         $limit = 254;
                     }
                     if (!empty($this->url) && $networkId == 38) {

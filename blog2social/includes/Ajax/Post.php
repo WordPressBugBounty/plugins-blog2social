@@ -268,10 +268,11 @@ class Ajax_Post {
                                 $b2sShipSend = new B2S_Ship_Save();
                                 $content = array();
                                 $countPost = 0;
+                                $countNetworkXIntegration = 0;
                                 foreach ($networkData as $k => $value) {
                                     if (isset($value->networkAuthId) && (int) $value->networkAuthId > 0 && isset($value->networkId) && (int) $value->networkId > 0 && isset($value->networkType)) {
                                         //TOS Twitter 032018 - none multiple Accounts - User select once
-                                        if ((int) $value->networkId != 2 || ((int) $value->networkId == 2 && (empty($selectedTwitterProfile) || ((int) $selectedTwitterProfile == (int) $value->networkAuthId)))) {
+                                        if (((int) $value->networkId != 2 && (int) $value->networkId != 45) || ( ((int) $value->networkId == 2 || (int) $value->networkId == 45) && (empty($selectedTwitterProfile) || ((int) $selectedTwitterProfile == (int) $value->networkAuthId)))) {
                                             //Filter: image network
                                             if ((int) $_POST['postFormat'] == 0) {
                                                 if (in_array($value->networkId, $allowNetworkOnlyImage)) {
@@ -357,6 +358,11 @@ class Ajax_Post {
                                                     $b2sShipSend->savePublishDetails($shareData, array(), true);
                                                 }
                                                 $countPost++;
+
+                                                //Network Condition X:45 Integration
+                                                if ($value->networkId == 45) {
+                                                    $countNetworkXIntegration++;
+                                                }
                                             }
                                         }
                                     }
@@ -371,9 +377,12 @@ class Ajax_Post {
                                 }
                                 //Render Ouput
                                 if (is_array($content) && !empty($content)) {
-                                    //Licence Condition
+                                    //Licence /Network Condition
                                     $currentOpenDailyLimit = 0;
                                     $currentOpenSchedLimit = 0;
+                                    $currentNetwork45OpenDailyLimit = 0;
+                                    $currentNetwork45OpenSchedLimit = 0;
+
                                     $tokenInfo = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
                                     if ($tokenInfo !== false && is_array($tokenInfo) && !empty($tokenInfo)) {
                                         if (isset($tokenInfo['B2S_PLUGIN_LICENCE_CONDITION']) && isset($tokenInfo['B2S_PLUGIN_LICENCE_CONDITION']['open_daily_post_quota']) && isset($tokenInfo['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'])) {
@@ -388,10 +397,23 @@ class Ajax_Post {
                                             $currentOpenSchedLimit = (B2S_PLUGIN_USER_VERSION > 0) ? (int) $tokenInfo['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'] : $currentOpenDailyLimit;
                                             update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $tokenInfo, false);
                                         }
+
+                                        if ($countNetworkXIntegration > 0) {
+                                            if (isset($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION']) && isset($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]) && !empty($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45])) {
+                                                $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota = ($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota) - (int) $countNetworkXIntegration;
+                                                //Type direct Post
+                                                if (isset($_POST['ship_type']) && (int) $_POST['ship_type'] == 0) {
+                                                    $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_daily_post_quota = ($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_daily_post_quota) - (int) $countNetworkXIntegration;
+                                                }
+                                                $currentNetwork45OpenDailyLimit = (int) $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_daily_post_quota;
+                                                $currentNetwork45OpenSchedLimit = (int) $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota;
+                                                update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $tokenInfo, false);
+                                            }
+                                        }
                                     }
                                     require_once (B2S_PLUGIN_DIR . 'includes/B2S/Curation/View.php');
                                     $view = new B2S_Curation_View();
-                                    echo json_encode(array('result' => true, 'currentOpenDailyLimit' => $currentOpenDailyLimit, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'content' => $view->getResultListHtml($content)));
+                                    echo json_encode(array('result' => true, 'currentNetwork45OpenDailyLimit' => $currentNetwork45OpenDailyLimit, 'currentNetwork45OpenSchedLimit' => $currentNetwork45OpenSchedLimit, 'currentOpenDailyLimit' => $currentOpenDailyLimit, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'content' => $view->getResultListHtml($content)));
                                     wp_die();
                                 }
                             }
@@ -641,6 +663,8 @@ class Ajax_Post {
             $content = array();
             $schedResult = array();
             $countDirectPost = 0;
+            $countNetworkXIntegration = 0;
+            
             $defaultPostData = array('token' => B2S_PLUGIN_TOKEN,
                 'blog_user_id' => B2S_PLUGIN_BLOG_USER_ID,
                 'post_id' => (int) $post['post_id'],
@@ -696,7 +720,7 @@ class Ajax_Post {
                     }
 
                     //Change/Set MetaTags
-                    if (((int) $data['network_id'] == 2 || (int) $data['network_id'] == 24) && $metaCard == false && (int) $post['post_id'] > 0 && isset($data['post_format']) && (int) $data['post_format'] == 0 && isset($post['change_card_meta']) && (int) $post['change_card_meta'] == 1) {  //LinkPost
+                    if (((int) $data['network_id'] == 2 || (int) $data['network_id'] == 24 || (int) $data['network_id'] == 45) && $metaCard == false && (int) $post['post_id'] > 0 && isset($data['post_format']) && (int) $data['post_format'] == 0 && isset($post['change_card_meta']) && (int) $post['change_card_meta'] == 1) {  //LinkPost
                         $metaCard = true;
                         $meta = B2S_Meta::getInstance();
                         $meta->getMeta((int) $post['post_id']);
@@ -795,7 +819,7 @@ class Ajax_Post {
 
                     //since V4.8.0 Check Relay and prepare Data
                     $relayData = array();
-                    if ((int) $data['network_id'] == 2 && isset($data['post_relay_account'][0]) && !empty($data['post_relay_account'][0]) && isset($data['post_relay_delay'][0]) && !empty($data['post_relay_delay'][0])) {
+                    if (((int) $data['network_id'] == 2 || (int) $data['network_id'] == 45) && isset($data['post_relay_account'][0]) && !empty($data['post_relay_account'][0]) && isset($data['post_relay_delay'][0]) && !empty($data['post_relay_delay'][0])) {
                         $relayData = array('auth' => $data['post_relay_account'], 'delay' => $data['post_relay_delay']);
                     }
                 }
@@ -811,6 +835,10 @@ class Ajax_Post {
                             'sched_content' => isset($data['sched_content']) ? $data['sched_content'] : array(),
                             'saveSetting' => isset($data['saveSchedSetting']) ? true : false
                         );
+
+                        if ($sendData['network_id'] == 45) {
+                            $countNetworkXIntegration++;
+                        }
                     }
                     $b2sShipSend->saveVideoDetails(array_merge($defaultPostData, $sendData), $schedData);
                 } else {
@@ -819,6 +847,9 @@ class Ajax_Post {
                     if (isset($data['releaseSelect']) && (int) $data['releaseSelect'] == 0) {
                         $b2sShipSend->savePublishDetails(array_merge($defaultPostData, $sendData), $relayData);
                         $countDirectPost++;
+                        if ($sendData['network_id'] == 45) {
+                            $countNetworkXIntegration++;
+                        }
                         //mode: schedule custom once
                     } else if (isset($data['releaseSelect']) && (int) $data['releaseSelect'] == 1 && isset($data['date'][0]) && isset($data['time'][0])) {
                         $schedData = array(
@@ -842,6 +873,10 @@ class Ajax_Post {
                         );
                         $schedResult[] = $b2sShipSend->saveSchedDetails(array_merge($defaultPostData, $sendData), $schedData, $relayData);
                         $content = array_merge($content, $schedResult);
+
+                        if ($sendData['network_id'] == 45) {
+                            $countNetworkXIntegration++;
+                        }
 
                         //mode: recurrently schedule
                     } else {
@@ -867,6 +902,10 @@ class Ajax_Post {
                         );
                         $schedResult[] = $b2sShipSend->saveSchedDetails(array_merge($defaultPostData, $sendData), $schedData, $relayData);
                         $content = array_merge($content, $schedResult);
+
+                        if ($sendData['network_id'] == 45) {
+                            $countNetworkXIntegration++;
+                        }
                     }
                 }
             }
@@ -885,6 +924,8 @@ class Ajax_Post {
             //Licence Condition
             $currentOpenDailyLimit = 0;
             $currentOpenSchedLimit = 0;
+            $currentNetwork45OpenDailyLimit = 0;
+            $currentNetwork45OpenSchedLimit = 0;
             if (!isset($post['is_video']) || ((isset($post['is_video']) && (int) $post['is_video'] == 0))) {
                 $tokenInfo = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
                 if ($tokenInfo !== false && is_array($tokenInfo) && !empty($tokenInfo)) {
@@ -903,9 +944,19 @@ class Ajax_Post {
                         $currentOpenSchedLimit = (B2S_PLUGIN_USER_VERSION > 0) ? (int) $tokenInfo['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'] : $currentOpenDailyLimit;
                         update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $tokenInfo, false);
                     }
+
+                    if ($countNetworkXIntegration > 0) {
+                        if (isset($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION']) && isset($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]) && !empty($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45])) {
+                            $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota = ($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota) - (int) $countNetworkXIntegration;
+                            $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_daily_post_quota = ($tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_daily_post_quota) - (int) $countNetworkXIntegration;
+                            $currentNetwork45OpenDailyLimit = (int) $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_daily_post_quota;
+                            $currentNetwork45OpenSchedLimit = (int) $tokenInfo['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota;
+                            update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $tokenInfo, false);
+                        }
+                    }
                 }
             }
-            echo json_encode(array('result' => true, 'currentOpenDailyLimit' => $currentOpenDailyLimit, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'content' => $content));
+            echo json_encode(array('result' => true, 'currentNetwork45OpenDailyLimit' => $currentNetwork45OpenDailyLimit, 'currentNetwork45OpenSchedLimit' => $currentNetwork45OpenSchedLimit, 'currentOpenDailyLimit' => $currentOpenDailyLimit, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'content' => $content));
             wp_die();
         } else {
             echo json_encode(array('result' => false, 'error' => 'nonce'));
@@ -1463,6 +1514,9 @@ class Ajax_Post {
                             if (isset($keyResult->licence_condition)) {
                                 $option['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $keyResult->licence_condition;
                             }
+                            if (isset($keyResult->network_condition)) {
+                                $option['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $keyResult->network_condition;
+                            }
 
                             update_option('B2S_PLUGIN_USER_VERSION_' . $user_id, $option, false);
                             $licenseName = unserialize(B2S_PLUGIN_VERSION_TYPE);
@@ -1514,6 +1568,9 @@ class Ajax_Post {
 
                             if (isset($keyResult->licence_condition)) {
                                 $tokenInfo['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $keyResult->licence_condition;
+                            }
+                            if (isset($keyResult->network_condition)) {
+                                $option['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $keyResult->network_condition;
                             }
 
                             if (!isset($keyResult->version)) {
@@ -1990,7 +2047,7 @@ class Ajax_Post {
                         }
 
 //Change/Set MetaTags
-                        if (((int) $data['network_id'] == 2 || (int) $data['network_id'] == 24) && $metaCard == false && (int) $post['post_id'] > 0 && isset($data['post_format']) && (int) $data['post_format'] == 0 && isset($post['change_card_meta']) && (int) $post['change_card_meta'] == 1) {  //LinkPost
+                        if (((int) $data['network_id'] == 2 || (int) $data['network_id'] == 24 || (int) $data['network_id'] == 45) && $metaCard == false && (int) $post['post_id'] > 0 && isset($data['post_format']) && (int) $data['post_format'] == 0 && isset($post['change_card_meta']) && (int) $post['change_card_meta'] == 1) {  //LinkPost
                             $metaCard = true;
                             $meta = B2S_Meta::getInstance();
                             $meta->getMeta((int) $post['post_id']);
@@ -2361,7 +2418,7 @@ class Ajax_Post {
                             );
                         }
 
-                        if ((int) $_POST['networkId'] == 2) {
+                        if ((int) $_POST['networkId'] == 2 || (int) $_POST['networkId'] == 45) {
                             $new_template[$type]['twitterThreads'] = ((isset($data['twitterThreads']) && $data['twitterThreads'] == 'false') ? false : true);
                         }
                         if (in_array((int) $_POST['networkId'], unserialize(B2S_PLUGIN_ALLOW_ADD_LINK))) {
@@ -2564,6 +2621,7 @@ class Ajax_Post {
                 if ($networkData !== false && is_array($networkData) && !empty($networkData)) {
 
                     $countSchedPosts = 0;
+                    $countSchedNetworkXIntegration=0;
 
                     //Select Posts for Queue
                     $limit = 5;
@@ -2759,6 +2817,11 @@ class Ajax_Post {
                                     $date->setDate(substr($nextPosibleDate, 0, 4), substr($nextPosibleDate, 5, 2), substr($nextPosibleDate, 8, 2));
                                     $count = $rePost->generatePosts($startDate, $settings, $networkData, $selectedTwitterProfile);
                                     $countSchedPosts = $countSchedPosts + $count;
+                                    
+                                    if(!empty($selectedTwitterProfile)){
+                                        $countSchedNetworkXIntegration++;
+                                    }
+                                    
                                 }
                                 if ($countSchedPosts == 0) {
                                     echo json_encode(array('result' => false, 'error' => 'no_content'));
@@ -2771,6 +2834,7 @@ class Ajax_Post {
 
                     //Licence Condition
                     $currentOpenSchedLimit = 0;
+                    $currentNetwork45OpenSchedLimit = 0;
                     if (B2S_PLUGIN_USER_VERSION > 0 && $countSchedPosts > 0) {
                         $versionDetails = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
                         if ($versionDetails !== false && is_array($versionDetails) && !empty($versionDetails)) {
@@ -2781,13 +2845,19 @@ class Ajax_Post {
                                     $currentOpenSchedLimit = $versionDetails['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'];
                                 }
                             }
+                            if (isset($versionDetails['B2S_PLUGIN_NETWORK_CONDITION']) && isset($versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]) && !empty($versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45])) {
+                            $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota = ($versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota) - (int) $countSchedNetworkXIntegration;
+                            $currentNetwork45OpenSchedLimit = (int) $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota;
+                            update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
+                        }
+                            
                         }
                     }
 
                     require_once(B2S_PLUGIN_DIR . 'includes/B2S/RePost/Item.php');
                     $rePostItem = new B2S_RePost_Item();
                     $queue = $rePostItem->getRePostQueueHtml();
-                    echo json_encode(array('result' => true, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'queue' => $queue));
+                    echo json_encode(array('result' => true, 'currentNetwork45OpenSchedLimit' => $currentNetwork45OpenSchedLimit, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'queue' => $queue));
                     wp_die();
                 }
             }
@@ -3208,14 +3278,14 @@ class Ajax_Post {
                         'post_text' => sanitize_text_field(B2S_Util::prepareContent((int) $_POST['post_id'], $postContent, esc_url_raw($_POST['post_url']), false, false, sanitize_text_field($_POST['post_lang']))), // only content
                         'post_network_name' => sanitize_text_field($_POST['post_network_name']),
                         'post_lang' => sanitize_text_field($_POST['post_lang']),
-                        'post_network_type' => (int)$_POST['network_type'],
+                        'post_network_type' => (int) $_POST['network_type'],
                         'allow_emojis' => $allowEmojis
                     );
 
-                    if(isset($_POST['post_format']) && (int) $_POST['post_format'] >= 0){
+                    if (isset($_POST['post_format']) && (int) $_POST['post_format'] >= 0) {
                         $postData['post_type'] = (int) $_POST['post_format'];
                     }
-                    
+
                     $result = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, $postData), true);
                     if (is_array($result) && !empty($result)) {
                         if (isset($result['ass_text']) && !empty($result['ass_text']) && isset($result['ass_words_open'])) {
@@ -3227,7 +3297,7 @@ class Ajax_Post {
                                 'h1' => array(),
                                 'h2' => array(),
                                 'h3' => array(),
-                                'strong' =>array(),
+                                'strong' => array(),
                                 'b' => array(),
                                 'i' => array(),
                                 'br' => array(),

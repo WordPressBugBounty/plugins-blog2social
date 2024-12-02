@@ -38,8 +38,7 @@ class B2S_Calendar_Item {
     public function __construct(\StdClass $data = null) {
         $this->errorTextList = unserialize(B2S_PLUGIN_NETWORK_ERROR);
         if (isset($data)) {
-            $this
-                    ->setSchedData($data->sched_data)
+            $this->setSchedData($data->sched_data)
                     ->setSchedDate($data->sched_date)
                     ->setNetworkId($data->network_id)
                     ->setPostTitle($data->post_title)
@@ -59,10 +58,10 @@ class B2S_Calendar_Item {
                     ->setPostForApprove($data->post_for_approve)
                     ->setPublishLink($data->publish_link);
 
-            if ($data->network_id == 1 || $data->network_id == 2 || $data->network_id == 3 || $data->network_id == 4 || $data->network_id == 12 || $data->network_id == 17 || $data->network_id == 19 || $data->network_id == 24) {
+            if ($data->network_id == 1 || $data->network_id == 2 || $data->network_id == 3 || $data->network_id == 4 || $data->network_id == 12 || $data->network_id == 17 || $data->network_id == 19 || $data->network_id == 24 || $data->network_id == 45) {
                 $this->setPostFormat();
             }
-            if ($data->network_id == 2 && isset($data->relay_primary_sched_date)) {
+            if (($data->network_id == 2 || $data->network_id == 45) && isset($data->relay_primary_sched_date)) {
                 $this->setRelayPrimarySchedDate($data->relay_primary_sched_date);
                 $this->setRelayDelayMin($data->relay_delay_min);
             }
@@ -317,7 +316,7 @@ class B2S_Calendar_Item {
     public function getB2SId() {
         return $this->b2s_id;
     }
-    
+
     /**
      * @param integer $value
      * @return $this
@@ -518,7 +517,7 @@ class B2S_Calendar_Item {
     public function getStaus() {
         return $this->status;
     }
-    
+
     public function setErrorCode($error = "") {
         $this->errorCode = $error;
         return $this;
@@ -527,11 +526,11 @@ class B2S_Calendar_Item {
     public function getErrorCode() {
         return $this->errorCode;
     }
-    
+
     public function setErrorText($error = "") {
         if (!empty($error) && isset($this->errorTextList[$error])) {
-            if($this->network_id == 12 && $error == 'DEFAULT') {
-                if($this->network_type == 0) {
+            if ($this->network_id == 12 && $error == 'DEFAULT') {
+                if ($this->network_type == 0) {
                     $this->errorText = sprintf(__('The post cannot be published due to changes on the Instagram interface. More information in the <a href="%s" target="_blank">Instagram guide</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('instagram_error_private')));
                 } else {
                     $this->errorText = sprintf(__('Your post could not be posted. More information in this <a href="%s" target="_blank">Instagram troubleshoot checklist</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('instagram_error_business')));
@@ -548,14 +547,14 @@ class B2S_Calendar_Item {
     public function getErrorText() {
         return $this->errorText;
     }
-    
+
     public function setMultiImages($sched_data = "") {
         $multi_images = array();
         if (!empty($sched_data)) {
             $data = unserialize($sched_data);
-            if(isset($data['multi_images'])) {
+            if (isset($data['multi_images'])) {
                 $json_data = json_decode($data['multi_images'], true);
-                if($json_data != false && !empty($json_data) && is_array($json_data)) {
+                if ($json_data != false && !empty($json_data) && is_array($json_data)) {
                     $multi_images = $json_data;
                 }
             }
@@ -563,7 +562,7 @@ class B2S_Calendar_Item {
         $this->multi_images = $multi_images;
         return $this;
     }
-    
+
     public function getMultiImages() {
         return $this->multi_images;
     }
@@ -651,8 +650,7 @@ class B2S_Calendar_Item {
             'view' => $view,
             'networkTosGroupId' => '',
             'networkKind' => 0);
-        
+
         return $this->ship_item()->getItemHtml((object) $itemData, false);
     }
-
 }

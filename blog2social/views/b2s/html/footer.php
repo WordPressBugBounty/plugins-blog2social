@@ -471,10 +471,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2sInfoTwitterThreads" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php esc_html_e('Twitter Threads', 'blog2social') ?></h4>
+                <h4 class="modal-title"><?php esc_html_e('X Threads', 'blog2social') ?></h4>
             </div>
             <div class="modal-body">
-                <?php esc_html_e('Use Twitter threads (now X posts) to share messages that deserve more than just 280 characters! Your copy will be shared in multiple connected tweets, each one with 280 characters, appearing underneath each other - like a thread.', 'blog2social') ?>
+                <?php esc_html_e('Use X threads to share messages that deserve more than just 280 characters! Your copy will be shared in multiple connected tweets, each one with 280 characters, appearing underneath each other - like a thread.', 'blog2social') ?>
                 <br>
                 <br>
                 <?php esc_html_e('Tip: To define threaded posts as the default setting for your tweets, activate this function in your post templates for Twitter.', 'blog2social') ?>

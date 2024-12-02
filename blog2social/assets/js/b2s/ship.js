@@ -388,7 +388,7 @@ jQuery(document).on('click', '.change-meta-tag', function () {
             if (typeof networkId != 'undefined' && jQuery.inArray(networkId.toString(), ogMetaNetworks) != -1 && jQuery('#isOgMetaChecked').val() == "1") {
                 isMetaChecked = true;
             }
-            if ((networkId == "2" || networkId == "24") && jQuery('#isCardMetaChecked').val() == "1") {
+            if ((networkId == "2" || networkId == "24" || networkId == "45") && jQuery('#isCardMetaChecked').val() == "1") {
                 isMetaChecked = true;
             }
             var showDefault = true;
@@ -721,7 +721,7 @@ jQuery(document).on("click", ".b2s-post-ship-item-copy-original-text", function 
     var networkCountId = jQuery(this).attr('data-network-count');
     var networkId = jQuery(this).attr('data-network-id');
     var text = jQuery('.b2s-post-item-details-item-message-input[data-network-count="-1"][data-network-auth-id="' + networkAuthId + '"]').val();
-    if (text == "" && networkId == 2) {
+    if (text == "" && (networkId == 2 || networkId == 45)) {
         text = jQuery('#b2sTwitterOrginalPost').val();
     }
     jQuery('.b2s-post-item-details-item-message-input[data-network-count="' + networkCountId + '"][data-network-auth-id="' + networkAuthId + '"]').val(text);
@@ -764,7 +764,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                         if (typeof networkId != 'undefined' && jQuery.inArray(networkId.toString(), ogMetaNetworks) != -1 && jQuery('#isOgMetaChecked').val() == "1") {
                             isMetaChecked = true;
                         }
-                        if ((networkId == "2" || networkId == "24") && jQuery('#isCardMetaChecked').val() == "1") {
+                        if ((networkId == "2" || networkId == "24" || networkId == "45") && jQuery('#isCardMetaChecked').val() == "1") {
                             isMetaChecked = true;
                         }
                         if (isMetaChecked && jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"]').val() == "0") {
@@ -813,14 +813,14 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                             } else {
                                 jQuery('.b2s-post-item-details-preview-url-reload[data-network-auth-id="' + networkAuthId + '"]').trigger("click");
                             }
-                            if ((networkId == "2" || networkId == "24")) {
+                            if ((networkId == "2" || networkId == "24" || networkId == "45")) {
                                 jQuery('.b2s-alert-twitter-card[data-network-auth-id="' + networkAuthId + '"]').show();
                             }
                         } else {
                             jQuery('.b2s-post-item-details-preview-title[data-network-auth-id="' + networkAuthId + '"]').prop("readonly", true);
                             jQuery('.b2s-post-item-details-preview-desc[data-network-auth-id="' + networkAuthId + '"]').prop("readonly", true);
                             jQuery('.b2s-post-item-details-preview-url-reload[data-network-auth-id="' + networkAuthId + '"]').hide();
-                            if ((networkId == "2" || networkId == "24")) {
+                            if ((networkId == "2" || networkId == "24" || networkId == "45")) {
                                 jQuery('.b2s-alert-twitter-card[data-network-auth-id="' + networkAuthId + '"]').hide();
                             }
                         }
@@ -861,7 +861,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
 
                 //Twitter TOS 032018 - protected multiple accounts with same content to same time
                 //delete comment field one more
-                if (networkId == 2) {
+                if (networkId == 2 || networkId == 45) {
                     if (jQuery('.b2s-post-item[data-network-id="' + networkId + '"]:visible').length == 1) {
                         jQuery('.tw-textarea-input[data-network-auth-id="' + networkAuthId + '"]').text(jQuery('#b2sTwitterOrginalPost').val());
                     } else {
@@ -1035,7 +1035,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                     var postFormatType = jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').attr('data-post-format-type');
                                     if (jQuery('#user_version').val() >= 2) {
                                         //Multi Image
-                                        if ((jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val() == 1 && ((data.networkId == 1 && (data.networkType == 1 || data.networkType == 2)) || (data.networkId == 3 && (data.networkType == 0 || data.networkType == 1)) || (data.networkId == 2))) || data.networkId == 12) {
+                                        if ((jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val() == 1 && ((data.networkId == 1 && (data.networkType == 1 || data.networkType == 2)) || (data.networkId == 3 && (data.networkType == 0 || data.networkType == 1)) || (data.networkId == 2))) || data.networkId == 12 || data.networkId == 45) {
                                             jQuery('.b2s-multi-image-area[data-network-auth-id="' + data.networkAuthId + '"]').show();
                                         }
                                         jQuery('.b2s-post-ship-item-post-format-text[data-network-auth-id="' + data.networkAuthId + '"]').html(postFormatText[postFormatType][jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val()]);
@@ -1056,7 +1056,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                         if (typeof data.networkId != 'undefined' && jQuery.inArray(data.networkId.toString(), ogMetaNetworks) != -1 && jQuery('#isOgMetaChecked').val() == "1") {
                                             isMetaChecked = true;
                                         }
-                                        if ((data.networkId == "2" || data.networkId == "24") && jQuery('#isCardMetaChecked').val() == "1") {
+                                        if ((data.networkId == "2" || data.networkId == "24" || data.networkId == "45") && jQuery('#isCardMetaChecked').val() == "1") {
                                             isMetaChecked = true;
                                         }
 
@@ -1106,14 +1106,14 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                                 }
 
                                             }
-                                            if ((networkId == "2" || networkId == "24")) {
+                                            if ((networkId == "2" || networkId == "24" || networkId == "45")) {
                                                 jQuery('.b2s-alert-twitter-card[data-network-auth-id="' + networkAuthId + '"]').show();
                                             }
                                         } else {
                                             jQuery('.b2s-post-item-details-preview-title[data-network-auth-id="' + data.networkAuthId + '"]').prop("readonly", true);
                                             jQuery('.b2s-post-item-details-preview-desc[data-network-auth-id="' + data.networkAuthId + '"]').prop("readonly", true);
                                             jQuery('.b2s-post-item-details-preview-url-reload[data-network-auth-id="' + data.networkAuthId + '"]').hide();
-                                            if ((networkId == "2" || networkId == "24")) {
+                                            if ((networkId == "2" || networkId == "24" || networkId == "45")) {
                                                 jQuery('.b2s-alert-twitter-card[data-network-auth-id="' + networkAuthId + '"]').hide();
                                             }
                                         }
@@ -1132,7 +1132,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
 
                                     //Twitter TOS 032018 - protected multiple accounts with same content to same time
                                     //delete comment field one more
-                                    if (data.networkId == 2) {
+                                    if (data.networkId == 2 || data.networkId == 45) {
 
                                         //set original post
                                         if (jQuery('#b2sTwitterOrginalPost').val() == "") {
@@ -1350,7 +1350,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                         jQuery('.b2s-post-item-details-preview-desc[data-network-auth-id="' + data.networkAuthId + '"]').val(data.draftActions.og_desc);
                                     }
 
-                                    if (data.networkId == 2) {
+                                    if (data.networkId == 2 || data.networkId == 45) {
                                         jQuery('.b2s-post-item-details-preview-title[data-network-auth-id="' + data.networkAuthId + '"]').val(data.draftActions.card_title);
                                         jQuery('.b2s-post-item-details-preview-desc[data-network-auth-id="' + data.networkAuthId + '"]').val(data.draftActions.card_desc);
                                     }
@@ -1527,11 +1527,11 @@ jQuery(document).on('click', '.b2s-post-item-details-url-image', function () {
         if (typeof networkId != 'undefined' && jQuery.inArray(networkId.toString(), ogMetaNetworks) != -1 && jQuery('#isOgMetaChecked').val() == "1") {
             isMetaChecked = true;
         }
-        if ((networkId == "2" || networkId == "24") && jQuery('#isCardMetaChecked').val() == "1") {
+        if ((networkId == "2" || networkId == "24" || networkId == "45") && jQuery('#isCardMetaChecked').val() == "1") {
             isMetaChecked = true;
         }
 
-        if (postFormat == "0" && (networkId == "1" || networkId == "2")) { //isLinkPost for Faceboo or Twitter
+        if (postFormat == "0" && (networkId == "1" || networkId == "2" || networkId == "45")) { //isLinkPost for Faceboo or Twitter
             jQuery('.meta-text').hide();
             if (!isMetaChecked) {
                 if (networkId == "1") {
@@ -1624,7 +1624,7 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
         //TOS Twitter 032018 - none multiple accounts post same content to same time
         jQuery('.b2s-twitter-thread-container[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
 
-        if (jQuery(this).attr('data-network-id') == 2) {
+        if (jQuery(this).attr('data-network-id') == 2 || jQuery(this).attr('data-network-id') == 45) {
             jQuery('.b2s-network-tos-sched-warning[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
         }
         if (jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').val() == 1 || jQuery(this).attr('data-network-id') == 12) {
@@ -1646,7 +1646,7 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
             jQuery('.b2s-twitter-thread-container[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
 
             //TOS Twitter 032018 - none multiple accounts post same content to same time
-            if (jQuery(this).attr('data-network-id') == 2) {
+            if (jQuery(this).attr('data-network-id') == 2 || jQuery(this).attr('data-network-id') == 45) {
                 jQuery('.b2s-network-tos-sched-warning[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
             }
 
@@ -1686,7 +1686,7 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
             jQuery('.b2s-twitter-thread-container[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
 
             //TOS Twitter 032018 - none multiple accounts post same content to same time
-            if (jQuery(this).attr('data-network-id') == 2) {
+            if (jQuery(this).attr('data-network-id') == 2 || jQuery(this).attr('data-network-id') == 45) {
                 jQuery('.b2s-network-tos-sched-warning[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
             } else {
                 //set orginal edit content for customize sched content
@@ -1948,11 +1948,11 @@ jQuery(document).on('click', '.b2s-select-image-modal-open', function () {
     if (typeof networkId != 'undefined' && jQuery.inArray(networkId.toString(), ogMetaNetworks) != -1 && jQuery('#isOgMetaChecked').val() == "1") {
         isMetaChecked = true;
     }
-    if ((networkId == "2" || networkId == "24") && jQuery('#isCardMetaChecked').val() == "1") {
+    if ((networkId == "2" || networkId == "24" || networkId == "45") && jQuery('#isCardMetaChecked').val() == "1") {
         isMetaChecked = true;
     }
 
-    if (postFormat == "0" && (networkId == "1" || networkId == "2")) { //isLinkPost for Facebook or Twitter
+    if (postFormat == "0" && (networkId == "1" || networkId == "2" || networkId == "45")) { //isLinkPost for Facebook or Twitter
         jQuery('.meta-text').hide();
         if (!isMetaChecked) {
             if (networkId == "1") {
@@ -2688,7 +2688,7 @@ jQuery("#b2sNetworkSent").validate({
                     jQuery('.b2s-onboarding-share-step-2').show();
                 }
 
-                //Licence Condition
+                //Licence / Network Condition
                 if (data.result == true) {
                     jQuery('#current_licence_open_sched_post_quota').html(data.currentOpenSchedLimit);
                     jQuery('#current_licence_open_daily_post_quota').val(data.currentOpenDailyLimit);
@@ -2696,6 +2696,14 @@ jQuery("#b2sNetworkSent").validate({
                     if (data.currenOpenDailyLimit <= 0) {
                         jQuery('.b2s-current-licence-open-daily-post-quota-sidebar-info').show();
                     }
+
+                    jQuery('#current_network_open_sched_post_quota').html(data.currentNetwork45OpenSchedLimit);
+                    jQuery('#current_network_open_daily_post_quota').val(data.currentNetwork45OpenDailyLimit);
+
+                    if (data.currentNetwork45OpenDailyLimit <= 0) {
+                        jQuery('.b2s-network-licence-open-daily-post-quota-sidebar-info').show();
+                    }
+
                 }
 
 
@@ -3365,7 +3373,7 @@ function releaseChoose(choose, dataNetworkAuthId, dataNetworkCount) {
             jQuery('.b2s-post-original-area' + selectorInput).removeClass('col-sm-7').removeClass('col-lg-9');
             jQuery('.b2s-post-tool-area' + selectorInput).hide();
             //TOS Network Twitter
-            if (jQuery('.b2s-post-item-details-release-input-date-select' + selectorInput).attr('data-network-id') == "2") {
+            if (jQuery('.b2s-post-item-details-release-input-date-select' + selectorInput).attr('data-network-id') == "2" || jQuery('.b2s-post-item-details-release-input-date-select' + selectorInput).attr('data-network-id') == "45") {
                 jQuery('.b2s-post-ship-item-copy-original-text' + selectorInput + '[data-network-count="0"]').trigger('click');
             }
         }
@@ -3739,7 +3747,7 @@ function networkLimitAll(networkAuthId, networkId, limit) {
     if (typeof text !== typeof undefined && text !== false) {
         var textLength = text.length;
         var newText = text;
-        if (networkId == "2") { //twitter
+        if (networkId == "2" || networkId == "45") { //twitter
             if (url != undefined && url.length != "0") {
                 limit = limit - 26;
             }
@@ -3843,7 +3851,7 @@ function networkCount(networkAuthId) {
                 url = "https://" + url;
                 jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val(url);
             }
-            if (jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "2") { //twitter
+            if (jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "2" || jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "45") { //twitter
                 twitterLimit = twitterLimit - 26;
             }
         } else if (jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").hasClass("required_network_url")) {
@@ -3856,13 +3864,13 @@ function networkCount(networkAuthId) {
 
     if (typeof text !== 'undefined' && jQuery('.b2s-post-item-details-item-message-input-allow-html[data-network-auth-id="' + networkAuthId + '"]').length == 0) {
         var textLength = text.length;
-        if (jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "2") {
+        if (jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "2" || jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "45") {
             var textStripped = text.replaceAll("{new tweet}", "");
             textLength = textStripped.length;
         }
 
         jQuery(".b2s-post-item-countChar[data-network-count='" + networkCountId + "'][data-network-auth-id='" + networkAuthId + "']").html(textLength);
-        if (jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "2") {
+        if (jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "2" || jQuery(".b2s-post-item-details-item-message-input[data-network-auth-id='" + networkAuthId + "']").attr('data-network-id') == "45") {
             var threadCount = Math.ceil(textLength / twitterLimit);
 
             var splitText = text.split("{new tweet}");
@@ -4657,7 +4665,7 @@ function changePostFormat(networkId, networkType, postFormat, networkAuthId, pos
     if (typeof networkId != 'undefined' && jQuery.inArray(networkId.toString(), ogMetaNetworks) != -1 && jQuery('#isOgMetaChecked').val() == "1") {
         isMetaChecked = true;
     }
-    if ((networkId == "2" || networkId == "24") && jQuery('#isCardMetaChecked').val() == "1") {
+    if ((networkId == "2" || networkId == "24" || networkId == "45") && jQuery('#isCardMetaChecked').val() == "1") {
         isMetaChecked = true;
     }
     if (isMetaChecked && postFormat == '0' && jQuery('#user_version').val() > 0) { //If linkpost
@@ -4693,7 +4701,7 @@ function changePostFormat(networkId, networkType, postFormat, networkAuthId, pos
         //Set & Check Link
         if (typeof jQuery('.b2s-post-item-details-preview-url-reload[data-network-auth-id="' + networkAuthId + '"]') !== undefined) {
             //Facebook + Twitter && Linkpost
-            if (networkId == 1 || networkId == 2 && postFormat == 0) {
+            if ((networkId == 1 || networkId == 2 || networkId == 45) && postFormat == 0) {
                 if (jQuery('.b2s-post-item-details-item-url-input[data-network-auth-id="' + networkAuthId + '"]').val() == "") {
                     jQuery('.b2s-post-item-details-item-url-input[data-network-auth-id="' + networkAuthId + '"]').val(jQuery('#b2sDefault_url').val());
                 }
@@ -4742,7 +4750,7 @@ function changePostFormat(networkId, networkType, postFormat, networkAuthId, pos
     checkGifAnimation(networkAuthId, networkId);
 
     //Multi Image
-    if (((postFormat == 1 && ((networkId == 1 && (networkType == 1 || networkType == 2)) || (networkId == 2) || (networkId == 3 && (networkType == 0 || networkType == 1)))) || networkId == 12) && jQuery('.b2s-post-item-details-release-input-date-select[data-network-auth-id="' + networkAuthId + '"]').val() != 1) {
+    if (((postFormat == 1 && ((networkId == 1 && (networkType == 1 || networkType == 2)) || (networkId == 2) || (networkId == 3 && (networkType == 0 || networkType == 1)))) || networkId == 12 || networkId == 45) && jQuery('.b2s-post-item-details-release-input-date-select[data-network-auth-id="' + networkAuthId + '"]').val() != 1) {
         jQuery('.b2s-multi-image-area[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').show();
     } else {
         jQuery('.b2s-multi-image-area[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').hide();
@@ -4755,7 +4763,7 @@ function changePostFormat(networkId, networkType, postFormat, networkAuthId, pos
         jQuery('.b2s-post-item-details-item-url-input[data-network-auth-id="' + networkAuthId + '"]').addClass('required_network_url');
     }
 
-    if (networkId == 2) {
+    if (networkId == 2 || networkId == 45) {
         if (postFormat == 0) {
             jQuery('.b2s-alert-twitter-card[data-network-auth-id="' + networkAuthId + '"]').show();
         } else {

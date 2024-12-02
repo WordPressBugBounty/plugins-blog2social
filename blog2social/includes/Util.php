@@ -157,8 +157,8 @@ class B2S_Util {
     }
 
     public static function getMetaTags($postId = 0, $postUrl = '', $network = 1) {
-        $type = ($network == 2) ? 'twitter' : 'og';
-        $search = ($network == 2) ? 'name' : 'property';
+        $type = ($network == 2 || $network == 45) ? 'twitter' : 'og';
+        $search = ($network == 2 || $network == 45) ? 'name' : 'property';
 //GETSTOREEDDATA
         if ((int) $postId != 0) {
             $metaData = get_option('B2S_PLUGIN_POST_META_TAGES_' . strtoupper($type) . '_' . $postId);

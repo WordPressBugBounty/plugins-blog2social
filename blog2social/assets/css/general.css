@@ -7678,6 +7678,10 @@ CSS CheckBOX
     margin-bottom: 0px !important;
 }
 
+.b2s-margin-0{
+    margin: 0px !important;
+}
+
 .b2s-sort-pagination-area {
     display: none;
 }

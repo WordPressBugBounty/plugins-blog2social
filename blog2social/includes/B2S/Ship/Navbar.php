@@ -38,6 +38,9 @@ class B2S_Ship_Navbar {
             $versionDetails = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
             if ($versionDetails !== false && is_array($versionDetails) && !empty($versionDetails)) {
                 $versionDetails['B2S_PLUGIN_LICENCE_CONDITION'] = (array) $result->licence_condition;
+                if (isset($result->network_condition)) {
+                    $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'] = (array) $result->network_condition;
+                }
                 update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
             }
         }
