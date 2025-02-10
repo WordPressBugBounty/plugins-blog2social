@@ -86,7 +86,7 @@ class B2S_RePost_Save {
                     continue;
                 }
                 $selectedTwitterProfile = (isset($twitter) && !empty($twitter)) ? (int) $twitter : '';
-                if (((int) $value->networkId != 2 && (int) $value->networkId != 45) || (((int) $value->networkId == 2  || (int) $value->networkId != 45) && (empty($selectedTwitterProfile) || ((int) $selectedTwitterProfile == (int) $value->networkAuthId)))) {
+                if (((int) $value->networkId != 2 && (int) $value->networkId != 45) || (((int) $value->networkId == 2  || (int) $value->networkId == 45) && (empty($selectedTwitterProfile) || ((int) $selectedTwitterProfile == (int) $value->networkAuthId)))) {
                     $schedDate = $this->getPostDateTime($startDate, $settings, $value->networkAuthId);
                     $schedDateUtc = date('Y-m-d H:i:s', strtotime(B2S_Util::getUTCForDate($schedDate, ($this->userTimezone * -1))));
                     $shareApprove = (isset($value->instant_sharing) && (int) $value->instant_sharing == 1) ? 1 : 0;
