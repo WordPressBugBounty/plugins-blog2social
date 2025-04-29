@@ -253,7 +253,7 @@ class B2S_Meta {
                         echo '<meta property="og:image:alt" content="' . esc_attr($image_alt) . '"/>' . "\n";
                     }
 
-                    echo '<meta property="og:image" content="' . esc_url(apply_filters('b2s_og_meta_image', $image)) . '"/>' . "\n" . $size;
+                    echo '<meta property="og:image" content="' . esc_url(apply_filters('b2s_og_meta_image', $image)) . '"/>' . "\n" . esc_html($size);
                 } else {
                     echo '<meta name="twitter:image" content="' . esc_url(apply_filters('b2s_card_meta_image', $image)) . '"/>' . "\n";
                     if (!empty($image_alt)) {
@@ -270,7 +270,7 @@ class B2S_Meta {
         if (isset($this->post->post_author)) {
             if ($this->post->post_author > 0 && is_singular()) {
                 $author_meta = get_the_author_meta('display_name', $this->post->post_author);
-                echo '<meta name="author" content="' . trim(esc_attr($author_meta)) . '"/>' . "\n";
+                echo '<meta name="author" content="' . esc_attr(trim($author_meta)) . '"/>' . "\n";
             }
         }
     }
