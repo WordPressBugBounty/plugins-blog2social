@@ -1,5 +1,9 @@
 <?php
-//case:36
+
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
+
 class B2S_Settings_Share{
     
     private $networkId=0;
@@ -32,7 +36,7 @@ class B2S_Settings_Share{
             $allowDuet = isset($this->currentShareSettings[$this->networkAuthId]['allow_duet']) && $this->currentShareSettings[$this->networkAuthId]['allow_duet'] === true ? $this->currentShareSettings[$this->networkAuthId]['allow_duet'] : false;
             $promotionOwnBrand = isset($this->currentShareSettings[$this->networkAuthId]['promotion_option_organic']) && $this->currentShareSettings[$this->networkAuthId]['promotion_option_organic'] === true ? $this->currentShareSettings[$this->networkAuthId]['promotion_option_organic'] : false;
             $promotionThirdParty = isset($this->currentShareSettings[$this->networkAuthId]['promotion_option_branded']) && $this->currentShareSettings[$this->networkAuthId]['promotion_option_branded'] === true? $this->currentShareSettings[$this->networkAuthId]['promotion_option_branded'] : false;
-            $shareAsDraft = $shareAsDraft = (isset($this->currentShareSettings[$this->networkAuthId]['share_as_draft']) || $preview)? $this->currentShareSettings[$this->networkAuthId]['share_as_draft']: true;
+            $shareAsDraft = $shareAsDraft = (isset($this->currentShareSettings[$this->networkAuthId]['share_as_draft']) || $preview)? (isset($this->currentShareSettings[$this->networkAuthId]['share_as_draft'])? $this->currentShareSettings[$this->networkAuthId]['share_as_draft']: false ) : true;
             $toggleOn = ($promotionOwnBrand || $promotionThirdParty)? true : false;
             
             $prepostDetails = json_decode(B2S_Tools::getPrePostDetails($this->networkAuthId), true);

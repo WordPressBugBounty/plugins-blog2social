@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
+
 class B2S_Curation_View {
 
     public function __construct() {
@@ -99,16 +103,16 @@ class B2S_Curation_View {
             $content .='</div>';
         }
         $content .='</div>';
-        
-        $content .= '<br>';
+        $content .='<div class="b2s-curation-post-form-apply-post-templates">';
+        $content .='<input class="b2s-curation-post-form-apply-post-templates-checkbox" name="apply_post_templates" type="checkbox"><label>' . esc_html__('Apply Post Templates', 'blog2social') . '</label>';
+        $content .='</div>';
+        $content .='<br>';
         $content .='<div class="row">';
         $content .='<div class="col-xs-12 col-sm-6 col-lg-4 b2s-post-curation-ship-date-area">';
         $content .='<label for="b2s-post-curation-ship-date">' . esc_html__('Date', 'blog2social') . '</label>';
         $content .='<input type = "text" placeholder = "' . esc_html__('Date', 'blog2social') . '" name = "ship_date"  id="b2s-post-curation-ship-date" class = "b2s-post-curation-ship-date form-control b2s-input" disabled = "disabled" readonly  data-timepicker="true" data-language="' . esc_attr(substr(B2S_LANGUAGE, 0, 2)) . '" data-time-format="' . esc_attr($timeFormat) . '" data-date-format="' . esc_attr($dateFormat) . '">';
         $content .='</div>';
         $content .='</div>';
-        
-        
         
         $content .= '<br>';
         $content .='<hr>';

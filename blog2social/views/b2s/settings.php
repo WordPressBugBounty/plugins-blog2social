@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
+
 wp_nonce_field('b2s_security_nonce', 'b2s_security_nonce');
 require_once B2S_PLUGIN_DIR . 'includes/B2S/Settings/Item.php';
 require_once B2S_PLUGIN_DIR . 'includes/Options.php';
@@ -332,7 +337,7 @@ if ($optionUserTimeFormat == false) {
                 <br><br>
                 <?php esc_html_e('Upgrade to Blog2Social Pro or Business today and give your social media posts the URL they deserve!', 'blog2social');?>
                 <br><br>
-                <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('affiliate')); ?>" class="btn btn-success center-block"><?php esc_html_e('Upgrade to PRO and above', 'blog2social') ?></a>
+                <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('upgrade_version')); ?>" class="btn btn-success center-block"><?php esc_html_e('Upgrade to PRO and above', 'blog2social') ?></a>
                 <br>
                 <center> <?php echo wp_kses(sprintf(
                     // translators: %s is a link

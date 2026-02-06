@@ -47,7 +47,7 @@ class B2S_AutoPost {
 
     public function prepareShareData($networkAuthId = 0, $networkId = 0, $networkType = 0, $networkKind = 0) {
 
-
+     
         if ((int) $networkId > 0 && (int) $networkAuthId > 0) {
             $postData = array('content' => '', 'custom_title' => '', 'tags' => array(), 'network_auth_id' => (int) $networkAuthId);
 
@@ -229,6 +229,9 @@ class B2S_AutoPost {
                             }
                         }
                     }
+                }
+                if($networkId == 39) {
+                    $postData['custom_title'] = wp_strip_all_tags($this->title);
                 }
             } else {
                 if ($networkId == 4) {

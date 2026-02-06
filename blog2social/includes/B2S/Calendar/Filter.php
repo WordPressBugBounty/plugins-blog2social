@@ -2,6 +2,10 @@
 
 require_once (B2S_PLUGIN_DIR . 'includes/B2S/Calendar/Item.php');
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
+
 class B2S_Calendar_Filter {
 
     private $items = [];
@@ -83,6 +87,7 @@ class B2S_Calendar_Filter {
                 . "{$wpdb->prefix}b2s_posts.relay_delay_min, "
                 . "{$wpdb->prefix}b2s_posts.post_for_relay, "
                 . "{$wpdb->prefix}b2s_posts.post_for_approve, "
+                . "{$wpdb->prefix}b2s_posts.display_post_format, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_id, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_type, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_display_name, "
@@ -183,6 +188,7 @@ class B2S_Calendar_Filter {
                 . "{$wpdb->prefix}b2s_posts.post_for_relay, "
                 . "{$wpdb->prefix}b2s_posts.post_for_approve, "
                 . "{$wpdb->prefix}b2s_posts.relay_primary_post_id, "
+                . "{$wpdb->prefix}b2s_posts.display_post_format, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_id, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_type, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_display_name, "
@@ -225,6 +231,7 @@ class B2S_Calendar_Filter {
                 . "{$wpdb->prefix}b2s_posts.relay_delay_min, "
                 . "{$wpdb->prefix}b2s_posts.post_for_relay, "
                 . "{$wpdb->prefix}b2s_posts.post_for_approve, "
+                . "{$wpdb->prefix}b2s_posts.display_post_format, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_id, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_type, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_display_name, "
@@ -274,6 +281,7 @@ class B2S_Calendar_Filter {
                 . "{$wpdb->prefix}b2s_posts.user_timezone, "
                 . "{$wpdb->prefix}b2s_posts.post_id, "
                 . "{$wpdb->prefix}b2s_posts.publish_link, "
+                . "{$wpdb->prefix}b2s_posts.display_post_format, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_id, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_type, "
                 . "{$wpdb->prefix}b2s_posts_network_details.network_display_name, "

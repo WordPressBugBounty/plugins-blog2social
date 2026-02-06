@@ -241,22 +241,31 @@ class Ajax_Get {
     }
 
     public function getShipItemFullText() {
-      
+
         if (!current_user_can('read') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
 
         if (isset($_POST['postId']) && (int) $_POST['postId'] > 0 && isset($_POST['networkAuthId']) && (int) $_POST['networkAuthId'] > 0) {
-                $userLang = isset($_POST['userLang']) ? trim(sanitize_text_field(wp_unslash($_POST['userLang']))) : strtolower(substr(B2S_LANGUAGE, 0, 2));
-                $data = get_post((int) $_POST['postId']);
-                if (isset($data->post_content)) {
-                    $postUrl = (get_permalink($data->ID) !== false) ? get_permalink($data->ID) : $data->guid;
-                    $content = trim(B2S_Util::prepareContent($data->ID, $data->post_content, $postUrl, '', false, $userLang));
-                    $networkId = isset($_POST['networkId']) ? (int) $_POST['networkId'] : 0;
-                    echo json_encode(array('result' => true, 'text' => trim(sanitize_textarea_field($content)), 'networkAuthId' => (int) $_POST['networkAuthId'], 'networkId' => $networkId));
-                    wp_die();
-                }
+            
+            // Add authorization check for the specific post
+            if (!current_user_can('read_post',(int) $_POST['postId'])) {
+                echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+                wp_die();
+            }
+
+            $userLang = isset($_POST['userLang']) ? trim(sanitize_text_field(wp_unslash($_POST['userLang']))) : strtolower(substr(B2S_LANGUAGE, 0, 2));
+            $data = get_post((int) $_POST['postId']);
+
+            if (isset($data->post_content)) {
+
+                $postUrl = (get_permalink($data->ID) !== false) ? get_permalink($data->ID) : $data->guid;
+                $content = trim(B2S_Util::prepareContent($data->ID, $data->post_content, $postUrl, '', false, $userLang));
+                $networkId = isset($_POST['networkId']) ? (int) $_POST['networkId'] : 0;
+                echo json_encode(array('result' => true, 'text' => trim(sanitize_textarea_field($content)), 'networkAuthId' => (int) $_POST['networkAuthId'], 'networkId' => $networkId));
+                wp_die();
+            }
             }
 
         echo json_encode(array('result' => false));
@@ -352,6 +361,14 @@ class Ajax_Get {
             }
 
             $item = new B2S_Ship_Item((int) $_POST['postId'], $userLang, $selSchedDate, $b2sPostType, $relayCount, $isVideoMode, $canReel, $assConnected);
+
+            if (isset($_POST['ignoreTemplate'])) {
+
+                $ignoreRaw = sanitize_text_field(wp_unslash($_POST['ignoreTemplate']));
+                $ignoreTemplate = ($ignoreRaw == 1) ? 1 : 0;
+                $item->setIgnoreTemplate($ignoreTemplate);
+            }
+
             echo json_encode(array('result' => true, 'networkAuthId' => (int) $_POST['networkAuthId'], 'networkType' => $networkType, 'networkId' => (int) $_POST['networkId'], 'content' => $item->getItemHtml((object) $itemData, true, $b2sDraftData), 'draft' => !empty($b2sDraftData), 'draftActions' => $b2sDraftData));
         } else {
             echo json_encode(array('result' => false));
@@ -656,7 +673,9 @@ class Ajax_Get {
             $calendar = B2S_Calendar_Filter::getByTimespam(sanitize_text_field(wp_unslash($_GET['start'])) . " 00:00:00", sanitize_text_field(wp_unslash($_GET['end'])) . " 23:59:59", $network_id, $network_details_id, $status);
         } else {
             $calendar = B2S_Calendar_Filter::getAll($network_id, $network_details_id);
+           
         }
+    
         echo json_encode($calendar->asCalendarArray());
         wp_die();
        
@@ -752,9 +771,8 @@ class Ajax_Get {
                 update_option("B2S_MULTI_WIDGET", array("timestamp" => wp_date("Y-m-d H:i:s", null, new DateTimeZone(date_default_timezone_get())), "content" => $content), false);
                 $option = $content;
             }
-            
-            //For Plugin Check, wp_kses is doubled to make output safe
-            echo wp_kses(B2S_Tools::esc_html_array($option, array(
+       
+            $outputContent = B2S_Tools::esc_html_array($option, array(
                 'div' => array(
                     'class' => array(),
                     'style' => array()
@@ -773,28 +791,11 @@ class Ajax_Get {
                     'class' => array(),
                     'title' => array()
                 )
-            )), 
-            array(
-                'div' => array(
-                    'class' => array(),
-                    'style' => array()
-                ),
-                'img' => array(
-                    'src' => array(),
-                    'alt' => array(),
-                    'style' => array()
-                ),
-                'p' => array(
-                    'style' => array()
-                ),
-                'a' => array(
-                    'href' => array(),
-                    'target' => array(),
-                    'class' => array(),
-                    'title' => array()
-                )
-            )
-        );
+            ));
+
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $outputContent;
+      
         wp_die();
       
     }
@@ -908,6 +909,11 @@ class Ajax_Get {
 
         if (!current_user_can('read') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
+            wp_die();
+        }
+
+        if (B2S_PLUGIN_USER_VERSION < 1) {
+            echo json_encode(array('result' => true, 'content' => 'b2s_upgrade_required'));
             wp_die();
         }
 

@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
+
 wp_nonce_field('b2s_security_nonce', 'b2s_security_nonce');
 require_once B2S_PLUGIN_DIR . 'includes/B2S/RePost/Item.php';
 require_once (B2S_PLUGIN_DIR . 'includes/Util.php');
@@ -38,6 +43,11 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
             <div class="panel panel-group b2s-left-border-danger b2s-re-post-no-content" style="display: none;">
                 <div class="panel-body">
                     <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('No posts found. Please try again with different filter options.', 'blog2social'); ?>
+                </div>
+            </div>
+            <div class="panel panel-group b2s-left-border-danger no_network_in_group" style="display: none;">
+                <div class="panel-body">
+                    <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('No connected networks. Please make sure to connect at least one social media account in your network collection.', 'blog2social'); ?>
                 </div>
             </div>
             <div class="panel panel-group b2s-left-border-danger b2s-re-post-content-in-queue" style="display: none;">

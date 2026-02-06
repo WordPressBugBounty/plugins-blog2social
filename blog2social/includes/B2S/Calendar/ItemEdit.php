@@ -1,6 +1,10 @@
 <?php
 require_once (B2S_PLUGIN_DIR . 'includes/B2S/Ship/Item.php');
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
+
 class B2S_Calendar_ItemEdit extends B2S_Ship_Item {
 
     private $calenderItem = null;
@@ -26,10 +30,11 @@ class B2S_Calendar_ItemEdit extends B2S_Ship_Item {
                 $this->calenderItem = B2S_Calendar_Filter::getById($this->b2s_id);
                 return $this->calenderItem;
             }
-
+          
             $filter = B2S_Calendar_Filter::getByPostId($this->getPostId());
+         
             $items = $filter->getItems();
-
+        
             if(count($filter->getItems()) > 0) {
                 $this->calenderItem = $items[0];
             }

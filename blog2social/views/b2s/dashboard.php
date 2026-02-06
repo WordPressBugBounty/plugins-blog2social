@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
+
 wp_nonce_field('b2s_security_nonce', 'b2s_security_nonce');
 $b2sSiteUrl = get_option('siteurl') . ((substr(get_option('siteurl'), -1, 1) == '/') ? '' : '/');
 $b2sGeneralOptions = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
@@ -71,7 +76,7 @@ $b2sGeneralOptions = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                                             <?php if ((int) B2S_PLUGIN_USER_VERSION >= 3 && (!defined("B2S_PLUGIN_TRAIL_END") || (defined("B2S_PLUGIN_TRAIL_END") && strtotime(B2S_PLUGIN_TRAIL_END) < time()))) { ?>
                                                 <a href="#" class="btn b2s-font-bold btn-block b2s-btn-dashboard-filled b2s-dashboard-premium-enterprise-version-btn"><?php esc_html_e("Upgrade now", "blog2social"); ?></a>
                                             <?php } else { ?>
-                                                <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('pricing')); ?>" target="_blank" class="btn b2s-font-bold btn-block b2s-btn-dashboard-filled"><?php esc_html_e("Upgrade now", "blog2social"); ?></a>
+                                                <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('upgrade_version')); ?>" target="_blank" class="btn b2s-font-bold btn-block b2s-btn-dashboard-filled"><?php esc_html_e("Upgrade now", "blog2social"); ?></a>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -114,7 +119,7 @@ $b2sGeneralOptions = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                                         </div>
                                         <div class="panel-footer text-center">
                                             <?php if ((int) B2S_PLUGIN_USER_VERSION <= 1 || ((int) B2S_PLUGIN_USER_VERSION >= 3 && defined("B2S_PLUGIN_TRAIL_END") && strtotime(B2S_PLUGIN_TRAIL_END) > time())) { ?>
-                                                <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('pricing')); ?>" class="btn b2s-font-bold btn-block b2s-btn-dashboard-outline"><?php esc_html_e("Buy now", "blog2social"); ?></a>                                
+                                                <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('upgrade_version')); ?>" class="btn b2s-font-bold btn-block b2s-btn-dashboard-outline"><?php esc_html_e("Buy now", "blog2social"); ?></a>                                
                                             <?php } else { ?>
                                                 <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('addon_network_integration')); ?>" class="btn b2s-font-bold btn-block b2s-btn-dashboard-outline"><?php esc_html_e("Buy now", "blog2social"); ?></a>                                
                                             <?php } ?>                        
@@ -314,7 +319,7 @@ $b2sGeneralOptions = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                         <br>
                         <p class="b2s-text-bold"><?php esc_html_e('Upgrade now to unlock additional users and powerful features for your social media management!', 'blog2social') ?></p>
                         <br>
-                        <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('pricing')); ?>" target="_blank" class="btn b2s-font-bold b2s-btn-dashboard-filled"><?php esc_html_e("Upgrade now", "blog2social"); ?></a>
+                        <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('upgrade_version')); ?>" target="_blank" class="btn b2s-font-bold b2s-btn-dashboard-filled"><?php esc_html_e("Upgrade now", "blog2social"); ?></a>
                     </div>
                 </div>
             </div>
@@ -336,7 +341,7 @@ $b2sGeneralOptions = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                         <br>
                         <p class="b2s-text-bold"><?php esc_html_e('Upgrade now to maximize your social media impact!', 'blog2social') ?></p>
                         <br>
-                        <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('pricing')); ?>" target="_blank" class="btn b2s-font-bold b2s-btn-dashboard-filled"><?php esc_html_e("Upgrade now", "blog2social"); ?></a>
+                        <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('upgrade_version')); ?>" target="_blank" class="btn b2s-font-bold b2s-btn-dashboard-filled"><?php esc_html_e("Upgrade now", "blog2social"); ?></a>
                     </div>
                 </div>
             </div>

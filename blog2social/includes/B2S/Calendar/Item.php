@@ -3,6 +3,10 @@
 require_once (B2S_PLUGIN_DIR . 'includes/B2S/Calendar/ItemEdit.php');
 require_once (B2S_PLUGIN_DIR . 'includes/Util.php');
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
+
 class B2S_Calendar_Item {
 
     private $sched_date = null;
@@ -34,6 +38,7 @@ class B2S_Calendar_Item {
     private $multi_images = null;
     private $errorTextList = null;
     private $post_id = null;
+    private $display_post_format=null;
 
     public function __construct(\StdClass $data = null) {
         $this->errorTextList = unserialize(B2S_PLUGIN_NETWORK_ERROR);
@@ -56,7 +61,8 @@ class B2S_Calendar_Item {
                     ->setRelayPrimaryPostId($data->relay_primary_post_id)
                     ->setPostForRelay($data->post_for_relay)
                     ->setPostForApprove($data->post_for_approve)
-                    ->setPublishLink($data->publish_link);
+                    ->setPublishLink($data->publish_link)
+                    ->setB2SExPostFormat($data->display_post_format);
 
             if ($data->network_id == 1 || $data->network_id == 2 || $data->network_id == 3 || $data->network_id == 4 || $data->network_id == 12 || $data->network_id == 17 || $data->network_id == 19 || $data->network_id == 24 || $data->network_id == 45) {
                 $this->setPostFormat();
@@ -79,6 +85,13 @@ class B2S_Calendar_Item {
         }
     }
 
+    public function setB2SExPostFormat($value) {
+        $this->display_post_format = $value;
+        return $this;
+    }
+    public function getB2SExpostFormat() {
+        return $this->display_post_format;
+    }
     public function setPublishLink($value) {
         $this->publish_link = trim($value);
         return $this;
@@ -611,7 +624,9 @@ class B2S_Calendar_Item {
             "status" => $this->getStaus(),
             "errorCode" => $this->getErrorCode(),
             "errorText" => $this->getErrorText(),
-            "publish_link" => $this->getPublishLink()];
+            "publish_link" => $this->getPublishLink(),
+            "display_post_format" => $this->getB2SExpostFormat(),
+        ];
     }
 
     /**

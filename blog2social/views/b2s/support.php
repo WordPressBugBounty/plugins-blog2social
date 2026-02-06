@@ -1,4 +1,9 @@
-<?php wp_nonce_field('b2s_security_nonce', 'b2s_security_nonce'); ?>
+<?php 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
+wp_nonce_field('b2s_security_nonce', 'b2s_security_nonce'); 
+?>
 <div class="b2s-container">
     <div class="b2s-inbox">
         <div class="col-md-12 del-padding-left">

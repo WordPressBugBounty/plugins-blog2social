@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
+
 wp_nonce_field('b2s_security_nonce', 'b2s_security_nonce');
 require_once (B2S_PLUGIN_DIR . 'includes/B2S/Post/Filter.php');
 require_once(B2S_PLUGIN_DIR . 'includes/Options.php');

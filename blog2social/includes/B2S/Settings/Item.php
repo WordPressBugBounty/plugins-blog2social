@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
+
 class B2S_Settings_Item {
 
     private $settings = array();
@@ -248,7 +252,7 @@ class B2S_Settings_Item {
         if (B2S_PLUGIN_USER_VERSION < 2) {
             $content .= '<div class="alert alert-default">';
             $content .= '<b>' . esc_html__('Did you know?', 'blog2social') . '</b><br>';
-            $content .= esc_html__('With Premium Pro, you can change the custom post format photo post or link post for each individual social media post and channel (profile, page, group).', 'blog2social') . ' <a target="_blank" href="' . esc_url(B2S_Tools::getSupportLink('affiliate')) . '">' . esc_html__('Upgrade to Premium Pro now.', 'blog2social') . '</a>';
+            $content .= esc_html__('With Premium Pro, you can change the custom post format photo post or link post for each individual social media post and channel (profile, page, group).', 'blog2social') . ' <a target="_blank" href="' . esc_url(B2S_Tools::getSupportLink('upgrade_version')) . '">' . esc_html__('Upgrade to Premium Pro now.', 'blog2social') . '</a>';
             $content .= '<hr></div>';
         }
 
@@ -311,7 +315,7 @@ class B2S_Settings_Item {
         if (B2S_PLUGIN_USER_VERSION < 2) {
             $content .= '<div class="alert alert-default">';
             $content .= '<b>' . esc_html__('Did you know?', 'blog2social') . '</b><br>';
-            $content .= esc_html__('With Premium Pro, you can change the custom post format photo post or link post for each individual social media post and channel (profile, page, group).', 'blog2social') . ' <a target="_blank" href="' . esc_url(B2S_Tools::getSupportLink('affiliate')) . '">' . esc_html__('Upgrade to Premium Pro now.', 'blog2social') . '</a>';
+            $content .= esc_html__('With Premium Pro, you can change the custom post format photo post or link post for each individual social media post and channel (profile, page, group).', 'blog2social') . ' <a target="_blank" href="' . esc_url(B2S_Tools::getSupportLink('upgrade_version')) . '">' . esc_html__('Upgrade to Premium Pro now.', 'blog2social') . '</a>';
             $content .= '<hr></div>';
         }
 

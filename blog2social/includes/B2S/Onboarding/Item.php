@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
 
 class B2S_Onboarding_Item {
 

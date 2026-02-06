@@ -233,7 +233,7 @@ jQuery(document).on('click', '.b2s-calendar-add-schedule-btn', function () {
 
     if (jQuery('#user_version').val() == 0) {
         jQuery('.b2s-post-item-details-release-input-date-select-reset[data-network-auth-id="' + networkAuthId + '"]').val('0');
-        jQuery('#b2s-sched-post-modal').modal('show');
+        jQuery('#b2sPreFeatureScheduleModal').modal('show');
         return false;
     }
 
@@ -696,12 +696,12 @@ jQuery(document).on("click", ".b2s-post-item-share-as-reel", function () {
                 jQuery('.b2s-post-item-option-share-as-story[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').prop('checked', false);
                 jQuery('.b2s-post-item-sched-customize-text[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
                 jQuery('.b2s-share-as-story-fields[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
-                jQuery('.b2s-post-item-ass-auth-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
+                showAssButtons(jQuery(this).attr('data-network-auth-id'),jQuery(this).attr('data-network-count')  );
             } else
             {
                 jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').not('.b2s-share-as-story-fields').show();
-                jQuery('.b2s-post-item-ass-auth-btn[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
                 jQuery('.b2s-post-item-option-share-as-story[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').prop('checked', false);
+                showAssButtons(jQuery(this).attr('data-network-auth-id'),jQuery(this).attr('data-network-count')  );
             }
 
         }
@@ -740,7 +740,7 @@ jQuery(document).on("click", ".b2s-post-item-option-share-as-story", function ()
 
         if (jQuery(this).attr('data-network-count') >= 0) {
 
-
+            jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
             jQuery('.b2s-post-item-details-item-message-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').children().not('.b2s-post-item-textarea-loader').show();
             jQuery('.b2s-post-item-details-item-url-input[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').parent().show();
             jQuery('.b2s-multi-image-area[data-network-count="' + jQuery(this).attr('data-network-count') + '"][data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').show();
@@ -929,6 +929,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
 
                 //Twitter TOS 032018 - protected multiple accounts with same content to same time
                 //delete comment field one more
+                /* From Version >8.7.0 Twitter multiple texts allowed again
                 if (networkId == 2 || networkId == 45) {
                     if (jQuery('.b2s-post-item[data-network-id="' + networkId + '"]:visible').length == 1) {
                         jQuery('.tw-textarea-input[data-network-auth-id="' + networkAuthId + '"]').text(jQuery('#b2sTwitterOrginalPost').val());
@@ -936,6 +937,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                         jQuery('.tw-textarea-input[data-network-auth-id="' + networkAuthId + '"]').text("");
                     }
                 }
+                */
                 checkGifAnimation(networkAuthId, networkId);
             } else {
                 jQuery(this).addClass('b2s-network-select-btn-deactivate');
@@ -971,6 +973,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                         'selSchedDate': jQuery('#selSchedDate').val(),
                         'b2sPostType': jQuery('#b2sPostType').val(),
                         'b2sIsDraft': jQuery('#b2sIsDraft').val(),
+                        'ignoreTemplate': (jQuery('#b2sIgnoreTemplate').length ? jQuery('#b2sIgnoreTemplate').val() : 0),
                         'isVideo': jQuery('#b2sIsVideo').val(),
                         'assConnected': jQuery('#b2s-ship-ass-connected').val(),
                         'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
@@ -1210,12 +1213,19 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                         jQuery('.b2s-image-remove-btn[data-network-auth-id="' + data.networkAuthId + '"][data-network-count="-1"]').hide();
                                         jQuery('.cropper-open[data-network-auth-id="' + data.networkAuthId + '"][data-network-count="-1"]').hide();
                                     }
-
+                                    
+                                    var defaultPostFormat= jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val();
+                             
+                                    //Facebook Image Post: show share as story 
+                                    if (networkId == 1 && defaultPostFormat == 1) {
+                                        jQuery('.b2s-share-as-story-fields[data-network-auth-id="' + data.networkAuthId + '"]').show();
+                                    }
 
                                     //Twitter TOS 032018 - protected multiple accounts with same content to same time
                                     //delete comment field one more
+                                    /*  From Version >8.7.0 Twitter multiple texts allowed again
                                     if (data.networkId == 2 || data.networkId == 45) {
-
+                                       
                                         //set original post
                                         if (jQuery('#b2sTwitterOrginalPost').val() == "") {
                                             jQuery('#b2sTwitterOrginalPost').val(jQuery('.tw-textarea-input[data-network-auth-id="' + data.networkAuthId + '"]').val());
@@ -1232,6 +1242,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function () {
                                             }
                                         }
                                     }
+                                    */
 
                                     //Content Curation
                                     if (jQuery('#b2sPostType').val() == 'ex') {
@@ -1772,7 +1783,7 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
         // end
 
         if (jQuery(this).attr('data-user-version') == 0) {
-            jQuery('#b2s-sched-post-modal').modal('show');
+            jQuery('#b2sPreFeatureScheduleModal').modal('show');
             return false;
         } else {
             jQuery('.b2s-twitter-thread-container[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
@@ -1807,16 +1818,30 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
         }
     }
     if (jQuery(this).val() == 1) {
-       
+
         // start - disable assistini buttons for main textarea of this network
         if (! ( this.getAttribute('data-network-id') == 4 || this.getAttribute('data-network-id') == 11 ||  this.getAttribute('data-network-id') == 27 || this.getAttribute('data-network-id') == 38 || this.getAttribute('data-network-id') == 39 ) ) { // special case tumblr
             var networkAuthId = jQuery(this).data('network-auth-id');
             hideAssButtons(networkAuthId);
         }
         // end
+        
+        //Add Reel and story settings to specific date for Instagram and Facebook
+        if ((jQuery(this).attr('data-network-id') == 12 || jQuery(this).attr('data-network-id') == 1) && jQuery('.b2s-post-item-option-share-as-story[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').prop('checked') == true) {
+            jQuery('.b2s-post-item-option-share-as-story[data-network-auth-id="' + networkAuthId + '"][data-network-count="0"]').prop('checked', true);
+            jQuery('.b2s-post-item-ass-auth-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="0"]').hide();
+            jQuery('.b2s-post-item-ass-create-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="0"]').hide();
+            jQuery('.b2s-post-item-details-item-message-input[data-network-auth-id="' + networkAuthId + '"][data-network-count="0"]').hide();
+
+        }
+
+        if ((jQuery(this).attr('data-network-id') == 12 || jQuery(this).attr('data-network-id') == 1) && jQuery('.b2s-post-item-share-as-reel[data-network-auth-id="' + networkAuthId + '"][data-network-count="-1"]').prop('checked') == true) {
+            jQuery('.b2s-post-item-share-as-reel[data-network-auth-id="' + networkAuthId + '"][data-network-count="0"]').prop('checked', true);
+        }
+        
 
         if (jQuery(this).attr('data-user-version') == 0) {
-            jQuery('#b2s-sched-post-modal').modal('show');
+            jQuery('#b2sPreFeatureScheduleModal').modal('show');
             return false;
         } else {
             jQuery('.b2s-twitter-thread-container[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').hide();
@@ -1873,7 +1898,7 @@ jQuery(document).on('click', '#b2s-network-sched-post-info-ignore', function () 
     jQuery('#b2sSchedPostInfoIgnore').val("1");
     jQuery('.b2s-submit-btn').trigger("click");
     return false;
-});
+}); 
 jQuery(document).on('click', '.b2s-re-share-btn', function () {
     jQuery('.panel-group').removeClass('b2s-border-color-warning');
     jQuery(".b2s-settings-user-sched-time-area").show();
@@ -1933,8 +1958,31 @@ jQuery(document).on('click', '.b2s-post-item-details-release-input-add', functio
     jQuery('.b2s-post-item-details-release-input-date[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').removeAttr('disabled');
     jQuery('.b2s-post-item-details-release-input-time[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').show();
     jQuery('.b2s-post-item-details-release-input-time[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').removeAttr('disabled');
-
+    
     if (curMode == 1) {
+
+        if(networkId==1 || networkId==12){
+
+            if(jQuery('.b2s-post-item-option-share-as-story[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCount+ '"]').prop("checked") == true){
+          
+                if(jQuery("#b2sIsVideo").val() == "1"){
+                    jQuery('.b2s-post-item-sched-customize-text[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').hide();
+                    jQuery('.b2s-post-item-option-share-as-story[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext+ '"]').prop("checked", true);
+                    hideAssButtons(networkAuthId, netCountNext);
+                }else
+                {
+                    jQuery('.b2s-post-item-option-share-as-story[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext+ '"]').prop("checked", true);
+                    jQuery('.b2s-post-item-details-item-message-area[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').hide();
+                    hideAssButtons(networkAuthId, netCountNext);
+                }
+            }
+
+            if(jQuery('.b2s-post-item-share-as-reel[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCount+ '"]').prop("checked") == true){
+                jQuery('.b2s-post-item-share-as-reel[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').prop("checked", true);
+            }
+
+        }
+       
         //since 4.9.0 custom content
         jQuery('.b2s-post-item-details-release-customize-sched-area-details-row[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').show();
         jQuery('.b2s-post-item-details-item-message-input[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + netCountNext + '"]').removeAttr('disabled');
@@ -4793,7 +4841,9 @@ jQuery(document).on('click', '.b2s-network-add-instagram-business-info-btn', fun
 });
 
 function openPostFormat(networkId, networkType, networkAuthId, wpType, showModal) {
+
     if (jQuery('#user_version').val() >= 1) {
+
         jQuery('.b2s-user-network-settings-post-format-area').hide();
         jQuery('.b2s-user-network-settings-post-format-area[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"]').show();
         jQuery('#b2s-post-ship-item-post-format-network-title').html(jQuery('.b2s-user-network-settings-post-format-area[data-network-id="' + networkId + '"]').attr('data-network-title'));
@@ -4801,12 +4851,19 @@ function openPostFormat(networkId, networkType, networkAuthId, wpType, showModal
         jQuery('.b2s-user-network-settings-post-format[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"]').removeClass('b2s-settings-checked');
 
         var currentPostFormat = jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + networkAuthId + '"]').val();
-
+       
         if (showModal) {
             jQuery('.b2s-user-network-settings-post-format-apply[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"]').attr("data-network-auth-id", networkAuthId);
             jQuery('.b2s-user-network-settings-post-format-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"]').attr("data-network-auth-id", networkAuthId);
             jQuery('.b2s-user-network-settings-post-format-area-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"]').attr("data-network-auth-id", networkAuthId);
             jQuery('.b2s-user-network-settings-post-format-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"][data-post-format="' + currentPostFormat + '"]').prop("checked", true);
+
+            //remove old ui values 
+            jQuery('.b2s-user-network-settings-post-format-area-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"][data-post-format="0"]').removeClass('b2s-settings-checked-new');
+            jQuery('.b2s-user-network-settings-post-format-area-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"][data-post-format="1"]').removeClass('b2s-settings-checked-new');
+            jQuery('.b2s-user-network-settings-post-format-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"][data-post-format="0"]').prop("checked", false);
+            jQuery('.b2s-user-network-settings-post-format-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"][data-post-format="1"]').prop("checked", false);
+            
             jQuery('.b2s-user-network-settings-post-format-area-new[data-network-type="' + networkType + '"][data-network-id="' + networkId + '"][data-post-format="' + currentPostFormat + '"]').addClass('b2s-settings-checked-new');
         } else
         {
@@ -4840,6 +4897,7 @@ function openPostFormat(networkId, networkType, networkAuthId, wpType, showModal
 }
 
 function changePostFormat(networkId, networkType, postFormat, networkAuthId, postFormatType, postType, closeModal) {
+    
     jQuery('.b2s-settings-user-success').hide();
     jQuery('.b2s-settings-user-error').hide();
     jQuery('.b2s-server-connection-fail').hide();
@@ -5099,7 +5157,7 @@ jQuery(document).on('change', '.b2s-post-item-details-post-format[data-network-i
             //Handle Text shorten link strip tags etc.
             var text = jQuery('.tumblr-textarea-input[data-network-auth-id="' + networkAuthId + '"]').val();
             text= stripTags(text);
-            text= cutAfterWord(text, 125);
+            text= cutText(text, 125);
 
             jQuery('.tumblr-link-textarea-input[data-network-auth-id="' + networkAuthId + '"]').val(text);
             jQuery('.b2s-post-item-details-preview-desc[data-network-auth-id="' + networkAuthId + '"]').val(text);
@@ -5372,6 +5430,7 @@ jQuery(document).on('click', '.b2s-post-item-ass-setting-btn', function () {
     var postTemplateElm = jQuery('#b2s-ass-settings-checkbox-1');
     var emojiElm = jQuery('#b2s-ass-settings-checkbox-2');
     var generateHashtagsElm = jQuery('#b2s-ass-settings-checkbox-3');
+    var displayedContentElm = jQuery('.b2s-ass-settings-checkbox-4');
 
     jQuery.ajax({
         url: ajaxurl,
@@ -5390,12 +5449,14 @@ jQuery(document).on('click', '.b2s-post-item-ass-setting-btn', function () {
             postTemplateElm.prop('disabled', true);
             emojiElm.prop('disabled', true);
             generateHashtagsElm.prop('disabled', true);
+            displayedContentElm.prop('disabled', true);
         },
         success: function (data) {
             if (data.result == true) {
                 postTemplateElm.prop('disabled', false);
                 emojiElm.prop('disabled', false);
                 generateHashtagsElm.prop('disabled', false);
+                displayedContentElm.prop('disabled', false);
 
                 if (data.settings.post_template != null) {
                     postTemplateElm.prop('checked', data.settings.post_template);
@@ -5417,6 +5478,11 @@ jQuery(document).on('click', '.b2s-post-item-ass-setting-btn', function () {
                 if (data.settings.generate_hashtags != null) {
                     generateHashtagsElm.prop('checked', data.settings.generate_hashtags);
                 }
+               
+                if(data.settings.displayed_content != null){
+                    displayedContentElm.prop('checked', data.settings.displayed_content);
+                }
+
                 // jQuery('.b2s-draft-list-entry[data-b2s-draft-id="' + jQuery('#b2s-delete-confirm-draft-id').val() + '"]').remove();
                 // jQuery('.b2s-post-remove-success').show();
                 // location.reload();
@@ -5455,12 +5521,33 @@ jQuery(document).on('change', '#b2s-ass-settings-checkbox-1', function () {
 
 });
 
+jQuery(document).on('change', '.b2s-ass-settings-checkbox-4', function (e) {
+    
+    if (this.checked) {
+        jQuery(".toggle-label-b2s-ass-settings-checkbox-4-original-content").hide();
+        jQuery(".toggle-label-b2s-ass-settings-checkbox-4-displayed-content").show();
+        jQuery(".b2s-ass-settings-checkbox-4-original-content-checked").hide();
+        jQuery(".b2s-ass-settings-checkbox-4-displayed-content-checked").show();
+    } else {
+      
+        jQuery(".toggle-label-b2s-ass-settings-checkbox-4-displayed-content").hide();
+        jQuery(".toggle-label-b2s-ass-settings-checkbox-4-original-content").show();
+        jQuery(".b2s-ass-settings-checkbox-4-displayed-content-checked").hide();
+        jQuery(".b2s-ass-settings-checkbox-4-original-content-checked").show();
+
+    }
+});
+
+
+
+
 
 //Tool:Assistini / Settings Save
 jQuery(document).on('click', '#b2s-ass-settings-save-btn', function () {
     var postTemplateElm = jQuery('#b2s-ass-settings-checkbox-1');
     var emojiElm = jQuery('#b2s-ass-settings-checkbox-2');
     var generateHashtagsElm = jQuery('#b2s-ass-settings-checkbox-3');
+    var displayedContentElm = jQuery('.b2s-ass-settings-checkbox-4');
 
     jQuery.ajax({
         url: ajaxurl,
@@ -5472,7 +5559,8 @@ jQuery(document).on('click', '#b2s-ass-settings-save-btn', function () {
             'b2s_security_nonce': jQuery('#b2s_security_nonce').val(),
             'setting_post_template': postTemplateElm.prop('checked'),
             'setting_deactivate_emojis': emojiElm.prop('checked'),
-            'setting_generate_hashtags': generateHashtagsElm.prop('checked')
+            'setting_generate_hashtags': generateHashtagsElm.prop('checked'),
+            'setting_displayed_content': displayedContentElm.prop('checked')
         },
         error: function () {
             jQuery('.b2s-server-connection-fail').show();
@@ -5698,6 +5786,7 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
             loaderElm.show();
         },
         success: function (data) {
+            loaderElm.hide();
             textareaElm.prop('disabled', false);
             createBtnElm.prop('disabled', false);
             resetBtnElm.prop('disabled', false);
@@ -5710,19 +5799,11 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
                 }
             }
         
-            
             var data = JSON.parse(data);
         
-            if (data.error == 'nonce') {
-                jQuery('.b2s-nonce-check-fail').show();
-            } else if (data.error == 3001) {
-                jQuery('#b2sAssLimitModal').modal('show');
-            } else if (data.error == 3100) {
-                if (jQuery('#b2sIsVideo').val() == 1) {
-                    jQuery('#b2sAssNoContentVideoModal').modal('show');
-                } else {
-                    jQuery('#b2sAssNoContentModal').modal('show');
-                }
+            if(data.error){
+                showAssError(data.error);
+
             } else if (data.result == true && data.ass_text != '') {
                 var tumblrLink=false;
                 if (textareaElm[0].classList.contains('b2s-post-item-details-item-message-input-allow-html')) { // is html network
@@ -5748,7 +5829,7 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
                             tumblrLink= true;
                             var text= data.ass_text;
                             text= stripTags(text);
-                            text= cutAfterWord(text, 125);
+                            text= cutText(text, 125);
                             
                             jQuery('.tumblr-link-textarea-input[data-network-auth-id="' + networkAuthId + '"]').val(text);
                             var networkCountId = '-1';
@@ -5760,12 +5841,19 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
 
                     var sceditor = jQuery('.b2s-post-item-details-item-message-input-allow-html[data-network-auth-id="' + networkAuthId + '"]').sceditor('instance');
                     if (sceditor != undefined && typeof sceditor.insert === 'function') {
+                        
+                        // match the first <img ...> and capture the src attribute
+                        var htmlBefore = sceditor.val() || '';
+                        var match = htmlBefore.match(/<img [^>]*src=["']([^"']+)["'][^>]*>/i);
+                        var currentImage = match ? match[1] : null;
+
                         sceditor.val('');
-                        var currentImage = jQuery('input[name=image_url]:checked').val();
-                        if (currentImage != undefined && currentImage != '') {
+
+                        if (currentImage) {
                             sceditor.insert("<img src='" + currentImage + "'/><br />");
-                            jQuery('.b2s-image-url-hidden-field[data-network-auth-id="' + networkAuthId + '"]').val(currentImage); //Torial
+                            jQuery('.b2s-image-url-hidden-field[data-network-auth-id="' + networkAuthId + '"]').val(currentImage);
                         }
+
                         sceditor.insert(data.ass_text);
                     }
                        loaderElm.hide();
@@ -5773,6 +5861,7 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
                 } else { // no html network
                        
                     textareaElm.val(data.ass_text);
+                    loaderElm.hide();
                 }
                 var networkCountId = '-1';
                 if (schedCount !== false) {
@@ -5782,13 +5871,32 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
                     jQuery(".b2s-post-item-countChar[data-network-count='" + networkCountId + "'][data-network-auth-id='" + networkAuthId + "']").html(data.ass_text.length);
                 }
                 jQuery('#sidebar_ship_ass_words_open').text(data.ass_words_open);
+                jQuery('#sidebar_ship_ass_words_total').text(data.ass_words_total);
             } else {
-                jQuery('#b2sAssDefaultErrorModal').modal('show');
+                showAssError("default");    
             }
         }
     });
 }
+function showAssError(code){
 
+    if(code=="nonce"){
+        jQuery('.b2s-nonce-check-fail').show();
+        return;
+    }
+    if(code==3100){
+        if (jQuery('#b2sIsVideo').val() == 1) {
+            code = code +"-video";
+        }
+    }
+    if(code==undefined){
+        code= "default";
+    }
+    jQuery('.b2sAssErrorModal-body').hide();
+    jQuery('.b2sAssErrorModal-'+code).show();
+    jQuery('#b2sAssErrorModal').modal('show');
+
+}
 jQuery(document).on('click', '.b2s-post-item-ass-reset-btn', function () {
     var networkAuthId = jQuery(this).data('network-auth-id');
     var schedCount = jQuery(this).data('network-count');
@@ -5942,6 +6050,44 @@ function get3YearsMax(type, dataNetworkAuthId, count) {
         }
     }
     return false;
+}
+
+function cutText(str, maxChars) {
+  if (str.length <= maxChars) return str;
+
+  // Try cutting at last punctuation before maxChars
+  const punctuationRegex = /[.,;!?]/g;
+  let cutIndex = -1;
+  let match;
+
+  while ((match = punctuationRegex.exec(str)) !== null) {
+    if (match.index <= maxChars) {
+      cutIndex = match.index + 1; // include punctuation
+    } else {
+      break;
+    }
+  }
+
+  if (cutIndex > 0) {
+    return str.slice(0, cutIndex).trim();
+  }
+
+  // Fallback: cut after last full word before maxChars
+  const words = str.split(' ');
+  let result = '';
+  let length = 0;
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    if (length + word.length + (i > 0 ? 1 : 0) > maxChars) {
+      break;
+    }
+    if (result) result += ' ';
+    result += word;
+    length = result.length;
+  }
+
+  return result;
 }
 
 function cutAfterWord(str, maxChars) {
@@ -6223,7 +6369,4 @@ jQuery(document).on('change', '.b2s-tiktok-promotion-option', function () {
     }
 
 });
-
-
-
 

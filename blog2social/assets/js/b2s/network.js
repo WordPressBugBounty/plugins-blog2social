@@ -53,13 +53,8 @@ jQuery('.b2s-network-tab').on('shown.bs.tab', function (event) {
 function showContentByCurrentTab() {
 
     if (activeTab == 'isVideo') {
-        jQuery('.b2s-sched-manager-title').hide();
-        jQuery('.b2s-get-settings-sched-time-default').hide();
-        jQuery('.b2s-sched-manager-premium-area').hide();
+        
         jQuery('.b2s-edit-template-btn').hide();
-        jQuery('.b2s-sched-manager-time-area').hide();
-        jQuery('.b2s-sched-manager-day-area').hide();
-
         //FB Profiles+Groups are not supported
         jQuery('.btn-facebook[data-network-type="0"]').hide();
         jQuery('.btn-facebook[data-network-type="2"]').hide();
@@ -783,7 +778,7 @@ function loginSuccess(networkId, networkType, displayName, networkAuthId, mandan
         html += '<a class="b2s-network-item-auth-list-btn-delete b2s-add-padding-network-delete pull-right" data-network-type="' + networkType + '" data-network-id="' + networkId + '" data-network-auth-id="' + networkAuthId + '" href="#"><span class="glyphicon  glyphicon-trash glyphicon-grey"></span></a>';
 
         if (jQuery('#b2sUserVersion').val() == '0') {
-            html += '<span class="b2s-sched-manager-premium-area pull-right hidden-xs"  style="width: 240px;"><span class="label label-success"><a href="#" class="btn-label-premium b2sInfoSchedTimesModalBtn">SMART</a></span></span>';
+            html += '<span class="b2s-sched-manager-premium-area pull-right hidden-xs"  style="width: 240px;"><span class="label label-success"><a href="#" class="btn-label-premium b2sBestTimesInfoModal">SMART</a></span></span>';
         } else {
             html += '<span class="b2s-sched-manager-time-area pull-right b2s-sched-manager-add-padding hidden-xs" style="margin-right:30px !important;">';
             html += '<input class="form-control b2s-box-sched-time-input b2s-settings-sched-item-input-time" type="text" value="' + time + '" readonly data-network-auth-id="' + networkAuthId + '" data-network-mandant-id="' + mandandId + '" data-network-id="' + networkId + '" data-network-type="' + networkType + '" name="b2s-user-sched-data[time][' + networkAuthId + ']">';
@@ -928,6 +923,14 @@ function padDate(n) {
 }
 
 jQuery(document).on('click', '.b2s-edit-template-btn', function () {
+
+    //new Ad Modal if Version Free
+    if(jQuery('#b2sUserVersion').val() < 1){
+        jQuery('#b2sProFeatureEditTemplateModal').modal('show');
+        return;
+    }
+    
+    jQuery('b2s-edit-template-user-upgrade-required').hide();
     jQuery('.b2s-edit-template-content').hide();
     jQuery('.b2s-edit-template-save-btn').hide();
     jQuery('.b2s-loading-area').show();
@@ -953,6 +956,14 @@ jQuery(document).on('click', '.b2s-edit-template-btn', function () {
         },
         success: function (data) {
             if (data.result == true) {
+
+                if(data.content == 'b2s_upgrade_required') {
+                    jQuery('.b2s-loading-area').hide();
+                    jQuery('.b2s-edit-template-user-upgrade-required').show();
+                    return;
+                }
+
+                jQuery('#b2s-edit-template').modal('show');
                 jQuery('.b2s-edit-template-content').html(data.content);
                 jQuery('.b2s-loading-area').hide();
                 jQuery('.b2s-edit-template-content').show();
@@ -994,12 +1005,13 @@ jQuery(document).on('click', '.b2s-edit-template-btn', function () {
 jQuery(window).on("load", function () {
     if (jQuery('#b2sUserVersion').val() >= 1) {
         jQuery(document).on('click', '.b2s-edit-template-link-post', function () {
+            var networkId = jQuery(this).data('network-id');
             jQuery('.b2s-edit-template-image-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
             jQuery('.b2s-edit-template-text-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
             jQuery('.b2s-edit-template-link-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-light').addClass('btn-primary');
-            var networkId = jQuery(this).data('network-id');
             if(networkId == 4){
                 jQuery('.b2s-edit-template-post-format[data-network-type=' + jQuery(this).attr('data-network-type') + ']').val('3');
+
             }else
             {
                 jQuery('.b2s-edit-template-post-format[data-network-type=' + jQuery(this).attr('data-network-type') + ']').val('0');
@@ -1009,10 +1021,18 @@ jQuery(window).on("load", function () {
             jQuery('.b2s-edit-template-text-preview[data-network-type=' + jQuery(this).attr('data-network-type') + ']').hide();
             jQuery('.b2s-edit-template-enable-link-area[data-network-type=' + jQuery(this).attr('data-network-type') + ']').hide();
             jQuery('.tumblr-link-post-notice').show();
+
+            //Tumblr special Preview Post again
+            if(networkId == 4)
+            {
+                var post = generateExamplePost(jQuery('.b2s-edit-template-post-content').val().replace(/\n/g, "<br>"), jQuery('.b2s-edit-template-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val(), jQuery('.b2s-edit-template-excerpt-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val());
+                jQuery('.b2s-edit-template-preview-content[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').html(post);
+            }
            
         });
 
         jQuery(document).on('click', '.b2s-edit-template-image-post', function () {
+            var networkId = jQuery(this).data('network-id');
             jQuery('.tumblr-link-post-notice').hide();
             jQuery('.b2s-edit-template-link-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
             jQuery('.b2s-edit-template-text-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
@@ -1022,11 +1042,20 @@ jQuery(window).on("load", function () {
             jQuery('.b2s-edit-template-text-preview[data-network-type=' + jQuery(this).attr('data-network-type') + ']').hide();
             jQuery('.b2s-edit-template-image-preview[data-network-type=' + jQuery(this).attr('data-network-type') + ']').show();
             jQuery('.b2s-edit-template-enable-link-area[data-network-type=' + jQuery(this).attr('data-network-type') + ']').show();
+
+            //Tumblr special Preview Post again
+            if(networkId == 4)
+            {
+                var post = generateExamplePost(jQuery('.b2s-edit-template-post-content').val().replace(/\n/g, "<br>"), jQuery('.b2s-edit-template-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val(), jQuery('.b2s-edit-template-excerpt-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val());
+                jQuery('.b2s-edit-template-preview-content[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').html(post);
+            }
+
             
         });
 
-        //Tumblr 
+        //Tumblr Text
         jQuery(document).on('click', '.b2s-edit-template-text-post', function () {
+            var networkId = jQuery(this).data('network-id');
             jQuery('.tumblr-link-post-notice').hide();
             jQuery('.b2s-edit-template-link-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
             jQuery('.b2s-edit-template-image-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
@@ -1036,8 +1065,17 @@ jQuery(window).on("load", function () {
             jQuery('.b2s-edit-template-image-preview[data-network-type=' + jQuery(this).attr('data-network-type') + ']').hide();
             jQuery('.b2s-edit-template-text-preview[data-network-type=' + jQuery(this).attr('data-network-type') + ']').show();
             jQuery('.b2s-edit-template-enable-link-area[data-network-type=' + jQuery(this).attr('data-network-type') + ']').show();
+
+            //Tumblr special Preview Post again
+            if(networkId == 4)
+            {
+                var post = generateExamplePost(jQuery('.b2s-edit-template-post-content').val().replace(/\n/g, "<br>"), jQuery('.b2s-edit-template-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val(), jQuery('.b2s-edit-template-excerpt-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val());
+                jQuery('.b2s-edit-template-preview-content[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').html(post);
+            }
+
         });
 
+   
         jQuery(document).on('click', '.b2s-tiktok-promotion-radio', function () {
             
             var options = jQuery('.b2s-tiktok-promotion-options[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]');
@@ -1235,6 +1273,7 @@ jQuery(window).on("load", function () {
         });
 
         jQuery(document).on('keyup', '.b2s-edit-template-post-content', function () {
+           
             var post = generateExamplePost(jQuery(this).val().replace(/\n/g, "<br>"), jQuery('.b2s-edit-template-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val(), jQuery('.b2s-edit-template-excerpt-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val());
             jQuery('.b2s-edit-template-preview-content[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').html(post);
             if (typeof jQuery('#b2s_post_title').val() != 'undefined' && jQuery('#b2s_post_title').val() != '') {
@@ -1542,8 +1581,8 @@ jQuery('#b2sInfoCharacterLimit').on('hidden.bs.modal', function () {
 jQuery(document).on('click', '.b2s-network-add-mandant-btn', function () {
     jQuery('#b2s-network-add-mandant').modal('show');
 });
-jQuery(document).on('click', '.b2sInfoSchedTimesModalBtn', function () {
-    jQuery('#b2sInfoSchedTimesModal').modal('show');
+jQuery(document).on('click', '.b2sBestTimesInfoModal', function () {
+    jQuery('#b2sBestTimesInfoModal').modal('show');
 });
 jQuery(document).on('click', '.b2sInfoNetwork18Btn', function () {
     jQuery('#b2sInfoNetwork18').modal('show');
@@ -1556,9 +1595,6 @@ jQuery(document).on('click', '.b2sInfoContentBtn', function () {
 });
 jQuery(document).on('click', '.b2sInfoCharacterLimitBtn', function () {
     jQuery('#b2sInfoCharacterLimit').modal('show');
-});
-jQuery(document).on('click', '.b2s-network-addon-info-btn', function () {
-    jQuery('#b2sNetworkAddonInfo').modal('show');
 });
 
 //START Network Auth Settings
@@ -1978,11 +2014,13 @@ function generateExamplePost(template, content_range, exerpt_range) {
         if (typeof jQuery('#b2s_post_keywords').val() != 'undefined' && jQuery('#b2s_post_keywords').val() != '') {
             keywords = jQuery('#b2s_post_keywords').val();
         }
+  
         template = template.replace(/{CONTENT}/g, content);
         template = template.replace(/{EXCERPT}/g, exerpt);
         template = template.replace(/{TITLE}/g, title);
         template = template.replace(/{AUTHOR}/g, author);
         template = template.replace(/{KEYWORDS}/g, keywords);
+
     }
     if (typeof jQuery('.b2s-edit-template-limit').val() != 'undefined' && jQuery('.b2s-edit-template-limit').val() > 0) {
         if (template.length > jQuery('.b2s-edit-template-limit').val() || jQuery('#b2s-edit-template-network-id').val() == 2 || jQuery('#b2s-edit-template-network-id').val() == 45) {
@@ -1991,10 +2029,40 @@ function generateExamplePost(template, content_range, exerpt_range) {
             } else {
                 template = template.substring(0, jQuery('.b2s-edit-template-limit').val());
             }
+
+            
             template = template.substring(0, template.lastIndexOf(' '));
         }
     }
+
+    //tumblr special preview case
+    if(jQuery('#b2s-edit-template-network-id').val() == 4){
+        var postFormat= jQuery('.b2s-edit-template-post-format').val();
+
+        if(postFormat == 3){
+            template= stripTags(template);
+            template= template.replace(/(\r\n|\n|\r)/gm, '');
+            template = template.substring(0, 125);
+            template = template + "...";
+        }
+
+        if(postFormat ==1){
+            template = title;
+        }else
+        {
+            jQuery('.b2s-edit-template-text-preview-tumblr-title').html(title);
+        }
+        
+        jQuery('.b2s-edit-template-text-preview-tumblr-hashtags').html(keywords);
+
+    }
     return template;
+}
+
+function stripTags(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
 }
 
 jQuery(document).on('click', '.b2s-stop-onboarding', function() {

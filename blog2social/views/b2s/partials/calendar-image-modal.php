@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
+
 $image = new B2S_Ship_Image($view = 'modal');
 // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified in Caller
 if (!empty($_POST['image_url'])) {

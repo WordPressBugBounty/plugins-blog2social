@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+ */
+
 class B2S_Loader {
 
     public $blogUserData;
@@ -49,8 +53,8 @@ class B2S_Loader {
         define('B2S_PLUGIN_POSTPERPAGE', '25');
         define('B2S_PLUGIN_VERSION_TYPE', serialize(array(0 => 'Free', 1 => 'Smart', 2 => 'Pro', 3 => 'Business', 4 => 'Premium')));
         define('B2S_PLUGIN_NETWORK', serialize(array(1 => 'Facebook', 2 => 'X (Twitter)', 3 => 'LinkedIn', 4 => 'Tumblr', 6 => 'Pinterest', 7 => 'Flickr', 9 => 'Diigo', 11 => 'Medium', 12 => 'Instagram', 14 => 'Torial', 15 => 'Reddit', 16 => 'Bloglovin', 17 => 'VK', 18 => 'Google Business Profile', 19 => 'Xing', 21 => 'Imgur', 24 => 'Telegram', 25 => 'Blogger', 26 => 'Ravelry', 27 => 'Instapaper', 32 => 'YouTube', 35 => 'Vimeo', 36 => 'TikTok', 38 => 'Mastodon', 39 => 'Discord', 42 => 'HumHub', 43 => 'Bluesky', 44 => 'Threads', 45 => 'X', 46 => 'Band')));
-        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES', serialize(array(1 => array(9, 11), 3 => array(9, 12), 4 => array(19, 23), 6 => array(11, 14), 7 => array(7, 9), 11 => array(9, 11), 12 => array(10, 14), 14 => array(6, 8), 15 => array(19, 21), 16 => array(16, 19), 17 => array(8, 10), 18 => array(9, 11), 19 => array(8, 10), 21 => array(8, 11), 24 => array(13, 16), 25 => array(8, 11), 26 => array(18, 21), 32 => array(21, 23), 36 => array(9, 10), 38 => array(8, 10), 39 => array(18, 24), 43 => array(9, 14), 44 => array(8, 12), 45 => array(9, 14))));
-        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES_INFO', serialize(array(1 => array(0 => array(9, 11), 1 => array(16, 17)), 3 => array(0 => array(9, 12)), 4 => array(0 => array(19, 23)), 6 => array(0 => array(11, 14), 1 => array(19, 22)), 7 => array(0 => array(7, 9), 1 => array(17, 22)), 11 => array(0 => array(9, 11)), 12 => array(0 => array(10, 14)), 14 => array(0 => array(6, 8)), 15 => array(0 => array(19, 21)), 16 => array(0 => array(16, 19)), 17 => array(0 => array(8, 10), 1 => array(12, 14), 2 => array(18, 21)), 18 => array(0 => array(9, 11)), 19 => array(0 => array(8, 10), 1 => array(16, 18)), 24 => array(0 => array(13, 16), 1 => array(18, 22)), 25 => array(0 => array(8, 11)), 26 => array(0 => array(18, 21)), 32 => array(0 => array(21, 23)), 36 => array(0 => array(9, 10)), 38 => array(0 => array(8, 10), 1 => array(18, 21)), 39 => array(0 => array(18, 24)), 43 => array(0 => array(9, 14)), 44 => array(0 => array(8, 12)), 45 => array(0 => array(9, 14)))));
+        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES', serialize(array(1 => array(9, 11), 3 => array(9, 12), 4 => array(19, 23), 6 => array(11, 14), 7 => array(7, 9), 11 => array(9, 11), 12 => array(10, 14), 14 => array(6, 8), 15 => array(19, 21), 16 => array(16, 19), 17 => array(8, 10), 18 => array(9, 11), 19 => array(8, 10), 21 => array(8, 11), 24 => array(13, 16), 25 => array(8, 11), 26 => array(18, 21), 32 => array(21, 23), 35 => array(13, 17),  36 => array(9, 10), 38 => array(8, 10), 39 => array(18, 24), 43 => array(9, 14), 44 => array(8, 12), 45 => array(9, 14))));
+        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES_INFO', serialize(array(1 => array(0 => array(9, 11), 1 => array(16, 17)), 3 => array(0 => array(9, 12)), 4 => array(0 => array(19, 23)), 6 => array(0 => array(11, 14), 1 => array(19, 22)), 7 => array(0 => array(7, 9), 1 => array(17, 22)), 11 => array(0 => array(9, 11)), 12 => array(0 => array(10, 14)), 14 => array(0 => array(6, 8)), 15 => array(0 => array(19, 21)), 16 => array(0 => array(16, 19)), 17 => array(0 => array(8, 10), 1 => array(12, 14), 2 => array(18, 21)), 18 => array(0 => array(9, 11)), 19 => array(0 => array(8, 10), 1 => array(16, 18)), 24 => array(0 => array(13, 16), 1 => array(18, 22)), 25 => array(0 => array(8, 11)), 26 => array(0 => array(18, 21)), 32 => array(0 => array(21, 23)),35 => array(0 => array(13, 17)),  36 => array(0 => array(9, 10)), 38 => array(0 => array(8, 10), 1 => array(18, 21)), 39 => array(0 => array(18, 24)), 43 => array(0 => array(9, 14)), 44 => array(0 => array(8, 12)), 45 => array(0 => array(9, 14)))));
         define('B2S_PLUGIN_NETWORK_ALLOW_PROFILE', serialize(array(1, 2, 3, 4, 7, 9, 11, 14, 15, 16, 17, 18, 19, 21, 24, 25, 26, 27, 32, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46)));
         define('B2S_PLUGIN_NETWORK_ALLOW_PAGE', serialize(array(1, 3, 6, 12, 17, 19, 42)));
         define('B2S_PLUGIN_NETWORK_ALLOW_GROUP', serialize(array(11, 17)));
@@ -82,7 +86,7 @@ class B2S_Loader {
             3 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 3000), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true),
                 1 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 3000), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true),
             ),
-            4 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => 0, 'separateKeywords' => true)), //tumblr 0->defaults to text/html
+            4 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => "{CONTENT}", 'format' => 0, 'separateKeywords' => true)), //tumblr 0->defaults to text/html
             6 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 350, 'range_max' => 421, 'excerpt_range_min' => 350, 'excerpt_range_max' => 421, 'limit' => 495), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false),
                 1 => array('short_text' => array('active' => 0, 'range_min' => 350, 'range_max' => 421, 'excerpt_range_min' => 350, 'excerpt_range_max' => 421, 'limit' => 495), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false)),
             7 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
@@ -1098,7 +1102,7 @@ class B2S_Loader {
                 echo '<div class="error"><p>' . esc_html__('There are no social network accounts assigned to your selected network collection. Please assign at least one social network account or select another network collection.', 'blog2social') . '</p></div>';
             }
             if ((int) $b2sAction == 4) {
-                echo '<div class="error"><p>' . esc_html__("You've reached your posting limit!", "blog2social") . '<br>' . esc_html__('To increase your limit and enjoy more features, consider upgrading.', 'blog2social') . '<br><a target="_blank" class="b2s-text-bold" href="' . esc_url(B2S_Tools::getSupportLink('pricing')) . '">' . esc_html__('Upgrade', 'blog2social') . '</a></p></div>';
+                echo '<div class="error"><p>' . esc_html__("You've reached your posting limit!", "blog2social") . '<br>' . esc_html__('To increase your limit and enjoy more features, consider upgrading.', 'blog2social') . '<br><a target="_blank" class="b2s-text-bold" href="' . esc_url(B2S_Tools::getSupportLink('upgrade_version')) . '">' . esc_html__('Upgrade', 'blog2social') . '</a></p></div>';
             }
         }
     }
@@ -1111,7 +1115,7 @@ class B2S_Loader {
     public function override_plugin_action_links($links) {
         $premium = array();
         if (defined("B2S_PLUGIN_USER_VERSION") && B2S_PLUGIN_USER_VERSION == 0) {
-            $premium = array('<a target="_blank" style="color: rgba(10, 154, 62, 1); font-weight: bold; font-size: 13px;" href="' . esc_url(B2S_Tools::getSupportLink('affiliate')) . '">' . esc_html__('Upgrade to Premium', 'blog2social') . '</a>');
+            $premium = array('<a target="_blank" style="color: rgba(10, 154, 62, 1); font-weight: bold; font-size: 13px;" href="' . esc_url(B2S_Tools::getSupportLink('upgrade_version')) . '">' . esc_html__('Upgrade to Premium', 'blog2social') . '</a>');
         }
         /* Settings & Support */
         $links = array_merge($premium, array('settings' => sprintf('<a href="%s">%s</a>', 'admin.php?page=blog2social-settings', esc_html__('Settings', 'blog2social'))), array('support' => sprintf('<a href="%s">%s</a>', 'admin.php?page=blog2social-support', esc_html__('Support', 'blog2social'))), $links);
@@ -1217,7 +1221,7 @@ class B2S_Loader {
             // translators: %s is a link
             'INVALID_CONTENT' => sprintf(__('The network can not publish special characters such as Emoji. Please see the following <a target="_blank" href="%s">guide</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('share_error'))),
             'EXISTS_CONTENT' => esc_html__('Your post is a duplicate.', 'blog2social'),
-            'URL_CONTENT' => esc_html__('The network requires a valid url and which complies with the network standards.', 'blog2social'),
+            'URL_CONTENT' => esc_html__('The network does not allow your URL - metadata cannot be read or the link violates network standards', 'blog2social'),
             'VIDEO' => esc_html__('Your video could not be posted, because it is not available or the source does not allow publishing.', 'blog2social'),
             'VIDEO_FILE' => esc_html__('Your video file could not be found. Please check if it has been deleted or renamed.', 'blog2social'),
             'VIDEO_TOKEN' => esc_html__('Your session has expired. Please try again.', 'blog2social'),
@@ -2210,6 +2214,7 @@ class B2S_Loader {
           `publish_error_code` varchar(100) NOT NULL,
           `network_details_id` int(11) NOT NULL,
           `post_format` TINYINT DEFAULT NULL,
+          `display_post_format`  varchar(10) NOT NULL DEFAULT 'wp',
           `post_for_relay` TINYINT NOT NULL DEFAULT '0',
           `post_for_approve` TINYINT NOT NULL DEFAULT '0',
           `relay_primary_post_id` int(11) NOT NULL DEFAULT '0',
@@ -2256,6 +2261,9 @@ class B2S_Loader {
             if (!in_array("upload_video_token", $b2sPostsColsData)) {
                 $wpdb->query("ALTER TABLE {$wpdb->prefix}b2s_posts ADD upload_video_token varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL");
             }
+            if (!in_array("display_post_format", $b2sPostsColsData)) {
+                $wpdb->query("ALTER TABLE {$wpdb->prefix}b2s_posts ADD display_post_format varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'wp' ");
+            } 
         }
 
         $keys = $wpdb->get_results('SHOW INDEX FROM `' . $wpdb->prefix . 'b2s_posts`');

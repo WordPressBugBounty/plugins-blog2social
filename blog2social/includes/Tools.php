@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+ */
+
 class B2S_Tools {
 
     public static function showNotice() {
@@ -173,22 +177,20 @@ class B2S_Tools {
         if ($type == 'addon_video_trial') {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/video-sharing/#trial' : 'https://www.blog2social.com/de/video-teilen/#trial';
         }
-        if ($type == 'affiliate') {
-            $affiliateId = self::getAffiliateId();
-            return 'https://b2s.li/wp-btn-premium/' . (((int) $affiliateId != 0) ? $affiliateId : 0) . '/' . ((!empty($add_slug)) ? $add_slug . '/' : '');
-        }
+    
         if ($type == 'video_sharing_tiktok') {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1204' : 'https://www.blog2social.com/de/faq/index.php?solution_id=1201';
         }
-        if ($type == 'feature') {
+
+        if ($type == 'trial') {
             return 'https://blog2social.com/' . (($lang == 'en') ? 'en/plugin/wordpress/premium-trial/' : 'de/plugin/wordpress/premium-testen/');
         }
-        if ($type == 'trial') {
-            return 'https://service.blog2social.com/' . (($lang == 'en') ? 'en/trial' : 'de/trial');
+
+        if ($type == 'upgrade_version') {
+            $affiliateId = self::getAffiliateId();
+            return 'https://b2s.li/wp-btn-premium/' . (((int) $affiliateId != 0) ? $affiliateId : 0) . '/' . ((!empty($add_slug)) ? $add_slug . '/' : '');
         }
-        if ($type == 'contact') {
-            return 'https://service.blog2social.com/' . (($lang == 'en') ? 'en/trial' : 'de/trial');
-        }
+     
         if ($type == 'term') {
             return 'https://www.blog2social.com/' . (($lang == 'en') ? 'en/terms' : 'de/agb');
         }
@@ -529,9 +531,7 @@ class B2S_Tools {
         if ($type == 'video_upload_feedback') {
             return ($lang == 'de') ? 'https://docs.google.com/forms/d/e/1FAIpQLSdJu2p-GUgwcSBkylLu8ASEn9revOCXcW-18T7w0eGF8na55g/viewform' : 'https://docs.google.com/forms/d/e/1FAIpQLSfE6LTVmo6wkBSP7wMTVsk_GERhEm4MbnfQ9ohcl6CetlCyow/viewform';
         }
-        if ($type == 'b2s_premium_upgrade') {
-            return ($lang == 'de') ? 'https://b2s.li/blog2social-premium-kaufen' : 'https://b2s.li/upgrade-to-blog2social-premium';
-        }
+    
         if ($type == 'b2s_license_advice') {
             return ($lang == 'de') ? 'https://service.blog2social.com/de/question?o=faq' : 'https://service.blog2social.com/en/question?o=faq';
         }
@@ -559,10 +559,11 @@ class B2S_Tools {
         if ($type == "post_templates") {
             return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/content/4/150/de/wie-kann-ich-die-beitragsvorlagen-fuer-meine-social_media_posts-nutzen.html?highlight=beitragsvorlagen' : 'https://www.blog2social.com/en/faq/content/4/152/en/how-to-use-post-templates-for-social-media-posts.html';
         }
+
         if ($type == "addon_apps") {
             return 'https://service.blog2social.com/login?redirectUrl=/checkout?mode=addon&type=network_app&token=' . B2S_PLUGIN_TOKEN;
         }
-        if ($type == "addon_post_volume") {
+        if ($type == "addon_post_volume") { 
             return 'https://service.blog2social.com/login?redirectUrl=/checkout?mode=addon&type=post_limit_yearly&token=' . B2S_PLUGIN_TOKEN;
         }
         if ($type == "addon_network_integration") {
@@ -586,8 +587,9 @@ class B2S_Tools {
         if ($type == "custom_permalinks") {
             return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/index.php?solution_id=1206' : 'https://www.blog2social.com/en/faq/index.php?solution_id=1209';
         }
-        if ($type == "pricing") {
-            return ($lang == 'de') ? 'https://www.blog2social.com/de/preise/' : 'https://www.blog2social.com/en/pricing/';
+    
+        if($type == 'pricing_addon') {
+            return ($lang == 'de') ? 'https://de.blog2social.com/preise/#addons' : 'https://en.blog2social.com/pricing/#addons';
         }
         if ($type == 'tiktok_music_confirmation') {
             return 'https://www.tiktok.com/legal/page/global/music-usage-confirmation/en';

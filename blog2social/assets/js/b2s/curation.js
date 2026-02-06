@@ -122,7 +122,7 @@ jQuery(document).on('click', '.b2s-btn-change-url-preview', function () {
 jQuery(document).on('change', '#b2s-post-curation-ship-type', function () {
     if (jQuery(this).val() == 1) {
         if (jQuery(this).attr('data-user-version') == 0) {
-            jQuery('#b2s-sched-post-modal').modal('show');
+            jQuery('#b2sPreFeatureScheduleModal').modal('show');
             jQuery(this).val('0');
             return false;
         }
@@ -240,7 +240,7 @@ function scrapeDetails(url) {
               
                 jQuery('.b2s-curation-preview-area').show();
                 jQuery('#b2s-btn-curation-customize').prop("disabled", false);
-                jQuery('#b2s-btn-curation-share').prop("disabled", false);
+                jQuery('#').prop("disabled", false);
 
                 //set date + select schedulding
                 if (jQuery('#b2sSelSchedDate').val() != "") {
@@ -630,6 +630,20 @@ function formatAMPM(date) {
     return strTime;
 }
 
+// convert line breaks in user input to <br> so preview shows line breaks correctly
+function formatPreviewText(value) {
+    if (typeof value === 'undefined' || value === null) {
+        return '';
+    }
+    try {
+        value = value.toString();
+    } catch (e) {
+        return '';
+    }
+    // replace CRLF and CR and LF with <br>
+    return value.replace(/\r\n|\r|\n/g, '<br>');
+}
+
 jQuery(document).on('click', '#b2s-btn-curation-draft', function () {
     jQuery('#b2s-curation-no-data-info').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
@@ -772,7 +786,7 @@ function activateImage() {
     var title= jQuery('#b2s-instant-sharing-input-title_text').val();
     var text= jQuery('#b2s-post-curation-comment-image').val();
     jQuery('#b2s-instant-sharing-input-title_image').val(title);
-    jQuery('.b2s-curation-preview-body-text').html();
+    jQuery('.b2s-curation-preview-body-text').html(formatPreviewText(text));
 
     var curImg = jQuery('.b2s-post-item-details-url-image').attr("src");
 
@@ -780,7 +794,7 @@ function activateImage() {
        if(!curImg.endsWith("blog2social/assets/images/no-image.png")) {
             jQuery('b2s-post-item-details-url-image').attr("src", curImg);
             var img = '<br><br><img class="b2s-curation-preview-image" src="' + curImg + '" style="width:100%;">'
-            jQuery('.b2s-curation-preview-body-text').html(text + img );
+            jQuery('.b2s-curation-preview-body-text').html(formatPreviewText(text) + img );
         }
     }
     
@@ -1189,7 +1203,7 @@ jQuery(document).on('click', '.b2sTextPostInfoModalBtn', function () {
 
 jQuery(document).on('input', '#b2s-post-curation-comment-text', function () {
     var value = jQuery('#b2s-post-curation-comment-text').val();
-    jQuery('#b2s-curation-preview-body-text').html(value);
+    jQuery('#b2s-curation-preview-body-text').html(formatPreviewText(value));
 });
 
 jQuery(document).on('input', '#b2s-instant-sharing-input-title_image', function () {
@@ -1208,13 +1222,14 @@ jQuery(document).on('input', '#b2s-instant-sharing-input-title_text', function (
 
 jQuery(document).on('input', "#b2s-post-curation-comment-image", function () {
     var value = jQuery('#b2s-post-curation-comment-image').val();
+
     var img = jQuery(".b2s-post-item-details-url-image")[0].currentSrc;
 
     if (img.endsWith("blog2social/assets/images/no-image.png")) {
-        jQuery('#b2s-curation-preview-body-text').html(value);
+        jQuery('#b2s-curation-preview-body-text').html(formatPreviewText(value));
 
     } else {
-        jQuery('#b2s-curation-preview-body-text').html(value + '<br><br><img class="b2s-curation-preview-image" src="' + img + '" style="width:100%;">');
+        jQuery('#b2s-curation-preview-body-text').html(formatPreviewText(value) + '<br><br><img class="b2s-curation-preview-image" src="' + img + '" style="width:100%;">');
 
     }
 });
@@ -1225,14 +1240,14 @@ jQuery(document).on('input', "#b2s-post-curation-comment", function () {
     if (url.length > 23) {
         url = url.slice(0, 23) + "...";
     }
-    jQuery('#b2s-curation-preview-body-text').html(value);
+    jQuery('#b2s-curation-preview-body-text').html(formatPreviewText(value));
 });
 
 jQuery(document).on('click', '.b2s-image-change-btn-area', function () {
     var value = jQuery('#b2s-post-curation-comment-image').val();
     var img = jQuery(".b2s-post-item-details-url-image")[0].currentSrc;
 
-    jQuery('#b2s-curation-preview-body-text').html(value + '<br><br><img class="b2s-curation-preview-image" src="' + img + '" style="width:100%;">');
+    jQuery('#b2s-curation-preview-body-text').html(formatPreviewText(value) + '<br><br><img class="b2s-curation-preview-image" src="' + img + '" style="width:100%;">');
     jQuery('.b2s-curation-link-preview').hide();
 });
 

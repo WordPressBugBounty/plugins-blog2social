@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+ */
+
 class B2S_Hook_Filter {
 
     function get_wp_user_post_author_display_name($wp_post_author_id = 0) {
