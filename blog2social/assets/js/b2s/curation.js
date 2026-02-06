@@ -32,6 +32,7 @@ jQuery(window).on("load", function () {
     var image_id = url_param.searchParams.get("image_id");
     var image_url = url_param.searchParams.get("image_url");
     var postId = url_param.searchParams.get("postId");
+  
     if (typeof postId != "undefined" && postId != "" && postId != null) {
         jQuery('#b2s-draft-id').val(postId);
     }
@@ -114,6 +115,7 @@ jQuery(document).on('click', '.b2s-btn-change-url-preview', function () {
     jQuery('.b2s-curation-preview-area').hide();
     jQuery('.b2s-server-connection-fail').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
+    jQuery('#b2s-curation-customize-no-permission').hide();
     jQuery('#b2s-curation-no-review-info').hide();
     jQuery('#b2s-curation-no-data-info').hide();
     return false;
@@ -174,6 +176,7 @@ function scrapeDetails(url) {
 //    jQuery('.b2s-curation-select').hide();
     jQuery('.b2s-server-connection-fail').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
+    jQuery('#b2s-curation-customize-no-permission').hide();
     jQuery('#b2s-curation-no-review-info').hide();
     jQuery('#b2s-curation-no-data-info').hide();
 
@@ -275,6 +278,7 @@ function scrapeDetails(url) {
                     jQuery('.b2s-curation-preview-area').hide();
                     jQuery('#b2s-curation-no-review-info').show();
                     jQuery('#b2s-curation-no-auth-info').hide();
+                    jQuery('#b2s-curation-customize-no-permission').hide();
                     jQuery('#b2s-curation-no-data-info').hide();
                 }
                 if (data.error == "NO_AUTH") {
@@ -282,6 +286,7 @@ function scrapeDetails(url) {
                     jQuery('.b2s-curation-settings-area').hide();
                     jQuery('.b2s-curation-preview-area').hide();
                     jQuery('#b2s-curation-no-auth-info').show();
+                    jQuery('#b2s-curation-customize-no-permission').hide();
                     jQuery('#b2s-curation-no-review-info').hide();
                     jQuery('#b2s-curation-no-data-info').hide();
                 }
@@ -316,6 +321,7 @@ jQuery(document).on("keyup", "#b2s-post-curation-comment", function () {
 jQuery(document).on('click', '#b2s-btn-curation-share', function () {
     jQuery('#b2s-curation-no-data-info').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
+    jQuery('#b2s-curation-customize-no-permission').hide();
     jQuery('#b2s-curation-saved-draft-info').hide();
     jQuery("#b2s-instant-sharing-optional").hide();
     jQuery('.b2s-post-curation-action').val('b2s_curation_share');
@@ -426,6 +432,7 @@ jQuery(document).on('click', '#b2s-btn-curation-share', function () {
 
                 if (data.error == 'NO_AUTH') {
                     jQuery('#b2s-curation-no-auth-info').show();
+                    jQuery('#b2s-curation-customize-no-permission').hide();
                 } else if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
                 } else {
@@ -509,6 +516,7 @@ jQuery(document).on('click', '.b2s-approve-publish-confirm-btn', function () {
 jQuery(document).on('click', '#b2s-btn-curation-customize', function () {
     jQuery('#b2s-curation-no-data-info').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
+    jQuery('#b2s-curation-customize-no-permission').hide();
     jQuery('#b2s-curation-saved-draft-info').hide();
     var noContent = false;
     if (jQuery('#b2s-curation-post-format').val() == '0') {
@@ -564,8 +572,15 @@ jQuery(document).on('click', '#b2s-btn-curation-customize', function () {
                 if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
                 }
+
                 jQuery('.b2s-loading-area').hide();
-                jQuery('#b2s-curation-no-data-info').show();
+
+                if(data.error == 'permission'){
+                    jQuery('#b2s-curation-customize-no-permission').show();
+                }else{
+                    jQuery('#b2s-curation-no-data-info').show();
+                }
+                
                 jQuery('.b2s-curation-settings-area').show();
                 jQuery('.b2s-curation-preview-area').show();
 //                jQuery('.b2s-curation-select').show();
@@ -587,9 +602,11 @@ jQuery(document).on('change', '#b2s-post-curation-profile-select', function () {
     var tos = false;
     if (jQuery('#b2s-post-curation-profile-data' + jQuery(this).val()).val() == "") {
         jQuery('#b2s-curation-no-auth-info').show();
+        jQuery('#b2s-curation-customize-no-permission').hide();
         tos = true;
     } else {
         jQuery('#b2s-curation-no-auth-info').hide();
+        jQuery('#b2s-curation-customize-no-permission').hide();
         //TOS Twitter Check
         var len = jQuery('#b2s-post-curation-twitter-select').children('option[data-mandant-id="' + jQuery(this).val() + '"]').length;
         if (len >= 1) {
@@ -647,6 +664,7 @@ function formatPreviewText(value) {
 jQuery(document).on('click', '#b2s-btn-curation-draft', function () {
     jQuery('#b2s-curation-no-data-info').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
+    jQuery('#b2s-curation-customize-no-permission').hide();
     jQuery('#b2s-curation-saved-draft-info').hide();
     var noContent = false;
     if (jQuery('#b2s-curation-post-format').val() == '0') {
@@ -698,6 +716,7 @@ jQuery(document).on('click', '#b2s-btn-curation-draft', function () {
             if (data.result == true) {
                 if (typeof data.postId != undefined) {
                     jQuery('#b2s-draft-id').val(data.postId);
+                    console.log("Draft saved with id: " + data.postId);
                 }
                 jQuery('#b2s-curation-saved-draft-info').show();
                 setTimeout(function () {
@@ -853,6 +872,7 @@ function activateImage() {
                             jQuery('.b2s-curation-image-area').show();
                             jQuery('.b2s-curation-settings-area').hide();
                             jQuery('#b2s-curation-no-auth-info').show();
+                            jQuery('#b2s-curation-customize-no-permission').hide();
                             jQuery('#b2s-curation-no-review-info').hide();
                             jQuery('#b2s-curation-no-data-info').hide();
                         }
@@ -929,6 +949,7 @@ function activateText() {
                             jQuery('.b2s-curation-text-area').show();
                             jQuery('.b2s-curation-settings-area').hide();
                             jQuery('#b2s-curation-no-auth-info').show();
+                            jQuery('#b2s-curation-customize-no-permission').hide();
                             jQuery('#b2s-curation-no-review-info').hide();
                             jQuery('#b2s-curation-no-data-info').hide();
                         }

@@ -531,6 +531,14 @@ class Ajax_Post {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
+        
+        // JM 2026/02/05 Security Patch. Check if a user can edit the post, as this action leads to an insert/update in wp_posts
+        if (isset($_POST['b2s-draft-id']) && !empty($_POST['b2s-draft-id'])) {
+            if (!current_user_can('edit_post', (int) $_POST['b2s-draft-id'])) {
+                echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+                wp_die();
+            }
+        }
 
         if (isset($_POST['postFormat'])) {
             if ((int) $_POST['postFormat'] == 1) { //Imagepost
