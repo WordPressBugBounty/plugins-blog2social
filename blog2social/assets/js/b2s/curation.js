@@ -319,6 +319,15 @@ jQuery(document).on("keyup", "#b2s-post-curation-comment", function () {
 });
 
 jQuery(document).on('click', '#b2s-btn-curation-share', function () {
+
+
+    var form = jQuery('#b2s-curation-post-form');
+
+    if (!form.valid()) {
+   
+        return false;
+    }
+
     jQuery('#b2s-curation-no-data-info').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
     jQuery('#b2s-curation-customize-no-permission').hide();
@@ -514,6 +523,14 @@ jQuery(document).on('click', '.b2s-approve-publish-confirm-btn', function () {
 
 
 jQuery(document).on('click', '#b2s-btn-curation-customize', function () {
+
+    var form = jQuery('#b2s-curation-post-form');
+
+    if (!form.valid()) {
+   
+        return false;
+    }
+
     jQuery('#b2s-curation-no-data-info').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
     jQuery('#b2s-curation-customize-no-permission').hide();
@@ -662,6 +679,14 @@ function formatPreviewText(value) {
 }
 
 jQuery(document).on('click', '#b2s-btn-curation-draft', function () {
+
+    var form = jQuery('#b2s-curation-post-form');
+
+    if (!form.valid()) {
+   
+        return false;
+    }
+
     jQuery('#b2s-curation-no-data-info').hide();
     jQuery('#b2s-curation-no-auth-info').hide();
     jQuery('#b2s-curation-customize-no-permission').hide();
@@ -716,18 +741,24 @@ jQuery(document).on('click', '#b2s-btn-curation-draft', function () {
             if (data.result == true) {
                 if (typeof data.postId != undefined) {
                     jQuery('#b2s-draft-id').val(data.postId);
-                    console.log("Draft saved with id: " + data.postId);
                 }
                 jQuery('#b2s-curation-saved-draft-info').show();
                 setTimeout(function () {
                     jQuery('#b2s-curation-saved-draft-info').fadeOut("slow");
                 }, 5000);
             } else {
-                jQuery('#b2s-curation-no-data-info').show();
+            
+                if(data.error == 'permission'){
+                    jQuery('#b2s-curation-customize-no-permission').show();
+                }else{
+                    jQuery('#b2s-curation-no-data-info').show();
+                }
                 if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
                 }
             }
+
+
             jQuery('.b2s-loading-area').hide();
             jQuery('.b2s-curation-settings-area').show();
             if (jQuery('#b2s-curation-post-format').val() == '0') {
@@ -749,6 +780,7 @@ function activateLink() {
     jQuery('.b2s-curation-preview-image').hide();
     jQuery('.b2-preview-post-title').hide();
     jQuery('.b2s-curation-link-preview').show();
+    jQuery('.b2s-curation-preview-area').show();
     jQuery('.b2s-curation-title').hide();
     jQuery('#b2s-curation-title-link').show();
     jQuery('.b2s-curation-subtitle').hide();
@@ -1183,13 +1215,16 @@ jQuery(document).on('click', '.b2s-curation-info-premium-btn', function () {
 jQuery(document).on('click', '.b2s-re-share-btn', function () {
     jQuery('.b2s-curation-post-list-area').hide();
     jQuery('.b2s-curation-settings-area').show();
-//    jQuery('.b2s-curation-select').show();
-    if (jQuery('#b2s-curation-post-format').val() == '0') {
-        jQuery('.b2s-curation-preview-area').show();
-    } else {
-        jQuery('.b2s-curation-image-area').show();
+    
+    if (jQuery('#b2s-curation-post-format').val() == '2') {
+        activateText();
     }
-
+    if(jQuery('#b2s-curation-post-format').val() == '1'){
+        activateImage();
+    }
+    if(jQuery('#b2s-curation-post-format').val() == '0'){
+        activateLink();
+    }
 
 });
 
@@ -1281,3 +1316,48 @@ jQuery(document).on('click', '#b2s-instant-sharing-optional-toggle', function ()
     }
 });
 
+jQuery(function () {
+    jQuery("#b2s-curation-post-form").validate({
+        rules: {
+            "b2s-instant-sharing-input-text-link-optional": {
+                required: false, // optional
+                url: true        // must be a valid URL if filled
+            },
+            "b2s-instant-sharing-input-image-link-optional": {
+                required: false, // optional
+                url: true
+            }
+        },
+        messages: {
+            "b2s-instant-sharing-input-text-link-optional": {
+                url: ""
+            },
+            "b2s-instant-sharing-input-image-link-optional": {
+                url: ""
+            }
+        },
+        errorPlacement: function(error, element) {
+        return true;
+        }
+    });
+ 
+});
+
+ function ensureProtocol(input) {
+        var val = input.val().trim();
+
+        if (!val) return; // allow empty
+
+        // If it already starts correctly → leave as-is
+        if (val.startsWith('http://') || val.startsWith('https://')) {
+            return;
+        }
+
+        // Otherwise prepend https
+        input.val('https://' + val);
+    }
+
+jQuery('#b2s-instant-sharing-input-text-link-optional, #b2s-instant-sharing-input-image-link-optional')
+    .on('keyup blur', function() {
+        ensureProtocol(jQuery(this));
+    });

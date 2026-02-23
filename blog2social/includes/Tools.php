@@ -1,5 +1,7 @@
 <?php
-
+if (!defined('ABSPATH')) {
+    exit;
+}
 /**
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
  */
@@ -290,7 +292,12 @@ class B2S_Tools {
         if ($type == 'faq_postformats') {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/content/4/131/en/social-media-post-formats-_-the-differences-between-image-post-and-link-post.html' : 'https://www.blog2social.com/de/faq/content/4/131/de/social-media-postformate-_-die-unterschiede-zwischen-bild_beitraegen-und-link_beitraegen.html';
         }
-
+        if($type == 'faq_first_comment') {
+            return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1281' : 'https://www.blog2social.com/de/faq/index.php?solution_id=1275';
+        }
+        if($type == 'faq_woocommerce_product_sharing') {
+            return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1269' : 'https://www.blog2social.com/en/faq/index.php?solution_id=1269';
+        }
         if ($type == 'browser_extension') {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/webapp/extension/' : 'https://www.blog2social.com/de/webapp/extension/';
         }
@@ -846,5 +853,21 @@ class B2S_Tools {
     public static function getPrePostDetails($client_user_network_id = 0) {
         $details = B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, array('action' => 'getPrePostDetails', 'token' => B2S_PLUGIN_TOKEN, 'plugin_version' => B2S_PLUGIN_VERSION, 'client_user_network_id' => $client_user_network_id));
         return $details;
+    }
+
+    public static function isCommentAllowed($networkId, $networkType) {
+        $allowComment = unserialize(B2S_PLUGIN_NETWORK_ALLOW_COMMENT);
+        
+        // If network ID is a key with an array value, only those types in the array are allowed
+        if (isset($allowComment[$networkId]) && is_array($allowComment[$networkId])) {
+            return in_array($networkType, $allowComment[$networkId]);
+        }
+        
+        // If it's just a number in the array, all types are allowed
+        if (in_array($networkId, $allowComment)) {
+            return true;
+        }
+        
+        return false;
     }
 }
