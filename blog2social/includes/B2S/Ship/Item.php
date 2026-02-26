@@ -2797,7 +2797,7 @@ class B2S_Ship_Item {
         $edit= "";
         if(B2S_Tools::isCommentAllowed($networkId, $networkType)){
             
-            $isProUser = B2S_PLUGIN_USER_VERSION >= 2;
+            $isProUser = (defined('B2S_PLUGIN_USER_VERSION') && B2S_PLUGIN_USER_VERSION >= 2);
             
             // Get comment limit from default template
             $commentLimit = 0;

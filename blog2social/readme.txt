@@ -6,7 +6,7 @@ Donate link: https://paypal.me/adenion
 Requires at least: 6.2
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 8.8.0
+Stable tag: 8.8.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ Blog2Social automatically creates social media posts for your content and shares
 
 _Compatible with WooCommerce, Gutenberg Editor, Hummingbird, Bitly, Rebrand.ly, Sniply, WP Automatic Plugin, Page Builder & RSS Importer._
 
-**#New: Comment feature for X, Bluesky, Facebook, Instagram, and LinkedIn (incl. clickable links in Instagram comments)**
+**#New: Comment feature for X, Bluesky, Facebook, Instagram, and LinkedIn**
 
 Blog2Social is a freemium WordPress plugin with a free basic version and Premium plans offering advanced features. Some functions of the auto-poster are Premium features to comply with the API rules and community guidelines of the social networks.  
 
@@ -153,6 +153,8 @@ No. Default WordPress plugin permissions (755) are sufficient.
 
 
 == Changelog ==
+= 8.8.1 =
+Usability Optimization
 = 8.8.0 =
 Network: First comment function
 = 8.7.5 =
@@ -267,6 +269,8 @@ Bugfix: Autoposting
 Publish and share videos
 
 == Upgrade Notice ==
+= 8.8.1 =
+Usability Optimization
 = 8.8.0 =
 Network: First comment function
 = 8.7.5 =

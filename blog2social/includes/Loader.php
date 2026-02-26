@@ -79,13 +79,13 @@ class B2S_Loader {
             'version_info' => esc_html__('Blog2Social Version 8.8 (February 2025)', 'blog2social'),
             'new' => array(
                 // translators: %s is a link
-                sprintf(__('First Comment (X, Bluesky, Facebook, Instagram, LinkedIn): Publish clean posts and add links, hashtags, or CTAs right after posting-ideal for clickable Instagram comment links. <a target="_blank" href="%s">Find detailed instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_first_comment'))),
+                sprintf(__('First Comment (X, Bluesky, Facebook, Instagram, LinkedIn): Publish clean posts and add links, hashtags, or CTAs right after posting. <a target="_blank" href="%s">Find detailed instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_first_comment'))),
                 // translators: %s is a link
                 sprintf(__('WooCommerce: Improve product sharing with richer link preview data (currency, availability, stock) and product details in post templates via shortcodes. <a target="_blank" href="%s">Find detailed instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_woocommerce_product_sharing'))),
                 // translators: %s is a link
                 sprintf(__('Auto-Poster: Filter automated posting by categories and tags so only the content you want is shared. <a target="_blank" href="%s">Find detailed instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('autopost_checklist_wp'))),
                 // translators: %s is a link
-                sprintf(__('Post Templates: Access and adjust templates directly in the editor view while editing your social media posts. <a target="_blank" href="%s">See how to set this up</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('post_templates'))),
+                sprintf(__('Post Templates: Access and adjust templates directly in the editor view while editing your social media posts. <a target="_blank" href="%s">See how to set this up</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('post_templates_without_highlight'))),
                 ),
             'improvements' => array(),
             'fixed' => array(

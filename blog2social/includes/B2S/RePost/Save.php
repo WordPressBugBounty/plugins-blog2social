@@ -31,6 +31,7 @@ class B2S_RePost_Save {
     private $linkNoCache;
     private $allowHtml;
     private $default_template;
+    private $setPreFillTextLimit;
 
     function __construct($blogUserId = 0, $b2sUserLang = 'en', $userTimezone = 0, $optionPostFormat = array(), $allowHashTag = true, $bestTimes = array(), $userVersion = 0) {
         $this->userVersion = defined("B2S_PLUGIN_USER_VERSION") ? B2S_PLUGIN_USER_VERSION : (int) $userVersion;
@@ -106,7 +107,7 @@ class B2S_RePost_Save {
                     if ($schedData !== false && is_array($schedData)) {
                         $schedData = array_merge($schedData, $defaultPostData);
                     }
-                    if (in_array($value->networkId, unserialize(B2S_PLUGIN_ALLOW_ADD_LINK)) && isset($this->optionPostFormat[$value->networkId][$value->networkType]['addLink']) && $this->optionPostFormat[$value->networkId][$value->networkType]['addLink'] == false) {
+                    if ( defined('B2S_PLUGIN_ALLOW_ADD_LINK') && in_array($value->networkId, unserialize(B2S_PLUGIN_ALLOW_ADD_LINK)) && isset($this->optionPostFormat[$value->networkId][$value->networkType]['addLink']) && $this->optionPostFormat[$value->networkId][$value->networkType]['addLink'] == false) {
                         if (($value->networkId == 12) || (isset($this->optionPostFormat[$value->networkId][$value->networkType]['format']) && (int) $this->optionPostFormat[$value->networkId][$value->networkType]['format'] == 1)) {
                             $schedData['url'] = '';
                         }
@@ -194,7 +195,7 @@ class B2S_RePost_Save {
             //Share Settings
             $postData['share_settings'] = array('mode' => 0); //share as draft - tiktok
             if ($networkId == 36) {
-                $options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
+                $options = new B2S_Options($this->blogUserId);
                 $optionsShareSettings = $options->_getOption("share_settings");
 
                 //is directly?
@@ -218,7 +219,7 @@ class B2S_RePost_Save {
             }
 
             //Share as story (form Version 8.8.0 manageable in Post Templates)             
-            if(B2S_PLUGIN_USER_VERSION >= 1 && isset($tempOptionPostFormat[$networkId][$networkType]['share_as_story']) && (int) $tempOptionPostFormat[$networkId][$networkType]['share_as_story'] === 1) {
+            if($this->userVersion >= 1 && isset($tempOptionPostFormat[$networkId][$networkType]['share_as_story']) && (int) $tempOptionPostFormat[$networkId][$networkType]['share_as_story'] === 1) {
                 $postData['share_as_story'] = 1;
             } 
 
@@ -442,7 +443,7 @@ class B2S_RePost_Save {
             }
 
             // Process comment from template if it exists for all networks
-            if (B2S_PLUGIN_USER_VERSION >= 2 && B2S_Tools::isCommentAllowed($networkId, $networkType) && isset($tempOptionPostFormat[$networkId][$networkType]['comment']) && !empty($tempOptionPostFormat[$networkId][$networkType]['comment'])) {
+            if ($this->userVersion >= 2 && B2S_Tools::isCommentAllowed($networkId, $networkType) && isset($tempOptionPostFormat[$networkId][$networkType]['comment']) && !empty($tempOptionPostFormat[$networkId][$networkType]['comment'])) {
                 $postData['comment'] = $this->getCommentByTemplate($tempOptionPostFormat[$networkId][$networkType], $networkId, $networkType);
             }
 
@@ -630,8 +631,8 @@ class B2S_RePost_Save {
                 'network_type' => (int) $network_type,
                 'network_auth_id' => (int) $network_auth_id,
                 'network_display_name' => $network_display_name,
-                'owner_blog_user_id' => B2S_PLUGIN_BLOG_USER_ID),
-                    array('%d', '%d', '%d', '%s', '%s'));
+                'owner_blog_user_id' => (int) $this->blogUserId),
+                    array('%d', '%d', '%d', '%s', '%d'));
             $networkDetailsId = $wpdb->insert_id;
         }
 
@@ -676,7 +677,7 @@ class B2S_RePost_Save {
         foreach ($schedDataResult as $k => $value) {
             array_push($delete_scheds, $value->b2sPostId);
         }
-        if (!empty($delete_scheds)) {
+        if (!empty($delete_scheds) && defined('B2S_PLUGIN_DIR')) {
             require_once (B2S_PLUGIN_DIR . '/includes/B2S/Post/Tools.php');
             B2S_Post_Tools::deleteUserSchedPost($delete_scheds);
             B2S_Heartbeat::getInstance()->deleteSchedPost();

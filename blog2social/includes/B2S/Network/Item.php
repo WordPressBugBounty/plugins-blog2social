@@ -1234,7 +1234,7 @@ class B2S_Network_Item {
 
         // Add default comment text field for networks that support comments (before preview)
         if(B2S_Tools::isCommentAllowed($networkId, $networkType) ){
-            if(B2S_PLUGIN_USER_VERSION >= 2){
+            if(defined('B2S_PLUGIN_USER_VERSION') && B2S_PLUGIN_USER_VERSION >= 2){
 
             
             $CommentValue = (isset($schema[$networkType]['comment']) && !empty($schema[$networkType]['comment'])) ? esc_textarea($schema[$networkType]['comment']) : '';

@@ -24,8 +24,9 @@ class B2S_AutoPost {
     private $default_template;
     private $echo;
     private $delay;
+    private $blogUserId;
 
-    function __construct($postId = 0, $blogPostData = array(), $current_user_date = '0000-00-00 00:00:00', $myTimeSettings = false, $title = '', $content = '', $excerpt = '', $url = '', $imageUrl = '', $keywords = '', $b2sPostLang = 'en', $optionPostFormat = array(), $allowHashTag = true, $userVersion = 0, $echo = 0, $delay = 0) {
+    function __construct($postId = 0, $blogPostData = array(), $current_user_date = '0000-00-00 00:00:00', $myTimeSettings = false, $title = '', $content = '', $excerpt = '', $url = '', $imageUrl = '', $keywords = '', $b2sPostLang = 'en', $optionPostFormat = array(), $allowHashTag = true, $userVersion = 0, $echo = 0, $delay = 0) {       
         $this->postId = $postId;
         $this->blogPostData = $blogPostData;
         $this->current_user_date = $current_user_date;
@@ -36,6 +37,7 @@ class B2S_AutoPost {
         $this->contentHtml = B2S_Util::prepareContent($postId, $content, $url, '<p><h1><h2><br><i><b><a><img>', true, $b2sPostLang);
         $this->url = $url;
         $this->userVersion = defined("B2S_PLUGIN_USER_VERSION") ? B2S_PLUGIN_USER_VERSION : (int) $userVersion;
+        $this->blogUserId = defined('B2S_PLUGIN_BLOG_USER_ID') ? B2S_PLUGIN_BLOG_USER_ID : (int) $blogPostData['blog_user_id'];
         $this->imageUrl = $imageUrl;
         $this->keywords = $keywords;
         $this->optionPostFormat = $optionPostFormat;
@@ -93,7 +95,7 @@ class B2S_AutoPost {
             $postData['share_settings'] = array('mode' => 0); //share as draft - tiktok
             
             if ($networkId == 36) {
-                $options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
+                $options = new B2S_Options($this->blogUserId);
                 $optionsShareSettings = $options->_getOption("share_settings");
                 //is directly?
                 if (isset($optionsShareSettings[$networkAuthId]["share_as_draft"]) && $optionsShareSettings[$networkAuthId]["share_as_draft"] == false) {
@@ -119,7 +121,7 @@ class B2S_AutoPost {
             }
 
             //Share as story (form Version 8.8.0 manageable in Post Templates)             
-            if(B2S_PLUGIN_USER_VERSION >= 1 && isset($tempOptionPostFormat[$networkId][$networkType]['share_as_story']) && (int) $tempOptionPostFormat[$networkId][$networkType]['share_as_story'] === 1) {
+            if($this->userVersion >= 1 && isset($tempOptionPostFormat[$networkId][$networkType]['share_as_story']) && (int) $tempOptionPostFormat[$networkId][$networkType]['share_as_story'] === 1) {
                 $postData['share_as_story'] = 1;
             }
 
@@ -369,7 +371,7 @@ class B2S_AutoPost {
             }
 
             // Process comment from template if version, network and type are allowed and comment given
-            if (B2S_PLUGIN_USER_VERSION >= 2 && B2S_Tools::isCommentAllowed($networkId, $networkType) && isset($tempOptionPostFormat[$networkId][$networkType]['comment']) && !empty($tempOptionPostFormat[$networkId][$networkType]['comment'])) {
+            if ($this->userVersion >= 2 && B2S_Tools::isCommentAllowed($networkId, $networkType) && isset($tempOptionPostFormat[$networkId][$networkType]['comment']) && !empty($tempOptionPostFormat[$networkId][$networkType]['comment'])) {
                 $postData['comment'] = $this->getCommentByTemplate($tempOptionPostFormat[$networkId][$networkType], $networkId, $networkType);
             }
 
@@ -591,7 +593,7 @@ class B2S_AutoPost {
                 'network_type' => (int) $network_type,
                 'network_auth_id' => (int) $network_auth_id,
                 'network_display_name' => $network_display_name,
-                'owner_blog_user_id' => B2S_PLUGIN_BLOG_USER_ID),
+                'owner_blog_user_id' => (int) $this->blogUserId),
                     array('%d', '%d', '%d', '%s', '%d'));
             $networkDetailsId = $wpdb->insert_id;
         }

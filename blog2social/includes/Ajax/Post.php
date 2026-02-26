@@ -2807,7 +2807,7 @@ class Ajax_Post {
                         $new_template[$type]['frameColor'] = ((isset($data['frameColor']) && !empty($data['frameColor'])) ? $data['frameColor'] : '#ffffff');
                     }
                     // Save default comment for networks that support comments
-                    if (B2S_Tools::isCommentAllowed((int) $_POST['networkId'], $type) && B2S_PLUGIN_USER_VERSION >= 2) {
+                    if (B2S_Tools::isCommentAllowed((int) $_POST['networkId'], $type) && defined('B2S_PLUGIN_USER_VERSION') && B2S_PLUGIN_USER_VERSION >= 2) {
                         $new_template[$type]['comment'] = (isset($data['comment'])) ? sanitize_textarea_field($data['comment']) : '';
                         
                         // Save comment character limits

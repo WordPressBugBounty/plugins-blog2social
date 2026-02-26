@@ -296,7 +296,7 @@ class B2S_Tools {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1281' : 'https://www.blog2social.com/de/faq/index.php?solution_id=1275';
         }
         if($type == 'faq_woocommerce_product_sharing') {
-            return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1269' : 'https://www.blog2social.com/en/faq/index.php?solution_id=1269';
+            return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1269' : 'https://www.blog2social.com/de/faq/index.php?solution_id=1263';
         }
         if ($type == 'browser_extension') {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/webapp/extension/' : 'https://www.blog2social.com/de/webapp/extension/';
@@ -566,7 +566,9 @@ class B2S_Tools {
         if ($type == "post_templates") {
             return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/content/4/150/de/wie-kann-ich-die-beitragsvorlagen-fuer-meine-social_media_posts-nutzen.html?highlight=beitragsvorlagen' : 'https://www.blog2social.com/en/faq/content/4/152/en/how-to-use-post-templates-for-social-media-posts.html';
         }
-
+        if($type == "post_templates_without_highlight") {
+            return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/content/4/150/de/wie-kann-ich-die-beitragsvorlagen-fuer-meine-social_media_posts-nutzen.html' : 'https://www.blog2social.com/en/faq/content/4/152/en/how-to-use-post-templates-for-social-media-posts.html';
+        }
         if ($type == "addon_apps") {
             return 'https://service.blog2social.com/login?redirectUrl=/checkout?mode=addon&type=network_app&token=' . B2S_PLUGIN_TOKEN;
         }
@@ -856,6 +858,11 @@ class B2S_Tools {
     }
 
     public static function isCommentAllowed($networkId, $networkType) {
+
+        if(!defined('B2S_PLUGIN_NETWORK_ALLOW_COMMENT')) {
+            return false;
+        }
+
         $allowComment = unserialize(B2S_PLUGIN_NETWORK_ALLOW_COMMENT);
         
         // If network ID is a key with an array value, only those types in the array are allowed
