@@ -6609,13 +6609,6 @@ jQuery(document).on('click', '.tiktok-promotional-toggle', function () {
    
 });
 
-
-jQuery(document).on('input', '.b2s-post-item-details-item-message-input, .b2s-post-item-details-item-title-input', function () {
-    var authId = jQuery(this).data('network-auth-id');
-    updateYoutubeShortsNoticeFor(authId);
-});
-
-
 jQuery(document).on('change', '.b2s-tiktok-promotion-option', function () {
   
     if (jQuery(this).is(':checked')) {

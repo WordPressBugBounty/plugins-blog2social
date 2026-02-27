@@ -3834,9 +3834,9 @@ class Ajax_Post {
                         $postText = sanitize_text_field(B2S_Util::prepareContent((int) $_POST['post_id'], $postData->post_content, $postUrl, false, false, $postLang)); // only content
                     }
                 }
-
+               
                 if (empty($postText)) {
-                    echo json_encode(array('result' => false, 'error' => 'no_content'));
+                    echo json_encode(array('result' => false, 'error' => '3100')); //No content error
                     wp_die();
                 }
 
