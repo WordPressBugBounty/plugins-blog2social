@@ -1738,6 +1738,9 @@ jQuery(document).on('click', '.b2s-info-share-as-story-modal-btn', function () {
 //START Network Auth Settings
 jQuery(document).on('click', '.b2s-network-auth-settings-btn', function () {
     jQuery('#b2s-edit-network-auth-settings').modal('show');
+
+    var networkAuthId = jQuery(this).attr('data-network-auth-id');
+
     if (jQuery('#b2sUserVersion').val() >= 3) {
 
         jQuery('.b2s-network-auth-settings-content').hide();
@@ -1780,9 +1783,6 @@ jQuery(document).on('click', '.b2s-network-auth-settings-btn', function () {
                 }
             }
         }
-
-        var networkAuthId = jQuery(this).attr('data-network-auth-id');
-
 
         jQuery.ajax({
             url: ajaxurl,
@@ -1886,7 +1886,47 @@ jQuery(document).on('click', '.b2s-network-auth-settings-btn', function () {
             }
         });
     } else {
-        jQuery('.b2s-loading-area').hide();
+        //TikTok Share Settings must be enabled from Pro for Autoposter, Resharer and Preview
+        if (jQuery('#b2sUserVersion').val() >= 2 && jQuery(this).attr('data-network-id') == 36) {
+            jQuery('.b2s-network-auth-settings-content').hide();
+            jQuery('.b2s-loading-area').show();
+            jQuery.ajax({
+            url: ajaxurl,
+            type: "GET",
+            dataType: "json",
+            cache: false,
+            data: {
+                'action': 'b2s_get_network_auth_settings',
+                'networkAuthId': jQuery(this).attr('data-network-auth-id'),
+                'owner': jQuery(this).attr('data-connection-owner'),
+                'networkId': jQuery(this).attr('data-network-id'),
+                'networkType': jQuery('#b2sNetworkType').val(),
+                'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
+            },
+            error: function () {
+                jQuery('.b2s-server-connection-fail').show();
+                return false;
+            },
+            success: function (data) {
+              
+                    if (data.result == true) {
+                        jQuery('.b2s-loading-area').hide();
+                        jQuery('.b2s-network-auth-settings-content').show();
+                        var result = JSON.parse(data.data);
+                        if( result.shareSettings != false) {
+                            jQuery('.b2-share-settings-content').html(result.shareSettings);
+                            jQuery('.b2-share-settings').show();
+                            if(jQuery('#b2s\\['+networkAuthId+'\\]\\[b2s-tiktok-toggle-on\\]').html() == '1'){
+                                jQuery('.toggle[name="b2s['+networkAuthId+'][b2s-tiktok-disclose-toggle]"]').click();
+                            }
+                        }else{
+                            jQuery('.b2-share-settings').hide();
+                        }
+                    }
+                    jQuery('.b2s-loading-area').hide();
+                }
+            });
+        };
     }
 });
 

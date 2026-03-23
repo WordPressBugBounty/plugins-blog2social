@@ -3040,6 +3040,13 @@ jQuery("#b2sNetworkSent").validate({
                     jQuery('.b2s-nonce-check-fail').show();
                     return false;
                 }
+                if (data.error == 'permission') {
+                    jQuery('.b2s-no-permission').show();
+                    jQuery(".b2s-loading-area").hide();
+                    jQuery(".b2s-post-area").show();
+                    jQuery('#b2s-sidebar-wrapper').show();
+                    return false;
+                }
                 jQuery(".b2s-loading-area").hide();
 
                 //Onboarding
@@ -4787,6 +4794,7 @@ function saveDraft() {
             return false;
         },
         success: function (data) {
+            
             jQuery('.b2s-loader-btn-ship').css('display', 'none');
             jQuery('.b2s-submit-btn').removeAttr('disabled');
             jQuery('.b2s-submit-btn-scroll').removeAttr('disabled');
@@ -4797,8 +4805,12 @@ function saveDraft() {
                     jQuery('.b2s-post-draft-saved-success').fadeOut();
                 }, 5000);
             } else {
+
                 if (result.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
+                }
+                if (result.error == 'permission') {
+                    jQuery('.b2s-no-permission').show();
                 }
                 jQuery('.b2s-post-draft-saved-fail').show();
                 window.setTimeout(function () {
@@ -5716,6 +5728,9 @@ jQuery(document).on('click', '.b2s-draft-delete-confirm-btn', function () {
             } else {
                 if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
+                }
+                if (data.error == 'permission') {
+                    jQuery('.b2s-no-permission').show();
                 }
                 jQuery('.b2s-post-remove-fail').show();
             }
