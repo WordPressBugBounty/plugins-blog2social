@@ -134,8 +134,8 @@ jQuery(document).on('click', '.b2s-delete-cc-draft-confirm-btn', function () {
                 if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
                 }
-                if (data.error == 'permission') {
-                    jQuery('.b2s-no-permission').show();
+                if (data.error == 'permission_editor') {
+                    jQuery('.b2s-no-permission-editor').show();
                 }
                 jQuery('.b2s-post-remove-fail').show();
             }

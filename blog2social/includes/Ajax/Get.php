@@ -253,7 +253,7 @@ class Ajax_Get {
             
             // Add authorization check for the specific post
             if (!current_user_can('read_post',(int) $_POST['postId'])) {
-                echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+                echo wp_json_encode(array('result' => false, 'error' => 'permission_author'));
                 wp_die();
             }
             

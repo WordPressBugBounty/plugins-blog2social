@@ -310,8 +310,8 @@ jQuery(document).on('click', '#b2s-btn-curation-share', function () {
 
                 if (data.error == 'NO_AUTH') {
                     jQuery('#b2s-curation-no-auth-info').show();
-                } else if (data.error == 'permission') {
-                    jQuery('.b2s-no-permission').show();
+                } else if (data.error == 'permission_author') {
+                    jQuery('.b2s-no-permission-author').show();
                 } else if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
                 } else {
@@ -1043,8 +1043,8 @@ jQuery(document).on('click', '.b2s-video-upload-delete-confirm-btn', function ()
                 if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
                 }
-                if (data.error == 'permission') {
-                    jQuery('.b2s-no-permission').show();
+                if (data.error == 'permission_author') {
+                    jQuery('.b2s-no-permission-author').show();
                 }
                 jQuery('.b2s-post-remove-fail').show();
             }

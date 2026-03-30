@@ -302,8 +302,8 @@ jQuery(document).ready(function () {
                         'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
                     },
                     success: function (data) {
-                        if (data && data.result === false && data.error == 'permission') {
-                            jQuery('.b2s-no-permission').show();
+                        if (data && data.result === false && data.error == 'permission_author') {
+                            jQuery('.b2s-no-permission-author').show();
                             revertFunc();
                             return;
                         }

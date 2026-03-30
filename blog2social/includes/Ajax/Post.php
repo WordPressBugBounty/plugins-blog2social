@@ -166,12 +166,12 @@ class Ajax_Post {
 
         // JM 2026/02/12 Security Patch. Check if a user can edit the post, as this action leads to an insert/update in wp_posts
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
         if (isset($_POST['b2s-draft-id']) && !empty($_POST['b2s-draft-id'])) {
             if (!current_user_can('edit_post', (int) $_POST['b2s-draft-id'])) {
-                echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+                echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
                 wp_die();
             }
         }
@@ -269,7 +269,7 @@ class Ajax_Post {
         }
     
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
     
@@ -584,13 +584,13 @@ class Ajax_Post {
         
         // JM 2026/02/05 Security Patch. Check if a user can edit the post, as this action leads to an insert/update in wp_posts
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
     
         if (isset($_POST['b2s-draft-id']) && !empty($_POST['b2s-draft-id'])) {
             if (!current_user_can('edit_post', (int) $_POST['b2s-draft-id'])) {
-                echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+                echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
                 wp_die();
             }
         }
@@ -833,8 +833,8 @@ class Ajax_Post {
             wp_die();
         }
     
-        if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+        if(!current_user_can('edit_others_posts')){
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_editor'));
             wp_die();
         }
     
@@ -1255,7 +1255,7 @@ class Ajax_Post {
         }
         
         if(!current_user_can('manage_options')){
-            echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_administrator'));
             wp_die();
         }
 
@@ -1299,7 +1299,7 @@ class Ajax_Post {
         }
         
         if(!current_user_can('manage_options')){
-            echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_administrator'));
             wp_die();
         }
 
@@ -1951,7 +1951,7 @@ class Ajax_Post {
         }
 
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
 
@@ -1999,7 +1999,7 @@ class Ajax_Post {
         }
 
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
 
@@ -2026,7 +2026,7 @@ class Ajax_Post {
         if (isset($_POST['postId']) && !empty($_POST['postId']) && (int) $_POST['postId'] > 0) {
      
             if(!current_user_can('delete_post', (int) $_POST['postId'])){ 
-                echo wp_json_encode(array('result' => false, 'error' => 'permission')); 
+                echo wp_json_encode(array('result' => false, 'error' => 'permission_editor')); 
                 wp_die(); 
             }
 
@@ -2177,8 +2177,8 @@ class Ajax_Post {
             wp_die();
         }
 
-        if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+        if(!current_user_can('edit_others_posts')){
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_editor'));
             wp_die();
         }
         
@@ -2210,7 +2210,7 @@ class Ajax_Post {
         }
         
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_author'));
             wp_die();
         }
     
@@ -2267,8 +2267,8 @@ class Ajax_Post {
             wp_die();
         }
 
-        if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+        if(!current_user_can('edit_others_posts')){
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_editor'));
             wp_die();
         }
         
@@ -2310,8 +2310,8 @@ class Ajax_Post {
             wp_die();
         }
 
-        if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+        if(!current_user_can('edit_others_posts')){
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_editor'));
             wp_die();
         }
 
@@ -2357,7 +2357,7 @@ class Ajax_Post {
         }
 
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false, 'error' => 'permission'));
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_author'));
             wp_die();
         }
         
@@ -2936,7 +2936,7 @@ class Ajax_Post {
         }
         
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
     
@@ -2972,7 +2972,7 @@ class Ajax_Post {
         }
 
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
 
@@ -3117,7 +3117,7 @@ class Ajax_Post {
         }
         
         if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_author'));
             wp_die();
         }
     
@@ -3452,8 +3452,8 @@ class Ajax_Post {
             wp_die();
         }
 
-        if(!current_user_can('edit_posts')){
-            echo wp_json_encode(array('result' => false,'error'  => 'permission'));
+        if(!current_user_can('edit_others_posts')){
+            echo wp_json_encode(array('result' => false,'error'  => 'permission_editor'));
             wp_die();
         }
 

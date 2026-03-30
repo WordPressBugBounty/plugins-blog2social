@@ -96,9 +96,19 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
     </div>
 </div>
 
-<div class="panel panel-group b2s-left-border-danger b2s-no-permission" style="display:none;">
+<div class="panel panel-group b2s-left-border-danger b2s-no-permission b2s-no-permission-author" style="display:none;">
     <div class="panel-body">
-        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('To execute this function, you need author permissions or a higher role. Your current role is Subscriber. Please contact your administrator for access.', 'blog2social'); ?>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('To execute this function, you need author permissions or a higher role. Please contact your administrator for access.', 'blog2social'); ?>
+    </div>
+</div>
+<div class="panel panel-group b2s-left-border-danger b2s-no-permission b2s-no-permission-editor" style="display:none;">
+    <div class="panel-body">
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('To execute this function, you need editor permissions or a higher role. Please contact your administrator for access.', 'blog2social'); ?>
+    </div>
+</div>
+<div class="panel panel-group b2s-left-border-danger b2s-no-permission b2s-no-permission-administrator" style="display:none;">
+    <div class="panel-body">
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('To execute this function, you need administrator permissions. Please contact your administrator for access.', 'blog2social'); ?>
     </div>
 </div>
 

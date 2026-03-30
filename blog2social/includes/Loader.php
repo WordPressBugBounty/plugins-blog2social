@@ -1299,7 +1299,7 @@ class B2S_Loader {
             'LOGIN' => sprintf(__('The connection to your social media account is interrupted. Please check your authorization and reconnect your account. The <a target="_blank" href="%s">troubleshooting guide</a> shows you how to fix the connection to your social media account.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('troubleshoot_auth'))),
             'LIMIT' => esc_html__('Your daily limit has been reached.', 'blog2social'),
             // translators: %s is a link
-            'IMAGE' => sprintf(__('Your post could not be posted, because your image is not available or the image source is not publish readable. <a target="_blank" href="%s">Guide</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('IMAGE'))),
+            'IMAGE' => sprintf(__('The image in your post is unavailable, not publicly accessible, or does not meet the required size or format. <a target="_blank" href="%s">Guide</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('IMAGE'))),
             // translators: %s is a link
             'PROTECT' => sprintf(__('The network has blocked your account. Please see the following <a target="_blank" href="%s">guide</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('share_error'))),
             // translators: %s is a link
