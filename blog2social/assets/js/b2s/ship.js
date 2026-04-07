@@ -7029,6 +7029,9 @@ jQuery(document).on('click', '.b2s-edit-template-load-default', function () {
 // Edit Template - Save Button
 jQuery(document).on('click', '.b2s-edit-template-save-btn', function () {
 
+    //When reloading always reset ignore template to false to make sure any changes in template will be applied
+    jQuery('#b2sIgnoreTemplate').val(0);
+
     if (jQuery('#b2sUserVersion').val() < 1 && jQuery('#b2s-edit-template-network-id').val() != 1 && jQuery('#b2s-edit-template-network-id').val() != 3 && jQuery('#b2s-edit-template-network-id').val() != 19) {
         return false;
     }

@@ -2628,9 +2628,14 @@ class B2S_Ship_Item {
 
             $message = $post_template['content'];
         }
-
+                            
+        //When comment and ignore template, no comment can be set
+        if($comment && $this->ignoreTemplate){
+           return "";
+        }
+                            
         //B2S CC
-        if ($this->b2sPostType == 'ex' && isset($this->postData->post_content) && !empty($this->postData->post_content)) {
+        if (!$comment && $this->ignoreTemplate && $this->b2sPostType == 'ex' && isset($this->postData->post_content) && !empty($this->postData->post_content)) {
             $message = B2S_Util::getExcerpt(B2S_Util::prepareContent($this->postId, $this->postData->post_content, $this->postUrl, false, (in_array($data->networkId, $this->allowNoEmoji) ? false : true), $this->userLang), (int) $content_min, (int) $content_max);
 
             //B2S Customize

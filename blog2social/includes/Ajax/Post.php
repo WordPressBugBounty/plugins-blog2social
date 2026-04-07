@@ -353,7 +353,7 @@ class Ajax_Post {
                             //TOS Twitter 032018 - none multiple Accounts - User select once
                             $selectedTwitterProfile = (isset($_POST['twitter_select']) && !empty($_POST['twitter_select'])) ? (int) $_POST['twitter_select'] : '';
                             require_once (B2S_PLUGIN_DIR . 'includes/B2S/QuickPost.php');
-                            $quickPost = new B2S_QuickPost($data['content'], $data['title'], $optionalLink);
+                            $quickPost = new B2S_QuickPost($data['content'], isset($data['title']) ? $data['title'] : '', $optionalLink, isset($data['url']) ? $data['url'] : '');
                             
                             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Only unsanitized in if condition
                             $imageUrl = (!empty($_POST['image_url'])) ? esc_url_raw(trim(urldecode(wp_unslash($_POST['image_url'])))) : "";
