@@ -920,16 +920,13 @@ class Ajax_Get {
             wp_die();
         }
 
-        if (B2S_PLUGIN_USER_VERSION < 1) {
-            echo json_encode(array('result' => true, 'content' => 'b2s_upgrade_required'));
-            wp_die();
-        }
+        $isFreeUser = B2S_PLUGIN_USER_VERSION < 1;
 
         if (isset($_GET['networkId']) && (int) $_GET['networkId'] > 0) {
             require_once (B2S_PLUGIN_DIR . 'includes/B2S/Network/Item.php');
             $networkItem = new B2S_Network_Item(false);
 
-            $content = $networkItem->getEditTemplateForm((int) $_GET['networkId']);
+            $content = $networkItem->getEditTemplateForm((int) $_GET['networkId'], $isFreeUser);
 
             echo json_encode(array('result' => true, 'content' => $content));
             wp_die();

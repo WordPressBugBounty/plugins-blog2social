@@ -27,7 +27,7 @@ class B2S_Ship_Item {
     private $allowNoCustomImagePage = array();
     private $allowPrivacyStatus = array(32);
     private $allowNoEmoji = array(9, 13, 14, 15, 16, 21, 35, 36, 37, 42);
-    private $allowCommentEmoji = array(1,3,12,43,45);
+    private $allowCommentEmoji = array(1,3,7,12,15,17,35,38,39,43,45,46);
     private $allowNoImagePage = array(8);
     private $allowEditUrl = array(1, 2, 3, 4, 6, 7, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21, 24, 25, 26, 27, 36, 37, 38, 39, 42, 43, 44, 45, 46);
     private $showBoards = array(6, 20);
@@ -45,7 +45,7 @@ class B2S_Ship_Item {
     private $setShortTextGroupLimit = array();
     private $allowHashTags = array(1, 2, 3, 6, 12, 17, 21, 37, 43, 45);
     private $limitHashTagCharacter = array(21 => 36);
-    private $limitCharacterProfile = array(1 => 500, 2 => 280, 3 => 3000, 6 => 495, 12 => 2000, 18 => 1500, 20 => 495, 21 => 65535, 36 => 4000, 38 => 500, 39 => 2000, 43 => 300, 44 => 500, 45 => 280);
+    private $limitCharacterProfile = array(1 => 500, 2 => 280, 3 => 3000, 6 => 495, 12 => 2000, 18 => 1500, 20 => 495, 21 => 65535, 35=>5000,36 => 4000, 38 => 500, 39 => 2000, 43 => 300, 44 => 500, 45 => 280);
     private $showImageAreaProfile = array(6, 7, 12, 16, 18, 21, 26, 37, 38, 39, 42);
     private $showImageAreaPage = array(6, 12, 42);
     private $showImageAreaGroup = array();
@@ -436,7 +436,7 @@ class B2S_Ship_Item {
         $content .= '<div class="pull-right hidden-xs b2s-post-item-info-area">';
 
         if ($this->viewMode != 'modal' && array_key_exists($data->networkId, unserialize(B2S_PLUGIN_NETWORK_SETTINGS_TEMPLATE_DEFAULT))) {
-            $content .= (B2S_PLUGIN_USER_VERSION >= 1) ? '<a onclick="return false;" class="b2s-edit-template-btn" data-network-type="' . esc_attr($data->networkType) . '" data-network-id="' . esc_attr($data->networkId) . '"> ' . esc_html__('Edit Post Template', 'blog2social') . '</a>' .'  | ' : '<a onclick="return false;" class="b2s-edit-template-btn b2s-btn-disabled" data-network-id="' . esc_attr($data->networkId) . '"><i class="glyphicon glyphicon-pencil"></i> ' . esc_html__('Edit Post Template', 'blog2social') . ' <span class="label label-success">' . esc_html__("SMART", "blog2social") . '</span></a>'.'  | ';
+            $content .= '<a onclick="return false;" class="b2s-edit-template-btn" data-network-type="' . esc_attr($data->networkType) . '" data-network-id="' . esc_attr($data->networkId) . '"> ' . esc_html__('Edit Post Template', 'blog2social') . '</a>' .'  | ';
         }
 
         if (!$this->isVideoMode) {
@@ -517,6 +517,7 @@ class B2S_Ship_Item {
         }
         
         $showDimensionAlert = 'none';
+        $alert = '';
         // start - image error alert
         if (isset(self::$minImageDimensions[$data->networkId]) && !empty(self::$minImageDimensions[$data->networkId])) {
             $attachmentId = get_post_thumbnail_id($this->postId);
@@ -1046,6 +1047,8 @@ class B2S_Ship_Item {
 
                 $edit .= $this->getAssBtnHtml($networkAuthId, $networkId, $message);
 
+                $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data);
+
                 $edit .= '<div class="row">';
                 $edit .= '<div class="' . ((isset($this->viewMode) && $this->viewMode == 'modal') ? 'col-xs-12' : 'col-xs-12 col-sm-5 col-lg-3') . '">';
                 $edit .= '<button class="btn btn-primary btn-circle b2s-image-remove-btn" data-network-count="-1" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '" ' . ($imageUrl ? '' : 'style="display:none"') . '><i class="glyphicon glyphicon-trash"></i></button>';
@@ -1085,6 +1088,8 @@ class B2S_Ship_Item {
                 $edit .= '</div>';
 
                 $edit .= $this->getAssBtnHtml($networkAuthId, $networkId, $message);
+
+                $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data);
 
                 $edit .= '<div class="row">';
                 $edit .= '<div class="' . ((isset($this->viewMode) && $this->viewMode == 'modal') ? 'col-xs-12' : 'col-xs-12 col-sm-5 col-lg-3') . '" >';
@@ -1364,6 +1369,7 @@ class B2S_Ship_Item {
                 $edit .= '</div>';
 
                 $edit .= $this->getAssBtnHtml($networkAuthId, $networkId, $message);
+                $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data);
 
                 if (!$this->isVideoMode) {
 
@@ -1565,6 +1571,8 @@ class B2S_Ship_Item {
                 }
                 $edit .= '</div>';
                 $edit .= $this->getAssBtnHtml((int) $networkAuthId, (int) $networkId, $message, $schedCount);
+                $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data, $schedCount);
+                
             }
 
             $edit .= '</div>';
@@ -1993,6 +2001,7 @@ class B2S_Ship_Item {
                 }
                 $edit .= '</div>';
                 $edit .= $this->getAssBtnHtml($networkAuthId, $networkId, $message, $schedCount);
+                $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data, $schedCount);
                 $edit .= '</div>';
                 $edit .= '</div>';
             }
@@ -2023,12 +2032,11 @@ class B2S_Ship_Item {
                     $edit .= '<button type="button" class="btn btn-sm b2s-post-item-details-item-message-emoji-btn" data-network-count="' . esc_attr($schedCount) . '" data-network-id="' . esc_attr($networkId) . '" data-network-auth-id="' . esc_attr($networkAuthId) . '"><img src="' . esc_url(plugins_url('/assets/images/b2s-emoji.png', B2S_PLUGIN_FILE)) . '"/></button>';
                 }
                 $edit .= '</div>';
+                
                 $edit .= $this->getAssBtnHtml($networkAuthId, $networkId, $message, $schedCount);
+                $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data, $schedCount);
 
-  
                 if ($networkId == 12) {
-
-                    $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data, $schedCount);
 
                     $edit .= '<div class="b2s-post-item-details-option">';
                     $edit .= '<input type="hidden" name="b2s[' . esc_attr($networkAuthId) . '][share_as_story][' . esc_attr($schedCount) . ']" value="0">';
@@ -2049,6 +2057,7 @@ class B2S_Ship_Item {
                 }
                 $edit .= '</div>';
                 $edit .= $this->getAssBtnHtml($networkAuthId, $networkId, $message, $schedCount);
+                $edit .= $this->getCommentArea($networkAuthId, $networkId, $networkType, $draftData, $data, $schedCount);
                 $edit .= '</div>';
             }
             $edit .= '</div>';
