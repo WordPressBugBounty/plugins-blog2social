@@ -763,7 +763,9 @@ jQuery(document).on('click', '#b2s-debug-connection-btn', function () {
             if (data.result == false) {
                 if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
-                } else {
+                } else if (data.error == 'permission_administrator') {
+                    jQuery('.b2s-no-permission-administrator').show();
+                }else {
                     jQuery('.b2s-debug-connection-result-area').show();
                     jQuery('.b2s-debug-connection-result-code').hide();
                     jQuery('.b2s-debug-connection-result-code-info').hide();

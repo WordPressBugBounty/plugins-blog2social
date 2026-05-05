@@ -6,7 +6,7 @@ Donate link: https://paypal.me/adenion
 Requires at least: 6.2
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 8.9.0
+Stable tag: 8.9.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,8 @@ No. Default WordPress plugin permissions (755) are sufficient.
 
 
 == Changelog ==
+= 8.9.1 =
+Additional Security Update
 = 8.9.0 =
 AI Post Templates, Extended Comment Feature & Improved Preview
 = 8.8.5 =
@@ -283,6 +285,8 @@ Bugfix: Autoposting
 Publish and share videos
 
 == Upgrade Notice ==
+= 8.9.1 =
+Additional Security Update
 = 8.9.0 =
 AI Post Templates, Extended Comment Feature & Improved Preview
 = 8.8.5 =

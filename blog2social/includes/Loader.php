@@ -1,13 +1,12 @@
 <?php
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
-
 /**
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
  */
-
 class B2S_Loader {
 
     public $blogUserData;
@@ -57,12 +56,12 @@ class B2S_Loader {
         define('B2S_PLUGIN_POSTPERPAGE', '25');
         define('B2S_PLUGIN_VERSION_TYPE', serialize(array(0 => 'Free', 1 => 'Smart', 2 => 'Pro', 3 => 'Business', 4 => 'Premium')));
         define('B2S_PLUGIN_NETWORK', serialize(array(1 => 'Facebook', 2 => 'X (Twitter)', 3 => 'LinkedIn', 4 => 'Tumblr', 6 => 'Pinterest', 7 => 'Flickr', 9 => 'Diigo', 11 => 'Medium', 12 => 'Instagram', 14 => 'Torial', 15 => 'Reddit', 16 => 'Bloglovin', 17 => 'VK', 18 => 'Google Business Profile', 19 => 'Xing', 21 => 'Imgur', 24 => 'Telegram', 25 => 'Blogger', 26 => 'Ravelry', 27 => 'Instapaper', 32 => 'YouTube', 35 => 'Vimeo', 36 => 'TikTok', 38 => 'Mastodon', 39 => 'Discord', 42 => 'HumHub', 43 => 'Bluesky', 44 => 'Threads', 45 => 'X', 46 => 'Band')));
-        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES', serialize(array(1 => array(9, 11), 3 => array(9, 12), 4 => array(19, 23), 6 => array(11, 14), 7 => array(7, 9), 11 => array(9, 11), 12 => array(10, 14), 14 => array(6, 8), 15 => array(19, 21), 16 => array(16, 19), 17 => array(8, 10), 18 => array(9, 11), 19 => array(8, 10), 21 => array(8, 11), 24 => array(13, 16), 25 => array(8, 11), 26 => array(18, 21), 32 => array(21, 23), 35 => array(13, 17),  36 => array(9, 10), 38 => array(8, 10), 39 => array(18, 24), 43 => array(9, 14), 44 => array(8, 12), 45 => array(9, 14))));
-        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES_INFO', serialize(array(1 => array(0 => array(9, 11), 1 => array(16, 17)), 3 => array(0 => array(9, 12)), 4 => array(0 => array(19, 23)), 6 => array(0 => array(11, 14), 1 => array(19, 22)), 7 => array(0 => array(7, 9), 1 => array(17, 22)), 11 => array(0 => array(9, 11)), 12 => array(0 => array(10, 14)), 14 => array(0 => array(6, 8)), 15 => array(0 => array(19, 21)), 16 => array(0 => array(16, 19)), 17 => array(0 => array(8, 10), 1 => array(12, 14), 2 => array(18, 21)), 18 => array(0 => array(9, 11)), 19 => array(0 => array(8, 10), 1 => array(16, 18)), 24 => array(0 => array(13, 16), 1 => array(18, 22)), 25 => array(0 => array(8, 11)), 26 => array(0 => array(18, 21)), 32 => array(0 => array(21, 23)),35 => array(0 => array(13, 17)),  36 => array(0 => array(9, 10)), 38 => array(0 => array(8, 10), 1 => array(18, 21)), 39 => array(0 => array(18, 24)), 43 => array(0 => array(9, 14)), 44 => array(0 => array(8, 12)), 45 => array(0 => array(9, 14)))));
+        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES', serialize(array(1 => array(9, 11), 3 => array(9, 12), 4 => array(19, 23), 6 => array(11, 14), 7 => array(7, 9), 11 => array(9, 11), 12 => array(10, 14), 14 => array(6, 8), 15 => array(19, 21), 16 => array(16, 19), 17 => array(8, 10), 18 => array(9, 11), 19 => array(8, 10), 21 => array(8, 11), 24 => array(13, 16), 25 => array(8, 11), 26 => array(18, 21), 32 => array(21, 23), 35 => array(13, 17), 36 => array(9, 10), 38 => array(8, 10), 39 => array(18, 24), 43 => array(9, 14), 44 => array(8, 12), 45 => array(9, 14))));
+        define('B2S_PLUGIN_SCHED_DEFAULT_TIMES_INFO', serialize(array(1 => array(0 => array(9, 11), 1 => array(16, 17)), 3 => array(0 => array(9, 12)), 4 => array(0 => array(19, 23)), 6 => array(0 => array(11, 14), 1 => array(19, 22)), 7 => array(0 => array(7, 9), 1 => array(17, 22)), 11 => array(0 => array(9, 11)), 12 => array(0 => array(10, 14)), 14 => array(0 => array(6, 8)), 15 => array(0 => array(19, 21)), 16 => array(0 => array(16, 19)), 17 => array(0 => array(8, 10), 1 => array(12, 14), 2 => array(18, 21)), 18 => array(0 => array(9, 11)), 19 => array(0 => array(8, 10), 1 => array(16, 18)), 24 => array(0 => array(13, 16), 1 => array(18, 22)), 25 => array(0 => array(8, 11)), 26 => array(0 => array(18, 21)), 32 => array(0 => array(21, 23)), 35 => array(0 => array(13, 17)), 36 => array(0 => array(9, 10)), 38 => array(0 => array(8, 10), 1 => array(18, 21)), 39 => array(0 => array(18, 24)), 43 => array(0 => array(9, 14)), 44 => array(0 => array(8, 12)), 45 => array(0 => array(9, 14)))));
         define('B2S_PLUGIN_NETWORK_ALLOW_PROFILE', serialize(array(1, 2, 3, 4, 7, 9, 11, 14, 15, 16, 17, 18, 19, 21, 24, 25, 26, 27, 32, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46)));
         define('B2S_PLUGIN_NETWORK_ALLOW_PAGE', serialize(array(1, 3, 6, 12, 17, 19, 42)));
         define('B2S_PLUGIN_NETWORK_ALLOW_GROUP', serialize(array(11, 17)));
-        define('B2S_PLUGIN_NETWORK_ALLOW_COMMENT',serialize(array(1=>array(1),3,7,12,15,17,35,32,38,39,43,44,45,46))); //just numbers->all types, array->only listed types allowed
+        define('B2S_PLUGIN_NETWORK_ALLOW_COMMENT', serialize(array(1 => array(1), 3, 7, 12, 15, 17, 35, 32, 38, 39, 43, 44, 45, 46))); //just numbers->all types, array->only listed types allowed
         define('B2S_PLUGIN_NETWORK_SUPPORT_VIDEO', serialize(array(1, 2, 3, 4, 6, 7, 12, 32, 35, 36, 38, 39, 44, 45)));
         define('B2S_PLUGIN_NETWORK_SUPPORT_SOCIAL', serialize(array(1, 2, 3, 4, 6, 7, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21, 24, 25, 26, 27, 36, 37, 38, 39, 42, 43, 44, 45, 46)));
         define('B2S_PLUGIN_NETWORK_CROSSPOSTING_LIMIT', serialize(array(19 => array(2 => 3)))); //2=group
@@ -82,71 +81,71 @@ class B2S_Loader {
                 sprintf(__('AI Templates: Create AI-generated posts with individual prompts, tone, and writing style for each network. Find detailed instructions <a target="_blank" href="%s">How to use AI Templates for personalized social media posts</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_ai_templates'))),
                 // translators: %s is a link
                 sprintf(__('First Comments for more platforms: The comment feature now also supports Flickr, Reddit, VKontakte, YouTube, Vimeo, Mastodon, Discord, Threads, and Band. Learn more: <a target="_blank" href="%s">How do I post content as the first comment of my social media post?</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_first_comment'))),
-                ),
+            ),
             'improvements' => array(),
             'fixed' => array(
-             esc_html__('Security update with optimizations related to Wordfence', 'blog2social'),
-             esc_html__('Post Preview: Improved template compatibility gives you a smoother and more reliable preview before publishing.', 'blog2social'), 
-            ), 
+                esc_html__('Security update with optimizations related to Wordfence', 'blog2social'),
+                esc_html__('Post Preview: Improved template compatibility gives you a smoother and more reliable preview before publishing.', 'blog2social'),
+            ),
             'upcoming' => array()
         )));
 
         define('B2S_PLUGIN_NETWORK_SETTINGS_TEMPLATE_DEFAULT', serialize(array(
-            1 => array( 0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 500), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true ),
-                        1 => array('short_text' => array('active' => 0, 'range_min' => 500, 'range_max' => 1000, 'excerpt_range_min' => 250, 'excerpt_range_max' => 500, 'limit' => 0), 
-                                'short_comment' => array('active' => 0, 'range_min' => 500, 'range_max' => 1000, 'excerpt_range_min' => 250, 'excerpt_range_max' => 500, 'limit' => 8000), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true)),
-            2 => array( 0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 254, 'excerpt_range_min' => 200, 'excerpt_range_max' => 254, 'limit' => 280), 'content' => '{CONTENT} {KEYWORDS}', 'format' => 1, 'addLink' => true, 'twitterThreads' => false)),
-            3 => array( 0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 3000),
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 1250),'content' => "{CONTENT}\n{KEYWORDS}", 'format' =>  0, 'addLink' => true),
-                        1 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 3000),
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 1250),'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true)),
-            4 => array( 0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => "{CONTENT}", 'format' => 0, 'separateKeywords' => true)), //tumblr 0->defaults to text/html
-            6 => array( 0 => array('short_text' => array('active' => 0, 'range_min' => 350, 'range_max' => 421, 'excerpt_range_min' => 350, 'excerpt_range_max' => 421, 'limit' => 495), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false),
-                        1 => array('short_text' => array('active' => 0, 'range_min' => 350, 'range_max' => 421, 'excerpt_range_min' => 350, 'excerpt_range_max' => 421, 'limit' => 495), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false)),
-            7 => array( 0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 
-                                'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
-            9 => array( 0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 250, 'excerpt_range_min' => 200, 'excerpt_range_max' => 250, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
-            11 =>array(0 =>  array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'separateKeywords' => true),
-                        2 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'separateKeywords' => true)),
-            12 => array(1 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 2200), 
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 2200), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 1, 'addLink' => false, 'shuffleHashtags' => false, 'framecolor' => '#ffffff')),
+            1 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 500), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true),
+                1 => array('short_text' => array('active' => 0, 'range_min' => 500, 'range_max' => 1000, 'excerpt_range_min' => 250, 'excerpt_range_max' => 500, 'limit' => 0),
+                    'short_comment' => array('active' => 0, 'range_min' => 500, 'range_max' => 1000, 'excerpt_range_min' => 250, 'excerpt_range_max' => 500, 'limit' => 8000), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true)),
+            2 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 254, 'excerpt_range_min' => 200, 'excerpt_range_max' => 254, 'limit' => 280), 'content' => '{CONTENT} {KEYWORDS}', 'format' => 1, 'addLink' => true, 'twitterThreads' => false)),
+            3 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 3000),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 1250), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true),
+                1 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 3000),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 200, 'excerpt_range_max' => 400, 'limit' => 1250), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0, 'addLink' => true)),
+            4 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => "{CONTENT}", 'format' => 0, 'separateKeywords' => true)), //tumblr 0->defaults to text/html
+            6 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 350, 'range_max' => 421, 'excerpt_range_min' => 350, 'excerpt_range_max' => 421, 'limit' => 495), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false),
+                1 => array('short_text' => array('active' => 0, 'range_min' => 350, 'range_max' => 421, 'excerpt_range_min' => 350, 'excerpt_range_max' => 421, 'limit' => 495), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false)),
+            7 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),
+                    'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
+            9 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 250, 'excerpt_range_min' => 200, 'excerpt_range_max' => 250, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
+            11 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'separateKeywords' => true),
+                2 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'separateKeywords' => true)),
+            12 => array(1 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 2200),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 2200), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 1, 'addLink' => false, 'shuffleHashtags' => false, 'framecolor' => '#ffffff')),
             14 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
             15 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 300, 'excerpt_range_min' => 200, 'excerpt_range_max' => 300, 'limit' => 0),
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 300, 'excerpt_range_min' => 200, 'excerpt_range_max' => 300, 'limit' => 0),'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 300, 'excerpt_range_min' => 200, 'excerpt_range_max' => 300, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
             16 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false, 'disableKeywords' => true)),
-            17 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 
-                                'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0),
-                        1 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 
-                                'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0),
-                        2 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),
-                                'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0)),
+            17 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),
+                    'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0),
+                1 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),
+                    'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0),
+                2 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0),
+                    'short_comment' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 0), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 0)),
             18 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 1500, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 1500, 'limit' => 1500), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false)),
             19 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 320, 'excerpt_range_min' => 200, 'excerpt_range_max' => 320, 'limit' => 0), 'content' => '{CONTENT}', 'format' => 0, 'disableKeywords' => true),
-                        1 => array('short_text' => array(4 => array('active' => 0, 'range_min' => 1500, 'range_max' => 5000, 'excerpt_range_min' => 800, 'excerpt_range_max' => 1200, 'limit' => 60000)), 'content' => '{CONTENT}', 'format' => 1, 'disableKeywords' => true)),
+                1 => array('short_text' => array(4 => array('active' => 0, 'range_min' => 1500, 'range_max' => 5000, 'excerpt_range_min' => 800, 'excerpt_range_max' => 1200, 'limit' => 60000)), 'content' => '{CONTENT}', 'format' => 1, 'disableKeywords' => true)),
             24 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 320, 'excerpt_range_min' => 200, 'excerpt_range_max' => 320, 'limit' => 420), 'content' => '{CONTENT}', 'format' => 0)),
             25 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false)),
             26 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false)),
             27 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => false)),
-            32 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 0), 
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 10000),'content' => "{CONTENT}", 'format' => false)),
-            35 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 5000), 
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 5000),'content' => "{CONTENT}", 'format' => false, 'disableKeywords' => true)),
+            32 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 0),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 10000), 'content' => "{CONTENT}", 'format' => false)),
+            35 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 5000),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 5000), 'content' => "{CONTENT}", 'format' => false, 'disableKeywords' => true)),
             36 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 400, 'excerpt_range_min' => 240, 'excerpt_range_max' => 400, 'limit' => 4000), 'content' => "{CONTENT}", 'format' => false)),
             37 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 1000, 'range_max' => 20000, 'excerpt_range_min' => 1000, 'excerpt_range_max' => 20000, 'limit' => 0), 'content' => '{CONTENT}', 'format' => 1, 'addLink' => true)),
-            38 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 400, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500), 
-                                'short_comment' => array('active' => 0, 'range_min' => 400, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500),'content' => '{CONTENT} {KEYWORDS}', 'format' => false, 'addLink' => true)),
+            38 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 400, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500),
+                    'short_comment' => array('active' => 0, 'range_min' => 400, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500), 'content' => '{CONTENT} {KEYWORDS}', 'format' => false, 'addLink' => true)),
             39 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 0, 'range_max' => 2000, 'excerpt_range_min' => 0, 'excerpt_range_max' => 2000, 'limit' => 2000),
-                                'short_comment' => array('active' => 0, 'range_min' => 0, 'range_max' => 2000, 'excerpt_range_min' => 0, 'excerpt_range_max' => 2000, 'limit' => 2000),'content' => "{TITLE} {CONTENT}", 'format' => false, 'disableKeywords' => true)),
+                    'short_comment' => array('active' => 0, 'range_min' => 0, 'range_max' => 2000, 'excerpt_range_min' => 0, 'excerpt_range_max' => 2000, 'limit' => 2000), 'content' => "{TITLE} {CONTENT}", 'format' => false, 'disableKeywords' => true)),
             42 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 0, 'range_max' => 1000, 'excerpt_range_min' => 0, 'excerpt_range_max' => 2000, 'limit' => 0), 'content' => "{CONTENT}", 'format' => false, 'addLink' => true),
-                        1 => array('short_text' => array('active' => 0, 'range_min' => 0, 'range_max' => 1000, 'excerpt_range_min' => 0, 'excerpt_range_max' => 2000, 'limit' => 0), 'content' => "{CONTENT}", 'format' => false, 'addLink' => true)),
+                1 => array('short_text' => array('active' => 0, 'range_min' => 0, 'range_max' => 1000, 'excerpt_range_min' => 0, 'excerpt_range_max' => 2000, 'limit' => 0), 'content' => "{CONTENT}", 'format' => false, 'addLink' => true)),
             43 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 300, 'excerpt_range_min' => 200, 'excerpt_range_max' => 300, 'limit' => 300),
-                                 'short_comment'=> array('active' => 0, 'range_min' => 200, 'range_max' => 300, 'excerpt_range_min' => 200, 'excerpt_range_max' => 300, 'limit' => 300),'content' => '{CONTENT} {KEYWORDS}', 'format' => 1, 'addLink' => true)),
-            44 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 0, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500), 
-                                'short_comment' => array('active' => 0, 'range_min' => 0, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500),'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 1, 'addLink' => true)),
-            45 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 254, 'excerpt_range_min' => 200, 'excerpt_range_max' => 254, 'limit' => 280), 
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 254, 'excerpt_range_min' => 200, 'excerpt_range_max' => 254, 'limit' => 280),'content' => "{CONTENT} {KEYWORDS}", 'format' => 1, 'addLink' => true, 'twitterThreads' => false)),
-            46 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 600, 'excerpt_range_min' => 500, 'excerpt_range_max' => 2000, 'limit' => 0), 
-                                'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 600, 'excerpt_range_min' => 500, 'excerpt_range_max' => 2000, 'limit' => 0),'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false, 'addLink' => true)),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 300, 'excerpt_range_min' => 200, 'excerpt_range_max' => 300, 'limit' => 300), 'content' => '{CONTENT} {KEYWORDS}', 'format' => 1, 'addLink' => true)),
+            44 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 0, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500),
+                    'short_comment' => array('active' => 0, 'range_min' => 0, 'range_max' => 500, 'excerpt_range_min' => 0, 'excerpt_range_max' => 500, 'limit' => 500), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => 1, 'addLink' => true)),
+            45 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 254, 'excerpt_range_min' => 200, 'excerpt_range_max' => 254, 'limit' => 280),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 254, 'excerpt_range_min' => 200, 'excerpt_range_max' => 254, 'limit' => 280), 'content' => "{CONTENT} {KEYWORDS}", 'format' => 1, 'addLink' => true, 'twitterThreads' => false)),
+            46 => array(0 => array('short_text' => array('active' => 0, 'range_min' => 200, 'range_max' => 600, 'excerpt_range_min' => 500, 'excerpt_range_max' => 2000, 'limit' => 0),
+                    'short_comment' => array('active' => 0, 'range_min' => 200, 'range_max' => 600, 'excerpt_range_min' => 500, 'excerpt_range_max' => 2000, 'limit' => 0), 'content' => "{CONTENT}\n{KEYWORDS}", 'format' => false, 'addLink' => true)),
         )));
 
         define('B2S_PLUGIN_SYSTEMREQUIREMENT_WORDPRESSVERSION', '4.7.0');
@@ -163,7 +162,7 @@ class B2S_Loader {
         define('B2S_PLUGIN_SYSTEMREQUIREMENT_OPENSSL', true);
         define('B2S_PLUGIN_PAGE_SLUG', serialize(array('blog2social', 'blog2social-post', 'blog2social-calendar', 'blog2social-curation', 'blog2social-network', 'blog2social-settings', 'prg-post', 'blog2social-support', 'blog2social-premium', 'blog2social-sched', 'blog2social-approve', 'blog2social-publish', 'blog2social-notice', 'blog2social-ship', 'blog2social-video', 'blog2social-curation-draft', 'blog2social-draft-post', 'prg-login', 'prg-ship')));
         define('B2S_PLUGIN_NETWORK_NOT_ALLOW_GIF', json_encode(array(18, 26, 38, 42, 43)));
-        define('B2S_PLUGIN_NETWORK_ANIMATE_GIF', json_encode(array(1 => array(0 => false, 1 => true), 3 => array(0 => true, 1 => true), 4 => array(0 => true), 6 => array(0 => true), 7 => array(0 => false), 11 => array(0 => true), 12 => array(0 => false, 1 => false), 14 => array(0 => true), 15 => array(0 => false), 17 => array(0 => false), 19 => array(0 => true, 1 => true), 21 => array(0 => true), 24 => array(0 => true), 44=>array(0=>false), 45 => array(0 => false))));
+        define('B2S_PLUGIN_NETWORK_ANIMATE_GIF', json_encode(array(1 => array(0 => false, 1 => true), 3 => array(0 => true, 1 => true), 4 => array(0 => true), 6 => array(0 => true), 7 => array(0 => false), 11 => array(0 => true), 12 => array(0 => false, 1 => false), 14 => array(0 => true), 15 => array(0 => false), 17 => array(0 => false), 19 => array(0 => true, 1 => true), 21 => array(0 => true), 24 => array(0 => true), 44 => array(0 => false), 45 => array(0 => false))));
         define('B2S_PLUGIN_NETWORK_META_TAGS', json_encode(array('og' => array(1, 3, 15, 19, 17, 43, 44), 'twitter' => array(2, 24, 45))));
         define('B2S_PLUGIN_SHORTENER', serialize(array(0 => esc_html__('Bitly', 'blog2social'), 1 => esc_html__('Rebrandly', 'blog2social'), 2 => esc_html__('Sniply', 'blog2social'))));
 
@@ -766,7 +765,7 @@ class B2S_Loader {
                             $filter = true;
                             $options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
                             $optionAutoPost = $options->_getOption('auto_post');
-                            
+
                             if ($optionAutoPost !== false && is_array($optionAutoPost)) {
                                 // Check categories filter
                                 if (isset($optionAutoPost['categories_data']) && is_array($optionAutoPost['categories_data']) && !empty($optionAutoPost['categories_data'])) {
@@ -779,7 +778,7 @@ class B2S_Loader {
                                                 break;
                                             }
                                         }
-                                        
+
                                         if (isset($optionAutoPost['categories_state']) && (int) $optionAutoPost['categories_state'] == 0) { //include
                                             if (!$categoryMatch) {
                                                 $filter = false;
@@ -791,7 +790,7 @@ class B2S_Loader {
                                         }
                                     }
                                 }
-                                
+
                                 // Check tags filter
                                 if ($filter && isset($optionAutoPost['tags_data']) && is_array($optionAutoPost['tags_data']) && !empty($optionAutoPost['tags_data'])) {
                                     $postTags = get_the_tags((int) $_POST['post_ID']);
@@ -803,7 +802,7 @@ class B2S_Loader {
                                                 break;
                                             }
                                         }
-                                        
+
                                         if (isset($optionAutoPost['tags_state']) && (int) $optionAutoPost['tags_state'] == 0) { //include
                                             if (!$tagMatch) {
                                                 $filter = false;
@@ -823,7 +822,7 @@ class B2S_Loader {
                             }
 
                             // If filters do not pass, skip auto-posting
-                            if(!$filter){
+                            if (!$filter) {
                                 return;
                             }
 
@@ -2206,11 +2205,33 @@ class B2S_Loader {
         if (!isset($wp_roles)) {
             $wp_roles = new WP_Roles(); // @codingStandardsIgnoreLine
         }
+
         if (!function_exists('get_editable_roles')) {
             require_once ABSPATH . 'wp-admin/includes/user.php';
         }
+
+        //JM 2026.05.04 - Security Patch, not allow User Role: subscriber, contributor
+        /*
+          foreach (get_editable_roles() as $role_name => $role_info) {
+          $wp_roles->add_cap($role_name, 'blog2social_access');
+          }
+         */
+
         foreach (get_editable_roles() as $role_name => $role_info) {
-            $wp_roles->add_cap($role_name, 'blog2social_access');
+
+            $role = get_role($role_name);
+
+            if (!$role instanceof WP_Role) {
+                continue;
+            }
+
+            if ($role->has_cap('edit_posts')) {
+                // Grant access to roles that can edit posts
+                $role->add_cap('blog2social_access');
+            } else {
+                // Remove access from roles that shouldn't have it
+                $role->remove_cap('blog2social_access');
+            }
         }
     }
 
@@ -2363,7 +2384,7 @@ class B2S_Loader {
             }
             if (!in_array("display_post_format", $b2sPostsColsData)) {
                 $wpdb->query("ALTER TABLE {$wpdb->prefix}b2s_posts ADD display_post_format varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'wp' ");
-            } 
+            }
         }
 
         $keys = $wpdb->get_results('SHOW INDEX FROM `' . $wpdb->prefix . 'b2s_posts`');
@@ -2498,7 +2519,7 @@ class B2S_Loader {
             PRIMARY KEY (`id`),
             INDEX `blog_user_id` (`blog_user_id`), INDEX `network_id` (`network_id`), INDEX `type_id` (`type_id`)
             ) DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci AUTO_INCREMENT=1;";
-            
+
         //No User input in statement
         // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $wpdb->query($sqlCreateAiTemplate);
@@ -2511,7 +2532,7 @@ class B2S_Loader {
                     $b2sAiTemplateColsData[] = $value->Field;
                 }
             }
-            if(!in_array("id", $b2sAiTemplateColsData)) {
+            if (!in_array("id", $b2sAiTemplateColsData)) {
                 $wpdb->query("ALTER TABLE {$wpdb->prefix}b2s_ai_template ADD id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
             }
             if (!in_array("blog_user_id", $b2sAiTemplateColsData)) {
