@@ -1094,6 +1094,10 @@ jQuery(document).on("click", ".b2s-network-select-btn", function (event, forceRe
                         if (data != undefined) {
                             jQuery('.b2s-network-status-img-loading[data-network-auth-id="' + data.networkAuthId + '"]').hide();
                             jQuery('.b2s-network-select-btn[data-network-auth-id="' + data.networkAuthId + '"]').removeClass('b2s-network-select-btn-deactivate');
+                            jQuery('.b2s-disconnected-networks-notice[data-network-auth-id="' + data.networkAuthId + '"]').hide();
+                            if (jQuery('.b2s-network-status-expiredDate').length === 0) {
+                                jQuery('.b2s-disconnected-networks-notice').hide();
+                            }
                             if (data.result == true) {
                                 jQuery('.b2s-post-item-loading-dummy[data-network-auth-id="' + data.networkAuthId + '"]').remove();
                                 var order = jQuery.parseJSON(jQuery('.b2s-network-navbar-order').val());
@@ -1230,7 +1234,7 @@ jQuery(document).on("click", ".b2s-network-select-btn", function (event, forceRe
                                         jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + data.networkAuthId + '"]').val(jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val());
 
                                         // check for add link (posting templates)
-                                        if (jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val() == 1) {
+                                        if (jQuery('.b2sNetworkSettingsPostFormatCurrent[data-network-type="' + data.networkType + '"][data-network-id="' + data.networkId + '"]').val() == 1 || data.networkId == 6) {
                                             if (jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + data.networkAuthId + '][url]"]').attr('data-add-link') == 1) { // add link true
                                                 url = jQuery("#b2sDefault_url").val();
                                                 jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val(url);
@@ -1928,7 +1932,7 @@ jQuery(document).on('change', '.b2s-post-item-details-release-input-date-select'
     if (jQuery(this).val() == 1) {
 
         // start - disable assistini buttons for main textarea of this network
-        if (! ( this.getAttribute('data-network-id') == 4 || this.getAttribute('data-network-id') == 11 ||  this.getAttribute('data-network-id') == 27 || this.getAttribute('data-network-id') == 38 || this.getAttribute('data-network-id') == 39 ) ) { // special case tumblr
+        if (! ( this.getAttribute('data-network-id') == 4 || this.getAttribute('data-network-id') == 11 ||  this.getAttribute('data-network-id') == 27 || this.getAttribute('data-network-id') == 38 || this.getAttribute('data-network-id') == 39 || this.getAttribute('data-network-id') == 47 ) ) { // special case tumblr
             var networkAuthId = jQuery(this).data('network-auth-id');
             hideAssButtons(networkAuthId);
         }
@@ -4636,11 +4640,56 @@ function loginSuccess(networkId, networkType, displayName, networkAuthId, mandan
         jQuery('.b2s-network-select-btn[data-network-auth-id="' + networkAuthId + '"]').trigger('click');
     }
     jQuery('.b2s-network-select-btn[data-network-id="' + networkId + '"][data-network-type="' + networkType + '"][data-network-display-name="' + displayName.toLowerCase() + '"]').each(function () {
-        jQuery('.b2s-network-status-expiredDate[data-network-auth-id="' + jQuery(this).attr('data-network-auth-id') + '"]').remove();
+        var refreshedAuthId = jQuery(this).attr('data-network-auth-id');
+        jQuery('.b2s-network-status-expiredDate[data-network-auth-id="' + refreshedAuthId + '"]').remove();
+        jQuery('.b2s-disconnected-networks-notice[data-network-auth-id="' + refreshedAuthId + '"]').hide();
         jQuery(this).removeClass('b2s-network-select-btn-deactivate');
         jQuery(this).removeAttr('onclick');
     });
+    if (jQuery('.b2s-network-status-expiredDate').length === 0) {
+        jQuery('.b2s-disconnected-networks-notice').hide();
+    }
 }
+
+jQuery(document).on('click', '.b2s-disconnected-delete-btn', function () {
+    var networkAuthId = jQuery(this).data('network-auth-id');
+    var networkId = jQuery(this).data('network-id');
+    var networkType = jQuery(this).data('network-type');
+    var noticeEl = jQuery('.b2s-disconnected-networks-notice[data-network-auth-id="' + networkAuthId + '"]');
+    noticeEl.find('.b2s-disconnected-delete-btn, .b2s-disconnected-refresh-btn').prop('disabled', true);
+    jQuery.ajax({
+        url: ajaxurl,
+        type: 'POST',
+        dataType: 'json',
+        cache: false,
+        data: {
+            'action': 'b2s_delete_user_auth',
+            'networkAuthId': networkAuthId,
+            'networkId': networkId,
+            'networkType': networkType,
+            'deleteSchedPost': 0,
+            'assignNetworkAuthId': 0,
+            'blogUserId': 0,
+            'deleteAssignment': '',
+            'assignList': '',
+            'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
+        },
+        error: function () {
+            noticeEl.find('.b2s-disconnected-delete-btn, .b2s-disconnected-refresh-btn').prop('disabled', false);
+        },
+        success: function (data) {
+            if (data.result == true) {
+                noticeEl.hide();
+                jQuery('.b2s-network-select-btn[data-network-auth-id="' + networkAuthId + '"]').closest('li').remove();
+                jQuery('.b2s-network-remove-success').show();
+                jQuery('html, body').animate({scrollTop: 0}, 400);
+            } else {
+                noticeEl.find('.b2s-disconnected-delete-btn, .b2s-disconnected-refresh-btn').prop('disabled', false);
+            }
+        }
+    });
+    return false;
+});
 
 
 //ASS
@@ -5268,7 +5317,8 @@ function changePostFormat(networkId, networkType, postFormat, networkAuthId, pos
     }
 
     // check for add Link (posting templates)
-    if (networkId != 12) {
+    if (networkId != 12 && networkId != 6) {
+
         if (postFormat == 0) {
             let addUrl = (jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + networkAuthId + '][url]"]').val().length > 0 ? jQuery('.b2s-post-item-details-item-url-input[name="b2s[' + networkAuthId + '][url]"]').val() : jQuery("#b2sDefault_url").val());
             jQuery(".b2s-post-item-details-item-url-input[data-network-auth-id='" + networkAuthId + "']").val(addUrl);
@@ -5415,30 +5465,33 @@ function changePostFormat(networkId, networkType, postFormat, networkAuthId, pos
     }
 
     if (networkId == 12) {
-
+        jQuery('.b2s-post-item-details-item-url-input[data-network-auth-id="' + networkAuthId + '"]').parent().show();
+      
         //Fix Bug IG Postformat = 0 is image cutout, buttons need to show
         if (postFormat == 0) {
             jQuery('.b2s-select-image-modal-open[data-network-auth-id="' + networkAuthId + '"]').show();
             jQuery('.b2s-image-remove-btn[data-network-auth-id="' + networkAuthId + '"]').show();
+            // Instagram postFormat 0 is an image post (not a link post) – link field must always be visible
         }
 
         if (jQuery('.b2s-post-item-option-share-as-story[data-network-auth-id="' + networkAuthId + '"]').prop("checked")) {
             jQuery('.b2s-share-as-story-fields[data-network-auth-id="' + networkAuthId + '"]').show();
-            jQuery('.b2s-post-item-details-item-url-input[data-network-auth-id="' + networkAuthId + '"]').parent().hide();
             jQuery('.b2s-multi-image-area[data-network-auth-id="' + networkAuthId + '"]').hide();
             jQuery('.b2s-post-item-details-item-message-area[data-network-auth-id="' + networkAuthId + '"]').not('.b2s-share-as-story-fields').hide();
         }
-    }
-
-    //Hide OG Area when changed to image from v8.4 onwards
-    if (postFormat == 1) {
-        jQuery('.b2s-post-original-area[data-network-auth-id="' + networkAuthId + '"]').children(':not(div.input-group)').attr('style', 'display: none !important;');
-    } else
+    }else
     {
-        if (networkId != 12) {
-            jQuery('.b2s-post-original-area[data-network-auth-id="' + networkAuthId + '"]').children(':not(div.input-group)').show();
+        //Hide OG Area when changed to image from v8.4 onwards
+        if (postFormat == 1) {
+            jQuery('.b2s-post-original-area[data-network-auth-id="' + networkAuthId + '"]').children(':not(div.input-group)').attr('style', 'display: none !important;');
+        } else
+        {
+            if (networkId != 6) {
+                jQuery('.b2s-post-original-area[data-network-auth-id="' + networkAuthId + '"]').children(':not(div.input-group)').show();
+            }
         }
     }
+    
 
     return false;
 }
@@ -6015,15 +6068,14 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
                 var tumblrLink=false;
                 if (textareaElm[0].classList.contains('b2s-post-item-details-item-message-input-allow-html')) { // is html network
                 
-                    //Tumbr Linkpost
-                    var networkId= jQuery('.b2s-post-item-details-post-format[data-network-auth-id="' + networkAuthId + '"]').data("network-id");
-                    if(networkId== 4 ){
+                    
+                    var networkId= textareaElm.data("network-id");
+                    if(networkId== 4 || networkId== 47){
                         
                         //Handle Tags from Assistini
                         removeAllTags(networkAuthId);
                         var ass_hashtags = [...data.ass_hashtags.matchAll(/#([\p{L}\p{N}_]+)/gu)].map(match => match[1]);
                         ass_hashtags.forEach(element => {
-                           
                             addTagwithContent(networkAuthId, element);
                         });
                         
@@ -7404,7 +7456,7 @@ jQuery(document).on('click', '.b2s-edit-template-link-post', function () {
     jQuery('.b2s-edit-template-image-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
     jQuery('.b2s-edit-template-text-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-primary').addClass('btn-light');
     jQuery('.b2s-edit-template-link-post[data-network-type=' + jQuery(this).attr('data-network-type') + ']').removeClass('btn-light').addClass('btn-primary');
-    if(networkId == 4){
+    if(networkId == 4 || networkId == 47){
         jQuery('.b2s-edit-template-post-format[data-network-type=' + jQuery(this).attr('data-network-type') + ']').val('3');
     }else {
         jQuery('.b2s-edit-template-post-format[data-network-type=' + jQuery(this).attr('data-network-type') + ']').val('0');
@@ -7417,7 +7469,7 @@ jQuery(document).on('click', '.b2s-edit-template-link-post', function () {
     toggleFbPageShareAsStory(networkId, jQuery(this).attr('data-network-type'));
 
     // Tumblr special Preview Post again
-    if(networkId == 4) {
+    if(networkId == 4 || networkId == 47) {
         var post = generateExamplePost(jQuery('.b2s-edit-template-post-content').val().replace(/\n/g, "<br>"), jQuery('.b2s-edit-template-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val(), jQuery('.b2s-edit-template-excerpt-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val());
         jQuery('.b2s-edit-template-preview-content[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').html(post);
     }
@@ -7438,7 +7490,7 @@ jQuery(document).on('click', '.b2s-edit-template-image-post', function () {
     toggleFbPageShareAsStory(networkId, jQuery(this).attr('data-network-type'));
 
     // Tumblr special Preview Post again
-    if(networkId == 4) {
+    if(networkId == 4 || networkId == 47) {
         var post = generateExamplePost(jQuery('.b2s-edit-template-post-content').val().replace(/\n/g, "<br>"), jQuery('.b2s-edit-template-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val(), jQuery('.b2s-edit-template-excerpt-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val());
         jQuery('.b2s-edit-template-preview-content[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').html(post);
     }
@@ -7459,7 +7511,7 @@ jQuery(document).on('click', '.b2s-edit-template-text-post', function () {
     toggleFbPageShareAsStory(networkId, jQuery(this).attr('data-network-type'));
 
     // Tumblr special Preview Post again
-    if(networkId == 4) {
+    if(networkId == 4 || networkId == 47) {
         var post = generateExamplePost(jQuery('.b2s-edit-template-post-content').val().replace(/\n/g, "<br>"), jQuery('.b2s-edit-template-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val(), jQuery('.b2s-edit-template-excerpt-range[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').val());
         jQuery('.b2s-edit-template-preview-content[data-network-type="' + jQuery(this).attr('data-network-type') + '"]').html(post);
     }
@@ -7741,7 +7793,7 @@ jQuery(document).on('click', '.b2s-edit-template-save-btn', function () {
             
             var networkId= jQuery('#b2s-edit-template-network-id').val();
             var activeTemplateType= getActiveTemplateType();
-            if(networkId == 12){
+            if(networkId == 12 || networkId == 6){
                 activeTemplateType = 1;
             }
 
@@ -7816,6 +7868,14 @@ function getActiveTemplateType() {
     }
     // Group
     if (jQuery('.b2s-template-group').closest('li.active').length > 0) {
+        return 2;
+    }
+
+    // Fallback: no nav tabs rendered (single-type network), detect via active tab-pane class
+    if (jQuery('.b2s-template-tab-1.active').length > 0) {
+        return 1;
+    }
+    if (jQuery('.b2s-template-tab-2.active').length > 0) {
         return 2;
     }
 
@@ -7953,7 +8013,7 @@ function generateExamplePost(template, content_range, exerpt_range) {
     }
 
     //tumblr special preview case
-    if(jQuery('#b2s-edit-template-network-id').val() == 4){
+    if(jQuery('#b2s-edit-template-network-id').val() == 4 || jQuery('#b2s-edit-template-network-id').val() == 47){
         var postFormat= jQuery('.b2s-edit-template-post-format').val();
 
         if(postFormat == 3){

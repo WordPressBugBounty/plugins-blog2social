@@ -19,8 +19,9 @@ class B2S_AutoPost {
     private $optionPostFormat;
     private $setPreFillTextLimit;
     private $allowHashTag;
+    private $limitHashTag =array(47=>4);
     private $userVersion;
-    private $allowHtml = array(4, 11, 14, 25);
+    private $allowHtml = array(4, 11, 14, 25, 47);
     private $default_template;
     private $echo;
     private $delay;
@@ -263,6 +264,26 @@ class B2S_AutoPost {
                 if($networkId == 39) {
                     $postData['custom_title'] = wp_strip_all_tags($this->title);
                 }
+
+                if ($networkId == 47) {
+                    $postData['custom_title'] = wp_strip_all_tags($this->title);
+                    $networkLimitHashTag = isset($this->limitHashTag[$networkId]) ? $this->limitHashTag[$networkId] : false;
+                    $countHashtags= 0;
+                    if ($this->allowHashTag) {
+                        if (is_array($this->keywords) && !empty($this->keywords)) {
+                            foreach ($this->keywords as $tag) {
+                                $postData['tags'][] = str_replace(" ", "", $tag->name);
+                                if($networkLimitHashTag !== false){
+                                    $countHashtags++;
+                                    if($countHashtags >= $networkLimitHashTag){
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    $postData['content'] = $this->contentHtml;
+                }
             } else {
                 if ($networkId == 4) {
                     $postData['custom_title'] = wp_strip_all_tags($this->title);
@@ -329,7 +350,7 @@ class B2S_AutoPost {
                     }
                 }
 
-                if ($networkId == 11 || $networkId == 14) {
+                if ($networkId == 11 || $networkId == 14 || $networkId == 47) {
                     $postData['custom_title'] = wp_strip_all_tags($this->title);
                     $postData['content'] = $this->contentHtml;
                 }

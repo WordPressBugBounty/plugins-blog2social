@@ -53,9 +53,8 @@ class B2S_Network_Item {
     }
 
     public function getData() {
-
         $result = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, array('action' => 'getUserAuth', 'view_mode' => 'all', 'auth_count' => true, 'addon_count' => true, 'token' => B2S_PLUGIN_TOKEN, 'version' => B2S_PLUGIN_VERSION)));
-
+      
         return array('mandanten' => isset($result->mandanten) ? $result->mandanten : '',
             'auth' => isset($result->auth) ? $result->auth : '',
             'auth_count' => isset($result->auth_count) ? $result->auth_count : false,
@@ -1186,28 +1185,39 @@ class B2S_Network_Item {
         if (class_exists('WooCommerce') && function_exists('wc_get_product')) {
             $woocommerce_active = true;
         }
-        $content .= '<div class="b2s-padding-bottom-5">'
-                . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-title b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{TITLE}</button>'
-                . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-excerpt b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{EXCERPT}</button>'
-                . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-content b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{CONTENT}</button>'
-                . ((isset($defaultTemplate[$networkId][$networkType]['disableKeywords']) && $defaultTemplate[$networkId][$networkType]['disableKeywords'] == true) ? '' : '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-keywords b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{KEYWORDS}</button>')
-                . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-author b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{AUTHOR}</button>'
-                . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-url b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{URL}</button>'
-                . (($woocommerce_active) ? '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-price b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{PRICE}</button>' : '')
-                . (($woocommerce_active) ? '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-regular-price b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{REGULAR_PRICE}</button>' : '')
-                . (($woocommerce_active) ? '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-sale-price b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{SALE_PRICE}</button>' : '');
-
-
         $b2sHook = new B2S_Hook_Filter();
         $additionalTaxonomies = $b2sHook->get_posting_template_show_taxonomies();
-        if (is_array($additionalTaxonomies) && !empty($additionalTaxonomies)) {
-            foreach ($additionalTaxonomies as $k => $taxonomie) {
-                $content .= '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-' . esc_html($taxonomie) . ' b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{' . esc_html($taxonomie) . '}</button>';
-            }
-        }
 
-        $content .= '<button type="button" class="btn btn-primary btn-xs b2s-edit-template-content-clear-btn pull-right" data-network-type="' . esc_attr($networkType) . '">' . esc_html__('clear', 'blog2social') . '</button>'
-                . '</div>';
+        if (in_array($networkId, array(32, 35))) {
+            // Video networks: show only media-library-based tokens
+            $content .= '<div class="b2s-padding-bottom-5">'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-title b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{TITLE}</button>'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-caption b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{CAPTION}</button>'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-content b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{CONTENT}</button>'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-author b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{AUTHOR}</button>'
+                    . '<button type="button" class="btn btn-primary btn-xs b2s-edit-template-content-clear-btn pull-right" data-network-type="' . esc_attr($networkType) . '">' . esc_html__('clear', 'blog2social') . '</button>'
+                    . '</div>';
+        } else {
+            $content .= '<div class="b2s-padding-bottom-5">'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-title b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{TITLE}</button>'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-excerpt b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{EXCERPT}</button>'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-content b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{CONTENT}</button>'
+                    . ((isset($defaultTemplate[$networkId][$networkType]['disableKeywords']) && $defaultTemplate[$networkId][$networkType]['disableKeywords'] == true) ? '' : '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-keywords b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{KEYWORDS}</button>')
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-author b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{AUTHOR}</button>'
+                    . '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-url b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{URL}</button>'
+                    . (($woocommerce_active) ? '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-price b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{PRICE}</button>' : '')
+                    . (($woocommerce_active) ? '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-regular-price b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{REGULAR_PRICE}</button>' : '')
+                    . (($woocommerce_active) ? '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-sale-price b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{SALE_PRICE}</button>' : '');
+
+            if (is_array($additionalTaxonomies) && !empty($additionalTaxonomies)) {
+                foreach ($additionalTaxonomies as $k => $taxonomie) {
+                    $content .= '<button type="button" draggable="true" class="btn btn-primary btn-xs b2s-edit-template-content-post-' . esc_html($taxonomie) . ' b2s-edit-template-content-post-item" data-network-type="' . esc_attr($networkType) . '">{' . esc_html($taxonomie) . '}</button>';
+                }
+            }
+
+            $content .= '<button type="button" class="btn btn-primary btn-xs b2s-edit-template-content-clear-btn pull-right" data-network-type="' . esc_attr($networkType) . '">' . esc_html__('clear', 'blog2social') . '</button>'
+                    . '</div>';
+        }
         $content .= '<textarea class="b2s-edit-template-post-content standard-template-form-element" style="width: 100%;" data-network-type="' . esc_attr($networkType) . '" ' . ((B2S_PLUGIN_USER_VERSION < 1) ? 'readonly="true"' : '') . ' ' . (($limit > 0) ? 'maxlength="' . $limit . '"' : '') . '>' . esc_html(stripslashes($schema[$networkType]['content'])) . '</textarea>';
         $content .= '<input class="b2s-edit-template-content-selection-start" data-network-type="' . esc_attr($networkType) . '" type="hidden" value="0">';
         $content .= '<input class="b2s-edit-template-content-selection-end" data-network-type="' . esc_attr($networkType) . '" type="hidden" value="0">';
@@ -1247,8 +1257,8 @@ class B2S_Network_Item {
         }
         $content .= '</div>';
         $content .= '</div>';
-        if ($networkId == 1 || $networkId == 2 || $networkId == 3 || $networkId == 43 || $networkId == 45) {
-            $content .= '<div class="row b2s-edit-template-enable-link-area" style="display:' . (($schema[$networkType]['format'] == 1) ? 'block' : 'none') . '" data-network-type="' . esc_attr($networkType) . '">';
+        if ($networkId == 1 || $networkId == 2 || $networkId == 3 || $networkId == 6 || $networkId == 43 || $networkId == 45) {
+            $content .= '<div class="row b2s-edit-template-enable-link-area" style="display:' . (($schema[$networkType]['format'] == 1 ||$networkId == 6) ? 'block' : 'none') . '" data-network-type="' . esc_attr($networkType) . '">';
             $content .= '<div class="col-md-12">';
             $content .= '<input class="b2s-edit-template-enable-link standard-template-form-element" data-network-type="' . esc_attr($networkType) . '" type="checkbox" ' . ((isset($schema[$networkType]['addLink']) && $schema[$networkType]['addLink'] == false) ? '' : 'checked="checked"') . ' id="b2s-edit-template-enable-link[' . esc_attr($networkType) . ']"><label for="b2s-edit-template-enable-link[' . esc_attr($networkType) . ']"> ' . esc_html__('Add a link-URL to the end of my image post.', 'blog2social') . '</label>';
             $content .= '</div>';
@@ -1647,7 +1657,7 @@ class B2S_Network_Item {
         $content = '';
         $content .= '<div class="row">';
         $content .= '<div class="col-md-12 media-heading">';
-        $content .= '<span class="b2s-edit-template-section-headline">' . esc_html__('Advanced AI Settings', 'blog2social') . '</span>' . ($isFreeUser ? ' <span class="label label-success b2s-ai-template-smart-badge">SMART</span>' : '') . ' <a href="#" class="b2s-info-btn del-padding-left b2sInfoContentBtn">' . esc_html__('Info', 'blog2social') . '</a>';
+        $content .= '<span class="b2s-edit-template-section-headline">' . esc_html__('Advanced AI Settings', 'blog2social') . '</span>' . ($isFreeUser ? ' <span class="label label-success b2s-ai-template-smart-badge">SMART</span>' : '') . ' <a href="' . esc_url(B2S_Tools::getSupportLink('faq_ai_templates')) . '" target="_blank" class="b2s-info-btn del-padding-left">' . esc_html__('Info', 'blog2social') . '</a>';
         $content .= '<button class="pull-right btn btn-primary btn-xs b2s-edit-template-load-default-ai" data-network-type="' . esc_attr($networkType) . '">' . esc_html__('Load default settings', 'blog2social') . '</button>';
         $content .= '</div>';
         $content .= '</div>';
@@ -3109,6 +3119,33 @@ class B2S_Network_Item {
                 $preview .= '<span style="font-weight: 600;">Blog2Social</span> ';
                 $preview .= '<span class="b2s-edit-template-preview-comment" data-network-type="' . esc_attr($networkType) . '">' . (!empty($schema[$networkType]['comment']) ? preg_replace("/\n/", "<br>", esc_html($schema[$networkType]['comment'])) : '') . '</span>';
                 $preview .= '</div>';
+                $preview .= '</div>';
+                $preview .= '</div>';
+                $preview .= '</div>';
+                $preview .= '</div>';
+                break;
+            case '47':
+                $preview .= '<div class="row">';
+                $preview .= '<div class="col-sm-2">';
+                $preview .= '<span class="b2s-edit-template-section-headline">' . esc_html__('Preview', 'blog2social') . ':</span>';
+                $preview .= '</div>';
+                $preview .= '<div class="col-sm-8 b2s-edit-template-preview-border b2s-edit-template-preview-border-47">';
+                $preview .= '<div class="row">';
+                $preview .= '<div class="col-sm-10">';
+                $preview .= '<img alt="Avatar" loading="eager" src="'. esc_url(plugins_url('/assets/images/b2s_64.png', B2S_PLUGIN_FILE)) .'" style="height: 44px; width: 44px; border-radius: 100px;">';
+                $preview .= '<span class="b2s-edit-template-preview-profile-name-47">Blog2Social</span>';
+                $preview .= '</div>';
+                $preview .= '</div>';
+                $preview .= '<div class="row">';
+                $preview .= '<h3 class="b2s-edit-template-preview-title b2s-edit-template-preview-title-47 col-sm-12" data-network-type="' . esc_attr($networkType) . '">' . esc_html($title) . '</h3>';
+                $preview .= '<img style="margin-top: 5px; margin-bottom: 5px;" class="b2s-edit-template-preview-image-image b2s-edit-template-preview-image-image-47 col-sm-12" src="' . esc_url($this->previewImage) . '">';
+                $preview .= '<div style="padding-top: 0px !important;" class="col-sm-12 b2s-edit-template-preview-content-47">';
+                $preview .= '<span class="b2s-edit-template-preview-content" data-network-type="' . esc_attr($networkType) . '">' . preg_replace("/\n/", "<br>", esc_html($schema[$networkType]['content'])) . '</span>';
+                $preview .= '</div>';
+                $preview .= '</div>';
+                $preview .= '<div class="row">';
+                $preview .= '<div class="col-sm-12">';
+                $preview .= '<img class="b2s-edit-template-preview-like-icons-47" src="' . esc_url(plugins_url('/assets/images/settings/like-icons-3.png', B2S_PLUGIN_FILE)) . '">';
                 $preview .= '</div>';
                 $preview .= '</div>';
                 $preview .= '</div>';

@@ -76,6 +76,14 @@ if ($wpdb->get_var($wpdb->prepare("SELECT `id`, `access_token` FROM `{$wpdb->pre
 $navbar = new B2S_Ship_Navbar();
 $mandantData = $navbar->getData();
 $maxInputVars = ini_get('max_input_vars');
+
+$disconnectedNetworks = array();
+foreach ($mandantData['auth'] as $channelData) {
+    if (isset($channelData->expiredDate) && $channelData->expiredDate != '0000-00-00' && $channelData->expiredDate <= wp_date('Y-m-d', null, new DateTimeZone(date_default_timezone_get()))) {
+        $disconnectedNetworks[] = $channelData;
+    }
+}
+$hasDisconnectedNetworks = !empty($disconnectedNetworks);
 ?>
 <div class="b2s-container">
     <?php
@@ -174,7 +182,26 @@ $maxInputVars = ini_get('max_input_vars');
                     </div>
                 </div>
             </div>
-            <div class="clearfix"></div>            
+            <div class="clearfix"></div>
+            <?php if ($hasDisconnectedNetworks) {
+                foreach ($disconnectedNetworks as $disconnectedNetwork) {
+                    $b2sNetworkName = $navbar->getNetworkName($disconnectedNetwork->networkId);
+                    $b2sRefreshUrl = $navbar->getRefreshUrl($disconnectedNetwork);
+                    ?>
+            <div class="alert alert-warning b2s-disconnected-networks-notice" data-network-auth-id="<?php echo esc_attr($disconnectedNetwork->networkAuthId); ?>">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <?php echo esc_html(sprintf(
+                    // translators: 1: Network name, 2: Account name
+                    __('The connection to %1$s - "%2$s" has expired.', 'blog2social'),
+                    $b2sNetworkName,
+                    stripslashes($disconnectedNetwork->networkUserName)
+                )); ?>
+                <a href="#" onclick="wop('<?php echo esc_js($b2sRefreshUrl); ?>', 'Blog2Social Network'); return false;" class="btn btn-link btn-sm b2s-disconnected-refresh-btn"><?php esc_html_e('Refresh', 'blog2social'); ?></a>
+                <a href="#" class="btn btn-link btn-sm b2s-disconnected-delete-btn" data-network-auth-id="<?php echo esc_attr($disconnectedNetwork->networkAuthId); ?>" data-network-id="<?php echo esc_attr($disconnectedNetwork->networkId); ?>" data-network-type="<?php echo esc_attr($disconnectedNetwork->networkType); ?>"><?php esc_html_e('Delete', 'blog2social'); ?></a>
+            </div>
+            <?php
+                }
+            } ?>
             <?php if (defined("B2S_PLUGIN_NOTICE_SITE_URL") && B2S_PLUGIN_NOTICE_SITE_URL != false) { ?>
                 <div class="b2s-settings-user-sched-time-area col-xs-12 del-padding-left hidden-xs">
                     <button type="button" class="btn btn-link pull-left btn-xs  scroll-to-bottom"><span class="glyphicon glyphicon-chevron-down"></span> <?php esc_html_e('scroll to bottom', 'blog2social') ?> </button>
@@ -403,6 +430,7 @@ $maxInputVars = ini_get('max_input_vars');
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="b2s-post-list"></div>
                                                 <div class="b2s-post-network-properties-error-list"></div>
 
@@ -438,6 +466,8 @@ $maxInputVars = ini_get('max_input_vars');
                                             <input type="hidden" id="b2s-ship-ass-connected" value="<?php echo esc_attr($assConnected); ?>">
                                             <input type="hidden" id="b2s-ship-ass-words-open" value="<?php echo esc_attr($assWordsOpen); ?>">
                                             <input type="hidden" id="b2s-ship-ass-words-total" value="<?php echo esc_attr($assWordsTotal); ?>">
+                                            <input type="hidden" name="b2s_post_type" value="<?php echo (isset($_GET['b2sPostType']) && sanitize_text_field(wp_unslash($_GET['b2sPostType'])) == 'ex') ? 'ex' : ''; ?>">
+                                            <input type="hidden" name="b2s_ex_post_format" value="<?php echo esc_attr($exPostFormat); ?>">
 
                                             <div class="b2s-reporting-btn-area col-md-9 del-padding-left" style="display: none;">
                                                 <div class="panel panel-group">
@@ -1223,6 +1253,7 @@ $maxInputVars = ini_get('max_input_vars');
                                             <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-44" alt="Threads" src="<?php echo esc_url(plugins_url('/assets/images/portale/44_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                                             <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-45" alt="X" src="<?php echo esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                                             <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-46" alt="Band" src="<?php echo esc_url(plugins_url('/assets/images/portale/46_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
+                                            <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-47" alt="dev.to" src="<?php echo esc_url(plugins_url('/assets/images/portale/47_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                                             <h4 class="modal-title b2s-edit-template-title"><?php esc_html_e('Edit Post Template', 'blog2social') ?></h4>
                                         </div>
                                         <div class="row b2s-loading-area width-100">
@@ -1329,6 +1360,7 @@ $maxInputVars = ini_get('max_input_vars');
                                                     <span class="b2s-bold">{CONTENT}</span> - <?php esc_html_e('The content of your post', 'blog2social') ?> <br>
                                                     <span class="b2s-bold">{KEYWORDS}</span> - <?php esc_html_e('The tags you have set in your post.', 'blog2social') ?> <br>
                                                     <span class="b2s-bold">{AUTHOR}</span> - <?php esc_html_e('The name of the post author.', 'blog2social') ?> <br>
+                                                    <span class="b2s-bold">{CAPTION}</span> - <?php esc_html_e('The caption of your video.', 'blog2social') ?> <br>
                                                     <?php
                                                     if (class_exists('WooCommerce') && function_exists('wc_get_product')) {
                                                         ?>

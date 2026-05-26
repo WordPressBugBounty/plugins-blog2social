@@ -556,10 +556,13 @@ class B2S_Post_Item {
             $postFormatText = esc_html__('Wordpress Content', 'blog2social');
             //Since 8.7.0 Show Post Type instead of curated
             $prefix = ' - ';    
+            $linkPostUrl= '';
+            $isExPost= false;
             if(isset($var->post_type) && strtolower($var->post_type) == 'b2s_ex_post'){
-
+               
+                $isExPost= true;
                 $postFormatText = '';
-
+              
                 if(isset($var->display_post_format) && !empty($var->display_post_format)) {
 
                     if($var->display_post_format=="text"){
@@ -567,7 +570,9 @@ class B2S_Post_Item {
                     }
                     if($var->display_post_format=="link"){
                         $postFormatText = esc_html__('Link Post', 'blog2social');
+                        $linkPostUrl = get_the_guid($var->ID);
                     }
+
                     if($var->display_post_format=="image"){
                         $postFormatText = esc_html__('Image Post', 'blog2social');
                     }
@@ -699,6 +704,7 @@ class B2S_Post_Item {
                 $userInfoName = get_the_author_meta('display_name', $lastPublish['user']);
                 $addCurationFormat = '';
                 $isVideo = '';
+       
                 $sharedText = esc_html__('shared social media posts', 'blog2social');
                 if (strtolower($var->post_type) == 'b2s_ex_post') {
                     $guid = get_the_guid($var->ID);
@@ -709,12 +715,20 @@ class B2S_Post_Item {
                     $isVideo = '&isVideo=1';
                 }
 
+                $publishedTitleHtml = '';
+                if($isExPost && empty($linkPostUrl)){
+                    $publishedTitleHtml = '<strong>' . esc_html($postTitle) . '</strong>'. $curated;
+                }else
+                {
+                    $publishedTitleHtml= '<strong><a target="_blank" href="' . esc_url(empty($linkPostUrl) ? get_permalink($var->ID) : $linkPostUrl) . '">' . esc_html($postTitle) . '</a></strong>' . $curated;
+                }
+
                 $this->postItem .= '<li class="list-group-item">
                                         <div class="media">
                                             <img class="post-img-10 pull-left hidden-xs" src="' . esc_url(plugins_url('/assets/images/b2s/' . $postType . '-icon.png', B2S_PLUGIN_FILE)) . '" alt="posttype">
                                                 <div class="media-body">
-                                                    <div class="pull-left media-nav">
-                                                            <strong><a target="_blank" href="' . esc_url(get_permalink($var->ID)) . '">' . esc_html($postTitle) . '</a></strong>' . $curated . '
+                                                    <div class="pull-left media-nav">'.
+                                                    $publishedTitleHtml . '
                                                         <span class="pull-right">
                                                         <a class="btn btn-primary hidden-xs btn-sm' . '" href="admin.php?page=blog2social-ship&postId=' . esc_attr($var->ID) . $addCurationFormat . $isVideo . '" data-blog-post-id="' . esc_attr($var->ID) . '">' . esc_html__('Re-share this post', 'blog2social') . '</a>
                                                             <button type="button" class="btn btn-primary btn-sm b2sDetailsPublishPostBtn" data-search-date="' . esc_attr($this->searchShowByDate) . '" data-post-id="' . esc_attr($var->ID) . '"><i class="glyphicon glyphicon-chevron-down"></i> ' . esc_html__('Details', 'blog2social') . '</button>
@@ -865,13 +879,15 @@ class B2S_Post_Item {
                         $url = get_permalink($post);
                     }
                 }
+                $draftDataArr = (!empty($var->data)) ? unserialize($var->data) : array();
+                $storedRedirectUrl = (isset($draftDataArr['redirect_url']) && !empty($draftDataArr['redirect_url'])) ? $draftDataArr['redirect_url'] : '';
                 $this->postItem .= '<li class="list-group-item b2s-draft-list-entry" data-b2s-draft-id="' . esc_attr($var->draft_id) . '">
                                 <div class="media">
                                     <img class="post-img-10 pull-left hidden-xs" src="' . esc_url(plugins_url('/assets/images/b2s/' . $postType . '-icon.png', B2S_PLUGIN_FILE)) . '" alt="posttype">
                                     <div class="media-body">
                                             <strong><a target="_blank" href="' . esc_url($url) . '">' . esc_html($postTitle) . '</a></strong>
                                         <span class="pull-right b2s-publish-btn">
-                                            <a class="btn btn-primary btn-sm publishPostBtn" href="admin.php?page=blog2social-ship' . (($postType == 'video') ? '&isVideo=1' : '') . '&postId=' . esc_attr($var->ID) . '&type=draft">' . esc_html__('Edit draft', 'blog2social') . '</a>
+                                            <a class="btn btn-primary btn-sm publishPostBtn" href="' . (!empty($storedRedirectUrl) ? esc_attr($storedRedirectUrl) : 'admin.php?page=blog2social-ship' . (($postType == 'video') ? '&isVideo=1' : '') . '&postId=' . esc_attr($var->ID) . '&type=draft') . '">' . esc_html__('Edit draft', 'blog2social') . '</a>
                                         </span>
                                         <span class="pull-right">
                                             <a class="btn btn-default btn-sm deleteDraftBtn" data-b2s-draft-id="' . esc_attr($var->draft_id) . '">' . esc_html__('Delete', 'blog2social') . '</a>
@@ -1158,7 +1174,7 @@ class B2S_Post_Item {
                     }
 
                     $addPostFormat = '';
-                 
+               
                     $isVideo = '';
                     if (isset($var->post_format) && $var->post_format != null && (int) $var->post_format >= 0) {
                         $addPostFormat = esc_html__('post format', 'blog2social') . ': ';
@@ -1181,7 +1197,6 @@ class B2S_Post_Item {
                         }
                         $addPostFormat .= ' | ';
                     }
-
 
                     $specialPosting = (isset($var->sched_type) && isset($specialPostingData[$var->sched_type])) ? ' - <strong>' . esc_html($specialPostingData[$var->sched_type]) . '</strong>' : '';
                     $publishLink = (!empty($var->publish_link)) ? '<a target="_blank" href="' . esc_url($var->publish_link) . '">' . esc_html__('show', 'blog2social') . '</a> | ' : '';

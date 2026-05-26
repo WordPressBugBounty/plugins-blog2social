@@ -634,14 +634,17 @@ jQuery(document).on('click', '.b2s-warning-close', function () {
         jQuery('html, body').animate({scrollTop: 0}, 'fast');
         clearTimeout(noticeTimers[index]);
         noticeTimers[index] = setTimeout(function () {
-            jQuery(el).fadeOut();
+            jQuery(el).data('b2s-dismissing', true);
+            jQuery(el).fadeOut(function () {
+                jQuery(el).data('b2s-dismissing', false);
+            });
         }, 8000);
     }
 
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             var el = mutation.target;
-            if (jQuery(el).is(':visible')) {
+            if (!jQuery(el).data('b2s-dismissing') && jQuery(el).is(':visible')) {
                 onNoticeVisible(el);
             }
         });

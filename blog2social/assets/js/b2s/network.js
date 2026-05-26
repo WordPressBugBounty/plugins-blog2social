@@ -59,8 +59,9 @@ jQuery('.b2s-network-tab').on('shown.bs.tab', function (event) {
 function showContentByCurrentTab() {
 
     if (activeTab == 'isVideo') {
-        
-        jQuery('.b2s-edit-template-btn').hide();
+
+        //From V.8.9.1 on edit template possible for video networks
+
         //FB Profiles+Groups are not supported
         jQuery('.btn-facebook[data-network-type="0"]').hide();
         jQuery('.btn-facebook[data-network-type="2"]').hide();
@@ -1051,6 +1052,13 @@ function getActiveTemplateType() {
     if (jQuery('.b2s-template-group').closest('li.active').length > 0) {
         return 2;
     }
+    // Fallback: no nav tabs rendered (single-type network), detect via active tab-pane class
+    if (jQuery('.b2s-template-tab-1.active').length > 0) {
+        return 1;
+    }
+    if (jQuery('.b2s-template-tab-2.active').length > 0) {
+        return 2;
+    }
     return 0;
 }
 
@@ -1235,6 +1243,7 @@ jQuery(document).on('shown.bs.tab', '.b2s-template-profile, .b2s-template-page, 
 
 jQuery(document).on('click', '.b2s-edit-template-save-ai-btn', function () {
     b2sAiSettingsChanged = false;
+
     // Save Global AI Settings (same action as b2s-ass-settings-save-btn)
     jQuery.ajax({
         url: ajaxurl,
@@ -1260,8 +1269,10 @@ jQuery(document).on('click', '.b2s-edit-template-save-ai-btn', function () {
         return false;
     }
 
+
     var networkId = parseInt(jQuery('#b2s-edit-template-network-id').val(), 10);
     var typeId = getActiveTemplateType();
+
     var aiInstructionField = jQuery('.b2s-ai-template-ai-instruction[data-network-type="' + typeId + '"]');
     var generateHashtagsField = jQuery('.b2s-ai-template-generate-hashtags[data-network-type="' + typeId + '"]');
     var hashtagsCountField = jQuery('.b2s-ai-template-hashtags-count[data-network-type="' + typeId + '"]');

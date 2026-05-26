@@ -7978,6 +7978,11 @@ CSS CheckBOX
     border-color: #21c531 !important;
     color: #fff !important;
 }
+.btn-devto{
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+     color: #fff !important;
+}
 
 .btn-band:hover {
     color: #fff;
@@ -8470,6 +8475,7 @@ CSS CheckBOX
     font-size: 13px;
     min-height: 38px;
     padding: 8px 12px;
+    line-height: 1.42857143;
 }
 
 .b2s-edit-template-ai-content textarea {
@@ -9031,4 +9037,9 @@ ease;
 .b2s-global-ai-settings-toggle-wrapper {
     margin-top: 6px;
     align-items: flex-start;
+}
+
+/*After Wordpress 7.0 Update Numer Inputs with width smaller than 60 do not show the whole number*/
+input[type="number"] {
+    min-width: 60px !important;
 }

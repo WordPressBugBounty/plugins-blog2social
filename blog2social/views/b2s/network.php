@@ -24,8 +24,8 @@ $displayName = stripslashes(get_user_by('id', B2S_PLUGIN_BLOG_USER_ID)->display_
 $displayName = ((empty($displayName) || $displayName == false) ? __("Unknown username", "blog2social") : $displayName);
 $networkItem = new B2S_Network_Item();
 $networkData = $networkItem->getData();
-?>
 
+?>
 <div class="b2s-container">
     <?php
     if ($onboarding == 1 && B2S_PLUGIN_USER_VERSION == 0) {
@@ -524,6 +524,7 @@ $networkData = $networkItem->getData();
                         <span class="b2s-bold">{CONTENT}</span> - <?php esc_html_e('The content of your post', 'blog2social') ?> <br>
                         <span class="b2s-bold">{KEYWORDS}</span> - <?php esc_html_e('The tags you have set in your post.', 'blog2social') ?> <br>
                         <span class="b2s-bold">{AUTHOR}</span> - <?php esc_html_e('The name of the post author.', 'blog2social') ?> <br>
+                        <span class="b2s-bold">{CAPTION}</span> - <?php esc_html_e('The caption of your video.', 'blog2social') ?> <br>
                         <?php    
                         if (class_exists('WooCommerce') && function_exists('wc_get_product')) {
                          ?>
