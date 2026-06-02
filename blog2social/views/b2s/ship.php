@@ -122,6 +122,11 @@ $hasDisconnectedNetworks = !empty($disconnectedNetworks);
         <div class="col-xs-12 col-md-9 del-padding-left">
             <div class="col-xs-12 del-padding-left hidden-xs">
                 <div class="panel panel-group">
+                    
+                
+                                        
+                
+                
                     <div class="panel-body b2s-post-details" style="min-height: 260px !important;">
                         <h2>
                             <?php
@@ -181,27 +186,35 @@ $hasDisconnectedNetworks = !empty($disconnectedNetworks);
                         ?>
                     </div>
                 </div>
-            </div>
-            <div class="clearfix"></div>
-            <?php if ($hasDisconnectedNetworks) {
+                <?php if ($hasDisconnectedNetworks) {
                 foreach ($disconnectedNetworks as $disconnectedNetwork) {
                     $b2sNetworkName = $navbar->getNetworkName($disconnectedNetwork->networkId);
                     $b2sRefreshUrl = $navbar->getRefreshUrl($disconnectedNetwork);
                     ?>
-            <div class="alert alert-warning b2s-disconnected-networks-notice" data-network-auth-id="<?php echo esc_attr($disconnectedNetwork->networkAuthId); ?>">
-                <span class="glyphicon glyphicon-info-sign"></span>
-                <?php echo esc_html(sprintf(
-                    // translators: 1: Network name, 2: Account name
-                    __('The connection to %1$s - "%2$s" has expired.', 'blog2social'),
-                    $b2sNetworkName,
-                    stripslashes($disconnectedNetwork->networkUserName)
-                )); ?>
-                <a href="#" onclick="wop('<?php echo esc_js($b2sRefreshUrl); ?>', 'Blog2Social Network'); return false;" class="btn btn-link btn-sm b2s-disconnected-refresh-btn"><?php esc_html_e('Refresh', 'blog2social'); ?></a>
-                <a href="#" class="btn btn-link btn-sm b2s-disconnected-delete-btn" data-network-auth-id="<?php echo esc_attr($disconnectedNetwork->networkAuthId); ?>" data-network-id="<?php echo esc_attr($disconnectedNetwork->networkId); ?>" data-network-type="<?php echo esc_attr($disconnectedNetwork->networkType); ?>"><?php esc_html_e('Delete', 'blog2social'); ?></a>
-            </div>
+                <div class="alert alert-warning alert-custom b2s-network-warning b2s-disconnected-networks-notice" data-network-auth-id="<?php echo esc_attr($disconnectedNetwork->networkAuthId); ?>" data-network-id="<?php echo esc_attr($disconnectedNetwork->networkId); ?>" data-network-type="<?php echo esc_attr($disconnectedNetwork->networkType); ?>">
+                    <button type="button" class="close b2s-disconnected-delete-btn" aria-label="Close" data-network-auth-id="<?php echo esc_attr($disconnectedNetwork->networkAuthId); ?>" data-network-id="<?php echo esc_attr($disconnectedNetwork->networkId); ?>" data-network-type="<?php echo esc_attr($disconnectedNetwork->networkType); ?>">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+                    <span class="pf-network-warning-text">
+                        <?php
+                        echo wp_kses(sprintf(
+                            // translators: 1: Network name, 2: Account name
+                            __('The connection to %1$s <strong>"%2$s"</strong> has expired.', 'blog2social'),
+                            esc_html($b2sNetworkName),
+                            esc_html(stripslashes($disconnectedNetwork->networkUserName))
+                        ), array('strong' => array()));
+                        ?>
+                        <a href="#" onclick="wop('<?php echo esc_js($b2sRefreshUrl); ?>', 'Blog2Social Network'); return false;" class="b2s-disconnected-refresh-btn" style="text-decoration: underline;"><?php esc_html_e('Refresh here', 'blog2social'); ?></a>
+                    </span>
+                    <div class="clearfix"></div>
+                </div> 
             <?php
                 }
             } ?>
+            </div>
+            <div class="clearfix"></div>
+            
             <?php if (defined("B2S_PLUGIN_NOTICE_SITE_URL") && B2S_PLUGIN_NOTICE_SITE_URL != false) { ?>
                 <div class="b2s-settings-user-sched-time-area col-xs-12 del-padding-left hidden-xs">
                     <button type="button" class="btn btn-link pull-left btn-xs  scroll-to-bottom"><span class="glyphicon glyphicon-chevron-down"></span> <?php esc_html_e('scroll to bottom', 'blog2social') ?> </button>

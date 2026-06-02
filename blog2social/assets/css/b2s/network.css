@@ -256,7 +256,11 @@ ul.b2s-network-item-auth-list li:last-child{
     text-align: center;
 }
 
-
+.b2s-edit-template-no-cache-area {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 5px;
+}
 
 
 .b2s-edit-template-content-post-item,

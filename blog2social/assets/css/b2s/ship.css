@@ -387,7 +387,11 @@
     font-size: 11px !important;
 
 }
-
+.b2s-edit-template-no-cache-area {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 5px;
+}
 .b2s-edit-template-content-post-item,
 .b2s-edit-template-comment-post-item {
     appearance:button;
@@ -2398,4 +2402,9 @@ input:disabled + .b2s-toggle-slider {
     font-size: 11px;
     color: rgba(255,255,255,0.8);
     font-family: sans-serif;
+}
+
+.alert-custom {
+    padding: 10px;
+    margin-bottom: 5px;
 }

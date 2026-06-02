@@ -76,14 +76,14 @@ jQuery(document).on('click', '.b2s-btn-curation-continue', function () {
     var re = new RegExp(/^(https?:\/\/)+[a-zA-Z0-9\wÄÖÜÑÁÉÍÓÚÂÃÀÇÊÔÕÆÈËÎÏŒÙÛŸØÅöäüñáéíóúâãàçêôõæèëîïœùûÿøåß-]+(?:\.[a-zA-Z0-9\wÄÖÜÑÁÉÍÓÚÂÃÀÇÊÔÕÆÈËÎÏŒÙÛŸØÅöäüñáéíóúâãàçêôõæèëîïœùûÿøåß-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=%.ÄÖÜÑÁÉÍÓÚÂÃÀÇÊÔÕÆÈËÎÏŒÙÛŸØÅöäüñáéíóúâãàçêôõæèëîïœùûÿøåß]+$/);
     var url = jQuery('#b2s-curation-input-url').val();
 
-    jQuery('.b2s-btn-change-url-preview').attr("href", url);
-    jQuery('.b2s-curation-link-preview-url-snippet').attr("href", url)
-    jQuery('.b2s-curation-link-preview-url').attr("href", url);
-    jQuery('.b2s-curation-link-preview-url').html(url);
     jQuery('.b2-preview-post-title').hide();
     jQuery('.b2s-curation-preview-image').hide();
-
+    
     if (re.test(url)) {
+        jQuery('.b2s-btn-change-url-preview').attr("href", url);
+        jQuery('.b2s-curation-link-preview-url-snippet').attr("href", url)
+        jQuery('.b2s-curation-link-preview-url').attr("href", url);
+        jQuery('.b2s-curation-link-preview-url').text(url);
         jQuery('#b2s-curation-input-url').removeClass('error');
         jQuery('.b2s-loading-area').show();
         jQuery('.b2s-curation-result-area').show();

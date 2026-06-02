@@ -4653,41 +4653,7 @@ function loginSuccess(networkId, networkType, displayName, networkAuthId, mandan
 
 jQuery(document).on('click', '.b2s-disconnected-delete-btn', function () {
     var networkAuthId = jQuery(this).data('network-auth-id');
-    var networkId = jQuery(this).data('network-id');
-    var networkType = jQuery(this).data('network-type');
-    var noticeEl = jQuery('.b2s-disconnected-networks-notice[data-network-auth-id="' + networkAuthId + '"]');
-    noticeEl.find('.b2s-disconnected-delete-btn, .b2s-disconnected-refresh-btn').prop('disabled', true);
-    jQuery.ajax({
-        url: ajaxurl,
-        type: 'POST',
-        dataType: 'json',
-        cache: false,
-        data: {
-            'action': 'b2s_delete_user_auth',
-            'networkAuthId': networkAuthId,
-            'networkId': networkId,
-            'networkType': networkType,
-            'deleteSchedPost': 0,
-            'assignNetworkAuthId': 0,
-            'blogUserId': 0,
-            'deleteAssignment': '',
-            'assignList': '',
-            'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
-        },
-        error: function () {
-            noticeEl.find('.b2s-disconnected-delete-btn, .b2s-disconnected-refresh-btn').prop('disabled', false);
-        },
-        success: function (data) {
-            if (data.result == true) {
-                noticeEl.hide();
-                jQuery('.b2s-network-select-btn[data-network-auth-id="' + networkAuthId + '"]').closest('li').remove();
-                jQuery('.b2s-network-remove-success').show();
-                jQuery('html, body').animate({scrollTop: 0}, 400);
-            } else {
-                noticeEl.find('.b2s-disconnected-delete-btn, .b2s-disconnected-refresh-btn').prop('disabled', false);
-            }
-        }
-    });
+    jQuery('.b2s-disconnected-networks-notice[data-network-auth-id="' + networkAuthId + '"]').hide();
     return false;
 });
 
