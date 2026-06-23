@@ -613,6 +613,21 @@ class B2S_Tools {
         if($type == "faq_ai_templates") {
             return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/index.php?solution_id=1276' : 'https://www.blog2social.com/en/faq/index.php?solution_id=1282';
         }
+        if($type == "faq_connect_dev") {
+            return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/content/2/279/de/wie-verbinde-ich-blog2social-mit-meinem-devto-profil.html' : 'https://www.blog2social.com/en/faq/index.php?solution_id=1287';
+        }
+        if($type == "how_to_social_media_posting") {
+            return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/content/4/131/de/social-media-postformate-_-die-unterschiede-zwischen-bild_beitraegen-und-link_beitraegen.html' : 'https://www.blog2social.com/en/faq/content/3/161/en/how-to-create-social-media-posts-and-share-link-text-image-or-video-posts.html?highlight=Create%20So';
+        }
+        if($type == "blog2social_mobile_app") {
+            return ($lang == 'de') ? 'https://de.blog2social.com/social-media-mobile-app/' : 'https://en.blog2social.com/social-media-mobile-app/';
+        }
+        if($type == "blog2social_mobile_app_share") {
+            return ($lang == 'de') ? 'https://www.blog2social.com/de/faq/content/14/278/de/wie-kann-ich-social-media-posts-von-meinem-smartphone-planen-und-teilen.html' : 'https://www.blog2social.com/en/faq/content/15/284/en/how-to-share-social-media-posts-from-my-mobile-phone.html';
+        }
+        if($type == "blog2social_api") {
+            return ($lang == 'de') ? 'https://de.blog2social.com/social-media-api/' : 'https://en.blog2social.com/social-media-api/';
+        }
         return false;
     }
 

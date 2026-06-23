@@ -23,7 +23,7 @@ $selProfile = isset($_GET['profile']) ? (int) $_GET['profile'] : 0;
 $selImg = (isset($_GET['img']) && !empty($_GET['img'])) ? base64_decode(sanitize_text_field(wp_unslash($_GET['img']))) : '';
 $isVideo = (isset($_GET['isVideo']) && (int) $_GET['isVideo'] == 1) ? true : false;
 $exPostFormat = (isset($_GET['postFormat']) && $_GET['postFormat'] == '1') ? 1 : ((isset($_GET['postFormat']) && $_GET['postFormat'] == '2') ? 2 : 0);
-$postUrl = (isset($_GET['b2sPostType']) && $_GET['b2sPostType'] == 'ex') ? (($exPostFormat == 0 || $exPostFormat == 1) ? $postData->guid : '') : (get_permalink($postData->ID) !== false ? get_permalink($postData->ID) : $postData->guid);
+$postUrl = (isset($_GET['b2sPostType']) && $_GET['b2sPostType'] == 'ex') ? (($exPostFormat == 0) ? $postData->guid : '') : (get_permalink($postData->ID) !== false ? get_permalink($postData->ID) : $postData->guid);
 
 $ignoreTemplate = (isset($_GET['ignoreTemplate']))? (int)$_GET['ignoreTemplate'] :0;
 $postStatus = array('publish' => esc_html__('published', 'blog2social'), 'pending' => esc_html__('draft', 'blog2social'), 'future' => esc_html__('scheduled', 'blog2social'));
@@ -1094,7 +1094,7 @@ $hasDisconnectedNetworks = !empty($disconnectedNetworks);
                             <input type="hidden" id="selSchedDate" value="<?php echo esc_attr($selSchedDate); ?>">
                             <input type="hidden" id="selProfile" value="<?php echo esc_attr($selProfile); ?>">   
                             <input type="hidden" id="b2sPostType" value="<?php echo (isset($_GET['b2sPostType']) && sanitize_text_field(wp_unslash($_GET['b2sPostType'])) == 'ex') ? 'ex' : ''; ?>">
-                            <input type="hidden" id="b2sDefault_url" name="default_url" value="<?php echo esc_attr((isset($_GET['b2sPostType']) && sanitize_text_field(wp_unslash($_GET['b2sPostType'])) == 'ex') ? (($exPostFormat == 0 || $exPostFormat == 1) ? $postData->guid : '') : (get_permalink($postData->ID) !== false ? get_permalink($postData->ID) : $postData->guid)); ?>">
+                            <input type="hidden" id="b2sDefault_url" name="default_url" value="<?php echo esc_attr((isset($_GET['b2sPostType']) && sanitize_text_field(wp_unslash($_GET['b2sPostType'])) == 'ex') ? (($exPostFormat == 0) ? $postData->guid : '') : (get_permalink($postData->ID) !== false ? get_permalink($postData->ID) : $postData->guid)); ?>">
                             <input type="hidden" id="b2sPortalImagePath" value="<?php echo esc_url(plugins_url('/assets/images/portale/', B2S_PLUGIN_FILE)); ?>">
                             <input type="hidden" id="b2sTosXingGroupCrosspostingLimit" value="<?php echo esc_attr($tosCrossPosting[19][2]); ?>">
                             <input type="hidden" id="b2sServerUrl" value="<?php echo esc_url(B2S_PLUGIN_SERVER_URL); ?>">
@@ -1266,7 +1266,7 @@ $hasDisconnectedNetworks = !empty($disconnectedNetworks);
                                             <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-44" alt="Threads" src="<?php echo esc_url(plugins_url('/assets/images/portale/44_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                                             <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-45" alt="X" src="<?php echo esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                                             <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-46" alt="Band" src="<?php echo esc_url(plugins_url('/assets/images/portale/46_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
-                                            <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-47" alt="dev.to" src="<?php echo esc_url(plugins_url('/assets/images/portale/47_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
+                                            <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-47" alt="Dev" src="<?php echo esc_url(plugins_url('/assets/images/portale/47_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                                             <h4 class="modal-title b2s-edit-template-title"><?php esc_html_e('Edit Post Template', 'blog2social') ?></h4>
                                         </div>
                                         <div class="row b2s-loading-area width-100">

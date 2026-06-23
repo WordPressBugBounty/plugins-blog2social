@@ -517,7 +517,7 @@ if (!B2S_System::isblockedArea('B2S_MENU_MODUL_RATING', B2S_PLUGIN_ADMIN)) {
 
 <?php
 if (isset($_GET['page']) && !empty($_GET['page']) && !in_array($_GET['page'], unserialize(B2S_PLUGIN_REMOVE_PAGE_TITLE))) {
-    ?> <h1>
+    ?> <h1 <?php if(isset($includeNavbar) && $includeNavbar) { ?>class="pull-left"<?php } ?>>
         <?php
         if ((isset($getPages[$_GET['page']]) && !empty($getPages[$_GET['page']]))) {
             echo wp_kses($getPages[sanitize_text_field(wp_unslash($_GET['page']))], array('span' => array('class' => array()), 'a' => array('href' => array(), 'target' => array(), 'class' => array()), 'button' => array('class' => array())));

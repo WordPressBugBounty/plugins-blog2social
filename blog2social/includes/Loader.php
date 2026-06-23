@@ -55,7 +55,7 @@ class B2S_Loader {
 
         define('B2S_PLUGIN_POSTPERPAGE', '25');
         define('B2S_PLUGIN_VERSION_TYPE', serialize(array(0 => 'Free', 1 => 'Smart', 2 => 'Pro', 3 => 'Business', 4 => 'Premium')));
-        define('B2S_PLUGIN_NETWORK', serialize(array(1 => 'Facebook', 2 => 'X (Twitter)', 3 => 'LinkedIn', 4 => 'Tumblr', 6 => 'Pinterest', 7 => 'Flickr', 9 => 'Diigo', 11 => 'Medium', 12 => 'Instagram', 14 => 'Torial', 15 => 'Reddit', 16 => 'Bloglovin', 17 => 'VK', 18 => 'Google Business Profile', 19 => 'Xing', 21 => 'Imgur', 24 => 'Telegram', 25 => 'Blogger', 26 => 'Ravelry', 27 => 'Instapaper', 32 => 'YouTube', 35 => 'Vimeo', 36 => 'TikTok', 38 => 'Mastodon', 39 => 'Discord', 42 => 'HumHub', 43 => 'Bluesky', 44 => 'Threads', 45 => 'X', 46 => 'Band', 47 => 'dev.to')));
+        define('B2S_PLUGIN_NETWORK', serialize(array(1 => 'Facebook', 2 => 'X (Twitter)', 3 => 'LinkedIn', 4 => 'Tumblr', 6 => 'Pinterest', 7 => 'Flickr', 9 => 'Diigo', 11 => 'Medium', 12 => 'Instagram', 14 => 'Torial', 15 => 'Reddit', 16 => 'Bloglovin', 17 => 'VK', 18 => 'Google Business Profile', 19 => 'Xing', 21 => 'Imgur', 24 => 'Telegram', 25 => 'Blogger', 26 => 'Ravelry', 27 => 'Instapaper', 32 => 'YouTube', 35 => 'Vimeo', 36 => 'TikTok', 38 => 'Mastodon', 39 => 'Discord', 42 => 'HumHub', 43 => 'Bluesky', 44 => 'Threads', 45 => 'X', 46 => 'Band', 47 => 'Dev')));
         define('B2S_PLUGIN_SCHED_DEFAULT_TIMES', serialize(array(1 => array(9, 11), 3 => array(9, 12), 4 => array(19, 23), 6 => array(11, 14), 7 => array(7, 9), 11 => array(9, 11), 12 => array(10, 14), 14 => array(6, 8), 15 => array(19, 21), 16 => array(16, 19), 17 => array(8, 10), 18 => array(9, 11), 19 => array(8, 10), 21 => array(8, 11), 24 => array(13, 16), 25 => array(8, 11), 26 => array(18, 21), 32 => array(21, 23), 35 => array(13, 17), 36 => array(9, 10), 38 => array(8, 10), 39 => array(18, 24), 43 => array(9, 14), 44 => array(8, 12), 45 => array(9, 14))));
         define('B2S_PLUGIN_SCHED_DEFAULT_TIMES_INFO', serialize(array(1 => array(0 => array(9, 11), 1 => array(16, 17)), 3 => array(0 => array(9, 12)), 4 => array(0 => array(19, 23)), 6 => array(0 => array(11, 14), 1 => array(19, 22)), 7 => array(0 => array(7, 9), 1 => array(17, 22)), 11 => array(0 => array(9, 11)), 12 => array(0 => array(10, 14)), 14 => array(0 => array(6, 8)), 15 => array(0 => array(19, 21)), 16 => array(0 => array(16, 19)), 17 => array(0 => array(8, 10), 1 => array(12, 14), 2 => array(18, 21)), 18 => array(0 => array(9, 11)), 19 => array(0 => array(8, 10), 1 => array(16, 18)), 24 => array(0 => array(13, 16), 1 => array(18, 22)), 25 => array(0 => array(8, 11)), 26 => array(0 => array(18, 21)), 32 => array(0 => array(21, 23)), 35 => array(0 => array(13, 17)), 36 => array(0 => array(9, 10)), 38 => array(0 => array(8, 10), 1 => array(18, 21)), 39 => array(0 => array(18, 24)), 43 => array(0 => array(9, 14)), 44 => array(0 => array(8, 12)), 45 => array(0 => array(9, 14)))));
         define('B2S_PLUGIN_NETWORK_ALLOW_PROFILE', serialize(array(1, 2, 3, 4, 7, 9, 11, 14, 15, 16, 17, 18, 19, 21, 24, 25, 26, 27, 32, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47)));
@@ -75,12 +75,23 @@ class B2S_Loader {
         define('B2S_PLUGIN_ALLOW_ADD_LINK', serialize(array(1, 2, 3, 6, 12, 43, 44, 45, 46)));
         define('B2S_PLUGIN_REMOVE_PAGE_TITLE', serialize(array('blog2social', 'blog2social-video', 'blog2social-onboarding', 'blog2social-curation', 'blog2social-ship')));
         define('B2S_PLUGIN_CHANGELOG_CONTENT', serialize(array(
-            'version_info' => esc_html__('Blog2Social Version 8.9.2 (May 26)', 'blog2social'),
+            'version_info' => esc_html__('Blog2Social Version 9.0 (June 26)', 'blog2social'),
             'new' => array(
-                esc_html__('Post templates are now editable for video networks directly within the network overview.', 'blog2social')
-            ),
+                // translators: %s is a link
+                sprintf(__('Dev: Publish technical, developer, and gaming content to a focused community for tutorials, updates, and practical insights.  <a target="_blank" href="%s">Connect your Dev.to profile</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_connect_dev'))),
+                // translators: %s is a link
+                sprintf(__('Share Posts Editor: Create new social post from scratch using text, links, images, or video in one unified preview editor. <a target="_blank" href="%s">How to create social media posts and share link, text, image or video posts</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('how_to_social_media_posting'))),
+                // translators: %s is a link
+                sprintf(__('Resharer: Select oldest, newest, or random posts to bring evergreen content back into your social media schedule. <a target="_blank" href="%s">Find setup help</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('network_guide_re_sharer'))),
+                // translators: %s is a link
+                sprintf(__('Blog2Social Mobile App: Share posts, links, and images from your smartphone and create AI-powered captions on the go. <a target="_blank" href="%1$s">Learn more about mobile publishing with Blog2Social </a> <br><a target="_blank" href="%2$s">Get mobile sharing instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('blog2social_mobile_app')), esc_url(B2S_Tools::getSupportLink('blog2social_mobile_app_share'))),
+                // translators: %s is a link
+                sprintf(__('Social Media API for Developers: Integrate once and publish across multiple networks through one unified API. <a target="_blank" href="%s">Explore the Blog2Social Social Media API</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('blog2social_api'))),
+                // translators: %s is a link
+                sprintf(__('<a target="_blank" href="%s">Find all details in the guides & instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_direct')))
+                ),
             'improvements' => array(
-                esc_html__('Optimized Threads post publishing', 'blog2social')
+               // esc_html__('Optimized Threads post publishing', 'blog2social')
             ),
             'fixed' => array(),
             'upcoming' => array()
@@ -1447,7 +1458,7 @@ class B2S_Loader {
         $subPages[] = add_submenu_page('blog2social', esc_html__('Dashboard', 'blog2social'), esc_html__('Dashboard', 'blog2social'), 'blog2social_access', 'blog2social', array($this, 'b2sstart'));
 
         $subPages[] = add_submenu_page('blog2social', esc_html__('Networks', 'blog2social'), esc_html__('Networks', 'blog2social'), 'blog2social_access', 'blog2social-network', array($this, 'b2sNetwork'));
-        $subPages[] = add_submenu_page('blog2social', esc_html__('Social Media Posts', 'blog2social'), esc_html__('Social Media Posts', 'blog2social'), 'blog2social_access', 'blog2social-post', array($this, 'b2sPost'));
+        $subPages[] = add_submenu_page('blog2social', esc_html__('Share Posts', 'blog2social'), esc_html__('Share Posts', 'blog2social'), 'blog2social_access', 'blog2social-post', array($this, 'b2sPost'));
         $subPages[] = add_submenu_page('blog2social_hidden', 'Create Social Media Posts', 'Social Media Posts', 'blog2social_access', 'blog2social-curation', array($this, 'b2sContentCuration'));
         $subPages[] = add_submenu_page('blog2social', esc_html__('Video Posts', 'blog2social'), esc_html__('Video Posts', 'blog2social'), 'blog2social_access', 'blog2social-video', array($this, 'b2sVideo'));
         if ((defined("B2S_PLUGIN_USER_VERSION") && B2S_PLUGIN_USER_VERSION >= 3 && (!defined("B2S_PLUGIN_TRAIL_END") || (defined("B2S_PLUGIN_TRAIL_END") && strtotime(B2S_PLUGIN_TRAIL_END) < time()))) || (defined('B2S_PLUGIN_PERMISSION_INSIGHTS') && B2S_PLUGIN_PERMISSION_INSIGHTS == 1)) {
@@ -1512,7 +1523,7 @@ class B2S_Loader {
 
         $wp_admin_bar->add_node(array(
             'id' => 'blog2social-post',
-            'title' => esc_html__('Social Media Posts', 'blog2social'),
+            'title' => esc_html__('Share Posts', 'blog2social'),
             'href' => $seo_url . 'blog2social-post',
             'parent' => 'blog2social'
         ));
@@ -1611,12 +1622,23 @@ class B2S_Loader {
 
 //PageFunktion
     public function b2sPost() {
-        if (B2S_Tools::showNotice() == false) {
-            wp_enqueue_script('B2SVALIDATEJS');
-            wp_enqueue_style('B2SPOSTCSS');
+         if (B2S_Tools::showNotice() == false) {
             wp_enqueue_script('B2SPOSTJS');
-            wp_enqueue_style('B2SBTNTOOGLECSS');
-            wp_enqueue_script('B2SBTNTOOGLEJS');
+            wp_enqueue_script('B2SVALIDATEJS');
+            wp_enqueue_style('B2SCURATIONCSS');
+            wp_enqueue_script('B2SEMOJIBUTTONJS');
+            wp_enqueue_script('B2SCURATIONJS');
+            wp_enqueue_script('B2SCURATIONDRAFTJS');
+            wp_enqueue_style('B2SDATEPICKERCSS');
+            wp_enqueue_style('B2STIMEPICKERCSS');
+            wp_enqueue_script('B2SDATEPICKERJS');
+            wp_enqueue_script('B2SDATEPICKERDEJS');
+            wp_enqueue_script('B2SDATEPICKERENJS');
+            wp_enqueue_script('B2STIMEPICKERJS');
+            if (current_user_can('upload_files')) {
+//Capability by Super Admin ,Administrator ,Editor ,Author
+                wp_enqueue_media();
+            }
             require_once( B2S_PLUGIN_DIR . 'views/b2s/post.php');
         } else {
             require_once( B2S_PLUGIN_DIR . 'views/notice.php');
@@ -1652,10 +1674,13 @@ class B2S_Loader {
             wp_enqueue_style('B2SCURATIONCSS');
             wp_enqueue_script('B2SEMOJIBUTTONJS');
             wp_enqueue_script('B2SCURATIONJS');
-            wp_enqueue_style('B2SAIRDATEPICKERCSS');
-            wp_enqueue_script('B2SAIRDATEPICKERJS');
-            wp_enqueue_script('B2SAIRDATEPICKERDEJS');
-            wp_enqueue_script('B2SAIRDATEPICKERENJS');
+            wp_enqueue_script('B2SCURATIONDRAFTJS');
+            wp_enqueue_style('B2SDATEPICKERCSS');
+            wp_enqueue_style('B2STIMEPICKERCSS');
+            wp_enqueue_script('B2SDATEPICKERJS');
+            wp_enqueue_script('B2SDATEPICKERDEJS');
+            wp_enqueue_script('B2SDATEPICKERENJS');
+            wp_enqueue_script('B2STIMEPICKERJS');
             if (current_user_can('upload_files')) {
 //Capability by Super Admin ,Administrator ,Editor ,Author
                 wp_enqueue_media();
@@ -1674,10 +1699,12 @@ class B2S_Loader {
             wp_enqueue_script('B2SVALIDATEJS');
             wp_enqueue_style('B2SCURATIONCSS');
             wp_enqueue_script('B2SEMOJIBUTTONJS');
-            wp_enqueue_style('B2SAIRDATEPICKERCSS');
-            wp_enqueue_script('B2SAIRDATEPICKERJS');
-            wp_enqueue_script('B2SAIRDATEPICKERDEJS');
-            wp_enqueue_script('B2SAIRDATEPICKERENJS');
+            wp_enqueue_style('B2SDATEPICKERCSS');
+            wp_enqueue_style('B2STIMEPICKERCSS');
+            wp_enqueue_script('B2SDATEPICKERJS');
+            wp_enqueue_script('B2SDATEPICKERDEJS');
+            wp_enqueue_script('B2SDATEPICKERENJS');
+            wp_enqueue_script('B2STIMEPICKERJS');
             wp_enqueue_style('B2SPROGRESSBARCSS');
             wp_enqueue_script('B2SPROGRESSBARJS');
             wp_enqueue_script('B2SVIDEOJS');

@@ -20,15 +20,11 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
             <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/sidebar.php'); ?>
             <div class="col-md-9 del-padding-left del-padding-right">
                 <!--Header|Start - Include-->
+                <?php $includeNavbar = true; ?>
                 <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/header.php'); ?>
                 <!--Header|End-->
-                <div class="clearfix"></div>
                 <!--Navbar|Start-->
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/post.navbar.php'); ?>
-                    </div>
-                </div>
+                <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/post.navbar.php'); ?>
                 <!--Navbar|End-->
                 <div class="clearfix"></div>
                 <!--Content|Start-->

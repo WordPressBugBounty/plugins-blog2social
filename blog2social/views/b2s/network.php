@@ -438,6 +438,7 @@ $networkData = $networkItem->getData();
                 <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-44" alt="Threads" src="<?php echo esc_url(plugins_url('/assets/images/portale/44_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                 <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-45" alt="X" src="<?php echo esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                 <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-46" alt="Band" src="<?php echo esc_url(plugins_url('/assets/images/portale/46_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
+                <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-47" alt="Dev" src="<?php echo esc_url(plugins_url('/assets/images/portale/47_flat.png', B2S_PLUGIN_FILE)); ?>" style="display: none;">
                 <h4 class="modal-title b2s-edit-template-title"><?php esc_html_e('Edit Post Template', 'blog2social') ?></h4>
             </div>
             <div class="row b2s-loading-area width-100">

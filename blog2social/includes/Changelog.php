@@ -46,7 +46,9 @@ class B2S_Changelog {
                                 'a' => array(
                                     'href' => array(),
                                     'target' => array()
-                                )
+                                ),
+                                'strong' => array(),
+                                'br' => array()
                             )) . '</li>';
                         }
                         $content .= '</ul>';

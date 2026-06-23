@@ -32,14 +32,6 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
             <!--Header|Start - Include-->
             <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/header.php'); ?>
             <!--Header|End-->
-            <div class="clearfix"></div>
-            <!--Navbar|Start-->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                     <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/post.navbar.php'); ?>
-                </div>
-            </div>
-            <!--Navbar|End-->
                
             <!-- Info Repost -->
             <div class="panel panel-group b2s-left-border-danger b2s-re-post-no-content" style="display: none;">
@@ -80,7 +72,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                             'br' => array(),
                             'h4' => array(),
                             'h3' => array(
-                                'class' => array()
+                                'class' => array()  
                             ),
                             'span' => array(
                                 'class' => array(),
@@ -88,7 +80,8 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                             ),
                             'div' => array(
                                 'class' => array(),
-                                'style' => array()
+                                'style' => array(),
+                                'id' => array(),
                             ),
                             'i' => array(
                                 'class' => array()
@@ -103,6 +96,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                                 'id' => array(),
                                 'data-placeholder' => array(),
                                 'multiple' => array(),
+                                'data-target'    => array(),
                             ),
                             'option' => array(
                                 'data-limit' => array(),
@@ -121,6 +115,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                                 'placeholder' => array(),
                                 'min' => array(),
                                 'max' => array(),
+                                'hidden' => array(),
                             ),
                             'label' => array(
                                 'for' => array(),
@@ -129,7 +124,14 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                             'a' => array(
                                 'class' => array(),
                                 'href' => array(),
-                                'target' => array()
+                                'target' => array(),
+                                'data-toggle' => array(),
+                            ),
+                            'button' => array(
+                                'type' => array(),
+                                'class' => array(),
+                                'id' => array(),
+                                'data-post-id' => array(),
                             )
                         )); ?>
                         </div>
@@ -408,7 +410,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2sInfoNetworkModal">&times;</button>
-                <h4 class="modal-title"><?php esc_html_e('Select image', 'blog2social') ?></h4>
+                <h4 class="modal-title"><?php esc_html_e('Select Network Collection', 'blog2social') ?></h4>
             </div>
         <div class="modal-body">
             <div class="b2s-network-imgs">
@@ -445,6 +447,21 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
             <p class="b2s-bold"><?php esc_attr_e('VKontakte (Profile & Seiten)', 'blog2social') ?></p>
             <p class="b2s-bold"><?php esc_attr_e('XING (Profile & Seiten)', 'blog2social') ?></p>
             <p class="b2s-bold"><?php esc_attr_e('Imgur', 'blog2social') ?></p>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="b2sRePostAuthorInfoModal" class="modal fade" role="dialog" aria-labelledby="b2sRePostAuthorInfoModal" aria-hidden="true" data-backdrop="false" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="b2s-modal-close close" data-modal-name="#b2sRePostAuthorInfoModal">&times;</button>
+                <h4 class="modal-title"><?php esc_html_e('Why can I only select my own posts?', 'blog2social') ?></h4>
+            </div>
+            <div class="modal-body">
+                <p><?php esc_html_e('Your current WordPress user role does not allow you to edit posts created by other users. To reshare posts from other users, please assign the WordPress Administrator role to the active user.', 'blog2social') ?></p>
+            </div>
         </div>
     </div>
 </div>

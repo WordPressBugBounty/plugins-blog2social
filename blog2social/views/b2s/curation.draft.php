@@ -31,7 +31,9 @@ require_once (B2S_PLUGIN_DIR . 'includes/Util.php');
                         <!--Filter Start-->
                         <div class="b2s-post">
                             <div class="grid-body">
+                                <!-- Navbar  Start-->
                                 <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/post.navbar.php'); ?>
+                                <!-- Navbar  End-->
                                 <!-- Filter Post Start-->
                                 <form class="b2sSortForm form-inline pull-left" action="#">
                                     <input id="b2sType" type="hidden" value="draft" name="b2sType">

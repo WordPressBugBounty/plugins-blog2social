@@ -214,9 +214,16 @@ class B2S_Post_Filter {
 
     public function getItemHtml() {
         $this->getAutorData();
+
         $this->postFilter .= '<div class="form-group">
                                     <input id="b2sSortPostTitle" name="b2sSortPostTitle" maxlength="30" class="form-control b2s-input input-sm" value="' . esc_attr((empty($this->searchPostTitle) ? '' : $this->searchPostTitle)) . '" placeholder="' . esc_attr((empty($this->searchPostTitle) ? __('Search Title', 'blog2social') : '')) . '" type="text">
                              </div>';
+
+        //For curation remove the doubled Title Filter                     
+        if($this->type == 'curation') {
+            $this->postFilter = '';
+        }
+
         if (B2S_PLUGIN_ADMIN && $this->type != 'draft-post') {
             $this->postFilter .= $this->getAutorHtml();
             if ($this->type != 'draft' && $this->type != 'video') {
@@ -227,7 +234,7 @@ class B2S_Post_Filter {
             $this->postFilter .= $this->getPostCatHtml();
             $this->postFilter .= $this->getPostTypeHtml();
 
-            if ($this->type == 'all' || $this->type == 'draft-post' || $this->type == 'favorites') {
+            if ($this->type == 'all' || $this->type == 'draft-post' || $this->type == 'favorites' || $this->type == 'curation') {
                 $this->postFilter .= $this->getPostStatusHtml();
                 $this->postFilter .= $this->getPostShareStatusHtml();
             }

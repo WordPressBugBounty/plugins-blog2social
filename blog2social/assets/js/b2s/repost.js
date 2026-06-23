@@ -102,7 +102,7 @@ jQuery(document).on('change', '#b2s-re-post-best-times-active', function () {
         jQuery('.b2s-re-post-input-time').prop('disabled', false);
     }
 });
-
+/*
 jQuery(document).on('change', '.b2s-re-post-settings-option', function () {
     if (jQuery('.b2s-re-post-settings-option:checked').val() == 1) {
         jQuery('.b2s-re-post-settings-customize-area input').prop('disabled', false);
@@ -118,7 +118,7 @@ jQuery(document).on('change', '.b2s-re-post-settings-option', function () {
         jQuery(".b2s-re-post-author").prop('disabled', true).trigger("chosen:updated");
     }
 });
-
+*/
 jQuery(document).on('click', '.b2s-re-post-submit-btn', function () {
     if (jQuery('.b2s-re-post-date-active').is(':checked') && (jQuery('.b2s-re-post-date-start').val() == "" || jQuery('.b2s-re-post-date-end').val() == "") && !(jQuery('.b2s-re-post-date-start').val() == "" && jQuery('.b2s-re-post-date-end').val() == "")) {
         if (jQuery('.b2s-re-post-date-start').val() == "") {
@@ -377,7 +377,8 @@ jQuery(document).on('click', '.b2s-sched-delete-confirm-multi-btn', function () 
                         jQuery('.b2s-re-post-submit-btn').removeAttr('disabled');
                     }
                 }
-                refreshCalender();
+                jQuery('#b2s_calendar').fullCalendar('destroy');
+                renderCalender();
             } else {
                 if (data.error == 'nonce') {
                     jQuery('.b2s-nonce-check-fail').show();
@@ -829,6 +830,10 @@ jQuery(document).on('click', '.b2s-network-info-modal-btn', function () {
     jQuery('#b2sInfoNetworkModal').modal('show');
     return false;
 });
+jQuery(document).on('click', '.b2s-re-post-author-info-modal-btn', function () {
+    jQuery('#b2sRePostAuthorInfoModal').modal('show');
+    return false;
+});
 jQuery(document).on('click', '.b2s-re-post-show-calender-btn', function () {
     jQuery('.b2s-re-post-queue-area').hide();
     jQuery('.b2s-re-post-calender-area').show();
@@ -1121,6 +1126,145 @@ function renderCalender() {
     });
 }
 
+
+/* =============================================================
+   Re-Post NEW Design — Frontend Interactions
+   ============================================================= */
+(function ($) {
+    // ----------------------------------------------------------------
+    // Init on page load
+    // ----------------------------------------------------------------
+    $(window).on('load', function () {
+        if ($('#b2s-re-post-settings').length === 0) { return; }
+
+        // Disable all inputs for free users (mirrors old form behaviour)
+        if ($('#b2sUserVersion').val() == 0) {
+            $('#b2s-re-post-settings :input').prop('disabled', 'disabled');
+        }
+
+        // Reflect the default-checked radio in the schedule boxes
+        b2sRpNewSyncScheduleBoxes();
+    });
+
+    // ----------------------------------------------------------------
+    // Filter state dropdowns → show / hide multi-select inputs
+    // ----------------------------------------------------------------
+    $(document).on('change', '.b2s-rp-new-filter-toggle', function () {
+        var targetId = $(this).data('target');
+
+        if ($(this).val() === 'all') {
+            $('#' + targetId).addClass('b2s-info-display-none');
+        } else {
+            $('#' + targetId).removeClass('b2s-info-display-none');
+            // Refresh chosen in case it was not visible during init
+            $('#' + targetId).find('select[class*="b2s-re-post-"]').trigger('chosen:updated');
+        }
+        b2sRpNewUpdateFilterBadge();
+    });
+
+    // ----------------------------------------------------------------
+    // Extra-option toggles (favorites / images / max-shares) → badge
+    // ----------------------------------------------------------------
+    $(document).on('change',
+        '#b2s-re-post-favorites-active, #b2s-re-post-images-active, #b2s-re-post-already-planed-active',
+        function () {
+            if ($(this).closest('#b2s-re-post-settings').length) {
+                b2sRpNewUpdateFilterBadge();
+            }
+        }
+    );
+
+    // ----------------------------------------------------------------
+    // Weekday toggle buttons — toggle styling + hidden checkbox
+    // ----------------------------------------------------------------
+    $(document).on('click', '#b2s-re-post-settings .b2s-rp-new-weekday-btn', function (e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var $cb  = $btn.find('.b2s-rp-new-weekday-hidden');
+        if ($btn.hasClass('b2s-rp-new-weekday-on')) {
+            $btn.removeClass('b2s-rp-new-weekday-on');
+            $cb.prop('checked', false);
+        } else {
+            $btn.addClass('b2s-rp-new-weekday-on');
+            $cb.prop('checked', true);
+        }
+    });
+
+    // ----------------------------------------------------------------
+    // Schedule radios — sync active-box styling + visible body
+    // ----------------------------------------------------------------
+    $(document).on('change', '#b2s-re-post-settings .b2s-re-post-share-option', function () {
+        b2sRpNewSyncScheduleBoxes();
+    });
+
+    // Clicking the header row of a schedule box checks its radio
+    $(document).on('click', '.b2s-rp-new-sched-header', function () {
+        var $box = $(this).closest('.b2s-rp-new-sched-option');
+        if ($box.closest('#b2s-re-post-settings').length === 0) { return; }
+        $box.find('.b2s-re-post-share-option').prop('checked', true).trigger('change');
+    });
+
+    // ----------------------------------------------------------------
+    // Best-times toggle — disable / enable time pickers in new form
+    // (the existing global handler already covers .b2s-re-post-input-time;
+    //  this handler additionally manages the schedule body inputs)
+    // ----------------------------------------------------------------
+    $(document).on('change', '#b2s-re-post-best-times-active', function () {
+        // Already handled globally for .b2s-re-post-input-time —
+        // nothing extra needed here.
+    });
+
+    $(document).on('click', '.b2s-rp-new-collapse-trigger', function () {
+        $('#b2s-rp-new-advanced-filters').toggle();
+            let $option = $('#b2s-re-post-settings-option-1');
+            let current = parseInt($option.val(), 10) || 0;
+            $option.val(current === 0 ? 1 : 0);
+    });
+
+    // ----------------------------------------------------------------
+    // Helpers
+    // ----------------------------------------------------------------
+
+    function b2sRpNewSyncScheduleBoxes() {
+        var selected = $('#b2s-re-post-settings .b2s-re-post-share-option:checked').val();
+
+        $('#b2s-rp-new-sched-daily-box').removeClass('b2s-rp-new-sched-active');
+        $('#b2s-rp-new-sched-weekly-box').removeClass('b2s-rp-new-sched-active');
+        if (selected === '0' || selected === undefined || selected === '') {
+            $('#b2s-rp-new-sched-daily-box').addClass('b2s-rp-new-sched-active');
+            $('#b2s-rp-new-sched-daily-body').show();
+            $('#b2s-rp-new-sched-weekly-body').hide();
+        } else {
+            $('#b2s-rp-new-sched-weekly-box').addClass('b2s-rp-new-sched-active');
+            $('#b2s-rp-new-sched-weekly-body').show();
+            $('#b2s-rp-new-sched-daily-body').hide();
+        }
+    }
+
+    function b2sRpNewUpdateFilterBadge() {
+        var count = 0;
+
+        // Non-"all" filter state selects
+        $('#b2s-re-post-settings .b2s-rp-new-filter-toggle').each(function () {
+            if ($(this).val() !== 'all') { count++; }
+        });
+
+        // Extra toggle switches
+        if ($('#b2s-re-post-favorites-active').is(':checked'))      { count++; }
+        if ($('#b2s-re-post-images-active').is(':checked'))         { count++; }
+        if ($('#b2s-re-post-already-planed-active').is(':checked')) { count++; }
+
+        var $badge = $('#b2s-rp-new-filter-badge');
+        if (count > 0) {
+            $badge.text(count + ' ' + (count === 1 ? 'filter active' : 'filters active'));
+            $badge.removeClass('b2s-info-display-none');
+        } else {
+            $badge.addClass('b2s-info-display-none');
+        }
+    }
+
+}(jQuery));
+/* End Re-Post NEW Design */
 
 jQuery(document).on('click', '.b2s-get-settings-sched-time-default', function () {
     jQuery('.b2s-server-connection-fail').hide();

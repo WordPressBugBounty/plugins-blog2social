@@ -15,7 +15,7 @@ class B2S_Ship_Item {
     private $isCommentPage = array(1);
     private $isCommentGroup = array(1);
     private $allowTag = array(4, 7, 9, 11, 16, 32, 37, 42, 47);
-    private $limitTag = array(11 => 5, 7 => 75, 47 => 4); //networkId => Limit
+    private $limitTag = array(11 => 5, 7 => 75, 47 => 3); //networkId => Limit
     private $allowHtml = array(4, 11, 14, 25, 47);
     private $showTitleProfile = array(4, 6, 7, 9, 11, 14, 16, 21, 15, 25, 26, 27, 32, 35, 37, 39, 47);
     private $showTitlePage = array(6, 8, 19 => array(1), 37, 47); //Xing Business Page
@@ -43,7 +43,7 @@ class B2S_Ship_Item {
     private $setShortTextGroup = array(17 => 442, 19 => 239);
     private $setShortTextGroupLimit = array();
     private $allowHashTags = array(1, 2, 3, 6, 12, 17, 21, 37, 43, 45);
-    private $limitHashTagCharacter = array(21 => 36);
+    private $limitHashTagCharacter = array(21 => 36, 47=> 30); //networkId => Limit
     private $limitCharacterProfile = array(1 => 500, 2 => 280, 3 => 3000, 6 => 495, 12 => 2000, 18 => 1500, 20 => 495, 21 => 65535, 35 => 5000, 36 => 4000, 38 => 500, 39 => 2000, 43 => 300, 44 => 500, 45 => 280);
     private $showImageAreaProfile = array(6, 7, 12, 16, 18, 21, 26, 37, 38, 39, 42);
     private $showImageAreaPage = array(6, 12, 42);
@@ -2313,7 +2313,14 @@ class B2S_Ship_Item {
         if (!empty($tagsList) && $allowTags) {
             foreach ($tagsList as $tag) {
                 $name = str_replace(" ", "", $tag);
+
+                if(isset($this->limitHashTagCharacter[$networkId]) && (int) $this->limitHashTagCharacter[$networkId] > 0 && strlen($name) > $this->limitHashTagCharacter[$networkId]) {
+                    continue;
+                }
+
                 $countTags += 1;
+
+              
                 if (isset($this->limitTag[$networkId]) && $countTags > $this->limitTag[$networkId]) {
                     $limit = true;
                     continue;
@@ -2859,7 +2866,7 @@ class B2S_Ship_Item {
             if ($isProUser) {
                 // Priority: 1. Draft data
                 if (isset($draftData['sched_comment'][$schedCount])) {
-                    $commentValue = esc_textarea($draftData['sched_comment'][$schedCount]);
+                    $commentValue =  esc_textarea(wp_unslash($draftData['sched_comment'][$schedCount]));
                 } else if (isset($data->comment)) {//Calendar View and Edit with stored comment in data
                     $commentValue = esc_textarea($data->comment);
                 } else {// Generate comment from template with placeholders and shortening if $data is available

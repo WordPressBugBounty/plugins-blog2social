@@ -19,6 +19,7 @@
     letter-spacing: .1em;
     text-transform: uppercase;
     font-size: 12px !important;
+    margin-top: 10px;
 }
 
 .b2s-curation-input-area-btn{
@@ -300,4 +301,1651 @@
 }
 .b2s-curation-post-form-apply-post-templates{
     float: right;
+}
+
+/* Legacy h1 titles — kept in DOM for JS compatibility but never shown */
+.b2s-curation-title { display: none !important; }
+
+/* Page title & subtitle */
+.b2s-page-title {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.b2s-page-subtitle {
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+/* ---- Compose outer layout ---- */
+.b2s-compose-outer {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 0;
+}
+
+.b2s-compose-col-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.b2s-compose-col-preview {
+    width: 320px;
+    min-width: 320px;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+/* Remove the generic .b2s-curation-preview margin/padding so the preview panel
+   sits flush at the same top edge as the main compose panel */
+.b2s-compose-col-preview .b2s-curation-preview {
+    margin: 0;
+    padding: 0;
+}
+
+.b2s-compose-panel {
+    margin-bottom: 0;
+}
+
+/* ---- Compose header row ---- */
+.b2s-compose-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.b2s-compose-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.b2s-compose-avatar {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+}
+
+
+.b2s-compose-save-draft-link {
+    font-size: 12px;
+    color: #888;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    background: none;
+    border: none;
+}
+
+.b2s-compose-save-draft-link:hover {
+    color: #444;
+}
+
+/* ---- Compose toolbar ---- */
+.b2s-compose-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 8px;
+}
+
+.b2s-compose-toolbar-spacer {
+    flex: 1;
+}
+
+.b2s-compose-toolbar-btn {
+    font-size: 12px;
+    color: #555;
+    border-color: #ddd;
+    padding: 4px 10px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.b2s-compose-toolbar-btn:hover,
+.b2s-compose-toolbar-btn:focus {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Settings toggle button */
+.b2s-compose-settings-toggle-btn {
+    color: #888;
+}
+.b2s-compose-settings-toggle-btn.is-open {
+    color: #333;
+    background-color: #f0f0f0;
+}
+.b2s-compose-settings-toggle-icon {
+    font-size: 10px;
+    transition: transform 0.2s;
+}
+.b2s-compose-settings-toggle-btn.is-open .b2s-compose-settings-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.select-chevron {
+    font-size: 10px;
+    transition: transform 0.01s;
+}
+
+#b2s-curation-network-group-wrap.is-open .select-chevron {
+    transform: rotate(180deg);
+}
+/* Share button in toolbar gets green */
+.b2s-compose-toolbar-btn {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Settings panel */
+#b2s-compose-settings-panel {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    padding-top: 6px;
+}
+
+/* ---- Send options panel ---- */
+.b2s-compose-send-options {
+    margin-top: 0;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    padding: 12px 14px;
+    border: 1px solid #e8e8e8;
+}
+
+.b2s-compose-send-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.b2s-compose-send-group {
+    flex: 1;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.b2s-compose-send-label {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.b2s-compose-send-hint {
+    font-size: 11px;
+    color: #aaa;
+    margin: 0;
+}
+
+.b2s-compose-info-link {
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* ---- Post templates toggle ---- */
+.b2s-compose-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.b2s-compose-toggle-wrap {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 18px;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.b2s-compose-toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.b2s-compose-toggle-slider {
+    position: absolute;
+    inset: 0;
+    background-color: #ccc;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+.b2s-compose-toggle-input:checked+.b2s-compose-toggle-slider {
+    background-color: #79b333;
+}
+
+.b2s-compose-toggle-slider:before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 2px;
+    top: 2px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .2s;
+}
+
+.b2s-compose-toggle-input:checked+.b2s-compose-toggle-slider:before {
+    transform: translateX(16px);
+}
+
+.b2s-compose-toggle-label {
+    font-size: 12px;
+    color: #666;
+}
+
+
+/* No-auth nudge inside settings panel */
+.b2s-compose-no-auth-hint {
+    font-size: 12px;
+    color: #888;
+    padding: 6px 0;
+}
+.b2s-compose-no-auth-hint .glyphicon {
+    color: #f59e0b;
+    margin-right: 4px;
+}
+
+/* ---- Preview panel ---- */
+.b2s-compose-preview-panel {
+    margin-bottom: 0;
+}
+
+.b2s-compose-preview-label {
+    font-size: 11px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 10px;
+}
+
+
+.b2s-wp-posts-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.b2s-wp-posts-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 4px;
+}
+
+.b2s-wp-posts-sub {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+/* ---- Filter bar ---- */
+.b2s-wp-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+
+.b2s-wp-filter-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.b2s-wp-filter-search {
+    width: 200px !important;
+    font-size: 12px !important;
+    height: 30px;
+}
+
+.b2s-wp-filter-toggle-btn {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 30px;
+}
+
+.b2s-wp-filter-panel {
+    margin-bottom: 12px;
+}
+
+/* ---- Responsive: stack columns on narrow viewports ---- */
+@media (max-width: 991px) {
+    .b2s-compose-outer {
+        flex-direction: column;
+    }
+
+    .b2s-compose-col-preview {
+        width: 100%;
+    }
+}
+
+/* ---- Unified compose input ---- */
+.b2s-compose-unified-input {
+    margin-bottom: 10px;
+    background: #f7f8fa;
+    border-radius: 8px;
+    padding: 4px 12px 6px;
+}
+
+/* Title input — borderless, sits inside the shared background block.
+   High specificity needed to beat WP admin's global input[type="text"] rule. */
+.b2s-compose-unified-input input.b2s-compose-main-title,
+.b2s-compose-unified-input input.b2s-compose-main-title:focus,
+.b2s-compose-unified-input input.b2s-compose-main-title:hover {
+    width: 100%;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px 0 4px;
+    color: #1a1a1a;
+    background: transparent !important;
+}
+.b2s-compose-unified-input input.b2s-compose-main-title::placeholder {
+    font-weight: 400;
+    color: #aaa;
+}
+
+/* Thin separator between title and textarea */
+.b2s-compose-title-divider {
+    height: 1px;
+    background: #e2e4e8;
+    margin: 0 0 4px;
+}
+
+/* Wrapper gives us a relative context for the inline emoji button */
+.b2s-compose-textarea-wrap {
+    position: relative;
+}
+
+.b2s-compose-main-textarea {
+    width: 100%;
+    min-height: 44px;
+    overflow: hidden;
+    resize: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    font-size: 14px;
+    padding: 4px 36px 10px 0;
+    background: transparent;
+    transition: max-height 0.2s ease, min-height 0.2s ease;
+    overflow:auto;
+}
+.b2s-compose-main-textarea.is-expanded {
+    min-height: 110px;
+    max-height: 300px;
+    overflow-y: auto;
+    resize: vertical;
+}
+.b2s-compose-main-textarea:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+/* Emoji button anchored to bottom-right corner of the textarea */
+.b2s-compose-emoji-inline-btn {
+    position: absolute;
+    bottom: 6px;
+    right: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    line-height: 1;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+}
+.b2s-compose-textarea-wrap:focus-within .b2s-compose-emoji-inline-btn,
+.b2s-compose-emoji-inline-btn:hover {
+    opacity: 1;
+}
+
+/* ---- Link detection badge ---- */
+#b2s-compose-link-status {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+.b2s-badge-link-detected {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #e8f4fd;
+    color: #1a73e8;
+    border: 1px solid #c5dff8;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.b2s-badge-image-detected {
+    cursor: pointer;
+}
+.b2s-og-loaded-label {
+    color: #5f6368;
+    font-size: 12px;
+}
+
+/* ---- OG preview card in compose area ---- */
+.b2s-compose-og-preview-card {
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px !important;
+}
+.b2s-compose-og-preview-card .b2s-curation-link-preview-image {
+    width: 100%;
+    max-height: 140px;
+    object-fit: cover;
+}
+
+/* ---- Image attachment area ---- */
+.b2s-compose-image-attach {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+.b2s-compose-image-thumb {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* ---- SHARING TO section in preview panel ---- */
+.b2s-compose-preview-sharing-to {
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+}
+.b2s-compose-preview-sharing-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 0.5px;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+}
+.b2s-compose-preview-no-network {
+    font-size: 12px;
+    color: #c0392b;
+}
+.b2s-compose-preview-no-network .glyphicon {
+    margin-right: 4px;
+}
+.b2s-compose-preview-networks {
+    font-size: 12px;
+    color: #555;
+}
+
+/* ---- What's this link ---- */
+.b2s-post-templates-info-trigger {
+    margin-left: 6px;
+    font-size: 12px;
+}
+
+/* =============================================================
+   MODERN 2026 DESIGN OVERRIDES — curation page
+   All rules scoped to .col-md-9 to avoid leaking into sidebar
+   ============================================================= */
+
+/* --- Typography & page header -------------------------------- */
+.b2s-page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 4px;
+    letter-spacing: -0.3px;
+}
+.b2s-page-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 24px;
+}
+
+/* --- Compose outer ------------------------------------------- */
+.b2s-compose-outer {
+    gap: 16px;
+    align-items: flex-start;
+}
+.b2s-compose-col-main {
+    flex: 1;
+    min-width: 0;
+}
+.b2s-compose-col-preview {
+    width: 320px;
+    min-width: 320px;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.b2s-compose-col-preview .b2s-curation-preview {
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Main compose card --------------------------------------- */
+.b2s-compose-panel.panel.panel-default,
+.b2s-compose-panel {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04) !important;
+    background: #fff !important;
+    margin-bottom: 0;
+}
+.b2s-compose-panel > .panel-body {
+    padding: 20px 20px 16px !important;
+}
+
+/* --- Alert messages ------------------------------------------ */
+#b2s-curation-no-review-info,
+#b2s-curation-no-auth-info,
+#b2s-curation-no-data-info {
+    border-radius: 8px;
+    border: none;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 13px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+}
+#b2s-curation-saved-draft-info {
+    border-radius: 8px;
+    border: none;
+    background: #f0fdf4;
+    color: #15803d;
+    font-size: 13px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+}
+
+/* --- Compose header ------------------------------------------ */
+.b2s-compose-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.b2s-compose-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.b2s-compose-header-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #374151;
+}
+.b2s-compose-save-draft-link.btn.btn-link,
+.b2s-compose-load-draft-link.btn.btn-link {
+    font-size: 13px;
+    color: #337ab7;
+    text-decoration: none;
+    padding: 0;
+    font-weight: 500;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+.b2s-compose-save-draft-link.btn.btn-link:hover,
+.b2s-compose-load-draft-link.btn.btn-link:hover {
+    color: #4f46e5;
+    text-decoration: underline;
+}
+
+/* --- Loading spinner ----------------------------------------- */
+.b2s-loader-impulse {
+    color: #6366f1;
+}
+
+/* --- Main textarea ------------------------------------------- */
+.b2s-compose-unified-input {
+    margin-bottom: 0;
+}
+.b2s-compose-main-textarea.form-control {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none;
+    font-size: 15px;
+    color: #1e293b;
+    padding: 4px 0;
+    line-height: 1.6;
+    background: transparent;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+.b2s-compose-main-textarea.form-control::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+.b2s-compose-main-textarea.form-control:focus {
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent;
+}
+
+/* --- Link detection badge ------------------------------------ */
+#b2s-compose-link-status {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.b2s-badge-link-detected {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.b2s-og-loaded-label {
+    font-size: 12px;
+    color: #16a34a;
+    font-weight: 500;
+}
+
+/* --- OG preview card ----------------------------------------- */
+.b2s-compose-og-preview-card {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    margin-top: 12px !important;
+}
+.b2s-compose-og-preview-card .b2s-curation-link-preview-image {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+}
+
+/* --- Image attach -------------------------------------------- */
+.b2s-curation-image-area {
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.b2s-compose-image-attach {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0 10px;
+}
+.b2s-compose-image-thumb {
+    width: 72px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+/* --- Toolbar ------------------------------------------------- */
+.b2s-compose-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 0 4px;
+    border-top: 1px solid #f1f5f9;
+    margin-top: 10px;
+}
+.b2s-compose-toolbar-btn.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    transition: background .15s, border-color .15s, color .15s;
+}
+.b2s-compose-toolbar-btn.btn:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-color: #cbd5e1 !important;
+}
+
+/* --- Send options (settings area from JS) -------------------- */
+.b2s-compose-send-options {
+    margin-top: 16px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+/* Override Bootstrap selects inside settings area */
+.b2s-curation-settings-area select,
+.b2s-curation-settings-area .form-control {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    font-size: 13px;
+    color: #374151;
+    background: #fff;
+    height: 36px;
+    padding: 4px 10px;
+}
+.b2s-curation-settings-area select:focus,
+.b2s-curation-settings-area .form-control:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.12) !important;
+    outline: none;
+}
+.b2s-curation-settings-area label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    color: #94a3b8;
+    margin-bottom: 5px;
+    display: block;
+}
+.b2s-curation-settings-area .b2s-post-curation-ship-date-area {
+    margin-top: 10px;
+}
+.b2s-curation-settings-area input[type="text"].b2s-post-curation-ship-date {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    height: 36px;
+    font-size: 13px;
+    padding: 4px 10px;
+}
+.b2s-curation-settings-area .form-group {
+    margin-bottom: 10px;
+}
+
+/* Network group info link */
+.b2s-curation-settings-area a {
+    color: #6366f1;
+    font-size: 12px;
+}
+
+/* No-networks alert inside settings */
+.b2s-curation-settings-area .alert,
+.b2s-no-permission {
+    border-radius: 8px;
+    border: none;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 13px;
+    padding: 10px 14px;
+}
+
+/* --- Post templates toggle ----------------------------------- */
+.b2s-compose-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+}
+.b2s-compose-toggle-wrap {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    flex-shrink: 0;
+    margin: 0;
+}
+.b2s-compose-toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+.b2s-compose-toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #cbd5e1;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background .2s;
+}
+.b2s-compose-toggle-slider:before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.b2s-compose-toggle-input:checked + .b2s-compose-toggle-slider {
+    background: #6366f1;
+}
+.b2s-compose-toggle-input:checked + .b2s-compose-toggle-slider:before {
+    transform: translateX(16px);
+}
+.b2s-compose-toggle-label {
+    font-size: 13px;
+    color: #374151;
+    font-weight: 500;
+}
+.b2s-post-templates-info-trigger {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-left: 0;
+    text-decoration: none;
+}
+.b2s-post-templates-info-trigger:hover {
+    color: #6366f1;
+}
+
+/* --- Action row --------------------------------------------- */
+.b2s-compose-action-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f1f5f9;
+}
+
+
+
+/* --- Live preview panel ------------------------------------- */
+.b2s-compose-preview-panel.panel.panel-default,
+.b2s-compose-preview-panel {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06) !important;
+    background: #fff !important;
+    overflow: hidden;
+}
+.b2s-compose-preview-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: #94a3b8;
+    margin: 0 0 12px;
+}
+.b2s-compose-preview-panel .panel-footer {
+    background: #f8fafc !important;
+    border-top: 1px solid #f1f5f9 !important;
+    padding: 8px 15px;
+}
+.b2s-compose-preview-panel .panel-footer .col-xs-4 {
+    font-size: 12px;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+.b2s-compose-preview-sharing-to {
+    padding: 12px 15px;
+    border-top: 1px solid #f1f5f9;
+}
+.b2s-compose-preview-sharing-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+}
+.b2s-compose-preview-no-network {
+    font-size: 12px;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.b2s-curation-section-seperator{
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 2px solid #f1f5f9;
+}
+
+/* --- WP posts section --------------------------------------- */
+
+.b2s-wp-posts-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 2px;
+}
+.b2s-wp-posts-sub {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+/* --- Filter bar --------------------------------------------- */
+.b2s-wp-filter-bar {
+    margin-bottom: 12px;
+}
+.b2s-wp-filter-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.b2s-wp-filter-bar-left .form-control,
+.b2s-wp-filter-bar #b2sSortPostTitle {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    height: 36px;
+    font-size: 13px;
+    color: #374151;
+    flex: 1;
+    max-width: 260px;
+}
+.b2s-wp-filter-bar-left .form-control:focus,
+.b2s-wp-filter-bar #b2sSortPostTitle:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.12) !important;
+}
+#b2s-wp-filter-toggle.btn {
+    height: 36px;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 14px;
+    transition: background .15s, border-color .15s;
+}
+#b2s-wp-filter-toggle.btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1 !important;
+}
+
+/* Collapsible filter panel */
+#b2s-wp-filter-panel {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+}
+#b2s-wp-filter-panel .form-control,
+#b2s-wp-filter-panel select {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    height: 20px !important;
+    font-size: 12px;
+    padding: 0px 8px;
+    background: #fff;
+    min-height: 33px;
+}
+
+
+#b2s-wp-filter-panel select:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.12) !important;
+}
+
+/* --- WP post list items ------------------------------------- */
+.b2s-wp-posts-list-area .b2s-sort-result-item-area .b2s-post-item,
+.b2s-sort-result-item-area > div {
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    background: #fff;
+    transition: border-color .15s, box-shadow .15s;
+}
+.b2s-sort-result-item-area > div:hover {
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
+.b2s-sort-result-item-area .btn-default {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    box-shadow: none !important;
+    padding: 5px 14px;
+}
+
+/* Pagination */
+.b2s-sort-pagination-area .btn-group .btn {
+    border-radius: 6px !important;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+}
+.b2s-sort-pagination-area .btn-group .btn.btn-primary {
+    background: #6366f1 !important;
+    border-color: #6366f1 !important;
+    color: #fff;
+}
+.b2s-sort-pagination-area .b2s-pagination-btn {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 13px;
+    color: #475569;
+    background: #fff;
+}
+.b2s-sort-pagination-area .b2s-pagination-btn:hover {
+    background: #f1f5f9;
+}
+
+/* Server connection fail */
+.b2s-server-connection-fail.alert.alert-danger {
+    border-radius: 8px;
+    border: none;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 13px;
+    padding: 10px 14px;
+}
+
+/* --- Smooth transitions ------------------------------------- */
+.b2s-compose-panel,
+.b2s-compose-preview-panel,
+#b2s-wp-filter-panel {
+    transition: box-shadow .2s;
+}
+
+/* --- Compose collapse/expand bar --------------------------- */
+#b2s-compose-collapsed-bar {
+    margin-bottom: 16px;
+    margin-top: 10px;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.b2s-compose-expand-btn.action-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    position: relative;
+    min-height: 60px;
+    padding: 10px 15px;
+    background: #fff;
+    border: 1px solid #d1d1d1;
+    border-radius: 12px;
+    color: inherit;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
+    transition: all .2s ease;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+}
+
+.b2s-compose-expand-btn.action-card.share-post-tab-active {
+    border-color: #9cc4ff;
+    box-shadow: 0 0 0 1px rgba(59,130,246,.15), 0 4px 12px rgba(0,0,0,.04);
+    background: #EDF3FD;
+}
+
+.b2s-compose-expand-btn.action-card:hover,
+.b2s-compose-expand-btn.action-card:focus {
+    border-color: #9cc4ff;
+    box-shadow: 0 0 0 1px rgba(59,130,246,.15), 0 4px 12px rgba(0,0,0,.04);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.action-card .icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.action-card .icon-green {
+    background: #e8f5e4;
+    color: #5da94c;
+}
+
+.action-card .icon-blue {
+    background: #eef4ff;
+    color: #4f8df7;
+}
+
+.action-card .content h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.action-card .content p {
+    margin: 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.action-card .arrow {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #9ca3af;
+}
+
+/* --- Compact action-card variant (navbar) ------------------- */
+.action-grid-sm {
+    gap: 10px;
+}
+
+.action-card-sm {
+    min-height: 0 !important;
+    padding: 10px 40px 10px 14px !important;
+    gap: 12px;
+    border-radius: 10px !important;
+}
+
+.action-card-sm .content h3 {
+    font-size: 13px !important;
+    font-weight: 600;
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+.action-card-sm .content p {
+    display: none;
+}
+
+.icon-sm {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 16px !important;
+}
+
+.action-card-sm .arrow {
+    font-size: 18px;
+    right: 12px;
+}
+
+
+.b2s-curation-select {
+    height:  30px !important;
+    margin-bottom: 8px !important;
+    padding: 0 -1px 0 1px !important;
+}
+
+/* Network group dropdown inside SHARING TO preview panel */
+#b2s-curation-network-group-wrap {
+
+    display: flex;
+    width: 240px;
+    position: relative;
+}
+.select-chevron{
+    right: 26px;
+    position: absolute !important;
+    top: 35% !important;
+    pointer-events: none;
+}
+
+.b2s-preview-network-group-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    color: #94a3b8;
+    margin: 0 0 5px;
+    display: block;
+}
+
+.b2s-preview-network-group-select.form-control {
+    height: 28px !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    color: #475569;
+    padding: 5px 12px;
+    background: #f8fafc;
+    transition: background .15s, border-color .15s, color .15s;
+    min-height: 12px !important;
+    line-height: normal;
+    padding-left: 30px !important;
+    padding-right: 23px;
+
+}
+
+.b2s-preview-network-group-select.form-control:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-color: #cbd5e1 !important;
+}
+
+.b2s-preview-network-group-select.form-control:focus {
+    border-color: #cbd5e1 !important;
+    box-shadow: none !important;
+    outline: none;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+/* Network group col in settings panel: always hidden — shown in preview panel instead */
+#b2s-ship-network-col {
+    display: none !important;
+}
+
+/* ---- Image post detected badge (peach/salmon) ---- */
+.b2s-badge-image-detected {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #fff3ee;
+    color: #c05621;
+    border: 1px solid #f4b490;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ---- Text post detected badge (light green) ---- */
+.b2s-badge-text-detected {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #edf7ee;
+    color: #276b2e;
+    border: 1px solid #a8d5ab;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ---- Image picker option cards (inside #b2s-network-select-image modal) ---- */
+.b2s-image-option-cards {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0 14px;
+}
+
+.b2s-image-option-card {
+    flex: 1;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 20px 14px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, box-shadow .15s;
+    background: #fff;
+    user-select: none;
+}
+
+.b2s-image-option-card:hover {
+    border-color: #6366f1;
+    background: #f5f5ff;
+    box-shadow: 0 2px 10px rgba(99,102,241,.12);
+}
+
+.b2s-image-option-card:focus {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+
+.b2s-image-option-card-locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.b2s-image-option-card-locked:hover {
+    border-color: #e2e8f0;
+    background: #fff;
+    box-shadow: none;
+}
+
+.b2s-image-option-card-icon {
+    font-size: 30px;
+    color: #6366f1;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.b2s-image-option-card-locked .b2s-image-option-card-icon {
+    color: #94a3b8;
+}
+
+.b2s-image-option-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.b2s-image-option-card-desc {
+    font-size: 11px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.b2s-image-option-card-pro-badge {
+    display: inline-block;
+    background: #16a34a;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 6px;
+    margin: 4px auto 2px;
+}
+
+/* ---- Date field + calendar button row ---- */
+.b2s-ship-date-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.b2s-ship-date-row .b2s-post-curation-ship-date {
+    flex: 1;
+}
+.b2s-show-calendar-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ---- Calendar modal ---- */
+.b2s-cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+.b2s-cal-title {
+    font-size: 15px;
+    font-weight: 600;
+    min-width: 160px;
+    text-align: center;
+    color: #1e293b;
+}
+.b2s-cal-loading {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+}
+@keyframes b2s-spin { to { transform: rotate(360deg); } }
+.b2s-spin { display: inline-block; animation: b2s-spin 0.9s linear infinite; }
+
+.b2s-cal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+}
+.b2s-cal-th {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    padding: 4px 0 8px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.b2s-cal-td {
+    text-align: center;
+    vertical-align: top;
+    padding: 4px 2px;
+    width: 14.28%;
+    min-height: 52px;
+    cursor: default;
+    border-radius: 6px;
+}
+.b2s-cal-td.b2s-cal-empty {
+    background: transparent;
+}
+.b2s-cal-td.b2s-cal-today .b2s-cal-day-num {
+    background: #6366f1;
+    color: #fff;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 auto;
+    font-weight: 700;
+}
+.b2s-cal-td.b2s-cal-has-events {
+    cursor: pointer;
+}
+.b2s-cal-td.b2s-cal-has-events:hover {
+    background: #f1f5f9;
+}
+.b2s-cal-day-num {
+    font-size: 13px;
+    color: #334155;
+    line-height: 26px;
+    margin-bottom: 2px;
+}
+.b2s-cal-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+.b2s-cal-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.b2s-cal-dot-more {
+    font-size: 9px;
+    color: #94a3b8;
+    line-height: 1;
+}
+.b2s-cal-day-detail {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
+    margin-top: 4px;
+}
+.b2s-cal-day-detail-title {
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 8px;
+}
+.b2s-cal-day-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.b2s-cal-day-item {
+    padding: 5px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px;
+    color: #334155;
+}
+.b2s-cal-day-item:last-child {
+    border-bottom: none;
+}
+
+/* ---- Back button in image picker modal ---- */
+.b2s-image-modal-back-btn {
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* ---- X remove button overlaid on preview image ---- */
+.b2s-preview-image-remove-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    background: rgba(255,255,255,0.92);
+    border: none;
+    border-radius: 50%;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,.25);
+    color: #374151;
+    padding: 0;
+    z-index: 2;
+    transition: background .15s, color .15s;
+}
+
+.b2s-preview-image-remove-btn:hover {
+    background: #fff;
+    color: #dc2626;
+}
+.b2s-compose-draft-actions { display:inline-flex; align-items:center; gap:8px; }
+.b2s-compose-draft-actions .btn-link { padding:0; margin:0; }
+
+/* ---- Load draft modal list ---- */
+.b2s-load-draft-item {
+    cursor: pointer;
+    position: relative;
+}
+.b2s-load-draft-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.b2s-load-draft-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+.b2s-load-draft-content {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+.b2s-load-draft-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+}
+.b2s-load-draft-date {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.b2s-load-draft-title {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.b2s-load-draft-url {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.b2s-delete-draft-btn {
+    color: #c0392b;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.b2s-delete-draft-btn:hover {
+    color: #922b21;
+}
+
+.b2sFavoriteStar {
+    font-size: 22px;
+    margin-top: 6px;
+    color: #ffb900;
+    cursor: pointer;
+}
+.modal-xlg{
+    width: 1000px;
+}
+.b2s-curation-text-error {
+    border: 1px red solid !important;
+    border-radius: 5px;
+}
+.b2s-preview-network-info-link{
+    margin-left:5px;
+    margin-top:7px;
+}
+.share-post-tab-content{
+    margin-top: 3px;
+}
+.b2s-curation-network-select-glyphicon{
+    position: absolute!important;
+    top: 31%!important;
+    left: 10px!important;
+}
+#b2s-sort-submit-btn{
+    margin-left: 10px;
 }

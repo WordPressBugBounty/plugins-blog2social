@@ -9043,3 +9043,83 @@ ease;
 input[type="number"] {
     min-width: 60px !important;
 }
+
+.b2s-navbar-compose-expand-btn.btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    min-height: 0;
+    padding: 4px 10px 4px 10px;
+    background: #fff;
+    border: 1px solid #d1d1d1;
+    border-radius: 10px !important;
+    color: inherit;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
+    transition: all .2s ease;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.b2s-navbar-compose-expand-btn.btn:hover,
+.b2s-navbar-compose-expand-btn.btn:focus {
+    border-color: #9cc4ff;
+    box-shadow: 0 0 0 1px rgba(59,130,246,.15), 0 4px 12px rgba(0,0,0,.04);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.b2s-navbar-compose-expand-btn.btn.share-post-tab-active {
+    border-color: #9cc4ff;
+    box-shadow: 0 0 0 1px rgba(59,130,246,.15), 0 4px 12px rgba(0,0,0,.04);
+}
+
+.b2s-navbar-compose-expand-btn.btn .icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.b2s-navbar-compose-expand-btn.btn .icon-green {
+    background: #e8f5e4;
+    color: #5da94c;
+}
+
+.b2s-navbar-compose-expand-btn.btn .icon-blue {
+    background: #eef4ff;
+    color: #4f8df7;
+}
+
+.b2s-navbar-compose-expand-btn.btn .content h3 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+}
+
+.b2s-navbar-compose-expand-btn.btn .arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #9ca3af;
+}
+
+.navbar-share-button-container {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+}
+
+#b2s-navbar-compose-collapsed-bar {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}

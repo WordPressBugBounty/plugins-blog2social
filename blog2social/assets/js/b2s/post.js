@@ -606,53 +606,6 @@ jQuery(document).on('click', '.b2sDetailsSchedPostBtn', function () {
 });
 
 
-jQuery(document).on('click', '.b2sPostsDetailBtn', function () {
-    var postId = jQuery(this).attr('data-post-id');
-    var showByDate = jQuery(this).attr('data-search-date');
-    var showByNetwork = jQuery(this).attr('data-search-network');
-    var userAuthId = jQuery('#b2sUserAuthId').val();
-    if (!jQuery(this).find('i').hasClass('isload')) {
-        jQuery('.b2s-server-connection-fail').hide();
-        jQuery.ajax({
-            url: ajaxurl,
-            type: "POST",
-            dataType: "json",
-            cache: false,
-            data: {
-                'action': 'get_posts_detail_data',
-                'postId': postId,
-                'showByDate': showByDate,
-                'showByNetwork': showByNetwork,
-                'userAuthId': userAuthId,
-                'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
-            },
-            error: function () {
-                jQuery('.b2s-server-connection-fail').show();
-                return false;
-            },
-            success: function (data) {
-                if (data.result == true) {
-                    jQuery('.b2s-post-details-area[data-post-id="' + data.postId + '"]').html(data.content);
-                } else {
-                    if (data.error == 'nonce') {
-                        jQuery('.b2s-nonce-check-fail').show();
-                    }
-                }
-            }
-        });
-        jQuery(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up').addClass('isload').addClass('isShow');
-    } else {
-        if (jQuery(this).find('i').hasClass('isShow')) {
-            jQuery('.b2s-post-details-area[data-post-id="' + postId + '"]').hide();
-            jQuery(this).find('i').removeClass('isShow').addClass('isHide').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-        } else {
-            jQuery('.b2s-post-details-area[data-post-id="' + postId + '"]').show();
-            jQuery(this).find('i').removeClass('isHide').addClass('isShow').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-        }
-    }
-
-});
-
 
 jQuery(document).on('click', '.b2sDetailsPublishPostTriggerLink', function () {
 

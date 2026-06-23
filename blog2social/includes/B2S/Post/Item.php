@@ -1279,7 +1279,7 @@ class B2S_Post_Item {
                     $content .= '</div><p class="info">' . $publishLink;
 
                     if ((int) $var->hook_action == 0) {
-                        $content .= (B2S_PLUGIN_USER_VERSION > 0) ? '<a href="#" class="b2s-post-publish-area-drop-btn" data-post-id="' . esc_attr($var->id) . '">' : '<a href="#" class="b2sPreFeatureEditAndDeleteModal" data-title="' . esc_attr__('You want to delete a publish post entry?', 'blog2social') . '">';
+                        $content .=  '<a href="#" class="b2s-post-publish-area-drop-btn" data-post-id="' . esc_attr($var->id) . '">';
                         $content .= esc_html__('Delete from reporting', 'blog2social') . '</a> ';
                     }
 
@@ -1293,7 +1293,7 @@ class B2S_Post_Item {
                                 </li>';
                 }
                 $content .= '<li class="list-group-item"><label class="checkbox-inline checkbox-all-label-btn"><span class="glyphicon glyphicon glyphicon-trash "></span> ';
-                $content .= B2S_PLUGIN_USER_VERSION > 0 ? '<a class="checkbox-post-publish-all-btn" data-blog-post-id="' . esc_attr($post_id) . '" href="#">' : '<a href="#" class="b2sPreFeatureEditAndDeleteModal" data-title="' . esc_attr__('You want to delete a publish post entry?', 'blog2social') . '">';
+                $content .= '<a class="checkbox-post-publish-all-btn" data-blog-post-id="' . esc_attr($post_id) . '" href="#">';
                 $content .= esc_html__('Delete from reporting', 'blog2social') . '</a></label></li>';
                 $content .= '</ul></div></div>';
                 return $content;
@@ -1361,7 +1361,7 @@ class B2S_Post_Item {
                                 </li>';
                 }
                 $content .= '<li class="list-group-item"><label class="checkbox-inline checkbox-all-label-btn"><span class="glyphicon glyphicon glyphicon-trash "></span> ';
-                $content .= B2S_PLUGIN_USER_VERSION > 0 ? '<a class="checkbox-post-approve-all-btn" data-blog-post-id="' . esc_attr($post_id) . '" href="#">' : '<a href="#" class="b2sPreFeatureEditAndDeleteModal" data-title="' . esc_html__('You want to delete your Social Media post?', 'blog2social') . '">';
+                $content .= '<a class="checkbox-post-approve-all-btn" data-blog-post-id="' . esc_attr($post_id) . '" href="#">';
                 $content .= esc_html__('Delete', 'blog2social') . '</a></label></li>';
                 $content .= '</ul></div></div>';
                 return $content;
@@ -1673,7 +1673,7 @@ class B2S_Post_Item {
                         $content .= '</div><p class="info">' . $publishLink;
 
                         if ((int) $var->hook_action == 0) {
-                            $content .= (B2S_PLUGIN_USER_VERSION > 0) ? '<a href="#" class="b2s-post-publish-area-drop-btn" data-post-id="' . esc_attr($var->id) . '">' : '<a href="#" class="b2sPreFeatureEditAndDeleteModal" data-title="' . esc_attr__('You want to delete a publish post entry?', 'blog2social') . '">';
+                            $content .= '<a href="#" class="b2s-post-publish-area-drop-btn" data-post-id="' . esc_attr($var->id) . '">';
                             $content .= esc_html__('Delete from reporting', 'blog2social') . '</a> ';
                         }
                         if (!empty($error)) {
