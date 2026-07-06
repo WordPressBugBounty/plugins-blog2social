@@ -784,3 +784,24 @@ jQuery(document).on('click', '#b2s-debug-connection-btn', function () {
         }
     });
 });
+
+// New Post Filters
+jQuery(document).on('click', '#b2s-wp-filter-toggle', function () {
+    var $panel = jQuery('#b2s-wp-filter-panel');
+    var $label = jQuery('#b2s-wp-filter-toggle-label');
+    if ($panel.is(':visible')) {
+        $panel.slideUp(150);
+        $label.text($label.data('show') || 'Show filters');
+    } else {
+        $panel.slideDown(150);
+        $label.text($label.data('hide') || 'Hide filters');
+    }
+});
+
+var b2sCurationSearchTimer = null;
+jQuery(document).on('input', '#b2sSortPostTitle', function () {
+    clearTimeout(b2sCurationSearchTimer);
+    b2sCurationSearchTimer = setTimeout(function () {
+        if (typeof b2sSortFormSubmit === 'function') { b2sSortFormSubmit(); }
+    }, 500);
+});

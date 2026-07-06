@@ -2349,16 +2349,25 @@ class Ajax_Post {
                     if ((int) $delete['postCount'] > 0) {
                         $versionDetails = get_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID);
                         if ($versionDetails !== false && is_array($versionDetails) && !empty($versionDetails)) {
+
                             if (isset($versionDetails['B2S_PLUGIN_LICENCE_CONDITION']) && isset($versionDetails['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'])) {
                                 if ((int) $versionDetails['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'] > 0) {
                                     $versionDetails['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'] = ($versionDetails['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota']) + $delete['postCount'];
-                                    update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
                                     $currentOpenSchedLimit = $versionDetails['B2S_PLUGIN_LICENCE_CONDITION']['open_sched_post_quota'];
                                 }
                             }
+
+                            if(isset($versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota)){
+                                if((int)$versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota> 0){
+                                    $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota = ($versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota) + $delete['xPostsDeleted'];
+                                    $currentOpenXSchedLimit = $versionDetails['B2S_PLUGIN_NETWORK_CONDITION'][45]->open_sched_post_quota;
+                                }
+                            }
+
+                            update_option('B2S_PLUGIN_USER_VERSION_' . B2S_PLUGIN_BLOG_USER_ID, $versionDetails, false);
                         }
                     }
-                    echo json_encode(array('result' => true, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'postId' => $delete['postId'], 'postCount' => $delete['postCount'], 'blogPostId' => $delete['blogPostId']));
+                    echo json_encode(array('result' => true, 'currentOpenSchedLimit' => $currentOpenSchedLimit, 'currentOpenXSchedLimit' => $currentOpenXSchedLimit, 'postId' => $delete['postId'], 'postCount' => $delete['postCount'], 'blogPostId' => $delete['blogPostId']));
                     wp_die();
                 }
             }
@@ -3046,12 +3055,12 @@ class Ajax_Post {
         }
 
         $entryCount = (int) $wpdb->get_var($wpdb->prepare(
-                                "SELECT COUNT(*) FROM `{$table}` WHERE `blog_user_id` = %d AND `network_id` = %d AND `type_id` = %d",
+                                "SELECT COUNT(*) FROM {$wpdb->prefix}b2s_ai_template WHERE `blog_user_id` = %d AND `network_id` = %d AND `type_id` = %d",
                                 (int) B2S_PLUGIN_BLOG_USER_ID,
                                 $networkId,
                                 $typeId
         ));
-
+        
         if ($entryCount > 0) {
             $result = $wpdb->update(
                     $table,

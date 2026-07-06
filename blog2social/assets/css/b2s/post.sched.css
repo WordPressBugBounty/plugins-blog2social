@@ -7,7 +7,6 @@
 }
 .form-inline {
     width: 100%;
-    margin-bottom: 20px;
 }
 .form-inline .form-group {
     margin-left: 2px;
@@ -24,19 +23,6 @@
         margin-bottom: 10px;
     }
 }
-@media(max-width: 767px) {
-    .form-inline {
-        display: none;
-    }
-    .filterHide {
-        display: none;
-    }
-    .form-inline button ,.form-inline a { 
-        width: 49%;
-        margin-bottom: 10px;
-    }
-}
-
 .checkbox-item{
     margin: 25px 5px 0 !important;
 }
@@ -274,7 +260,6 @@ textarea.form-control {
 
 .form-inline {
     width: 100%;
-    margin-bottom: 20px;
 }
 .form-inline .form-group  {
     margin-left: 2px;
@@ -289,18 +274,7 @@ textarea.form-control {
         margin-bottom: 10px;
     }
 }
-@media(max-width: 767px) {
-    .form-inline {
-        display: none;
-    }
-    .filterHide {
-        display: none;
-    }
-    .form-inline button ,.form-inline a { 
-        width: 49%;
-        margin-bottom: 10px;
-    }
-}
+
 
 .img-thumbnail{
     display: block !important;
@@ -655,3 +629,6 @@ input:disabled + .b2s-toggle-slider {
     font-size: 13px;
 }
 
+.b2s-post-filter-sched-legend{
+    margin-top: 15px;
+}

@@ -121,7 +121,6 @@
 
 .b2s-rp-new-filter-state-select {
   flex: 1;
-  min-width: 200px;
   max-width: none !important;
 }
 
@@ -570,18 +569,7 @@
         margin-bottom: 10px;
     }
 }
-@media(max-width: 767px) {
-    .form-inline {
-        display: none;
-    }
-    .filterHide {
-        display: none;
-    }
-    .form-inline button ,.form-inline a { 
-        width: 49%;
-        margin-bottom: 10px;
-    }
-}
+
 
 .datepicker table tr td.event {
     background-color: #ffdb99;
@@ -815,18 +803,7 @@ textarea.form-control {
         margin-bottom: 10px;
     }
 }
-@media(max-width: 767px) {
-    .form-inline {
-        display: none;
-    }
-    .filterHide {
-        display: none;
-    }
-    .form-inline button ,.form-inline a { 
-        width: 49%;
-        margin-bottom: 10px;
-    }
-}
+
 
 .img-thumbnail{
     display: block !important;
@@ -1050,3 +1027,84 @@ input[type="radio"] {
     border: 2px solid #79B331 !important
 }
 
+#b2s-network-group-wrap,#b2s-network-group-wrap-twitter{
+    display: flex;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.b2s-curation-network-select-glyphicon{
+    position: absolute!important;
+    top: 31%!important;
+    left: 10px!important;
+}
+#b2s-re-post-profil-dropdown
+ {
+    height: 28px !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    color: #475569;
+    padding: 5px 12px;
+    background: #f8fafc;
+    transition: background .15s, border-color .15s, color .15s;
+    min-height: 12px !important;
+    line-height: normal;
+    padding-left: 30px !important;
+    padding-right: 23px;
+    min-width: 100%;
+}
+
+.select-chevron{
+    right: 10px;
+    position: absolute !important;
+    top: 35% !important;
+    pointer-events: none;
+}
+
+.select-chevron {
+    font-size: 10px;
+    transition: transform 0.01s;
+}
+
+#b2s-network-group-wrap.is-open .select-chevron {
+    transform: rotate(180deg);
+}
+#b2s-network-group-wrap-twitter.is-open .select-chevron {
+    transform: rotate(180deg);
+}
+
+#b2s-re-post-profil-dropdown-twitter{
+     height: 28px !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    color: #475569;
+    padding: 5px 12px;
+    background: #f8fafc;
+    transition: background .15s, border-color .15s, color .15s;
+    min-height: 12px !important;
+    line-height: normal;
+    padding-left: 30px !important;
+    padding-right: 23px;
+    min-width: 100%;
+}
+.b2s-img-network-x-icon{
+    position: absolute !important;
+    top: 24% !important;
+    left: 9px !important;
+    width:16px;
+    height:16px;
+}
+.b2s-preview-network-info-link {
+    margin-left: 5px;
+    margin-top: 7px;
+}
+.b2s-curation-network-select-wrap{
+    position: relative;
+    width: 100%;
+}

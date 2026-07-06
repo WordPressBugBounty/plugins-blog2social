@@ -235,7 +235,7 @@ class B2S_AutoPost_Item {
         $content .= '<br><br>';
         $content .= '<div class="alert alert-danger b2s-auto-post-error" data-error-reason="import-no-auth" style="display:none;">' . esc_html__('Please select a social media network', 'blog2social') . '</div>';
         $content .= '<p class="b2s-bold">' . esc_html__('Available networks to select your auto-post connecitons:', 'blog2social') . '</p>';
-        $content .= '<div class="b2s-network-tos-auto-post-import-warning"><div class="alert alert-danger">' . esc_html__('In accordance with the new Twitter TOS, one Twitter account can be selected as your primary Twitter account for auto-posting.', 'blog2social') . ' <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_faq_032018')) . '" target="_blank">' . esc_html__('More information', 'blog2social') . '</a></div></div>';
+        $content .= '<div class="b2s-network-tos-auto-post-import-warning"><div class="alert alert-danger">' . esc_html__('In accordance with the new X TOS, one X account can be selected as your primary X account for auto-posting.', 'blog2social') . ' <a href="' . esc_url(B2S_Tools::getSupportLink('network_tos_faq_032018')) . '" target="_blank">' . esc_html__('More information', 'blog2social') . '</a></div></div>';
         $content .= $this->getNetworkAutoPostData($optionAutoPostImport);
         $content .= '<p class="b2s-bold">' . esc_html__('Select to auto-post immediately after publishing or with a delay', 'blog2social') . '</p>';
         $content .= '<input id="b2s-import-auto-post-time-now" name="b2s-import-auto-post-time-state" ' . (((isset($optionAutoPostImport['ship_state']) && (int) $optionAutoPostImport['ship_state'] == 0) || !isset($optionAutoPostImport['ship_state'])) ? 'checked' : '') . ' value="0" type="radio"><label for="b2s-import-auto-post-time-now"> ' . esc_html__('immediately', 'blog2social') . '</label><br>';
@@ -292,7 +292,7 @@ class B2S_AutoPost_Item {
             $content .= $authContent;
 
             //TOS Twitter 032018 - none multiple Accounts - User select once
-            $content .= '<div class="col-md-3 b2s-auto-post-twitter-profile"><label for="b2s-auto-post-profil-dropdown-twitter">' . esc_html__('Select Twitter profile:', 'blog2social') . '</label> <select class="b2s-w-100" id="b2s-auto-post-profil-dropdown-twitter" name="b2s-auto-post-profil-dropdown-twitter">';
+            $content .= '<div class="col-md-3 b2s-auto-post-twitter-profile"><label for="b2s-auto-post-profil-dropdown-twitter">' . esc_html__('Select X profile:', 'blog2social') . '</label> <select class="b2s-w-100" id="b2s-auto-post-profil-dropdown-twitter" name="b2s-auto-post-profil-dropdown-twitter">';
             $selectedTwitterAuthId = 0;
             foreach ($mandant as $k => $m) {
                 if ((isset($auth->{$m->id}) && isset($auth->{$m->id}[0]) && !empty($auth->{$m->id}[0]))) {

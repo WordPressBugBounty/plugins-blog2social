@@ -6,7 +6,7 @@ Donate link: https://paypal.me/adenion
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 9.0.0
+Stable tag: 9.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,8 @@ No. Default WordPress plugin permissions (755) are sufficient.
 
 
 == Changelog ==
+= 9.0.1 =
+Bugfix: Datepicker (German), Usability Optimization
 = 9.0.0 =
 Improved Share Posts View and Resharer, Network Dev Integration
 = 8.9.3 =
@@ -291,6 +293,8 @@ Bugfix: Autoposting
 Publish and share videos
 
 == Upgrade Notice ==
+= 9.0.1 =
+Bugfix: Datepicker (German), Usability Optimization
 = 9.0.0 =
 Improved Share Posts View and Resharer, Network Dev Integration
 = 8.9.3 =

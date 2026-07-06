@@ -30,13 +30,7 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                 <!--Header|Start - Include-->
                 <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/header.php'); ?>
                 <!--Header|End-->
-                <p class="b2s-page-subtitle b2s-color-grey"><?php esc_html_e('Create, customize, and share social media posts from your WordPress content or from any other source.', 'blog2social'); ?></p>
-                <h1 id="b2s-curation-title-link" class="b2s-curation-title" style="display: none;"><?php esc_html_e('Share New Link Post', 'blog2social'); ?></h1>
-                <h1 id="b2s-curation-title-text" class="b2s-curation-title" style="display: none;"><?php esc_html_e('Share New Text Post', 'blog2social'); ?></h1>
-                <h1 id="b2s-curation-title-image" class="b2s-curation-title" style="display: none;"><?php esc_html_e('Share New Image Post', 'blog2social') . $isImagePro; ?></h1>
-                <h1 id="b2s-curation-title-video" class="b2s-curation-title" style="display: none;"><?php esc_html_e('Share New Video Post', 'blog2social'); ?></h1>
                 <input type="hidden" id="b2s-curation-post-format" value="2">
-
                 <!--Compose Area|Start-->
                 <!-- Collapsed bar: shown by default until user expands -->
                 <div id="b2s-compose-collapsed-bar">
@@ -616,6 +610,20 @@ include (B2S_PLUGIN_DIR . 'views/b2s/partials/general-modal.php');
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal"><?php esc_html_e('NO', 'blog2social') ?></button>
                 <button class="btn btn-danger b2s-all-sched-posts-delete-confirm-btn"><?php esc_html_e('YES, delete', 'blog2social') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="b2sTwitterInfoModal" tabindex="-1" role="dialog" aria-labelledby="b2sTwitterInfoModal" aria-hidden="true" data-backdrop="false"  style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="b2s-modal-close close" data-modal-name="#b2sTwitterInfoModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><?php esc_html_e('Select X profile:', 'blog2social') ?></h4>
+            </div>
+            <div class="modal-body">
+                <?php esc_html_e('To comply with the X TOS and to avoid duplicate posts, posts will be sent to your primary X profile.', 'blog2social') ?> <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('network_tos_faq_032018')) ?>"><?php esc_html_e('More information', 'blog2social') ?></a>
             </div>
         </div>
     </div>

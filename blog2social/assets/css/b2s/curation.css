@@ -1408,9 +1408,9 @@
 }
 
 .action-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .b2s-compose-expand-btn.action-card {
@@ -1427,7 +1427,8 @@
     box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
     transition: all .2s ease;
     text-align: left;
-    width: 100%;
+    min-width: 600px;
+    width: calc(50% - 5px);
     cursor: pointer;
 }
 
@@ -1948,4 +1949,43 @@
 }
 #b2s-sort-submit-btn{
     margin-left: 10px;
+}
+#b2s-compose-expand-area{
+    margin-bottom: 25px;
+}
+
+#b2s-re-post-profil-dropdown-twitter{
+     height: 28px !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    color: #475569;
+    padding: 5px 12px;
+    background: #f8fafc;
+    transition: background .15s, border-color .15s, color .15s;
+    min-height: 12px !important;
+    line-height: normal;
+    padding-left: 30px !important;
+    padding-right: 23px;
+}
+.b2s-img-network-x-icon{
+    position: absolute !important;
+    top: 24% !important;
+    left: 9px !important;
+    width:16px;
+    height:16px;
+}
+#b2s-network-group-wrap-twitter{
+    display: flex;
+    position: relative;
+    margin-bottom: 10px;
+    padding: 0px !important;
+    margin-top: 29px;
+}
+.b2s-preview-network-info-link-twitter{
+    margin-left: 5px;
+    margin-top: 7px;
+    color: #337ab7!important;
 }

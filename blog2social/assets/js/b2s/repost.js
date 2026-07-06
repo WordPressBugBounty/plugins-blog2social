@@ -25,7 +25,6 @@ jQuery(window).on("load", function () {
         calendarWeeks: true,
         autoclose: true
     });
-
     jQuery(".b2s-re-post-date-end").datepicker({
         format: dateFormat,
         language: language,
@@ -36,10 +35,6 @@ jQuery(window).on("load", function () {
     });
 
     var showMeridian = true;
-    if (jQuery('#b2sUserLang').val() == "de") {
-        dateFormat = "dd.mm.yyyy";
-        language = "de";
-    }
     if (jQuery('#b2sUserTimeFormat').val() == 0) {
         showMeridian = false;
     }
@@ -237,6 +232,7 @@ jQuery(document).on('change', '#b2s-re-post-profil-dropdown', function () {
         //TOS Twitter Check
         var len = jQuery('#b2s-re-post-profil-dropdown-twitter').children('option[data-mandant-id="' + jQuery(this).val() + '"]').length;
         if (len >= 1) {
+            jQuery('#b2s-network-group-wrap-twitter').show();
             jQuery('.b2s-re-post-twitter-profile').show();
             jQuery('#b2s-re-post-profil-dropdown-twitter').prop('disabled', false);
             jQuery('#b2s-re-post-profil-dropdown-twitter').show();
@@ -250,6 +246,7 @@ jQuery(document).on('change', '#b2s-re-post-profil-dropdown', function () {
     }
     //TOS Twitter 032018
     if (tos) {
+        jQuery('#b2s-network-group-wrap-twitter').hide();
         jQuery('.b2s-re-post-twitter-profile').hide();
         jQuery('#b2s-re-post-profil-dropdown-twitter').prop('disabled', 'disabled');
         jQuery('#b2s-re-post-profil-dropdown-twitter').hide();
@@ -441,6 +438,7 @@ jQuery(document).on('click', '.b2s-sched-delete-confirm-btn', function () {
                 //Licence Condition
                 if (jQuery("#b2sUserVersion").val() > 0) {
                     jQuery('#current_licence_open_sched_post_quota').html(data.currentOpenSchedLimit);
+                    jQuery('#current_network_open_sched_post_quota').html(data.currentOpenXSchedLimit);
                     if (data.currentOpenSchedLimit > 0) {
                         jQuery('#b2s-licence-condition').hide();
                         jQuery('.b2s-re-post-submit-btn').removeAttr('disabled');
@@ -696,17 +694,6 @@ jQuery(document).on("click", ".release_locks", function () {
         }
     });
 });
-function showFilter(typ) {
-    if (typ == 'show') {
-        jQuery('.filterShow').hide();
-        jQuery('.form-inline').show();
-        jQuery('.filterHide').show();
-    } else {
-        jQuery('.filterShow').show();
-        jQuery('.form-inline').hide();
-        jQuery('.filterHide').hide();
-    }
-}
 
 function padDate(n) {
     return ("0" + n).slice(-2);
@@ -1481,4 +1468,51 @@ jQuery(document).on('click', '.b2s-get-settings-sched-time-user', function () {
         }
     });
     return false;
+});
+
+// open/close toggle
+jQuery(document).on('click', '#b2s-network-group-wrap', function () {
+    jQuery("#b2s-network-group-wrap").toggleClass('is-open');
+});
+// open/close toggle
+jQuery(document).on('click', '#b2s-re-post-profil-dropdown-twitter', function () {
+    jQuery("#b2s-network-group-wrap-twitter").toggleClass('is-open');
+});
+
+// close when clicking outside
+jQuery(document).on('click', function (e) {
+    const $wrap = jQuery("#b2s-network-group-wrap");
+    const $select = jQuery("#b2s-re-post-profil-dropdown");
+    console.log($wrap);
+    console.log($select);
+    if (
+        !$wrap.is(e.target) &&
+        $wrap.has(e.target).length === 0 &&
+        !$select.is(e.target) &&
+        $select.has(e.target).length === 0
+    ) {
+        $wrap.removeClass('is-open');
+    }
+});
+
+// close when clicking outside
+jQuery(document).on('click', function (e) {
+    const $wrap = jQuery("#b2s-network-group-wrap-twitter");
+    const $select = jQuery("#b2s-re-post-profil-dropdown-twitter");
+
+    if (
+        !$wrap.is(e.target) &&
+        $wrap.has(e.target).length === 0 &&
+        !$select.is(e.target) &&
+        $select.has(e.target).length === 0
+    ) {
+        $wrap.removeClass('is-open');
+    }
+});
+
+jQuery(document).on('click', '#b2s-re-post-settings', function () {
+   
+    if(jQuery(this).hasClass('b2s-btn-disabled')){
+       jQuery("#b2sPreFeatureReshareModal").modal('show');
+    }
 });

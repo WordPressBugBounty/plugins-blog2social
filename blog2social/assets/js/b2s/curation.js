@@ -824,18 +824,6 @@ jQuery(document).on('click', '#b2s-btn-curation-customize', function () {
 
 // Show Posts Area ///////////////////////////////////////////////////////////////////
 
-jQuery(document).on('click', '#b2s-wp-filter-toggle', function () {
-    var $panel = jQuery('#b2s-wp-filter-panel');
-    var $label = jQuery('#b2s-wp-filter-toggle-label');
-    if ($panel.is(':visible')) {
-        $panel.slideUp(150);
-        $label.text($label.data('show') || 'Show filters');
-    } else {
-        $panel.slideDown(150);
-        $label.text($label.data('hide') || 'Hide filters');
-    }
-});
-
 var b2sCurationSearchTimer = null;
 jQuery(document).on('input', '#b2sSortPostTitle', function () {
     clearTimeout(b2sCurationSearchTimer);
@@ -1434,3 +1422,6 @@ jQuery(document).on('click', '.b2s-preview-network-info-link', function (e) {
     jQuery('#b2sInfoNetworkModal').modal('show');
 });
 
+jQuery(document).on('click', '.b2sTwitterInfoModalBtn', function () {
+    jQuery('#b2sTwitterInfoModal').modal('show');
+});

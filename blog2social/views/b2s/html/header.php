@@ -180,7 +180,7 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
 <div class="panel panel-group b2s-header-notice b2s-meta-tags-webdados b2s-meta-tags-danger" style="display:<?php echo esc_attr($showWebdaos); ?>;">
     <div class="panel-body">
         <button class="close b2s-warning-close"><span aria-hidden="true">&times;</span></button>
-        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('Blog2Social has detected another plugin that is setting Social Meta tags for your blog posts. To ensure that your Social Meta tags are set correctly for your social media posts shared with Blog2Social, please deactivate the Facebook Open Graph and Twitter Card Tags settings in your other plugins.', 'blog2social'); ?>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('Blog2Social has detected another plugin that is setting Social Meta tags for your blog posts. To ensure that your Social Meta tags are set correctly for your social media posts shared with Blog2Social, please deactivate the Facebook Open Graph and X Card Tags settings in your other plugins.', 'blog2social'); ?>
     </div>
 </div>
 
@@ -320,7 +320,7 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
         <button class="close b2s-warning-close"><span aria-hidden="true">&times;</span></button>
         <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo wp_kses(sprintf(
                // translators: %s is a link
-            __('To connect more Twitter apps with your Twitter accounts, please upgrade your current Blog2Social license or get a Twitter app add-on to your current license <a href="%s">Login with your Blog2Social account and continue to booking.</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('addon_apps'))),
+            __('To connect more X apps with your X accounts, please upgrade your current Blog2Social license or get a X app add-on to your current license <a href="%s">Login with your Blog2Social account and continue to booking.</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('addon_apps'))),
             array('a' => array(
                 'href' => array(),
                 'target' => '_blank')

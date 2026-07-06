@@ -604,7 +604,7 @@ jQuery(document).on('click', '.b2s-pagination-btn', function () {
     return false;
 });
 
-jQuery(document).on('change', '.b2s-select', function () {
+jQuery(document).on('change', '.b2s-select, .b2s-select-filter', function () {
     jQuery('#b2sPagination').val("1");
     b2sSortFormSubmit();
     return false;
@@ -657,17 +657,6 @@ jQuery(document).on('click', '#b2s-btn-select-content-curation', function () {
     return false;
 });
 
-function showFilter(typ) {
-    if (typ == 'show') {
-        jQuery('.filterShow').hide();
-        jQuery('.form-inline').show();
-        jQuery('.filterHide').show();
-    } else {
-        jQuery('.filterShow').show();
-        jQuery('.form-inline').hide();
-        jQuery('.filterHide').hide();
-    }
-}
 
 //b2sSortForm 
 function b2sSortFormSubmit() {

@@ -866,7 +866,7 @@ $hasDisconnectedNetworks = !empty($disconnectedNetworks);
                                                             <b><?php esc_html_e('Define the default settings for the custom post format for all of your Facebook accounts in the Blog2Social settings.', 'blog2social'); ?></b>
                                                         </div>
                                                         <div class="b2s-post-format-settings-info" data-network-id="2" style="display:none;">
-                                                            <b><?php esc_html_e('Define the default settings for the custom post format for all of your Twitter accounts in the Blog2Social settings.', 'blog2social'); ?></b>
+                                                            <b><?php esc_html_e('Define the default settings for the custom post format for all of your X accounts in the Blog2Social settings.', 'blog2social'); ?></b>
                                                         </div>
                                                         <div class="b2s-post-format-settings-info" data-network-id="3" style="display:none;">
                                                             <b><?php esc_html_e('Define the default settings for the custom post format for all of your LinkedIn accounts in the Blog2Social settings.', 'blog2social'); ?></b>

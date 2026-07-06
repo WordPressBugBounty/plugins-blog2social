@@ -77,6 +77,7 @@ class B2S_RePost_Item {
         $content .= '<div class="b2s-rp-new-card-title">';
         $content .= '<span class="dashicons dashicons-filter b2s-rp-new-icon-primary"></span>';
         $content .= '<span class="b2s-rp-new-heading">' . esc_html__('Which content should be shared?', 'blog2social') . '</span>';
+        $content .= '<a target="_blank" style="margin-top: 1px;" href="' . esc_url(B2S_Tools::getSupportLink('network_guide_re_sharer')) . '">Info</a>';
         $content .= '</div>';
         $content .= '<span id="b2s-rp-new-filter-badge" class="label label-default b2s-rp-new-filter-badge b2s-info-display-none"></span>';
         $content .= '</div>';
@@ -166,9 +167,9 @@ class B2S_RePost_Item {
         $content .= '<div class="b2s-rp-new-filter-input b2s-info-display-none" id="b2s-rp-new-date-input">';
         $content .= '<div class="row">';
         $content .= '<div class="col-sm-6"><label class="b2s-rp-new-small-label">' . esc_html__('Start date', 'blog2social') . '</label>';
-        $content .= '<input type="date" class="b2s-re-post-date-start form-control" name="b2s-re-post-date-start"></div>';
+        $content .= '<input type="text" placeholder="' . esc_attr__('Start date', 'blog2social') . '" class="b2s-re-post-date-start form-control" name="b2s-re-post-date-start"></div>';
         $content .= '<div class="col-sm-6"><label class="b2s-rp-new-small-label">' . esc_html__('End date', 'blog2social') . '</label>';
-        $content .= '<input type="date" class="b2s-re-post-date-end form-control" name="b2s-re-post-date-end"></div>';
+        $content .= '<input type="text" placeholder="' . esc_attr__('End date', 'blog2social') . '" class="b2s-re-post-date-end form-control" name="b2s-re-post-date-end"></div>';
         $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';
@@ -460,19 +461,33 @@ class B2S_RePost_Item {
             $mandant = $this->authData->data->mandant;
             $auth = $this->authData->data->auth;
             $authContent = '';
-            $content = '<div class="row"><div class="col-md-6 b2s-re-post-profile"><label for="b2s-re-post-profil-dropdown">' . esc_html__('Network collection:', 'blog2social') . '</label><a class="b2s-network-info-modal-btn pull-right" href="#">' . esc_html__('Info', 'blog2social') . '</a>
-                <select class="b2s-w-100" id="b2s-re-post-profil-dropdown" name="b2s-re-post-profil-dropdown">';
+
+            $content = '<div id="b2s-network-group-wrap" >';
+            $content .= '<div class="b2s-curation-network-select-wrap">';
+            $content .= '<i class="glyphicon glyphicon-user b2s-curation-network-select-glyphicon"></i>';
+            $content .= '<select class="b2s-w-100" id="b2s-re-post-profil-dropdown" name="b2s-re-post-profil-dropdown">';
 
             foreach ($mandant as $k => $m) {
                 $content .= '<option value="' . esc_attr($m->id) . '" ' . (((int) $m->id == (int) $mandantId) ? 'selected' : '') . '>' . esc_html((($m->id == 0) ? __("My Profile", 'blog2social') : $m->name)) . '</option>';
                 $profilData = (isset($auth->{$m->id}) && isset($auth->{$m->id}[0]) && !empty($auth->{$m->id}[0])) ? json_encode($auth->{$m->id}) : '';
                 $authContent .= "<input type='hidden' name='b2s-re-post-profil-data-" . esc_attr($m->id) . "' id='b2s-re-post-profil-data-" . esc_attr($m->id) . "' value='" . base64_encode($profilData) . "'/>";
             }
-            $content .= '</select><div class="pull-right hidden-sm hidden-xs"><a href="' . esc_url(get_option('siteurl') . ((substr(get_option('siteurl'), -1, 1) == '/') ? '' : '/') . 'wp-admin/admin.php?page=blog2social-network') . '" target="_blank">' . esc_html__('Network settings', 'blog2social') . '</a></div></div>';
+            $content .= '</select>';
+            $content .= '<i class="glyphicon glyphicon-chevron-down b2s-compose-settings-toggle-icon select-chevron"></i>';
+            $content .= '</div>';
+            $content .= '<a class="b2s-preview-network-info-link b2s-network-info-modal-btn" href="#" style="vertical-align: middle;"><i class="glyphicon glyphicon-question-sign"></i></a>';
+            $content .= '</div>';
+
             $content .= $authContent;
 
             //TOS Twitter 032018 - none multiple Accounts - User select once
-            $content .= '<div class="col-md-6 b2s-re-post-twitter-profile"><label for="b2s-re-post-profil-dropdown-twitter">' . esc_html__('Twitter profile:', 'blog2social') . '</label> <a href="#" class="b2sTwitterInfoModalBtn">' . esc_html__('Info', 'blog2social') . '</a><select class="b2s-w-100" id="b2s-re-post-profil-dropdown-twitter" name="b2s-re-post-profil-dropdown-twitter">';
+            //$content .= '<div class="col-md-6 b2s-re-post-twitter-profile"><label for="b2s-re-post-profil-dropdown-twitter">' . esc_html__('X profile:', 'blog2social') . '</label> <a href="#" class="b2sTwitterInfoModalBtn">' . esc_html__('Info', 'blog2social') . '</a>';
+            
+            $content .= '<div id="b2s-network-group-wrap-twitter" >';
+            $content .= '<div class="b2s-curation-network-select-wrap">';
+            $content .= '<img class="hidden-xs b2s-img-network-x-icon" alt="' . esc_attr('Facebook') . '" src="' . esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)) . '">';
+
+            $content .= '<select class="b2s-w-100" id="b2s-re-post-profil-dropdown-twitter" name="b2s-re-post-profil-dropdown-twitter">';
             foreach ($mandant as $k => $m) {
                 if ((isset($auth->{$m->id}) && isset($auth->{$m->id}[0]) && !empty($auth->{$m->id}[0]))) {
                     foreach ($auth->{$m->id} as $key => $value) {
@@ -482,7 +497,14 @@ class B2S_RePost_Item {
                     }
                 }
             }
-            $content .= '</select><div class="pull-right hidden-sm hidden-xs"></div></div></div>';
+
+            $content .= '</select>';
+            $content .= '<i class="glyphicon glyphicon-chevron-down b2s-compose-settings-toggle-icon select-chevron "></i>';
+            $content .= '</div>';
+            $content .= '<a class="b2s-preview-network-info-link b2sTwitterInfoModalBtn" href="#" style="vertical-align: middle;"><i class="glyphicon glyphicon-question-sign"></i></a>';
+            $content .= '</div>';
+            $content .= '<div class="pull-right hidden-sm hidden-xs"><a href="' . esc_url(get_option('siteurl') . ((substr(get_option('siteurl'), -1, 1) == '/') ? '' : '/') . 'wp-admin/admin.php?page=blog2social-network') . '" target="_blank">' . esc_html__('Network settings', 'blog2social') . '</a></div>';
+            $content .= '<div class="pull-right hidden-sm hidden-xs"></div>';
             return $content;
         }
     }

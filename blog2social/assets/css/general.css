@@ -5163,6 +5163,7 @@ a.thumbnail.active {
 .media-body {
     overflow: hidden;
     zoom: 1;
+    padding: 0.1px;
 }
 .media-body {
     width: 10000px;
@@ -9122,4 +9123,84 @@ input[type="number"] {
 #b2s-navbar-compose-collapsed-bar {
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+/* New Filter Section*/
+/* ---- Filter bar ---- */
+.b2s-wp-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+
+.b2s-wp-filter-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.b2s-wp-filter-search {
+    width: 200px !important;
+    font-size: 12px !important;
+    height: 30px;
+}
+
+.b2s-wp-filter-toggle-btn {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 30px;
+}
+
+.b2s-wp-filter-panel {
+    margin-bottom: 12px;
+}
+.b2s-wp-filter-bar-left .form-control, .b2s-wp-filter-bar #b2sSortPostTitle
+ {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    height: 36px;
+    font-size: 13px;
+    color: #374151;
+    flex: 1;
+    max-width: 260px;
+    background: #f8fafc;
+}
+#b2s-wp-filter-toggle.btn {
+    height: 36px;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 14px;
+    transition: background .15s, border-color .15s;
+}
+
+#b2s-wp-filter-panel .form-control, #b2s-wp-filter-panel select{
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    height: 20px !important;
+    font-size: 12px;
+    padding: 0px 8px;
+    background: #fff;
+    min-height: 33px;
+}
+#b2s-wp-filter-panel {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
 }

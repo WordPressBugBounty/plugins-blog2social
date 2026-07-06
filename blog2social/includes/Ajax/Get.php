@@ -166,10 +166,10 @@ class Ajax_Get {
         $b2sResultsPerPage = (isset($_POST['b2sPostsPerPage']) && (int) $_POST['b2sPostsPerPage'] > 0) ? (int) $_POST['b2sPostsPerPage'] : B2S_PLUGIN_POSTPERPAGE;
         $b2sSortPostSharedBy = (isset($_POST['b2sSortPostSharedBy']) && (int) $_POST['b2sSortPostSharedBy'] > 0) ? (int) $_POST['b2sSortPostSharedBy'] : 0;
         $b2sSortSharedToNetwork = (isset($_POST['b2sSortSharedToNetwork']) && (int) $_POST['b2sSortSharedToNetwork'] > 0) ? (int) $_POST['b2sSortSharedToNetwork'] : 0;
-        $b2sSortSharedAtDateStart = (isset($_POST['b2sSortSharedAtDateStart']) && (int) $_POST['b2sSortSharedAtDateStart'] > 0) ? (int) $_POST['b2sSortSharedAtDateStart'] : 0;
-        $b2sSortSharedAtDateEnd = (isset($_POST['b2sSortSharedAtDateEnd']) && (int) $_POST['b2sSortSharedAtDateEnd'] > 0) ? (int) $_POST['b2sSortSharedAtDateEnd'] : 0;
+        $b2sSortSharedAtDateStart = (isset($_POST['b2sSortSharedAtDateStart']) && !empty($_POST['b2sSortSharedAtDateStart'])) ? sanitize_text_field(wp_unslash($_POST['b2sSortSharedAtDateStart'])) : 0;
+        $b2sSortSharedAtDateEnd = (isset($_POST['b2sSortSharedAtDateEnd']) && !empty($_POST['b2sSortSharedAtDateEnd'])) ? sanitize_text_field(wp_unslash($_POST['b2sSortSharedAtDateEnd'])) : 0;
         $b2sRawResponse = (isset($_POST['b2sRawResponse']) && $_POST['b2sRawResponse'] == true ? true : false);
-
+ 
         require_once(B2S_PLUGIN_DIR . 'includes/Options.php');
         $options = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID);
         $optionPostFilters = $options->_getOption('post_filters');
@@ -177,7 +177,7 @@ class Ajax_Get {
         if (!is_array($optionPostFilters)) {
             $optionPostFilters = array();
         }
-
+  
         $optionPostFilters['searchPostTitle'] = $b2sSortPostTitle;
         $optionPostFilters['searchAuthorId'] = $b2sSortPostAuthor;
         $optionPostFilters['searchPostStatus'] = $b2sSortPostStatus;

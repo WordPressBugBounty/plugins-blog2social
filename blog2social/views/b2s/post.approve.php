@@ -40,47 +40,59 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
                         <!--Filter Start-->
                         <div class="b2s-post">
                             <div class="grid-body">
+                                <!-- Always-visible: search + toggle button -->
+                                <div class="b2s-wp-filter-bar">
+                                    <div class="b2s-wp-filter-bar-left">
+                                        <input type="text" class="form-control" id="b2sSortPostTitle" name="b2sSortPostTitle" placeholder="<?php esc_attr_e('Search by title...', 'blog2social'); ?>">
+                                        <button type="button" class="btn btn-default btn-sm" id="b2s-wp-filter-toggle">
+                                            <i class="glyphicon glyphicon-filter"></i>
+                                            <span id="b2s-wp-filter-toggle-label" data-show="<?php esc_attr_e('Show filters', 'blog2social'); ?>" data-hide="<?php esc_attr_e('Hide filters', 'blog2social'); ?>"><?php esc_html_e('Show filters', 'blog2social'); ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="b2s-wp-filter-panel" style="display:none;">
                                 <!-- Filter Post Start-->
-                                <form class="b2sSortForm form-inline pull-left" action="#">
-                                    <input id="b2sType" type="hidden" value="approve" name="b2sType">
-                                    <input id="b2sShowByDate" type="hidden" value="<?php echo esc_attr($b2sShowByDate); ?>" name="b2sShowByDate">
-                                    <input id="b2sUserAuthId" type="hidden" value="<?php echo esc_attr($b2sUserAuthId); ?>" name="b2sUserAuthId">
-                                    <input id="b2sPostBlogId" type="hidden" value="<?php echo esc_attr($b2sPostBlogId); ?>" name="b2sPostBlogId">
-                                    <input id="b2sPagination" type="hidden" value="1" name="b2sPagination">
-                                    <?php
-                                    $postFilter = new B2S_Post_Filter('approve');
-                                    echo wp_kses($postFilter->getItemHtml('blog2social-approve'), array(
-                                        'div' => array(
-                                            'class' => array()
-                                        ),
-                                        'input' => array(
-                                            'id' => array(),
-                                            'name' => array(),
-                                            'class' => array(),
-                                            'value' => array(),
-                                            'type' => array(),
-                                            'placeholder' => array(),
-                                        ),
-                                        'a' => array(
-                                            'href' => array(),
-                                            'id' => array(),
-                                            'class' => array()
-                                        ),
-                                        'span' => array(
-                                            'class' => array()
-                                        ),
-                                        'small' => array(),
-                                        'select' => array(
-                                            'id' => array(),
-                                            'name' => array(),
-                                            'class' => array()
-                                        ),
-                                        'option' => array(
-                                            'value' => array()
-                                        )
-                                    ));
-                                    ?>
-                                </form>
+                                    <form class="b2sSortForm form-inline" action="#">
+                                        <input id="b2sType" type="hidden" value="approve" name="b2sType">
+                                        <input id="b2sShowByDate" type="hidden" value="<?php echo esc_attr($b2sShowByDate); ?>" name="b2sShowByDate">
+                                        <input id="b2sUserAuthId" type="hidden" value="<?php echo esc_attr($b2sUserAuthId); ?>" name="b2sUserAuthId">
+                                        <input id="b2sPostBlogId" type="hidden" value="<?php echo esc_attr($b2sPostBlogId); ?>" name="b2sPostBlogId">
+                                        <input id="b2sPagination" type="hidden" value="1" name="b2sPagination">
+                                        <?php
+                                        $postFilter = new B2S_Post_Filter('approve');
+                                        echo wp_kses($postFilter->getItemHtml('blog2social-approve'), array(
+                                            'div' => array(
+                                                'class' => array()
+                                            ),
+                                            'input' => array(
+                                                'id' => array(),
+                                                'name' => array(),
+                                                'class' => array(),
+                                                'value' => array(),
+                                                'type' => array(),
+                                                'placeholder' => array(),
+                                            ),
+                                            'a' => array(
+                                                'href' => array(),
+                                                'id' => array(),
+                                                'class' => array()
+                                            ),
+                                            'span' => array(
+                                                'class' => array()
+                                            ),
+                                            'small' => array(),
+                                            'select' => array(
+                                                'id' => array(),
+                                                'name' => array(),
+                                                'class' => array()
+                                            ),
+                                            'option' => array(
+                                                'value' => array()
+                                            )
+                                        ));
+                                        ?>
+                                    </form>
+                                </div>
                                 <!-- Filter Post Ende-->
                                 <br/>
                             </div>       

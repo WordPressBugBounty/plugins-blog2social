@@ -26,10 +26,15 @@ class B2S_Post_Tools {
         $resultPostIds = array();
         $blogPostId = 0;
         $tosCrossPosting = unserialize(B2S_PLUGIN_NETWORK_CROSSPOSTING_LIMIT);
-
+        $xPosts = array();
         foreach ($postIds as $v) {
 
             $row = $wpdb->get_row($wpdb->prepare("SELECT b.id,b.post_id,b.post_for_relay,b.post_for_approve,b.sched_details_id,d.network_id,d.network_type FROM {$wpdb->prefix}b2s_posts b LEFT JOIN {$wpdb->prefix}b2s_posts_network_details d ON (d.id = b.network_details_id) WHERE b.id =%d AND b.publish_date = %s AND b.blog_user_id = %d", (int) $v, "0000-00-00 00:00:00", (int) get_current_user_id()));
+
+            if(isset($row->network_id) && $row->network_id == 45) {
+                $xPosts[] = $row->id;
+            }
+    
             if (isset($row->id) && (int) $row->id == $v) {
                 if ((int) $row->post_for_approve == 1) {
                     $wpdb->update($wpdb->prefix.'b2s_posts', array('hide' => 1), array('id' => $v));
@@ -68,9 +73,10 @@ class B2S_Post_Tools {
             }
         }
         if (!empty($resultPostIds) && is_array($resultPostIds)) {
+            $xPostsDeleted= count(array_intersect($resultPostIds, $xPosts));
             B2S_Heartbeat::getInstance()->deleteSchedPost();
             $resultPostIds = array_unique($resultPostIds);
-            return array('result' => true, 'postId' => $resultPostIds, 'postCount' => count($resultPostIds), 'blogPostId' => $blogPostId);
+            return array('result' => true, 'postId' => $resultPostIds, 'xPostsDeleted' => $xPostsDeleted, 'postCount' => count($resultPostIds), 'blogPostId' => $blogPostId);
         }
 
         return array('result' => false);

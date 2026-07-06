@@ -26,7 +26,6 @@ jQuery(window).on("load", function () {
 
     jQuery(".b2s-progress-bar").loading();
     if (jQuery('#b2sUserCanUseVideoAddon').val() == '0' || jQuery('#b2sUserCanUseVideoAddon').val() == '') {
-        jQuery('.b2s-video-upload-file-container').css('opacity', '0.2');
         jQuery('.b2s-video-upload-file-container :input').prop('disabled', 'disabled');
         jQuery('.b2s-video-upload-file-container').find("a").attr('disabled', 'disabled');
     }
@@ -668,7 +667,6 @@ jQuery(document).on('click', '#b2s-btn-curation-draft', function () {
 
 function activateVideo() {
     jQuery('.b2s-curation-title').hide();
-    jQuery('#b2s-curation-title-video').show();
     jQuery('.b2s-curation-subtitle').hide();
     jQuery('#b2s-curation-subtitle-video').show();
     jQuery('#b2s-post-curation-comment').val(jQuery('#b2s-post-curation-comment-dummy').val());
@@ -1038,9 +1036,10 @@ function uploadVideo(formdata) {
 
 jQuery(document).on('click', '.b2s-show-video-uploads', function () {
     var attachment_id = jQuery(this).data('attachment-id');
+    console.log(1);
     if (!jQuery(this).find('i').hasClass('isload')) {
         jQuery('.b2s-server-connection-fail').hide();
-
+         console.log(2);
         jQuery.ajax({
             url: ajaxurl,
             type: "POST",
@@ -1068,6 +1067,7 @@ jQuery(document).on('click', '.b2s-show-video-uploads', function () {
         });
         jQuery(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up').addClass('isload').addClass('isShow');
     } else {
+        console.log(3);
         if (jQuery(this).find('i').hasClass('isShow')) {
             jQuery('.b2s-post-video-upload-area[data-attachment-id="' + attachment_id + '"]').hide();
             jQuery(this).find('i').removeClass('isShow').addClass('isHide').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');

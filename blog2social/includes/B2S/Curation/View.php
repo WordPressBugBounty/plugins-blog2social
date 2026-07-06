@@ -93,17 +93,20 @@ class B2S_Curation_View {
             }
         }
         if (!empty($twitterContent)) {
-            $content .='<div class="col-xs-12 col-sm-6 col-lg-4 b2s-curation-twitter-area">';
-            $content .='<label for="b2s-curation-twitter-select">' . esc_html__('Select X profile:', 'blog2social') . '</label>';
-            $content .='<select style="width:100%;" id="b2s-post-curation-twitter-select" class="b2s-select" name="twitter_select">';
+
+            $content .='<div class="col-xs-12 col-sm-6 col-lg-4 b2s-curation-twitter-area" id="b2s-network-group-wrap-twitter">';
+            $content .= '<img class="hidden-xs b2s-img-network-x-icon" alt="' . esc_attr('Facebook') . '" src="' . esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)) . '">';
+            $content .='<select style="width:100%;" id="b2s-post-curation-twitter-select" class="form-control b2s-preview-network-group-select" name="twitter_select">';
             $content .=$twitterContent;
             $content .= '</select>';
+            $content .= '<i class="glyphicon glyphicon-chevron-down b2s-compose-settings-toggle-icon select-chevron "></i>
+                        <a class="b2s-preview-network-info-link-twitter b2sTwitterInfoModalBtn" href="#" style="vertical-align: middle;"><i class="glyphicon glyphicon-question-sign"></i></a>';
             $content .='</div>';
         }
         if ($isVideo) {
             $content .= '<div class="col-xs-12 col-sm-6 col-lg-4 b2s-video-network-col">';
             $content .= '<label for="b2s-curation-preview-profile-select">' . esc_html__('Select network collection:', 'blog2social') . '</label>';
-            $content .= '<select style="width:100%;" id="b2s-curation-preview-profile-select" class="form-control b2s-preview-network-group-select" name="preview_profile_select">';
+            $content .= '<select style="width:100%;" id="b2s-curation-preview-profile-select" class="form-control b2s-preview-network-group-select' . ($isVideo ? '-video' : '') . '" name="preview_profile_select">';
             foreach ($mandant as $k => $m) {
                 $content .= '<option value="' . esc_attr($m->id) . '">' . esc_html($m->name) . '</option>';
             }

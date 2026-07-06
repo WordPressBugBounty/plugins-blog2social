@@ -211,7 +211,7 @@ $canUseVideoAddon = (defined('B2S_PLUGIN_ADDON_VIDEO') && !empty(B2S_PLUGIN_ADDO
                                         <span class="b2s-text-bold"><?php esc_html_e("What's included in the video-post trial?", "blog2social"); ?></span>
                                         <ul class="list-group">
                                             <li class="list-group-item b2s-video-premium-benefits">
-                                                - <?php esc_html_e("Publish and share your video files on: YouTube, TikTok, Vimeo, Instagram, Pinterest, Facebook, and Twitter", "blog2social"); ?>
+                                                - <?php esc_html_e("Publish and share your video files on: YouTube, TikTok, Vimeo, Instagram, Pinterest, Facebook, and X", "blog2social"); ?>
                                             </li>
                                             <li class="list-group-item b2s-video-premium-benefits">
                                                 - <?php esc_html_e("Upload 1 video of up to 250 MB per day", "blog2social"); ?>
@@ -278,43 +278,57 @@ $canUseVideoAddon = (defined('B2S_PLUGIN_ADDON_VIDEO') && !empty(B2S_PLUGIN_ADDO
                                 <div class="clearfix"></div>
                                 <br>
                                 <div class="b2s-video-upload-list">
-                                    <form class="b2sSortForm form-inline pull-left" action="#">
-                                        <input id="b2sType" type="hidden" value="video" name="b2sType">
-                                        <input id="b2sPagination" type="hidden" value="1" name="b2sPagination">
-                                        <?php
-                                        $postFilter = new B2S_Post_Filter('video');
-                                        echo wp_kses($postFilter->getItemHtml(), array(
-                                            'div' => array(
-                                                'class' => array()
-                                            ),
-                                            'input' => array(
-                                                'id' => array(),
-                                                'name' => array(),
-                                                'class' => array(),
-                                                'value' => array(),
-                                                'type' => array(),
-                                                'placeholder' => array(),
-                                            ),
-                                            'a' => array(
-                                                'href' => array(),
-                                                'id' => array(),
-                                                'class' => array()
-                                            ),
-                                            'span' => array(
-                                                'class' => array()
-                                            ),
-                                            'small' => array(),
-                                            'select' => array(
-                                                'id' => array(),
-                                                'name' => array(),
-                                                'class' => array()
-                                            ),
-                                            'option' => array(
-                                                'value' => array()
-                                            )
-                                        ));
-                                        ?>
-                                    </form>
+                        
+                                    <!-- Always-visible: search + toggle button -->
+                                    <div class="b2s-wp-filter-bar">
+                                        <div class="b2s-wp-filter-bar-left">
+                                            <input type="text" class="form-control" id="b2sSortPostTitle" name="b2sSortPostTitle" placeholder="<?php esc_attr_e('Search by title...', 'blog2social'); ?>">
+                                            <button type="button" class="btn btn-default btn-sm" id="b2s-wp-filter-toggle">
+                                                <i class="glyphicon glyphicon-filter"></i>
+                                                <span id="b2s-wp-filter-toggle-label" data-show="<?php esc_attr_e('Show filters', 'blog2social'); ?>" data-hide="<?php esc_attr_e('Hide filters', 'blog2social'); ?>"><?php esc_html_e('Show filters', 'blog2social'); ?></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Filter Post Start-->
+                                    <div id="b2s-wp-filter-panel" style="display:none;">
+                                        <form class="b2sSortForm form-inline" action="#">
+                                            <input id="b2sType" type="hidden" value="video" name="b2sType">
+                                            <input id="b2sPagination" type="hidden" value="1" name="b2sPagination">
+                                            <?php
+                                            $postFilter = new B2S_Post_Filter('video');
+                                            echo wp_kses($postFilter->getItemHtml(), array(
+                                                'div' => array(
+                                                    'class' => array()
+                                                ),
+                                                'input' => array(
+                                                    'id' => array(),
+                                                    'name' => array(),
+                                                    'class' => array(),
+                                                    'value' => array(),
+                                                    'type' => array(),
+                                                    'placeholder' => array(),
+                                                ),
+                                                'a' => array(
+                                                    'href' => array(),
+                                                    'id' => array(),
+                                                    'class' => array()
+                                                ),
+                                                'span' => array(
+                                                    'class' => array()
+                                                ),
+                                                'small' => array(),
+                                                'select' => array(
+                                                    'id' => array(),
+                                                    'name' => array(),
+                                                    'class' => array()
+                                                ),
+                                                'option' => array(
+                                                    'value' => array()
+                                                )
+                                            ));
+                                            ?>
+                                        </form>
+                                    </div>
                                     <div class="clearfix"></div>
                                     <div class="b2s-sort-area">
                                         <div class="b2s-loading-area" style="display:none">

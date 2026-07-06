@@ -380,7 +380,7 @@ jQuery(document).on('click', '.b2s-pagination-btn', function () {
     return false;
 });
 
-jQuery(document).on('change', '.b2s-select', function () {
+jQuery(document).on('change', '.b2s-select, .b2s-select-filter', function () {
     jQuery('#b2sPagination').val("1");
     b2sSortFormSubmit();
     return false;
@@ -698,8 +698,9 @@ jQuery(document).on('click', '.b2s-sched-delete-confirm-btn', function () {
                 jQuery('.b2s-post-remove-success').show();
 
                 //Licence Condition
-                if (jQuery("#b2s_user_version").val() > 0) {
+                if (jQuery("#user_version").val() > 0) {
                     jQuery('#current_licence_open_sched_post_quota').html(data.currentOpenSchedLimit);
+                    jQuery('#current_network_open_sched_post_quota').html(data.currentOpenXSchedLimit);
                 }
             } else {
                 if (data.error == 'nonce') {
@@ -985,8 +986,9 @@ jQuery(document).on('click', '.b2s-all-sched-posts-delete-confirm-btn', function
                 jQuery('.b2s-post-remove-success').show();
 
                 //Licence Condition
-                if (jQuery("#b2s_user_version").val() > 0) {
+                if (jQuery("#user_version").val() > 0) {
                     jQuery('#current_licence_open_sched_post_quota').html(data.currentOpenSchedLimit);
+                    jQuery('#current_network_open_sched_post_quota').html(data.currentOpenXSchedLimit);
                 }
 
             } else {
@@ -1255,19 +1257,6 @@ jQuery(document).on("click", ".release_locks", function () {
 });
 
 
-
-function showFilter(typ) {
-    if (typ == 'show') {
-        jQuery('.filterShow').hide();
-        jQuery('.form-inline').show();
-        jQuery('.filterHide').show();
-    } else {
-        jQuery('.filterShow').show();
-        jQuery('.form-inline').hide();
-        jQuery('.filterHide').hide();
-    }
-}
-
 function padDate(n) {
     return ("0" + n).slice(-2);
 }
@@ -1384,51 +1373,6 @@ jQuery(document).on('click', '.b2s-draft-delete-confirm-btn', function () {
             return true;
         }
     });
-});
-
-jQuery(document).on('click', '.b2sFavoriteStar', function () {
-    jQuery(this).addClass('b2sFavoriteStarLoading');
-    var postId = jQuery(this).data('post-id');
-    var newStatus = (jQuery(this).data('is-favorite') == "1" ? 0 : 1);
-    jQuery.ajax({
-        url: ajaxurl,
-        type: "POST",
-        dataType: "json",
-        cache: false,
-        data: {
-            'action': 'b2s_change_favorite_status',
-            'postId': postId,
-            'setStatus': newStatus,
-            'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
-        },
-        error: function () {
-            jQuery('.b2sFavoriteStar[data-post-id="' + postId + '"]').removeClass('b2sFavoriteStarLoading');
-            jQuery('.b2s-server-connection-fail').show();
-            return false;
-        },
-        success: function (data) {
-            if (data.result == true) {
-                jQuery('.b2sFavoriteStar[data-post-id="' + postId + '"]').data('is-favorite', newStatus);
-                if (newStatus == 1) {
-                    jQuery('.b2sFavoriteStar[data-post-id="' + postId + '"]').removeClass('glyphicon-star-empty');
-                    jQuery('.b2sFavoriteStar[data-post-id="' + postId + '"]').addClass('glyphicon-star');
-                } else {
-                    jQuery('.b2sFavoriteStar[data-post-id="' + postId + '"]').removeClass('glyphicon-star');
-                    jQuery('.b2sFavoriteStar[data-post-id="' + postId + '"]').addClass('glyphicon-star-empty');
-                }
-                if (jQuery('#b2sType').val() == 'favorites') {
-                    jQuery('.b2s-favorite-list-entry[data-post-id="' + postId + '"]').remove();
-                    if (jQuery('.b2s-favorite-list-entry').length == 0) {
-                        jQuery('.b2s-sort-result-item-area').html('<li class="list-group-item"><div class="media"><div class="media-body"></div>' + jQuery('#b2sNoFavoritesText').val() + '</div></li>');
-                        jQuery('.b2s-sort-pagination-area').hide();
-                    }
-                }
-            }
-            jQuery('.b2sFavoriteStar[data-post-id="' + postId + '"]').removeClass('b2sFavoriteStarLoading');
-            return true;
-        }
-    });
-
 });
 
 jQuery(document).on('click', '.b2s-post-per-page', function () {

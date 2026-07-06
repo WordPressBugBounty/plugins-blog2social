@@ -505,6 +505,9 @@ class B2S_Tools {
         if ($type == 'network_guide_link_46') {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1255' : 'https://www.blog2social.com/de/faq/index.php?solution_id=1250';
         }
+        if ($type == 'network_guide_link_47') {
+            return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1287' : 'https://www.blog2social.com/de/faq/index.php?solution_id=1279';
+        }
         if ($type == 'TOKEN') {
             return ($lang == 'en') ? 'https://www.blog2social.com/en/faq/index.php?solution_id=1181' : 'https://www.blog2social.com/de/faq/index.php?solution_id=1175';
         }

@@ -2587,10 +2587,10 @@ jQuery(document).on('click', '.b2s-network-auth-settings-btn', function () {
             },
             error: function () {
                 jQuery('.b2s-server-connection-fail').show();
+                 jQuery('.b2s-loading-area').hide();
                 return false;
             },
             success: function (data) {
-              
                     if (data.result == true) {
                         jQuery('.b2s-loading-area').hide();
                         jQuery('.b2s-network-auth-settings-content').show();
@@ -2609,6 +2609,7 @@ jQuery(document).on('click', '.b2s-network-auth-settings-btn', function () {
                 }
             });
         };
+        jQuery('.b2s-loading-area').hide();
     }
 });
 

@@ -303,7 +303,7 @@ class B2S_PostBox {
                             <div class="b2s-meta-box-modal-body">
                                 <div class="b2s-network-imgs">
                                     <img class="pull-left hidden-xs b2s-img-network" alt="' . esc_attr('Facebook') . '" src="' . esc_url(plugins_url('/assets/images/portale/1_flat.png', B2S_PLUGIN_FILE)) . '">
-                                    <img class="pull-left hidden-xs b2s-img-network" alt="' . esc_attr('Twitter') . '" src="' . esc_url(plugins_url('/assets/images/portale/2_flat.png', B2S_PLUGIN_FILE)) . '">
+                                    <img class="pull-left hidden-xs b2s-img-network" alt="' . esc_attr('X') . '" src="' . esc_url(plugins_url('/assets/images/portale/2_flat.png', B2S_PLUGIN_FILE)) . '">
                                     <img class="pull-left hidden-xs b2s-img-network" alt="' . esc_attr('LinkedIn') . '" src="' . esc_url(plugins_url('/assets/images/portale/3_flat.png', B2S_PLUGIN_FILE)) . '">
                                     <img class="pull-left hidden-xs b2s-img-network" alt="' . esc_attr('Tumblr') . '" src="' . esc_url(plugins_url('/assets/images/portale/4_flat.png', B2S_PLUGIN_FILE)) . '">
                                     <img class="pull-left hidden-xs b2s-img-network" alt="' . esc_attr('Pinterest') . '" src="' . esc_url(plugins_url('/assets/images/portale/6_flat.png', B2S_PLUGIN_FILE)) . '">
@@ -351,7 +351,7 @@ class B2S_PostBox {
         $content .= $authContent;
 
 //TOS Twitter 032018 - none multiple Accounts - User select once
-        $content .= '<div class="b2s-meta-box-auto-post-twitter-profile"><label for="b2s-post-meta-box-profil-dropdown-twitter">' . esc_html__('Select Twitter profile:', 'blog2social') . '</label> <select class="b2s-w-100" id="b2s-post-meta-box-profil-dropdown-twitter" name="b2s-post-meta-box-profil-dropdown-twitter">';
+        $content .= '<div class="b2s-meta-box-auto-post-twitter-profile"><label for="b2s-post-meta-box-profil-dropdown-twitter">' . esc_html__('Select X profile:', 'blog2social') . '</label> <select class="b2s-w-100" id="b2s-post-meta-box-profil-dropdown-twitter" name="b2s-post-meta-box-profil-dropdown-twitter">';
         foreach ($mandant as $k => $m) {
             if ((isset($auth->{$m->id}) && isset($auth->{$m->id}[0]) && !empty($auth->{$m->id}[0]))) {
                 foreach ($auth->{$m->id} as $key => $value) {

@@ -184,7 +184,7 @@ jQuery(document).on('click', '.b2s-pagination-btn', function () {
     return false;
 });
 
-jQuery(document).on('change', '.b2s-select', function () {
+jQuery(document).on('change', '.b2s-select, .b2s-select-filter', function () {
     jQuery('#b2sPagination').val("1");
     b2sSortFormSubmit();
     return false;

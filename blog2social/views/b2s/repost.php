@@ -126,13 +126,19 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                                 'href' => array(),
                                 'target' => array(),
                                 'data-toggle' => array(),
+                                'style' => array(),
                             ),
                             'button' => array(
                                 'type' => array(),
                                 'class' => array(),
                                 'id' => array(),
-                                'data-post-id' => array(),
-                            )
+                                'data-p,ost-id' => array(),
+                            ),
+                            'img' => array(
+                                'class' => array(),
+                                'alt' => array(),
+                                'src' => array(),
+                            ),
                         )); ?>
                         </div>
 
@@ -357,7 +363,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
                                 <b><?php esc_html_e('Define the default settings for the custom post format for all of your Facebook accounts in the Blog2Social settings.', 'blog2social'); ?></b>
                             </div>
                             <div class="b2s-post-format-settings-info" data-network-id="2" style="display:none;">
-                                <b><?php esc_html_e('Define the default settings for the custom post format for all of your Twitter accounts in the Blog2Social settings.', 'blog2social'); ?></b>
+                                <b><?php esc_html_e('Define the default settings for the custom post format for all of your X accounts in the Blog2Social settings.', 'blog2social'); ?></b>
                             </div>
                             <div class="b2s-post-format-settings-info" data-network-id="3" style="display:none;">
                                 <b><?php esc_html_e('Define the default settings for the custom post format for all of your LinkedIn accounts in the Blog2Social settings.', 'blog2social'); ?></b>
@@ -396,10 +402,10 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2sTwitterInfoModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php esc_html_e('Select Twitter profile:', 'blog2social') ?></h4>
+                <h4 class="modal-title"><?php esc_html_e('Select X profile:', 'blog2social') ?></h4>
             </div>
             <div class="modal-body">
-                <?php esc_html_e('To comply with the Twitter TOS and to avoid duplicate posts, autoposts will be sent to your primary Twitter profile.', 'blog2social') ?> <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('network_tos_faq_032018')) ?>"><?php esc_html_e('More information', 'blog2social') ?></a>
+                <?php esc_html_e('To comply with the X TOS and to avoid duplicate posts, autoposts will be sent to your primary X profile.', 'blog2social') ?> <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('network_tos_faq_032018')) ?>"><?php esc_html_e('More information', 'blog2social') ?></a>
             </div>
         </div>
     </div>
@@ -415,7 +421,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
         <div class="modal-body">
             <div class="b2s-network-imgs">
                 <img class="pull-left hidden-xs b2s-network-info-img" alt="<?php esc_attr_e('Facebook', 'blog2social') ?>" src="<?php echo esc_url(plugins_url('/assets/images/portale/1_flat.png', B2S_PLUGIN_FILE)) ?>">
-                <img class="pull-left hidden-xs b2s-network-info-img" alt="<?php esc_attr_e('Twitter', 'blog2social') ?>" src="<?php echo esc_url(plugins_url('/assets/images/portale/2_flat.png', B2S_PLUGIN_FILE)) ?>">
+                <img class="pull-left hidden-xs b2s-network-info-img" alt="<?php esc_attr_e('X', 'blog2social') ?>" src="<?php echo esc_url(plugins_url('/assets/images/portale/2_flat.png', B2S_PLUGIN_FILE)) ?>">
                 <img class="pull-left hidden-xs b2s-network-info-img" alt="<?php esc_attr_e('LinkedIn', 'blog2social') ?>" src="<?php echo esc_url(plugins_url('/assets/images/portale/3_flat.png', B2S_PLUGIN_FILE)) ?>">
                 <img class="pull-left hidden-xs b2s-network-info-img" alt="<?php esc_attr_e('Pinterest', 'blog2social') ?>" src="<?php echo esc_url(plugins_url('/assets/images/portale/6_flat.png', B2S_PLUGIN_FILE)) ?>">
                 <img class="pull-left hidden-xs b2s-network-info-img" alt="<?php esc_attr_e('Flickr', 'blog2social') ?>" src="<?php echo esc_url(plugins_url('/assets/images/portale/7_flat.png', B2S_PLUGIN_FILE)) ?>">
@@ -437,7 +443,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
             ?></p>
             <h4><?php esc_html_e('Available networks', 'blog2social') ?></h4>
             <p class="b2s-bold"><?php esc_attr_e('Facebook (Profile & Seiten)', 'blog2social') ?></p>
-            <p class="b2s-bold"><?php esc_attr_e('Twitter (1 Profil)', 'blog2social') ?></p>
+            <p class="b2s-bold"><?php esc_attr_e('X (1 Profil)', 'blog2social') ?></p>
             <p class="b2s-bold"><?php esc_attr_e('LinkedIn', 'blog2social') ?></p>
             <p class="b2s-bold"><?php esc_attr_e('Pinterest', 'blog2social') ?></p>
             <p class="b2s-bold"><?php esc_attr_e('Flickr', 'blog2social') ?></p>

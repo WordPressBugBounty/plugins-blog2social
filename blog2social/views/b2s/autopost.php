@@ -173,10 +173,10 @@ $autoPostItem = new B2S_AutoPost_Item();
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2sTwitterInfoModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php esc_html_e('Select Twitter profile:', 'blog2social') ?></h4>
+                <h4 class="modal-title"><?php esc_html_e('Select X profile:', 'blog2social') ?></h4>
             </div>
             <div class="modal-body">
-                <?php esc_html_e('To comply with the Twitter TOS and to avoid duplicate posts, autoposts will be sent to your primary Twitter profile.', 'blog2social') ?> <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('network_tos_faq_032018')) ?>"><?php esc_html_e('More information', 'blog2social') ?></a>
+                <?php esc_html_e('To comply with the X TOS and to avoid duplicate posts, autoposts will be sent to your primary X profile.', 'blog2social') ?> <a target="_blank" href="<?php echo esc_url(B2S_Tools::getSupportLink('network_tos_faq_032018')) ?>"><?php esc_html_e('More information', 'blog2social') ?></a>
             </div>
         </div>
     </div>
