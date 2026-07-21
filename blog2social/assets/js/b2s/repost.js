@@ -1483,8 +1483,6 @@ jQuery(document).on('click', '#b2s-re-post-profil-dropdown-twitter', function ()
 jQuery(document).on('click', function (e) {
     const $wrap = jQuery("#b2s-network-group-wrap");
     const $select = jQuery("#b2s-re-post-profil-dropdown");
-    console.log($wrap);
-    console.log($select);
     if (
         !$wrap.is(e.target) &&
         $wrap.has(e.target).length === 0 &&

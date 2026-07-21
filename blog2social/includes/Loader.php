@@ -296,61 +296,69 @@ class B2S_Loader {
 
                             if (isset($autoPostData['post_filter']) && (int) $autoPostData['post_filter'] == 1) {
                                 if (isset($autoPostData['post_type']) && is_array($autoPostData['post_type']) && !empty($autoPostData['post_type'])) {
-                                    if (isset($autoPostData['post_type_state']) && (int) $autoPostData['post_type_state'] == 0) { //include
-                                        if (!in_array($post->post_type, $autoPostData['post_type'])) {
-                                            $filter = false;
-                                        }
-                                    } else { //exclude
-                                        if (in_array($post->post_type, $autoPostData['post_type'])) {
-                                            $filter = false;
+                                   
+                                    if(isset($autoPostData['post_type_state']) && $autoPostData['post_type_state'] != 'all') { //include
+                                        if (isset($autoPostData['post_type_state']) && (int) $autoPostData['post_type_state'] == 0) { //include
+                                            if (!in_array($post->post_type, $autoPostData['post_type'])) {
+                                                $filter = false;
+                                            }
+                                        } else { //exclude
+                                            if (in_array($post->post_type, $autoPostData['post_type'])) {
+                                                $filter = false;
+                                            }
                                         }
                                     }
                                 }
-                                if (isset($autoPostData['post_categories']) && is_array($autoPostData['post_categories']) && !empty($autoPostData['post_categories'])) {
-                                    $postcat = get_the_category($post->ID);
-                                    if ($postcat != false && is_array($postcat) && !empty($postcat)) {
-                                        foreach ($postcat as $k => $v) {
-                                            if (isset($autoPostData['post_categories_state']) && (int) $autoPostData['post_categories_state'] == 0) { //include
-                                                if (!in_array($v->term_id, $autoPostData['post_categories'])) {
-                                                    $filter = false;
-                                                } else {
-                                                    $filter = true;
-                                                }
-                                            } else { //exclude
-                                                if (in_array($v->term_id, $autoPostData['post_categories'])) {
-                                                    $filter = false;
+                                if(!isset($autoPostData['post_categories_state']) || $autoPostData['post_categories_state'] != 'all') { //include  
+                                    if (isset($autoPostData['post_categories']) && is_array($autoPostData['post_categories']) && !empty($autoPostData['post_categories'])) {
+                                        $postcat = get_the_category($post->ID);
+                                        if ($postcat != false && is_array($postcat) && !empty($postcat)) {
+                                            foreach ($postcat as $k => $v) {
+                                                if (isset($autoPostData['post_categories_state']) && (int) $autoPostData['post_categories_state'] == 0) { //include
+                                                    if (!in_array($v->term_id, $autoPostData['post_categories'])) {
+                                                        $filter = false;
+                                                    } else {
+                                                        $filter = true;
+                                                    }
+                                                } else { //exclude
+                                                    if (in_array($v->term_id, $autoPostData['post_categories'])) {
+                                                        $filter = false;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                                if (isset($autoPostData['post_taxonomies']) && is_array($autoPostData['post_taxonomies']) && !empty($autoPostData['post_taxonomies'])) {
-                                    $postTaxonomiesData = get_taxonomies(array('public' => true));
-                                    $customTaxonomies = array();
-                                    foreach ($postTaxonomiesData as $tax) {
-                                        if (!in_array($tax, array('category', 'post_tag'))) {
-                                            $term = get_the_terms($post->ID, $tax);
-                                            if ($term != false && is_array($term) && !empty($term)) {
-                                                $customTaxonomies[] = $term;
-                                            }
-                                        }
-                                    }
-                                    if (!empty($customTaxonomies)) {
-                                        foreach ($customTaxonomies as $k => $v) {
-                                            if (isset($autoPostData['post_taxonomies_state']) && (int) $autoPostData['post_taxonomies_state'] == 0) { //include
-                                                if (!in_array($v->term_id, $autoPostData['post_taxonomies'])) {
-                                                    $filter = false;
-                                                } else {
-                                                    $filter = true;
-                                                }
-                                            } else { //exclude
-                                                if (in_array($v->term_id, $autoPostData['post_taxonomies'])) {
-                                                    $filter = false;
+
+                                if(!isset($autoPostData['post_taxonomies_state']) || $autoPostData['post_taxonomies_state'] != 'all') { //include
+                                    if (isset($autoPostData['post_taxonomies']) && is_array($autoPostData['post_taxonomies']) && !empty($autoPostData['post_taxonomies'])) {
+                                        $postTaxonomiesData = get_taxonomies(array('public' => true));
+                                        $customTaxonomies = array();
+                                        foreach ($postTaxonomiesData as $tax) {
+                                            if (!in_array($tax, array('category', 'post_tag'))) {
+                                                $term = get_the_terms($post->ID, $tax);
+                                                if ($term != false && is_array($term) && !empty($term)) {
+                                                    $customTaxonomies[] = $term;
                                                 }
                                             }
                                         }
+                                        if (!empty($customTaxonomies)) {
+                                            foreach ($customTaxonomies as $k => $v) {
+                                                if (isset($autoPostData['post_taxonomies_state']) && (int) $autoPostData['post_taxonomies_state'] == 0) { //include
+                                                    if (!in_array($v->term_id, $autoPostData['post_taxonomies'])) {
+                                                        $filter = false;
+                                                    } else {
+                                                        $filter = true;
+                                                    }
+                                                } else { //exclude
+                                                    if (in_array($v->term_id, $autoPostData['post_taxonomies'])) {
+                                                        $filter = false;
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
-                                }
+                                } 
                             }
 
                             if ($filter && isset($autoPostData['network_auth_id']) && !empty($autoPostData['network_auth_id']) && is_array($autoPostData['network_auth_id'])) {
@@ -531,7 +539,7 @@ class B2S_Loader {
             if (is_array($post_types) && !empty($post_types)) {
                 foreach ($post_types as $post_type) {
                     if ($post_type != 'attachment' && $post_type != 'nav_menu_item') {
-                        add_meta_box('b2s-post-meta-box-auto', esc_html__('Blog2Social: Autoposter', 'blog2social'), array($this, 'b2s_view_post_box'), $post_type, 'side', 'high');
+                        add_meta_box('b2s-post-meta-box-auto', esc_html__('Blog2Social: Auto Poster', 'blog2social'), array($this, 'b2s_view_post_box'), $post_type, 'side', 'high');
                         add_meta_box('b2s-post-box-calendar-header', esc_html__('Blog2Social: Social Media Content Calendar', 'blog2social'), array($this, 'b2s_view_post_box_calendar'), $post_type, 'normal', 'high');
                     } else if ($post_type == 'attachment') {
                         if (wp_attachment_is('video')) {
@@ -777,7 +785,7 @@ class B2S_Loader {
 
                             if ($optionAutoPost !== false && is_array($optionAutoPost)) {
                                 // Check categories filter
-                                if (isset($optionAutoPost['categories_data']) && is_array($optionAutoPost['categories_data']) && !empty($optionAutoPost['categories_data'])) {
+                                if (isset($optionAutoPost['categories_data']) && is_array($optionAutoPost['categories_data']) && !empty($optionAutoPost['categories_data']) && isset($optionAutoPost['categories_state']) && $optionAutoPost['categories_state'] != 'all') {
                                     $postcat = get_the_category((int) $_POST['post_ID']);
                                     if ($postcat != false && is_array($postcat) && !empty($postcat)) {
                                         $categoryMatch = false;
@@ -826,6 +834,37 @@ class B2S_Loader {
                                         if (isset($optionAutoPost['tags_state']) && (int) $optionAutoPost['tags_state'] == 0) {
                                             $filter = false;
                                         }
+                                    }
+                                }
+
+                                // Check post type filter (publish = new posts, update = updated posts)
+                                if ($filter) {
+                                    $currentPostType = get_post_type((int) $_POST['post_ID']);
+                                    $originalStatus = isset($_POST['original_post_status']) ? sanitize_text_field(wp_unslash($_POST['original_post_status'])) : '';
+                                    $isUpdate = ($originalStatus === 'publish');
+
+                                    if ($isUpdate) {
+                                        $typeKey = 'update';
+                                        $stateKey = 'update_state';
+                                    } else {
+                                        $typeKey = 'publish';
+                                        $stateKey = 'publish_state';
+                                    }
+
+                                    $typeState = isset($optionAutoPost[$stateKey]) ? $optionAutoPost[$stateKey] : "0";
+                                    $typeList = isset($optionAutoPost[$typeKey]) && is_array($optionAutoPost[$typeKey]) ? $optionAutoPost[$typeKey] : array();
+
+                                    if ($typeState === 'none') {
+                                        $filter = false;
+                                    } elseif ($typeState === 'all'){
+                                        // Do nothing, all post types are allowed
+                                    } elseif (!empty($typeList)) {//Selected Types
+                                        $typeMatch = in_array($currentPostType, $typeList);
+                                        if (!$typeMatch) {
+                                            $filter = false;
+                                        }     
+                                    }else{
+                                        $filter = false;
                                     }
                                 }
                             }
@@ -909,6 +948,8 @@ class B2S_Loader {
                                                     delete_option('B2S_PLUGIN_POST_CONTENT_' . (int) $_POST['post_ID']);
                                                     $keywords = $hook_filter->get_wp_post_hashtag((int) $_POST['post_ID'], get_post_type((int) $_POST['post_ID']));
 
+                                                    $url = get_permalink((int) $_POST['post_ID']);
+                                                    
                                                     $permalinkSetting = (get_option('B2S_PLUGIN_USER_USE_PERMALINKS_' . B2S_PLUGIN_BLOG_USER_ID) !== false) ? 1 : 0;
                                                     if ($permalinkSetting) {
                                                         $post = get_post((int) $_POST['post_ID']);
@@ -917,8 +958,6 @@ class B2S_Loader {
                                                             $post->post_status = 'publish';
                                                             $url = get_permalink($post);
                                                         }
-                                                    } else {
-                                                        $url = get_permalink((int) $_POST['post_ID']);
                                                     }
 
                                                     $title = isset($_POST['post_title']) ? B2S_Util::getTitleByLanguage(wp_strip_all_tags(sanitize_text_field(wp_unslash($_POST['post_title']))), strtolower($b2sPostLang)) : '';
@@ -1276,7 +1315,7 @@ class B2S_Loader {
             'blog2social-draft-post' => esc_html__('Drafts', 'blog2social'),
             'blog2social-sched' => esc_html__('Scheduled Posts', 'blog2social'),
             'blog2social-favorites' => esc_html__('Favorites', 'blog2social'),
-            'blog2social-autopost' => esc_html__('Auto-Post', 'blog2social'),
+            'blog2social-autopost' => esc_html__('Auto Posting', 'blog2social'),
             'blog2social-premium' => esc_html__('License details & upgrade', 'blog2social'),
             'blog2social-repost' => esc_html__('Re-Share Posts', 'blog2social'),
             'blog2social-metrics' => esc_html__('Social Media Metrics', 'blog2social') . ' <button class="btn btn-link b2s-metrics-info-btn">' . esc_html__("Info", "blog2social") . '</button>',
@@ -1480,7 +1519,7 @@ class B2S_Loader {
         $subPages[] = add_submenu_page('blog2social_hidden', 'B2S Post Publish', 'B2S Post Publish', 'blog2social_access', 'blog2social-publish', array($this, 'b2sPostPublish'));
         $subPages[] = add_submenu_page('blog2social_hidden', 'B2S Post Notice', 'B2S Post Notice', 'blog2social_access', 'blog2social-notice', array($this, 'b2sPostNotice')); //Error post page since 4.8.0
         $subPages[] = add_submenu_page('blog2social_hidden', 'B2S Ship', 'B2S Ship', 'blog2social_access', 'blog2social-ship', array($this, 'b2sShip'));
-        $subPages[] = add_submenu_page('blog2social_hidden', 'B2S Autoposter', 'B2S Autoposter', 'blog2social_access', 'blog2social-autopost', array($this, 'b2sAutoPost'));
+        $subPages[] = add_submenu_page('blog2social_hidden', 'B2S Auto Poster', 'B2S Auto Poster', 'blog2social_access', 'blog2social-autopost', array($this, 'b2sAutoPost'));
         $subPages[] = add_submenu_page('blog2social_hidden', 'B2S Reposter', 'B2S Reposter', 'blog2social_access', 'blog2social-repost', array($this, 'b2sRePost'));
         $subPages[] = add_submenu_page('blog2social_hidden', 'PRG Login', 'PRG Login', 'blog2social_access', 'prg-login', array($this, 'prgLogin'));
         $subPages[] = add_submenu_page('blog2social_hidden', 'PRG Ship', 'PRG Ship', 'blog2social_access', 'prg-ship', array($this, 'prgShip'));
@@ -1835,6 +1874,7 @@ class B2S_Loader {
         if (B2S_Tools::showNotice() == false) {
             wp_enqueue_script('B2SVALIDATEJS');
             wp_enqueue_style('B2SAUTOPOSTCSS');
+            wp_enqueue_style('B2SREPOSTCSS'); // Here we use the same CSS as for the repost page, similar layout and design.
             wp_enqueue_script('B2SAUTOPOSTJS');
             wp_enqueue_style('B2SBTNTOOGLECSS');
             wp_enqueue_script('B2SBTNTOOGLEJS');

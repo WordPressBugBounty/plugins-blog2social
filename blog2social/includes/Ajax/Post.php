@@ -1522,11 +1522,11 @@ class Ajax_Post {
             'ship_state' => ((isset($_POST['b2s-import-auto-post-time-state']) && (int) $_POST['b2s-import-auto-post-time-state'] == 1) ? 1 : 0),
             'ship_delay_time' => isset($_POST['b2s-import-auto-post-time-data']) ? (int) $_POST['b2s-import-auto-post-time-data'] : 0,
             'post_filter' => ((isset($_POST['b2s-import-auto-post-filter']) && (int) $_POST['b2s-import-auto-post-filter'] == 1) ? 1 : 0),
-            'post_type_state' => ((isset($_POST['b2s-import-auto-post-type-state']) && (int) $_POST['b2s-import-auto-post-type-state'] == 1) ? 1 : 0),
+            'post_type_state' => ((isset($_POST['b2s-import-auto-post-type-state'])) ?  sanitize_text_field(wp_unslash($_POST['b2s-import-auto-post-type-state'])) : 'all'),
             'post_type' => $post_type,
-            'post_categories_state' => ((isset($_POST['b2s-import-auto-post-categories-state']) && (int) $_POST['b2s-import-auto-post-categories-state'] == 1) ? 1 : 0),
+            'post_categories_state' => (isset($_POST['b2s-import-auto-post-categories-state']) ) ? sanitize_text_field(wp_unslash($_POST['b2s-import-auto-post-categories-state'])) : 'all',
             'post_categories' => $post_categories,
-            'post_taxonomies_state' => ((isset($_POST['b2s-import-auto-post-taxonomies-state']) && (int) $_POST['b2s-import-auto-post-taxonomies-state'] == 1) ? 1 : 0),
+            'post_taxonomies_state' => ((isset($_POST['b2s-import-auto-post-taxonomies-state'])) ? sanitize_text_field(wp_unslash($_POST['b2s-import-auto-post-taxonomies-state'])) : 'all'),
             'post_taxonomies' => $post_taxonomies);
 
         $options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
@@ -1540,10 +1540,12 @@ class Ajax_Post {
         $publish = isset($_POST['b2s-settings-auto-post-publish']) && is_array($_POST['b2s-settings-auto-post-publish']) ? B2S_Tools::sanitize_array(wp_unslash($_POST['b2s-settings-auto-post-publish'])) : array();
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Only unsanitized in if condition
         $update = isset($_POST['b2s-settings-auto-post-update']) && is_array($_POST['b2s-settings-auto-post-update']) ? B2S_Tools::sanitize_array(wp_unslash($_POST['b2s-settings-auto-post-update'])) : array();
+        $publish_state = isset($_POST['b2s-auto-post-publish-state']) ? sanitize_text_field(wp_unslash($_POST['b2s-auto-post-publish-state'])) : 'all';
+        $update_state = isset($_POST['b2s-auto-post-update-state']) ? sanitize_text_field(wp_unslash($_POST['b2s-auto-post-update-state'])) : 'all';
 
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Only unsanitized in if condition
         $categories_data = isset($_POST['b2s-auto-post-categories-data']) && is_array($_POST['b2s-auto-post-categories-data']) ? B2S_Tools::sanitize_array(wp_unslash($_POST['b2s-auto-post-categories-data'])) : array();
-        $categories_state = isset($_POST['b2s-auto-post-categories-state']) ? (int) $_POST['b2s-auto-post-categories-state'] : 0;
+        $categories_state = isset($_POST['b2s-auto-post-categories-state']) ?  sanitize_text_field(wp_unslash($_POST['b2s-auto-post-categories-state'])) : 'all';
 
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Only unsanitized in if condition
         $tags_data = isset($_POST['b2s-auto-post-tags-data']) && is_array($_POST['b2s-auto-post-tags-data']) ? B2S_Tools::sanitize_array(wp_unslash($_POST['b2s-auto-post-tags-data'])) : array();
@@ -1649,7 +1651,7 @@ class Ajax_Post {
             }
         }
 
-        $auto_post = array('active' => $active, 'profile' => $profile, 'twitter' => $twitter, 'publish' => $publish, 'update' => $update, 'assignUser' => $assignUser, 'echo' => (($echo > 0) ? $echoSetting : 0), 'import_template' => $importTemplateSetting, 'delay' => $delay, 'delay_state' => $delaySetting, 'categories_state' => $categories_state, 'categories_data' => $categories_data, 'tags_state' => $tags_state, 'tags_data' => $tags_data);
+        $auto_post = array('active' => $active, 'profile' => $profile, 'twitter' => $twitter, 'publish' => $publish, 'publish_state' => $publish_state, 'update' => $update, 'update_state' => $update_state, 'assignUser' => $assignUser, 'echo' => (($echo > 0) ? $echoSetting : 0), 'import_template' => $importTemplateSetting, 'delay' => $delay, 'delay_state' => $delaySetting, 'categories_state' => $categories_state, 'categories_data' => $categories_data, 'tags_state' => $tags_state, 'tags_data' => $tags_data);
         $options->_setOption('auto_post', $auto_post);
         echo json_encode(array('result' => true));
         wp_die();

@@ -1036,10 +1036,8 @@ function uploadVideo(formdata) {
 
 jQuery(document).on('click', '.b2s-show-video-uploads', function () {
     var attachment_id = jQuery(this).data('attachment-id');
-    console.log(1);
     if (!jQuery(this).find('i').hasClass('isload')) {
         jQuery('.b2s-server-connection-fail').hide();
-         console.log(2);
         jQuery.ajax({
             url: ajaxurl,
             type: "POST",
@@ -1067,7 +1065,6 @@ jQuery(document).on('click', '.b2s-show-video-uploads', function () {
         });
         jQuery(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up').addClass('isload').addClass('isShow');
     } else {
-        console.log(3);
         if (jQuery(this).find('i').hasClass('isShow')) {
             jQuery('.b2s-post-video-upload-area[data-attachment-id="' + attachment_id + '"]').hide();
             jQuery(this).find('i').removeClass('isShow').addClass('isHide').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');

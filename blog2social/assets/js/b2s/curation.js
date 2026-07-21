@@ -76,6 +76,10 @@ function b2sLoadShipSettings(onReady) {
             if (data.result === true) {
                 b2sCurationNoAuth = false;
                 jQuery('.b2s-curation-settings-area').html(data.settings).show();
+                var $twitterArea = jQuery('.b2s-curation-settings-area').find('.b2s-curation-twitter-area');
+                if ($twitterArea.length) {
+                    $twitterArea.insertBefore('.b2s-preview-network-info-link');
+                }
                 var $sel = jQuery('#b2s-post-curation-profile-select');
                 if ($sel.find('[value="0"]').length) {
                     $sel.find('[value="0"]').prop('selected', true).trigger('change');

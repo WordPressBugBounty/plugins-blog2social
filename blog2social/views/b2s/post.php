@@ -48,8 +48,8 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                                 </svg>
                             </div>
                             <div class="content share-post-tab-content">
-                                <h3><?php esc_html_e('Share existing WordPress content', 'blog2social'); ?></h3>
-                                <p><?php esc_html_e('Select a post or page from your site to share', 'blog2social'); ?></p>
+                                <h3 class="break-words"><?php esc_html_e('Share existing WordPress content', 'blog2social'); ?></h3>
+                                <p class="break-words hidden-sm hidden-xs"><?php esc_html_e('Select a post or page from your site to share', 'blog2social'); ?></p>
                             </div>
                         </button>
                         <button type="button" id="b2s-compose-expand-btn" class="btn b2s-compose-expand-btn action-card">
@@ -62,8 +62,8 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                                 </svg>
                             </div>
                             <div class="content share-post-tab-content">
-                                <h3><?php esc_html_e('Create a new custom post', 'blog2social'); ?></h3>
-                                <p><?php esc_html_e('Craft a social post from scratch using text, links, images, or video.', 'blog2social'); ?></p>
+                                <h3 class="break-words"><?php esc_html_e('Create a new custom post', 'blog2social'); ?></h3>
+                                <p class="break-words hidden-sm hidden-xs"><?php esc_html_e('Craft a social post from scratch using text, links, images, or video.', 'blog2social'); ?></p>
                             </div>
                         </button>
                     </div>
@@ -170,11 +170,12 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                                             </select>
                                             <i class="glyphicon glyphicon-chevron-down b2s-compose-settings-toggle-icon select-chevron"></i>
 
-                                            <a class="b2s-preview-network-info-link" href="#" style="vertical-align: middle;"><i class="glyphicon glyphicon-question-sign"></i></a>
+                                            
                                         </div>
+                                        <a class="b2s-preview-network-info-link" href="#" style="vertical-align: middle;"><i class="glyphicon glyphicon-question-sign"></i></a>
                                         <button type="button" id="b2s-compose-settings-toggle" class="btn btn-default btn-sm b2s-compose-toolbar-btn b2s-compose-settings-toggle-btn">
                                             <i class="glyphicon glyphicon-cog"></i>
-                                            <span id="b2s-compose-settings-toggle-label"><?php esc_html_e('Advanced settings', 'blog2social'); ?></span>
+                                            <span id="b2s-compose-settings-toggle-label"><?php esc_html_e('Advanced', 'blog2social'); ?></span>
                                             <i class="glyphicon glyphicon-chevron-down b2s-compose-settings-toggle-icon"></i>
                                         </button>
                                         <div class="b2s-compose-toolbar-spacer"></div>

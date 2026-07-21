@@ -485,7 +485,7 @@ class B2S_RePost_Item {
             
             $content .= '<div id="b2s-network-group-wrap-twitter" >';
             $content .= '<div class="b2s-curation-network-select-wrap">';
-            $content .= '<img class="hidden-xs b2s-img-network-x-icon" alt="' . esc_attr('Facebook') . '" src="' . esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)) . '">';
+            $content .= '<img class="hidden-xs b2s-img-network-x-icon" alt="' . esc_attr('X') . '" src="' . esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)) . '">';
 
             $content .= '<select class="b2s-w-100" id="b2s-re-post-profil-dropdown-twitter" name="b2s-re-post-profil-dropdown-twitter">';
             foreach ($mandant as $k => $m) {

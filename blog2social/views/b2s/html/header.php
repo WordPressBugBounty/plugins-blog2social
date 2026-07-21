@@ -131,7 +131,7 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
 <div class="panel panel-group b2s-header-notice b2s-auto-posting" style="display: <?php echo esc_attr($autoPostLimit); ?>;">
     <div class="panel-body">
         <button class="close b2s-warning-close"><span aria-hidden="true">&times;</span></button>
-        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('Autoposter limit has been reached', 'blog2social') ?> <br> <?php esc_html_e('Your daily limit for posting automatically has been reached.', 'blog2social'); ?>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('Auto Poster limit has been reached', 'blog2social') ?> <br> <?php esc_html_e('Your daily limit for posting automatically has been reached.', 'blog2social'); ?>
     </div>
 </div>
 

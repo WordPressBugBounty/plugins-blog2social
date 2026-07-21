@@ -1256,15 +1256,12 @@ class Ajax_Get {
             $displayTitle = !empty($draft['title']) ? $draft['title'] : (!empty($draft['message']) ? wp_trim_words($draft['message'], 10, '...') : esc_html__('(no title)', 'blog2social') );
 
             $listHtml .= '<li class="list-group-item b2s-load-draft-item" data-draft="' . esc_attr(wp_json_encode($draft)) . '">';
-            $listHtml .= '<div class="b2s-load-draft-content">';
-            $listHtml .= '<div class="b2s-load-draft-header">';
-            $listHtml .= '<small class="text-muted b2s-load-draft-date">' . esc_html($draft['date']) . '</small>';
-            $listHtml .= '<button type="button" class="btn-link b2s-delete-draft-btn" data-draft-id="' . esc_attr($draft['draft_id']) . '">&times;</button>';
-            $listHtml .= '</div>';
-            $listHtml .= '<div class="b2s-load-draft-title-row">';
-            $thumbSrc = !empty($draft['image_url']) ? esc_url($draft['image_url']) : esc_url(plugins_url('/assets/images/no-image.png', B2S_PLUGIN_FILE));
-            $listHtml .= '<img class="b2s-load-draft-thumb" src="' . $thumbSrc . '" alt="">';
+            $listHtml .= '<div class="media">';
+            $listHtml .= '<img class="post-img-10 pull-left hidden-xs" src="' . esc_url(plugins_url('/assets/images/b2s/post-icon.png', B2S_PLUGIN_FILE)) . '" alt="draft">';
+            $listHtml .= '<button type="button" class="btn btn-link btn-sm pull-right b2s-delete-draft-btn" data-draft-id="' . esc_attr($draft['draft_id']) . '"><span class="glyphicon glyphicon-trash"></span></button>';
+            $listHtml .= '<div class="media-body">';
             $listHtml .= '<strong class="b2s-load-draft-title">' . esc_html($displayTitle) . '</strong>';
+            $listHtml .= '<div class="info hidden-xs"><small class="text-muted b2s-load-draft-date">' . esc_html($draft['date']) . '</small></div>';
             $listHtml .= '</div>';
             $listHtml .= '</div>';
             $listHtml .= '</li>';

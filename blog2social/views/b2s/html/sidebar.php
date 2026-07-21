@@ -223,7 +223,7 @@ $getPage = (isset($_GET['page']) && !empty($_GET['page'])) ? sanitize_text_field
                                 <i class="glyphicon glyphicon-film glyphicon-success"></i> <a href="admin.php?page=blog2social-video" class="b2s-sidebar-menu-item <?php echo (($getPage == 'blog2social-video') ? ' b2s-text-bold' : '') ?>"><?php esc_html_e("Share Videos", "blog2social") ?></a> 
                             </li>
                             <li class="b2s-list-margin-left-10">
-                                <i class="glyphicon glyphicon-play glyphicon-success"></i> <a href="admin.php?page=blog2social-autopost" class="b2s-sidebar-menu-item <?php echo (($getPage == 'blog2social-autopost') ? ' b2s-text-bold' : '') ?>"><?php esc_html_e("Auto-Post", "blog2social") ?></a> 
+                                <i class="glyphicon glyphicon-play glyphicon-success"></i> <a href="admin.php?page=blog2social-autopost" class="b2s-sidebar-menu-item <?php echo (($getPage == 'blog2social-autopost') ? ' b2s-text-bold' : '') ?>"><?php esc_html_e("Auto Posting", "blog2social") ?></a> 
                             </li>
                             <li class="b2s-list-margin-left-10">
                                 <i class="glyphicon glyphicon-calendar glyphicon-success"></i> <a href="admin.php?page=blog2social-calendar" class="b2s-sidebar-menu-item <?php echo (($getPage == 'blog2social-calendar') ? ' b2s-text-bold' : '') ?>"><?php esc_html_e("Calendar", "blog2social") ?></a> 

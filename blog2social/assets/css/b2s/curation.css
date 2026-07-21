@@ -1410,7 +1410,6 @@
 .action-grid {
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
 }
 
 .b2s-compose-expand-btn.action-card {
@@ -1427,9 +1426,11 @@
     box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
     transition: all .2s ease;
     text-align: left;
-    min-width: 600px;
+    min-width: 0;
     width: calc(50% - 5px);
     cursor: pointer;
+    overflow: hidden;
+   
 }
 
 .b2s-compose-expand-btn.action-card.share-post-tab-active {
@@ -1444,6 +1445,12 @@
     box-shadow: 0 0 0 1px rgba(59,130,246,.15), 0 4px 12px rgba(0,0,0,.04);
     transform: translateY(-1px);
     outline: none;
+}
+.break-words{
+    width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
 }
 
 .action-card .icon {
@@ -1535,11 +1542,11 @@
 #b2s-curation-network-group-wrap {
 
     display: flex;
-    width: 240px;
+    width: 200px;
     position: relative;
 }
 .select-chevron{
-    right: 26px;
+    right: 12px;
     position: absolute !important;
     top: 35% !important;
     pointer-events: none;
@@ -1864,37 +1871,12 @@
 /* ---- Load draft modal list ---- */
 .b2s-load-draft-item {
     cursor: pointer;
-    position: relative;
+    transition: background-color .15s;
+    border-radius: 6px!important;
+    margin-bottom: 5px!important;
 }
-.b2s-load-draft-title-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.b2s-load-draft-thumb {
-    width: 48px;
-    height: 48px;
-    object-fit: cover;
-    border-radius: 4px;
-    flex-shrink: 0;
-}
-.b2s-load-draft-content {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-}
-.b2s-load-draft-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-}
-.b2s-load-draft-date {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.b2s-load-draft-item:hover {
+    background-color: #f1f5f9;
 }
 .b2s-load-draft-title {
     display: block;
@@ -1902,21 +1884,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.b2s-load-draft-url {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 .b2s-delete-draft-btn {
     color: #c0392b;
-    padding: 0;
-    font-size: 16px;
-    line-height: 1;
-    background: none;
-    border: none;
-    cursor: pointer;
-    flex-shrink: 0;
+    padding: 0 0 0 8px;
 }
 .b2s-delete-draft-btn:hover {
     color: #922b21;
@@ -1936,8 +1906,7 @@
     border-radius: 5px;
 }
 .b2s-preview-network-info-link{
-    margin-left:5px;
-    margin-top:7px;
+    margin-top:3px;
 }
 .share-post-tab-content{
     margin-top: 3px;
@@ -1980,9 +1949,8 @@
 #b2s-network-group-wrap-twitter{
     display: flex;
     position: relative;
-    margin-bottom: 10px;
     padding: 0px !important;
-    margin-top: 29px;
+    width: 200px;
 }
 .b2s-preview-network-info-link-twitter{
     margin-left: 5px;

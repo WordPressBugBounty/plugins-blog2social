@@ -1227,8 +1227,8 @@ class B2S_Tools {
         if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table)) != $table) {
             return false;
         }
-
         $row = $wpdb->get_row($wpdb->prepare(
+            //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             "SELECT `payload` FROM `{$table}` WHERE `blog_user_id` = %d AND `network_id` = %d AND `type_id` = %d LIMIT 1",
             (int) $blogUserId,
             (int) $networkId,

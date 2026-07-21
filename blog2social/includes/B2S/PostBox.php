@@ -155,13 +155,16 @@ class B2S_PostBox {
                     $autoPostImport = true;
                     if (isset($autoPostData['post_filter']) && (int) $autoPostData['post_filter'] == 1) {
                         if (isset($autoPostData['post_type']) && is_array($autoPostData['post_type']) && !empty($autoPostData['post_type'])) {
-                            if (isset($autoPostData['post_type_state']) && (int) $autoPostData['post_type_state'] == 0) { //include
-                                if (!in_array($postType, $autoPostData['post_type'])) {
-                                    $autoPostImport = false;
-                                }
-                            } else { //exclude
-                                if (in_array($postType, $autoPostData['post_type'])) {
-                                    $autoPostImport = false;
+
+                            if(isset($autoPostData['post_type_state']) && $autoPostData['post_type_state'] != 'all') {
+                                if (isset($autoPostData['post_type_state']) && (int) $autoPostData['post_type_state'] == 0) { //include
+                                    if (!in_array($postType, $autoPostData['post_type'])) {
+                                        $autoPostImport = false;
+                                    }
+                                } else { //exclude
+                                    if (in_array($postType, $autoPostData['post_type'])) {
+                                        $autoPostImport = false;
+                                    }
                                 }
                             }
                         }
@@ -206,7 +209,7 @@ class B2S_PostBox {
                     <h3 class="b2s-meta-box-headline">' . esc_html__('Custom Sharing & Scheduling', 'blog2social') . ' <a class="b2s-info-btn" data-modal-target="b2sInfoMetaBoxModalSched" href="#">' . esc_html__('Info', 'blog2social') . '</a></h3>
                     <a id="b2s-meta-box-btn-customize" class="b2s-btn b2s-btn-primary b2s-meta-box-customize b2s-btn-sm b2s-center-block b2s-btn-margin-bottom-15" href="#">' . esc_html__('Customize & Schedule Social Media Posts', 'blog2social') . '</a>
                     <div class="b2s-post-box-content">
-                    <h3 class="b2s-meta-box-headline">' . esc_html__('The Autoposter is', 'blog2social') . ' <span class="b2s-post-meta-box-active" style="color:green;' . ((!$autoPostActive) ? 'display:none;' : '') . '">' . esc_html__('activated', 'blog2social') . '</span><span class="b2s-post-meta-box-inactive" style="color:red;' . (($autoPostActive) ? 'display:none;' : '') . '">' . esc_html__('deactivated', 'blog2social') . '</span> <a class="b2s-info-btn" data-modal-target="b2sInfoMetaBoxModalAutoPost" href="#">' . esc_html__('Info', 'blog2social') . '</a></h3>
+                    <h3 class="b2s-meta-box-headline">' . esc_html__('The Auto Poster is', 'blog2social') . ' <span class="b2s-post-meta-box-active" style="color:green;' . ((!$autoPostActive) ? 'display:none;' : '') . '">' . esc_html__('activated', 'blog2social') . '</span><span class="b2s-post-meta-box-inactive" style="color:red;' . (($autoPostActive) ? 'display:none;' : '') . '">' . esc_html__('deactivated', 'blog2social') . '</span> <a class="b2s-info-btn" data-modal-target="b2sInfoMetaBoxModalAutoPost" href="#">' . esc_html__('Info', 'blog2social') . '</a></h3>
                     <div class="b2s-meta-box-share-info">
                     <div>' . esc_html__('Shared', 'blog2social') . ': <span class="b2s-meta-box-share-count">' . $shareCount . '</span> ' . esc_html__('times', 'blog2social') . '</div>
                     <span>' . esc_html__('Last shared', 'blog2social') . ': </span>
@@ -216,7 +219,7 @@ class B2S_PostBox {
             $content .= '<div class="b2s-options-btn-area"><span class="b2s-options-btn" href="#">' . esc_html__('Advanced settings', 'blog2social') . ' <i class="glyphicon glyphicon-chevron-down"></i></span></div>
                     <div class="b2s-options" style="display:none;">
                     <br>
-                    <input type="checkbox" class="b2s-enable-auto-post" id="b2s-enable-auto-post" name="b2s-enable-auto-post" value="1" ' . (($autoPostActive) ? 'checked' : '') . '><label for="b2s-enable-auto-post">' . esc_html__('enable Auto-Posting', 'blog2social') . '</label>
+                    <input type="checkbox" class="b2s-enable-auto-post" id="b2s-enable-auto-post" name="b2s-enable-auto-post" value="1" ' . (($autoPostActive) ? 'checked' : '') . '><label for="b2s-enable-auto-post">' . esc_html__('enable Auto Poster', 'blog2social') . '</label>
                     ' . ((isset($advancedOptions)) ? $advancedOptions : '') . '
                     <a href="#b2s-post-box-calendar-header" id="b2s-post-box-calendar-btn">' . esc_html__('show calendar', 'blog2social') . '</a>
                     <input type="hidden" name="b2s-profile-selected" value="' . ((isset($selectedProfileId)) ? esc_attr($selectedProfileId) : '-1') . '">
