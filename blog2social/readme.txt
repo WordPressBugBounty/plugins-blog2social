@@ -4,9 +4,9 @@ Requires PHP: 5.5.3
 Tags: social media automation, auto post, cross-posting, auto repost, social media scheduler, social media plugin
 Donate link: https://paypal.me/adenion
 Requires at least: 6.2
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 9.0.2
+Stable tag: 9.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,8 @@ No. Default WordPress plugin permissions (755) are sufficient.
 
 
 == Changelog ==
+= 9.0.3 =
+WordPress 7.1 Compatibility
 = 9.0.2 =
 Usability Optimization
 = 9.0.1 =
@@ -245,6 +247,8 @@ Usability Optimization
 Integration AI Text Assistent Assistini
 
 == Upgrade Notice ==
+= 9.0.3 =
+WordPress 7.1 Compatibility
 = 9.0.2 =
 Usability Optimization
 = 9.0.1 =

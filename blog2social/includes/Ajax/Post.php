@@ -116,7 +116,7 @@ class Ajax_Post {
                 }
                 $com = $comTrace . " " . escapeshellarg($targetIp);
                 $resTrace = shell_exec($com);
-                $resTrace = "Server IP:" . $publicServerIp . " (Intern: " . $serverIp . ")<br><br>" . utf8_encode(nl2br($resTrace)) . "<br><br>---";
+                $resTrace = "Server IP:" . $publicServerIp . " (Intern: " . $serverIp . ")<br><br>" . mb_convert_encoding(nl2br($resTrace), 'UTF-8', 'ISO-8859-1') . "<br><br>---";
                 $output = wp_kses($resTrace, array('br' => array()));
                 echo json_encode(array('result' => true, 'output' => $output));
                 wp_die();
