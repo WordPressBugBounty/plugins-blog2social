@@ -805,3 +805,7 @@ jQuery(document).on('input', '#b2sSortPostTitle', function () {
         if (typeof b2sSortFormSubmit === 'function') { b2sSortFormSubmit(); }
     }, 500);
 });
+
+jQuery('.b2s-menu-parent--open').on('click', function () {
+    jQuery('.b2s-submenu').slideToggle(150);
+});

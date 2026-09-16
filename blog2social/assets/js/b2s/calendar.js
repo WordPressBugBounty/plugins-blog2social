@@ -307,6 +307,11 @@ jQuery(document).ready(function () {
                             revertFunc();
                             return;
                         }
+                        if (data && data.result === false && data.error == 'permission_post') {
+                            jQuery('.b2s-no-permission-post').show();
+                            revertFunc();
+                            return;
+                        }
                         refreshCalender();
                         wp.heartbeat.connectNow();
                     }

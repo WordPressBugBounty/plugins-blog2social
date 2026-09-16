@@ -737,6 +737,22 @@ class B2S_Calendar_Item {
             'networkKind' => 0
         );
 
+        $schedData = $this->getSchedData();
+        if (is_array($schedData)) {
+            if (isset($schedData['text_is_ai_generated'])) {
+                $itemData['text_is_ai_generated'] = (int) $schedData['text_is_ai_generated'];
+            }
+            if (isset($schedData['image_is_ai_generated'])) {
+                $itemData['image_is_ai_generated'] = (int) $schedData['image_is_ai_generated'];
+            }
+            if (isset($schedData['multi_image_ai_tags'])) {
+                $multiAiTags = json_decode($schedData['multi_image_ai_tags'], true);
+                if (is_array($multiAiTags)) {
+                    $itemData['multi_image_ai_tags'] = array_map('intval', $multiAiTags);
+                }
+            }
+        }
+
         return $this->ship_item()->getItemHtml((object) $itemData, false);
     }
 }

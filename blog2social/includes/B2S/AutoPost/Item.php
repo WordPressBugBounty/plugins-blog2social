@@ -101,16 +101,16 @@ class B2S_AutoPost_Item {
 
         if (isset($optionAutoPost['assignBy']) && (int) $optionAutoPost['assignBy'] > 0) {
             $content .= '<div class="panel panel-group b2s-auto-post-own-general-warning"><div class="panel-body">';
-            $content .= '<span class="glyphicon glyphicon-exclamation-sign glyphicon-warning"></span>' . esc_html__('The settings for the Auto-Poster were configured for you by a WordPress admin.', 'blog2social') . '  ';
+            $content .= '<span class="glyphicon glyphicon-exclamation-sign glyphicon-warning"></span>' . esc_html__('The settings for the Auto Poster were configured for you by a WordPress admin.', 'blog2social') . '  ';
             $content .= '<a href="#" id="b2s-auto-post-assign-by-disconnect">' . esc_html__('Disconnect', 'blog2social') . '</a>';
             $content .= '</div>';
             $content .= '</div>';
         } else {
             $content .= '<form id = "b2s-user-network-settings-auto-post-own" method = "post">';
             $content .= '<div class="' . (!empty($isPremium) ? 'b2s-btn-disabled b2sPreFeatureAutoPosterModal' : '') . '">';
-            $content .= '<label class="b2s-ap-switch"><input ' . (($autoPostActive) ? 'checked' : '') . ' name="b2s-manuell-auto-post" class="b2s-auto-post-area-toggle" data-area-type="manuell" value="1" type="checkbox"><span class="b2s-ap-slider"></span></label>';
+            $content .= '<label class="b2s-ap-switch"><input ' . (($autoPostActive && empty($isPremium)) ? 'checked' : '') . ' name="b2s-manuell-auto-post" class="b2s-auto-post-area-toggle" data-area-type="manuell" value="1" type="checkbox"><span class="b2s-ap-slider"></span></label>';
             $content .= '</div>';
-            $content .= '<div class="b2s-auto-post-area" data-area-type="manuell"' . (($autoPostActive) ? '' : ' style="display:none;"') . '>';
+            $content .= '<div class="b2s-auto-post-area" data-area-type="manuell"' . (($autoPostActive && empty($isPremium)) ? '' : ' style="display:none;"') . '>';
             $content .= '<div id="b2s-ap-configure-manuell" class="b2s-ap-configure-body">';
             $content .= '<div class="row">';
             $content .= '<div class="col-md-8">';
@@ -201,7 +201,7 @@ class B2S_AutoPost_Item {
                     $doneIds = array();
                     $content .= '<div class="b2s-rp-new-filter-row">';
                     $content .= '<div class="b2s-rp-new-filter-row-head">';
-                    $content .= '<div class="b2s-rp-new-filter-label"><span class="dashicons dashicons-admin-users b2s-rp-new-icon-muted"></span><span>' . esc_html__('Transfer Auto-Poster settings to other users', 'blog2social') . ' <a class="b2sInfoAssignAutoPostBtn" href="#">' . esc_html__('Info', 'blog2social') . '</a></span></div>';
+                    $content .= '<div class="b2s-rp-new-filter-label"><span class="dashicons dashicons-admin-users b2s-rp-new-icon-muted"></span><span>' . esc_html__('Transfer Auto Poster settings to other users', 'blog2social') . ' <a class="b2sInfoAssignAutoPostBtn" href="#">' . esc_html__('Info', 'blog2social') . '</a></span></div>';
                     $content .= '</div>';
                     $content .= '<div class="b2s-rp-new-filter-input">';
                     $content .= '<select name="b2s-auto-post-assign-user-data[]" multiple="" data-placeholder="Select User" class="b2s-auto-post-assign-user form-control">';
@@ -279,6 +279,8 @@ class B2S_AutoPost_Item {
         $content .= $this->getNetworkAutoPostData($optionAutoPostImport);
         $importShipState = isset($optionAutoPostImport['ship_state']) ? (int) $optionAutoPostImport['ship_state'] : 0;
         $importTemplateVal = (isset($optionAutoPost['import_template']) && (int) $optionAutoPost['import_template'] == 1) ? 1 : 0;
+        $importImageAiGenerated = isset($optionAutoPostImport['image_is_ai_generated']) ? (int) $optionAutoPostImport['image_is_ai_generated'] : 0;
+        $importTextAiGenerated = isset($optionAutoPostImport['text_is_ai_generated']) ? (int) $optionAutoPostImport['text_is_ai_generated'] : 0;
         $content .= '<a class="b2s-rp-new-collapse-trigger-import" data-toggle="collapse" aria-expanded="true">';
         $content .= '<span>' . esc_html__('Advanced Filter', 'blog2social') . '</span>';
         $content .= '<span class="glyphicon glyphicon-chevron-down b2s-rp-new-chevron"></span>';
@@ -306,6 +308,24 @@ class B2S_AutoPost_Item {
         $content .= '<select name="b2s-auto-post-import-template-setting" class="form-control b2s-rp-new-filter-state-select">';
         $content .= '<option value="0"' . ($importTemplateVal == 0 ? ' selected' : '') . '>' . esc_html__('Off', 'blog2social') . '</option>';
         $content .= '<option value="1"' . ($importTemplateVal == 1 ? ' selected' : '') . '>' . esc_html__('On', 'blog2social') . '</option>';
+        $content .= '</select>';
+        $content .= '</div>';
+        $content .= '</div>';
+        $content .= '<div class="b2s-rp-new-filter-row">';
+        $content .= '<div class="b2s-rp-new-filter-row-head">';
+        $content .= '<div class="b2s-rp-new-filter-label"><span class="dashicons dashicons-format-image b2s-rp-new-icon-muted"></span><span>' . esc_html__('Image is AI generated', 'blog2social') . '</span></div>';
+        $content .= '<select name="b2s-import-auto-post-image-ai-generated" class="form-control b2s-rp-new-filter-state-select">';
+        $content .= '<option value="0"' . ($importImageAiGenerated == 0 ? ' selected' : '') . '>' . esc_html__('Off', 'blog2social') . '</option>';
+        $content .= '<option value="1"' . ($importImageAiGenerated == 1 ? ' selected' : '') . '>' . esc_html__('On', 'blog2social') . '</option>';
+        $content .= '</select>';
+        $content .= '</div>';
+        $content .= '</div>';
+        $content .= '<div class="b2s-rp-new-filter-row">';
+        $content .= '<div class="b2s-rp-new-filter-row-head">';
+        $content .= '<div class="b2s-rp-new-filter-label"><span class="dashicons dashicons-editor-textcolor b2s-rp-new-icon-muted"></span><span>' . esc_html__('Text is AI generated', 'blog2social') . '</span></div>';
+        $content .= '<select name="b2s-import-auto-post-text-ai-generated" class="form-control b2s-rp-new-filter-state-select">';
+        $content .= '<option value="0"' . ($importTextAiGenerated == 0 ? ' selected' : '') . '>' . esc_html__('Off', 'blog2social') . '</option>';
+        $content .= '<option value="1"' . ($importTextAiGenerated == 1 ? ' selected' : '') . '>' . esc_html__('On', 'blog2social') . '</option>';
         $content .= '</select>';
         $content .= '</div>';
         $content .= '</div>';
@@ -385,9 +405,16 @@ class B2S_AutoPost_Item {
 
             $selectedItems = (is_array($selected) && isset($selected[$type])) ? $selected[$type] : array();
             $stateSelected = isset($selected[$type . '_state'])  ? $selected[$type . '_state'] : '0';
+
             if ($stateSelected == '0' && empty($selectedItems)) {
                 $stateSelected = 'none';
             }
+
+            //JM 07.09.2026 Default to all when not set to avoid empty choices
+            if(!isset($selected[$type . '_state']) && $type === 'publish') {
+                $stateSelected = 'all';
+            }
+
             $icon = ($type === 'publish') ? 'dashicons-media-document' : 'dashicons-edit';
             $label = ($type === 'publish') ? esc_html__('New posts', 'blog2social') : esc_html__('Updated posts', 'blog2social');
             $inputId = 'b2s-ap-' . esc_attr($type) . '-types-input';

@@ -248,6 +248,26 @@ class B2S_RePost_Item {
             $content .= '</div>';
         }
 
+        // AI-generated flags
+        $content .= '<div class="b2s-rp-new-filter-row">';
+        $content .= '<div class="b2s-rp-new-filter-row-head">';
+        $content .= '<div class="b2s-rp-new-filter-label"><span class="dashicons dashicons-format-image b2s-rp-new-icon-muted"></span><span>' . esc_html__('Image is AI generated', 'blog2social') . '</span></div>';
+        $content .= '<select name="b2s-re-post-image-ai-generated" class="form-control b2s-rp-new-filter-state-select">';
+        $content .= '<option value="0">' . esc_html__('Off', 'blog2social') . '</option>';
+        $content .= '<option value="1">' . esc_html__('On', 'blog2social') . '</option>';
+        $content .= '</select>';
+        $content .= '</div>';
+        $content .= '</div>';
+        $content .= '<div class="b2s-rp-new-filter-row">';
+        $content .= '<div class="b2s-rp-new-filter-row-head">';
+        $content .= '<div class="b2s-rp-new-filter-label"><span class="dashicons dashicons-editor-textcolor b2s-rp-new-icon-muted"></span><span>' . esc_html__('Text is AI generated', 'blog2social') . '</span></div>';
+        $content .= '<select name="b2s-re-post-text-ai-generated" class="form-control b2s-rp-new-filter-state-select">';
+        $content .= '<option value="0">' . esc_html__('Off', 'blog2social') . '</option>';
+        $content .= '<option value="1">' . esc_html__('On', 'blog2social') . '</option>';
+        $content .= '</select>';
+        $content .= '</div>';
+        $content .= '</div>';
+
         // Additional options
         $content .= '<div class="b2s-rp-new-extras">';
 

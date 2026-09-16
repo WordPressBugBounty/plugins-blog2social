@@ -207,7 +207,7 @@ $autoPostItem = new B2S_AutoPost_Item();
             <div class="modal-body">
                 <?php echo sprintf(wp_kses(
                     // translators: %s is a link
-                    __('The time of publishing a post can play a decisive role in achieving more likes, shares and comments as well as a wide reach. Each social media network has it\'s "best times". Blog2Social provides you with predefined best times. When you activate the "best times" for your Auto-Poster, your WordPress posts and pages will be shared automatically at the "best times". Get more information about the "best times" in the guide "<a href="%s" target="_blank">The Best Times to Post on Social Media</a>".', 'blog2social'), 
+                    __('The time of publishing a post can play a decisive role in achieving more likes, shares and comments as well as a wide reach. Each social media network has it\'s "best times". Blog2Social provides you with predefined best times. When you activate the "best times" for your Auto Poster, your WordPress posts and pages will be shared automatically at the "best times". Get more information about the "best times" in the guide "<a href="%s" target="_blank">The Best Times to Post on Social Media</a>".', 'blog2social'), 
                     array(
                         'a' => array(
                             'href' => array(), 
@@ -235,15 +235,15 @@ $autoPostItem = new B2S_AutoPost_Item();
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2sAutoPostAInfoModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php esc_html_e('Important information about the Auto-Poster settings for WordPress content', 'blog2social') ?></h4>
+                <h4 class="modal-title"><?php esc_html_e('Important information about the Auto Poster settings for WordPress content', 'blog2social') ?></h4>
             </div>
             <div class="modal-body">
-                <?php esc_html_e('If you like to share your WordPress content (blogposts, pages, and products) automatically, you can use the following checklists where you get all information on the different setting panels for the Auto-Poster for WordPress content:', 'blog2social'); ?>
+                <?php esc_html_e('If you like to share your WordPress content (blogposts, pages, and products) automatically, you can use the following checklists where you get all information on the different setting panels for the Auto Poster for WordPress content:', 'blog2social'); ?>
                 <br>
                 <br>
                 <?php echo sprintf(wp_kses(
                     // translators: %s is a link
-                    __('<a href="%s" target="_blank">How to set up the Auto-Poster for your own WordPress content</a>', 'blog2social'),
+                    __('<a href="%s" target="_blank">How to set up the Auto Poster for your own WordPress content</a>', 'blog2social'),
                     array('a' => array(
                         'href' => array(), 
                         'target' => array())
@@ -252,7 +252,7 @@ $autoPostItem = new B2S_AutoPost_Item();
                 <br>
                 <?php echo sprintf(wp_kses(
                     // translators: %s is a link
-                    __('<a href="%s" target="_blank">Sharing with the Auto-Poster- Things to check for Troubleshooting</a>', 'blog2social'), 
+                    __('<a href="%s" target="_blank">Sharing with the Auto Poster- Things to check for Troubleshooting</a>', 'blog2social'), 
                     array('a' => array(
                         'href' => array(), 
                         'target' => array())
@@ -260,7 +260,7 @@ $autoPostItem = new B2S_AutoPost_Item();
                     esc_url(B2S_Tools::getSupportLink('auto_post_troubleshoot'))); ?>
                 <br>
                 <br>
-                <?php esc_html_e('All settings and social networks for the Auto-Poster can be defined for each WordPress user individually.', 'blog2social'); ?>
+                <?php esc_html_e('All settings and social networks for the Auto Poster can be defined for each WordPress user individually.', 'blog2social'); ?>
                 <br>
                 <?php esc_html_e('Please make sure that each WordPress user or author whose posts should be auto-posted', 'blog2social'); ?>
                 <br>
@@ -275,7 +275,7 @@ $autoPostItem = new B2S_AutoPost_Item();
                 <br>
                 <?php esc_html_e('2. has the selected social media networks connected or assigned (Blog2Social -> Networks)', 'blog2social'); ?>
                 <br>
-                <?php esc_html_e('3. is activated with the correct Auto-Poster settings (Auto Poster FAQ)', 'blog2social'); ?>
+                <?php esc_html_e('3. is activated with the correct Auto Poster settings (Auto Poster FAQ)', 'blog2social'); ?>
                 <br>
                 <br>
                 <?php esc_html_e('Please make sure you activate and define the preferred settings panel for each user.', 'blog2social'); ?>
@@ -285,24 +285,63 @@ $autoPostItem = new B2S_AutoPost_Item();
 </div>
 <div class="modal fade" id="b2sAutoPostMInfoModal" tabindex="-1" role="dialog" aria-labelledby="b2sAutoPostMInfoModal" aria-hidden="true" data-backdrop="false"  style="display:none;">
     <div class="modal-dialog">
-        <div class="modal-content" style="width: 900px;">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2sAutoPostMInfoModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php esc_html_e('Important information about the Auto-Poster settings for imported posts', 'blog2social') ?></h4>
+                <h4 class="modal-title"><?php esc_html_e('Important information about the Auto Poster settings for imported posts', 'blog2social') ?></h4>
             </div>
             <div class="modal-body">
-                <?php
-                $b2s_ap_import_info_img = (strtolower(substr(B2S_LANGUAGE, 0, 2)) === 'de')
-                    ? 'autoposter-imported-info-ger.png'
-                    : 'autoposter-imported-info.png';
-                ?>
-                <img src="<?php echo esc_url(plugins_url('/assets/images/b2s/' . $b2s_ap_import_info_img, B2S_PLUGIN_FILE)); ?>" alt="<?php esc_attr_e('Auto-Poster imported posts info', 'blog2social'); ?>" style="max-width:100%;height:auto;">
+                <div class="b2s-autopost-m-info-modal-wrap">
+                    <div class="b2s-autopost-m-info-modal-infobox">
+                        <span class="b2s-autopost-m-info-modal-infobox-icon">i</span>
+                        <p class="b2s-autopost-m-info-modal-infobox-text"><?php esc_html_e('Would you like to share imported posts (e.g., from RSS feeds or created/imported with another plugin) automatically? Use the Auto Poster and check these key points.', 'blog2social'); ?></p>
+                    </div>
+                    <div class="row b2s-autopost-m-info-modal-steps">
+                        <div class="col-md-4">
+                            <div class="b2s-autopost-m-info-modal-step-card">
+                                <span class="b2s-autopost-m-info-modal-step-badge b2s-autopost-m-info-modal-step-badge-1">1</span>
+                                <span class="glyphicon glyphicon-ok-circle b2s-autopost-m-info-modal-step-icon"></span>
+                                <h4 class="b2s-autopost-m-info-modal-step-heading"><?php esc_html_e('Activate license', 'blog2social'); ?></h4>
+                                <p><?php echo wp_kses(__('Make sure the WordPress user has a <strong>valid</strong> Blog2Social Premium license activated.', 'blog2social'), array('strong' => array())); ?></p>
+                                <a href="<?php echo esc_url(B2S_Tools::getSupportLink('license_key')); ?>" target="_blank" class="b2s-autopost-m-info-modal-step-link-1">
+                                    <span class="glyphicon glyphicon-ok-circle"></span> <?php esc_html_e('Activate license', 'blog2social'); ?>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="b2s-autopost-m-info-modal-step-card-networks">
+                                <span class="b2s-autopost-m-info-modal-step-badge b2s-autopost-m-info-modal-step-badge-2">2</span>
+                                <span class="glyphicon glyphicon-link b2s-autopost-m-info-modal-step-icon"></span>
+                                <h4 class="b2s-autopost-m-info-modal-step-heading"><?php esc_html_e('Connect networks', 'blog2social'); ?></h4>
+                                <p><?php esc_html_e('Make sure the desired social media networks are connected or assigned to the user.', 'blog2social'); ?></p>
+                                <a href="<?php echo esc_url(admin_url('admin.php?page=blog2social-network')); ?>" class="b2s-autopost-m-info-modal-step-link-2">
+                                    <span class="glyphicon glyphicon-link"></span> <?php esc_html_e('Blog2Social → Networks', 'blog2social'); ?>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="b2s-autopost-m-info-modal-step-card">
+                                <span class="b2s-autopost-m-info-modal-step-badge b2s-autopost-m-info-modal-step-badge-3">3</span>
+                                <span class="glyphicon glyphicon-cog b2s-autopost-m-info-modal-step-icon"></span>
+                                <h4 class="b2s-autopost-m-info-modal-step-heading"><?php esc_html_e('Configure Auto Poster', 'blog2social'); ?></h4>
+                                <p><?php esc_html_e('Make sure the Auto Poster settings are correctly activated and configured for the user.', 'blog2social'); ?></p>
+                                <a href="<?php echo esc_url(B2S_Tools::getSupportLink('auto_post_import')); ?>" target="_blank" class="b2s-autopost-m-info-modal-step-link-3">
+                                    <span class="glyphicon glyphicon-cog"></span> <?php esc_html_e('Auto Poster FAQ', 'blog2social'); ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b2s-autopost-m-info-modal-note">
+                        <span class="glyphicon glyphicon-user b2s-autopost-m-info-modal-note-icon"></span>
+                        <p class="b2s-autopost-m-info-modal-note-text"><?php echo wp_kses(__('<strong>Important:</strong> Each WordPress user/author whose posts should be auto-posted must fulfill all three points above.', 'blog2social'), array('strong' => array())); ?></p>
+                    </div>
+                </div>
                 <div class="further-information">
                     <h3 class="b2s-ap-m-modal-further-info-heading"><?php esc_html_e('Further Information:', 'blog2social'); ?></h3>
                     <div class="info-links">
                         <a href="<?php echo esc_url(B2S_Tools::getSupportLink('auto_post_troubleshoot')); ?>" target="_blank">
                             <span class="glyphicon glyphicon-book"></span> 
-                            <?php esc_html_e('Sharing with the Auto-Poster- Things to check for Troubleshooting', 'blog2social'); ?>
+                            <?php esc_html_e('Sharing with the Auto Poster- Things to check for Troubleshooting', 'blog2social'); ?>
                         </a>
                         <br>
                         <a href="<?php echo esc_url(B2S_Tools::getSupportLink('autopost_checklist_rss')); ?>" target="_blank">
@@ -311,6 +350,19 @@ $autoPostItem = new B2S_AutoPost_Item();
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="b2sAutoPostNoEffectWarningModal" tabindex="-1" role="dialog" aria-labelledby="b2sAutoPostNoEffectWarningModal" aria-hidden="true" data-backdrop="false"  style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="b2s-modal-close close" data-modal-name="#b2sAutoPostNoEffectWarningModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><?php esc_html_e('Auto Poster settings have no effect', 'blog2social') ?></h4>
+            </div>
+            <div class="modal-body">
+                <?php esc_html_e('Your current settings for new and updated posts for your own WordPress content will have no effect. Please select "All types" or add at least one post type under "Include selected only" for new posts or updated posts to actually activate the Auto Poster for Wordpress Content.', 'blog2social') ?>
             </div>
         </div>
     </div>

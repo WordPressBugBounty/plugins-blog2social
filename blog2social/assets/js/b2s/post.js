@@ -10,6 +10,46 @@ function updateToggleCommentValue($toggle) {
     });
 }
 
+function initAssSidebar() {
+    if (jQuery('#b2s-ship-ass-connected').val() == 1) {
+        jQuery('.b2s-ass-sidebar-account').show();
+        updateAssSidebarWords(jQuery('#b2s-ship-ass-words-open').val(), jQuery('#b2s-ship-ass-words-total').val());
+    }
+}
+
+function updateAssSidebarWords(wordsOpen, wordsTotal) {
+    if (typeof wordsOpen !== 'undefined') {
+        jQuery('#sidebar_ship_ass_words_open').text(wordsOpen);
+        jQuery('#b2s-ship-ass-words-open').val(wordsOpen);
+    }
+    if (typeof wordsTotal !== 'undefined') {
+        jQuery('#sidebar_ship_ass_words_total').text(wordsTotal);
+        jQuery('#b2s-ship-ass-words-total').val(wordsTotal);
+    }
+}
+
+jQuery(document).on('click', '#b2s-sidebar-ship-ass-logout-btn', function () {
+    jQuery.ajax({
+        url: ajaxurl,
+        type: "POST",
+        cache: false,
+        async: true,
+        data: {
+            'action': 'b2s_ass_logout',
+            'b2s_security_nonce': jQuery('#b2s_security_nonce').val()
+        },
+        success: function (data) {
+            var response = JSON.parse(data);
+            if (response.error == 'nonce') {
+                jQuery('.b2s-nonce-check-fail').show();
+            } else if (response.result == true) {
+                window.location.reload();
+            }
+        }
+    });
+});
+
+
 function applyShareAsStoryState($checkbox, isChecked) {
     if (!$checkbox || $checkbox.length === 0) {
         return;
@@ -1641,6 +1681,10 @@ jQuery(document).on('click', '.ad-tag-btn', function (e) {
     if (networkAuthId) {
         addTag(networkAuthId);
     }
+});
+
+jQuery(window).on("load", function () {
+    initAssSidebar();
 });
 
 jQuery(document).on('click', '.remove-tag-btn', function (e) {

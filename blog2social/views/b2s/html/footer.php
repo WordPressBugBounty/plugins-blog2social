@@ -298,14 +298,14 @@ if (!defined('ABSPATH')) {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="b2s-modal-close close" data-modal-name="#b2sInfoAssignAutoPost" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><?php esc_html_e('Transfer Auto-Poster settings to other users (Business):', 'blog2social') ?></h4>
+                    <h4 class="modal-title"><?php esc_html_e('Transfer Auto Poster settings to other users (Business):', 'blog2social') ?></h4>
                 </div>
                 <div class="modal-body">
-                    <?php esc_html_e('With Blog2Social you can transfer the Auto-Poster settings as a WordPress-administrator to other users if they have activated the same Blog2Social-Business license. This way, you can also assign social media accounts to other users, so they can auto-post without setting up these connections in each user account. Within these settings, you can also decide whether newly published or updated content from other users should be automatically shared. Users with an assigned Auto-Poster setting and an assigned social-media-network group will then share content automatically how you selected the content to be shared automatically.', 'blog2social') ?>
+                    <?php esc_html_e('With Blog2Social you can transfer the Auto Poster settings as a WordPress-administrator to other users if they have activated the same Blog2Social-Business license. This way, you can also assign social media accounts to other users, so they can auto-post without setting up these connections in each user account. Within these settings, you can also decide whether newly published or updated content from other users should be automatically shared. Users with an assigned Auto Poster setting and an assigned social-media-network group will then share content automatically how you selected the content to be shared automatically.', 'blog2social') ?>
                     <br>
                     <?php echo wp_kses(sprintf(
                         // translators: %s is a link
-                        __('You will get more information on how to assign the Auto-Poster settings in the <a target="_blank" href="%s">Auto-Poster guide</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('auto_post_assign'))),
+                        __('You will get more information on how to assign the Auto Poster settings in the <a target="_blank" href="%s">Auto Poster guide</a>.', 'blog2social'), esc_url(B2S_Tools::getSupportLink('auto_post_assign'))),
                         array(
                             'a' => array(
                                 'href' => array(),
@@ -461,10 +461,20 @@ if (!defined('ABSPATH')) {
                             'class' => array()
                         ),
                         'br'=> array(),
+                        'strong' => array(),
                         'ul' => array(
                             'class' => array()
                         ),
                         'li' => array(
+                            'class' => array()
+                        ),
+                        'span' => array(
+                            'class' => array()
+                        ),
+                        'h3' => array(
+                            'class' => array()
+                        ),
+                        'hr' => array(
                             'class' => array()
                         )
                     )

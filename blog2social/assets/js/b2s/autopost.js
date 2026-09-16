@@ -97,6 +97,10 @@ jQuery('#b2s-user-network-settings-auto-post-own').validate({
         return false;
     },
     submitHandler: function (form) {
+        if (jQuery('.b2s-auto-post-area-toggle[data-area-type="manuell"]').is(':checked') && isAutoPostTypeStateOff('publish') && isAutoPostTypeStateOff('update')) {
+            jQuery('#b2sAutoPostNoEffectWarningModal').modal('show');
+            return false;
+        }
         jQuery('.b2s-settings-user-success').hide();
         jQuery('.b2s-settings-user-error').hide();
         jQuery(".b2s-loading-area").show();
@@ -129,6 +133,18 @@ jQuery('#b2s-user-network-settings-auto-post-own').validate({
         return false;
     }
 });
+
+//checks if new/updated post type filter is set so that no post type will ever be auto-posted
+function isAutoPostTypeStateOff(type) {
+    var state = jQuery('select[name="b2s-auto-post-' + type + '-state"]').val();
+    if (state === 'none') {
+        return true;
+    }
+    if (state === '0') {
+        return jQuery('.b2s-auto-post-types-' + type + ' option:selected').length === 0;
+    }
+    return false;
+}
 
 jQuery(document).on('click', '.b2s-post-type-select-btn', function () {
     var type = jQuery(this).attr('data-post-type');

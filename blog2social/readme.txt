@@ -6,7 +6,7 @@ Donate link: https://paypal.me/adenion
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 9.0.3
+Stable tag: 9.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ Blog2Social automatically creates social media posts for your content and shares
 
 _Compatible with WooCommerce, Gutenberg Editor, Hummingbird, Bitly, Rebrand.ly, Sniply, WP Automatic Plugin, Page Builder & RSS Importer._
 
-**#New: AI Post Templates, Extended Comment Feature & Improved Preview**
+**#New: AI Tags, Assistini Content Creation & Improved Sharing**
 
 * AI Post Templates: Define individual prompts per network (e.g. Facebook, X, Instagram) and customize tone and writing style for AI-generated content
 * Extended Comment Feature: "First" Comment now available for Flickr, Reddit, VKontakte, YouTube, Vimeo, Mastodon, Discord, Threads, and Band
@@ -157,6 +157,8 @@ No. Default WordPress plugin permissions (755) are sufficient.
 
 
 == Changelog ==
+= 9.1.0 =
+AI Tags, Assistini Content Creation & Improved Sharing
 = 9.0.3 =
 WordPress 7.1 Compatibility
 = 9.0.2 =
@@ -247,6 +249,8 @@ Usability Optimization
 Integration AI Text Assistent Assistini
 
 == Upgrade Notice ==
+= 9.1.0 =
+AI Tags, Assistini Content Creation & Improved Sharing
 = 9.0.3 =
 WordPress 7.1 Compatibility
 = 9.0.2 =

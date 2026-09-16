@@ -118,6 +118,12 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
         <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('To execute this function, you need administrator permissions. Please contact your administrator for access.', 'blog2social'); ?>
     </div>
 </div>
+<div class="panel panel-group b2s-header-notice b2s-left-border-danger b2s-no-permission b2s-no-permission-post" style="display:none;">
+    <div class="panel-body">
+        <button class="close b2s-warning-close"><span aria-hidden="true">&times;</span></button>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('You must be an admin to move posts owned by someone else.', 'blog2social'); ?>
+    </div>
+</div>
 
 <!--Info Mail Update -->
 <div class="panel panel-group b2s-header-notice b2s-network-auth-info b2s-left-border-success b2s-mail-update-success" style="display:none;">
@@ -148,6 +154,7 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
         <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('The page and post meta data could not be removed.', 'blog2social'); ?>
     </div>
 </div>
+
 
 <div class="panel panel-group b2s-header-notice b2s-meta-tags-yoast b2s-meta-tags-success" style="display:<?php echo esc_attr($showYoast); ?>;">
     <div class="panel-body">

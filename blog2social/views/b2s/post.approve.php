@@ -34,6 +34,15 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
                 <!--Navbar|End-->
                 <div class="clearfix"></div>
                 <!--Content|Start-->
+                <div class="alert alert-warning" style="margin-bottom: 15px;">
+                    <?php
+                    printf(
+                        /* translators: %s is a link */
+                        esc_html__('In this area, you can publish scheduled posts for your connected Facebook profiles. You can find more information about sharing on Facebook profiles here: %s', 'blog2social'),
+                        '<a href="' . esc_url(B2S_Tools::getSupportLink('facebook_instant_sharing')) . '" target="_blank">' . esc_html__('How to share on Facebook Profiles with Instant Sharing', 'blog2social') . '</a>'
+                    );
+                    ?>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <!--Posts from Wordpress Start-->

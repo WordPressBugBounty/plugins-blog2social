@@ -21,6 +21,22 @@ $userTimeZone = ($optionUserTimeZone !== false) ? $optionUserTimeZone : get_opti
 $userTimeZoneOffset = (empty($userTimeZone)) ? get_option('gmt_offset') : B2S_Util::getOffsetToUtcByTimeZone($userTimeZone);
 $selSchedDate = (isset($_GET['schedDate']) && !empty($_GET['schedDate'])) ? wp_date("Y-m-d H:i:s", (strtotime(sanitize_text_field(wp_unslash($_GET['schedDate'])) . ' ' . gmdate('H:i:s'))), new DateTimeZone(date_default_timezone_get())) : "";
 $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success">' . esc_html__('Pro', 'blog2social') . '</span>' : '';
+
+$assConnected = false;
+$assWordsOpen = 0;
+$assWordsTotal = 0;
+$assOptions = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID, 'B2S_PLUGIN_USER_TOOL');
+$assOptionsData = $assOptions->_getOption(1);
+global $wpdb;
+
+if ($wpdb->get_var($wpdb->prepare("SELECT `id`, `access_token` FROM `{$wpdb->prefix}b2s_user_tool` WHERE `blog_user_id` = %d AND `tool_id` = 1", (int) B2S_PLUGIN_BLOG_USER_ID))) {
+    $sqlResult = $wpdb->get_row($wpdb->prepare("SELECT `id`, `access_token` FROM `{$wpdb->prefix}b2s_user_tool` WHERE `blog_user_id` = %d AND `tool_id` = 1", (int) B2S_PLUGIN_BLOG_USER_ID));
+    if (isset($sqlResult->id) && (int) $sqlResult->id > 0 && isset($sqlResult->access_token) && !empty($sqlResult->access_token) && isset($assOptionsData['account']['words_open']) && isset($assOptionsData['account']['words_total'])) {
+        $assConnected = true;
+        $assWordsOpen = (int) $assOptionsData['account']['words_open'];
+        $assWordsTotal = (int) $assOptionsData['account']['words_total'];
+    }
+}
 ?>
 <div class="b2s-container">
     <div class="b2s-inbox">
@@ -70,6 +86,12 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                 </div>
                 <!-- Full compose area: hidden by default -->
                 <div class="b2s-curation-section-seperator"></div>
+                <div class="col-md-9 del-padding-left del-padding-right b2s-all-loading-area" style="display:none;">
+                    <br>
+                    <div class="b2s-loader-impulse b2s-loader-impulse-md"></div>
+                    <div class="clearfix"></div>
+                    <div class="text-center b2s-loader-text"><?php esc_html_e("Load data...", "blog2social"); ?></div>
+                </div>
                 <div id="b2s-compose-expand-area" style="display:none;">
                 <div class="b2s-compose-outer">
                     <div class="b2s-compose-col-main">
@@ -106,15 +128,6 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                                 </div>
 
                                 <form id="b2s-curation-post-form" method="post">
-
-                                    <!-- Loading spinner for compose area only (NOT .b2s-loading-area to avoid curation.js interference) -->
-                                    <div class="b2s-compose-loading-area" style="display:none;">
-                                        <br>
-                                        <div class="b2s-loader-impulse b2s-loader-impulse-md"></div>
-                                        <div class="clearfix"></div>
-                                        <div class="text-center b2s-loader-text"><?php esc_html_e("Load data...", "blog2social"); ?></div>
-                                    </div>
-
                                     <!-- Unified compose input -->
                                     <div class="b2s-compose-unified-input">
                                         <input
@@ -138,6 +151,18 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                                             </button>
                                         </div>
                                     </div>
+                                    <div class="b2s-curation-ass-btn-group">
+                                        <button type="button" class="btn btn-xs btn-ass b2s-post-item-ass-auth-btn" <?php echo $assConnected ? 'style="display:none;"' : ''; ?>><?php esc_html_e('Improve post with AI', 'blog2social'); ?></button>
+                                        <button type="button" class="btn btn-xs btn-ass b2s-post-item-ass-create-btn" <?php echo $assConnected ? '' : 'style="display:none;"'; ?>><?php esc_html_e('Rewrite with Assistini AI', 'blog2social'); ?></button>
+                                        <button type="button" class="btn btn-xs btn-ass b2s-post-item-ass-reset-btn" <?php echo $assConnected ? '' : 'style="display:none;"'; ?>><?php esc_html_e('Reset', 'blog2social'); ?></button>
+                                        <span class="b2s-post-item-textarea-icon-container b2s-curation-ass-loader"><i class="b2s-post-item-textarea-icon"></i></span>
+                                        <button type="button" id="b2s-curation-ai-text-tag-btn" class="btn btn-xs b2s-ai-generated-tag-btn b2s-ai-generated-text-tag-btn"><i class="glyphicon glyphicon-flash"></i> <?php esc_html_e('Mark text as AI generated', 'blog2social'); ?></button>
+                                    </div>
+                                    <input type="hidden" id="b2s-curation-ass-original-message" value="">
+                                    <input type="hidden" id="b2s-ship-ass-connected" value="<?php echo esc_attr((int) $assConnected); ?>">
+                                    <input type="hidden" id="b2s-ship-ass-words-open" value="<?php echo esc_attr($assWordsOpen); ?>">
+                                    <input type="hidden" id="b2s-ship-ass-words-total" value="<?php echo esc_attr($assWordsTotal); ?>">
+                                    <input type="hidden" id="b2s-curation-user-lang" value="<?php echo esc_attr($userLang); ?>">
 
                                     <!-- Validation error messages -->
                                     <div id="b2s-error-text-empty" class="b2s-compose-error-msg" style="display:none; color:#F5365C;">
@@ -154,8 +179,10 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                                         <input type="hidden" id="b2s-curation-input-url" name="url" value="" ?>">
                                         <input type="hidden" name="b2s_user_timezone" value="<?php echo esc_attr($userTimeZoneOffset); ?>">
                                         <input type="hidden" id="b2s-post-curation-image-url" name="link_image_url" value="">
+                                        <input type="hidden" id="b2s-curation-ai-image-tag-hidden" name="image_is_ai_generated" value="0">
+                                        <input type="hidden" id="b2s-curation-ai-text-tag-hidden" name="text_is_ai_generated" value="0">
                                     </div>
-                                   
+                                
                                     <!-- Toolbar row: Image / Video + Settings toggle -->
                                     <div class="b2s-compose-toolbar">
                                         <button type="button" class="btn btn-default btn-sm b2s-compose-toolbar-btn b2s-compose-direct-upload-btn" <?php if (B2S_PLUGIN_USER_VERSION < 2) { echo 'disabled'; } ?>>
@@ -204,18 +231,25 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
 
                                 </form>
 
-                                <!-- Re-share area (JS-controlled) -->
+                               
+                            </div>
+                        </div>
+                         <!-- Re-share area (JS-controlled) -->
                                 <div class="row b2s-curation-post-list-area">
                                     <div class="b2s-curation-post-list"></div>
                                 </div>
 
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Live preview column -->
                     <div class="b2s-compose-col-preview hidden-sm hidden-xs">
                         <div id="b2s-curation-preview" class="b2s-curation-preview">
+                             <div class="col-md-9 del-padding-left del-padding-right b2s-preview-loading-area" style="display:none;">
+                                <br>
+                                <div class="b2s-loader-impulse b2s-loader-impulse-md"></div>
+                                <div class="clearfix"></div>
+                                <div class="text-center b2s-loader-text"><?php esc_html_e("Load data...", "blog2social"); ?></div>
+                            </div>
                             <div class="panel panel-default b2s-compose-preview-panel">
                                 <div class="panel-body">
                                     <div id="b2s-compose-link-status" style="display:none;">
@@ -257,6 +291,7 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                                                 <div style="position:relative;display:inline-block;width:100%;">
                                                     <img src="<?php echo esc_url(plugins_url('/assets/images/no-image.png', B2S_PLUGIN_FILE)); ?>" class="img-responsive b2s-curation-link-preview-image" alt="Link-Preview" style="display:none;">
                                                     <button id="b2s-preview-image-remove-btn" type="button" class="b2s-preview-image-remove-btn" style="display:none;" title="<?php esc_attr_e('Remove image', 'blog2social'); ?>">&times;</button>
+                                                    <button type="button" id="b2s-curation-ai-image-tag-btn" class="btn btn-xs b2s-ai-generated-tag-btn b2s-ai-generated-image-tag-btn" style="display:none;"><i class="glyphicon glyphicon-flash"></i> <?php esc_html_e('Mark image as AI generated', 'blog2social'); ?></button>
                                                 </div>
                                                 <div style="margin-top: 5px; margin-left: 5px; margin-bottom: 5px;">
                                                     <strong style="margin-top: 3px;" class="b2s-curation-link-preview-title"></strong><br>
@@ -301,8 +336,8 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                     </div>
 
                     <!-- Collapsible filter panel — contains the full B2S_Post_Filter form.
-                         Hidden inputs (b2sUserLang, b2sPostBlogId etc.) are readable by jQuery
-                         even when the panel is display:none. -->
+                        Hidden inputs (b2sUserLang, b2sPostBlogId etc.) are readable by jQuery
+                        even when the panel is display:none. -->
                     <div id="b2s-wp-filter-panel" style="display:none;">
                         <form class="b2sSortForm form-inline" action="#">
                             <input id="b2sType" type="hidden" value="all" name="b2sType">
@@ -325,13 +360,13 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
 
                     <!-- Posts list (curation.draft.js fills these) -->
                     <div class="b2s-wp-posts-list-area">
-                        <div class="b2s-loading-area" style="display:none;">
-                            <br>
-                            <div class="b2s-loader-impulse b2s-loader-impulse-md"></div>
-                            <div class="clearfix"></div>
-                            <div class="text-center b2s-loader-text"><?php esc_html_e("Load data...", "blog2social"); ?></div>
-                        </div>
-                        <div class="b2s-server-connection-fail alert alert-danger" style="display:none;">
+                    <div class="b2s-loading-area" style="display:none;">
+                        <br>
+                        <div class="b2s-loader-impulse b2s-loader-impulse-md"></div>
+                        <div class="clearfix"></div>
+                        <div class="text-center b2s-loader-text"><?php esc_html_e("Load data...", "blog2social"); ?></div>
+                    </div>
+                            <div class="b2s-server-connection-fail alert alert-danger" style="display:none;">
                             <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php esc_html_e('Server connection failed. Please try again.', 'blog2social'); ?>
                         </div>
                         <div class="b2s-sort-result-area" style="display:none;">
@@ -357,7 +392,6 @@ $isImagePro = (B2S_PLUGIN_USER_VERSION < 2) ? ' <span class="label label-success
                 <input type="hidden" id="b2s_user_version" value="<?php echo esc_attr(B2S_PLUGIN_USER_VERSION); ?>">
                 
                 <?php require_once (B2S_PLUGIN_DIR . 'views/b2s/html/footer.php'); ?> 
-
             </div>
         </div>
     </div>
@@ -497,16 +531,172 @@ include (B2S_PLUGIN_DIR . 'views/b2s/partials/general-modal.php');
 
 <div id="b2s-posttype-info-modal" class="modal fade" role="dialog" aria-hidden="true" data-backdrop="false" style="display:none;">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content modal-xlg" >
+        <div class="modal-content modal-xlg" style="width: 1100px";>
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2s-posttype-info-modal">&times;</button>
                 <h4 class="modal-title"><?php esc_html_e('What is a Link Post / Image Post?', 'blog2social'); ?></h4>
             </div>
-            <div class="modal-body" style="text-align:center; padding: 20px;">
-                <?php $postTypeInfoImg = (substr(B2S_LANGUAGE, 0, 2) === 'de') ? 'link-image-post-info-ger.png' : 'link-image-post-info.png'; ?>
-                <img src="<?php echo esc_url(plugins_url('/assets/images/b2s/' . $postTypeInfoImg, B2S_PLUGIN_FILE)); ?>"
-                     alt="<?php esc_attr_e('Link Post vs Image Post', 'blog2social'); ?>"
-                     style="max-width:100%; height:auto; display:inline-block;">
+            <div class="modal-body" style="text-align:center; padding: 0px !important;">
+                <div class="b2s-posttype-info-modal-wrapper">
+    <!-- existing component -->
+
+                <!-- translators: %s: URL to the social media posts guide -->
+                <main class="b2s-posttype-info-modal-page">
+                    <section class="b2s-posttype-info-modal-comparison">
+                    <!-- LINK POST -->
+                    <article class="b2s-posttype-info-modal-panel b2s-posttype-info-modal-panel--link">
+                        <div class="b2s-posttype-info-modal-panel__header">
+                        <div class="b2s-posttype-info-modal-type-pill b2s-posttype-info-modal-type-pill--blue">
+                            <span class="b2s-posttype-info-modal-icon b2s-posttype-info-modal-icon--link" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07.07l2-2A5 5 0 0 0 12 4l-1.15 1.15"/><path d="M14 11a5 5 0 0 0-7.07-.07l-2 2A5 5 0 0 0 12 20l1.15-1.15"/></svg>
+                            </span>
+                            <?php esc_html_e('LINK POST', 'blog2social'); ?>
+                        </div>
+                        <h2><?php esc_html_e('Share website content', 'blog2social'); ?><br><?php esc_html_e('with an automatic preview', 'blog2social'); ?></h2>
+                        <p><?php esc_html_e('Perfect for blog articles, news, guides and external links.', 'blog2social'); ?></p>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-visual b2s-posttype-info-modal-visual--link">
+                        <div class="b2s-posttype-info-modal-browser-card">
+                            <div class="b2s-posttype-info-modal-browser-bar">
+                            <span></span><span></span><span></span>
+                            <small><?php esc_html_e('www.your-blog.com', 'blog2social'); ?></small>
+                            </div>
+                            <div class="b2s-posttype-info-modal-browser-body">
+                            <div class="b2s-posttype-info-modal-skeleton b2s-posttype-info-modal-skeleton--short"></div>
+                            <div class="b2s-posttype-info-modal-skeleton"></div>
+                            <div class="b2s-posttype-info-modal-skeleton b2s-posttype-info-modal-skeleton--medium"></div>
+                            <div class="b2s-posttype-info-modal-browser-content">
+                                <div class="b2s-posttype-info-modal-fake-landscape">
+                                <span class="b2s-posttype-info-modal-sun"></span>
+                                <span class="b2s-posttype-info-modal-mountain b2s-posttype-info-modal-mountain--one"></span>
+                                <span class="b2s-posttype-info-modal-mountain b2s-posttype-info-modal-mountain--two"></span>
+                                </div>
+                                <div class="b2s-posttype-info-modal-side-lines">
+                                <i></i><i></i><i></i><i></i>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-connector b2s-posttype-info-modal-connector--blue">
+                            <span class="b2s-posttype-info-modal-connector__dots"><?php esc_html_e('•••', 'blog2social'); ?></span>
+                            <span class="b2s-posttype-info-modal-connector__circle"><?php esc_html_e('↗', 'blog2social'); ?></span>
+                            <span class="b2s-posttype-info-modal-connector__arrow"><?php esc_html_e('➜', 'blog2social'); ?></span>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-social-card b2s-posttype-info-modal-social-card--facebook">
+                            <div class="b2s-posttype-info-modal-social-head">
+                            <span class="b2s-posttype-info-modal-social-logo">f</span>
+                            <span class="b2s-posttype-info-modal-social-name"></span>
+                            </div>
+                            <p class="b2s-posttype-info-modal-social-copy"><?php esc_html_e('Check out this helpful', 'blog2social'); ?><br><?php esc_html_e('article!', 'blog2social'); ?></p>
+                            <div class="b2s-posttype-info-modal-preview-image">
+                            <span class="b2s-posttype-info-modal-sun"></span>
+                            <span class="b2s-posttype-info-modal-mountain b2s-posttype-info-modal-mountain--one"></span>
+                            <span class="b2s-posttype-info-modal-mountain b2s-posttype-info-modal-mountain--two"></span>
+                            </div>
+                            <div class="b2s-posttype-info-modal-preview-meta">
+                            <small><?php esc_html_e('YOUR-WEBSITE.COM', 'blog2social'); ?></small>
+                            <strong><?php esc_html_e('10 Tips for Successful', 'blog2social'); ?><br><?php esc_html_e('Social Media Marketing', 'blog2social'); ?></strong>
+                            <p><?php esc_html_e('Proven strategies to grow your reach', 'blog2social'); ?><br><?php esc_html_e('and achieve your goals.', 'blog2social'); ?></p>
+                            </div>
+                            <div class="b2s-posttype-info-modal-social-footer">
+                            <span><?php esc_html_e('👍 ❤️ 12', 'blog2social'); ?></span><span><?php esc_html_e('2 Comments', 'blog2social'); ?></span><span><?php esc_html_e('5 Shares', 'blog2social'); ?></span>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-feature-list">
+                        <div class="b2s-posttype-info-modal-feature">
+                            <span class="b2s-posttype-info-modal-feature-icon b2s-posttype-info-modal-feature-icon--blue">✣</span>
+                            <div><h3><?php esc_html_e('Automatic link preview', 'blog2social'); ?></h3><p><?php esc_html_e('Social networks automatically create a preview', 'blog2social'); ?><br><?php esc_html_e('from your website content.', 'blog2social'); ?></p></div>
+                        </div>
+                        <div class="b2s-posttype-info-modal-feature">
+                            <span class="b2s-posttype-info-modal-feature-icon b2s-posttype-info-modal-feature-icon--blue">➤</span>
+                            <div><h3><?php esc_html_e('Clicks drive traffic to your website', 'blog2social'); ?></h3><p><?php esc_html_e('Users click through to read the full content', 'blog2social'); ?><br><?php esc_html_e('on your website.', 'blog2social'); ?></p></div>
+                        </div>
+                        <div class="b2s-posttype-info-modal-feature">
+                            <span class="b2s-posttype-info-modal-feature-icon b2s-posttype-info-modal-feature-icon--blue">&lt;/&gt;</span>
+                            <div><h3><?php esc_html_e('Uses Open Graph metadata', 'blog2social'); ?></h3><p><?php esc_html_e('The preview is based on the OG data', 'blog2social'); ?><br><?php esc_html_e('from your website.', 'blog2social'); ?></p></div>
+                        </div>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-info-box b2s-posttype-info-modal-info-box--blue">
+                        <p><?php esc_html_e('When you paste a link, social networks automatically generate', 'blog2social'); ?><br><?php esc_html_e('a preview based on your website content.', 'blog2social'); ?></p>
+                        </div>
+                    </article>
+
+                    <div class="b2s-posttype-info-modal-vs-badge"><?php esc_html_e('VS.', 'blog2social'); ?></div>
+
+                    <!-- IMAGE POST -->
+                    <article class="b2s-posttype-info-modal-panel b2s-posttype-info-modal-panel--image">
+                        <div class="b2s-posttype-info-modal-panel__header">
+                        <div class="b2s-posttype-info-modal-type-pill b2s-posttype-info-modal-type-pill--orange">
+                            <span class="b2s-posttype-info-modal-icon b2s-posttype-info-modal-icon--image" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8" cy="9" r="1.5"/><path d="m4 18 5-5 3 3 2-2 6 4"/></svg>
+                            </span>
+                            <?php esc_html_e('IMAGE POST', 'blog2social'); ?>
+                        </div>
+                        <h2><?php esc_html_e('Upload images directly', 'blog2social'); ?><br><?php esc_html_e('to social media', 'blog2social'); ?></h2>
+                        <p><?php esc_html_e('Ideal for promotions, announcements, quotes and visual campaigns.', 'blog2social'); ?></p>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-visual b2s-posttype-info-modal-visual--image">
+                        <div class="b2s-posttype-info-modal-upload-box">
+                            <div class="b2s-posttype-info-modal-upload-icon">↑</div>
+                            <strong><?php esc_html_e('Upload image', 'blog2social'); ?></strong>
+                            <span><?php esc_html_e('No link required', 'blog2social'); ?></span>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-connector b2s-posttype-info-modal-connector--orange">
+                            <span class="b2s-posttype-info-modal-connector__dots"><?php esc_html_e('•••', 'blog2social'); ?></span>
+                            <span class="b2s-posttype-info-modal-connector__arrow"><?php esc_html_e('➜', 'blog2social'); ?></span>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-social-card b2s-posttype-info-modal-social-card--instagram">
+                            <div class="b2s-posttype-info-modal-social-head">
+                            <span class="b2s-posttype-info-modal-social-logo b2s-posttype-info-modal-social-logo--ig"><?php esc_html_e('◎', 'blog2social'); ?></span>
+                            <span class="b2s-posttype-info-modal-social-name"></span>
+                            </div>
+                            <div class="b2s-posttype-info-modal-sale-art">
+                            <div class="b2s-posttype-info-modal-sale-copy">
+                                <strong><?php esc_html_e('SUMMER', 'blog2social'); ?><br><?php esc_html_e('SALE', 'blog2social'); ?></strong>
+                                <small><?php esc_html_e('UP TO', 'blog2social'); ?></small>
+                                <b><?php esc_html_e('50%', 'blog2social'); ?><br><?php esc_html_e('OFF', 'blog2social'); ?></b>
+                            </div>
+                            <div class="b2s-posttype-info-modal-leaf b2s-posttype-info-modal-leaf--one"></div>
+                            <div class="b2s-posttype-info-modal-leaf b2s-posttype-info-modal-leaf--two"></div>
+                            <div class="b2s-posttype-info-modal-orange-fruit"><span></span></div>
+                            </div>
+                            <div class="b2s-posttype-info-modal-instagram-actions"><?php esc_html_e('♥ ♡ ✈       ♧', 'blog2social'); ?></div>
+                            <div class="b2s-posttype-info-modal-likes"><?php esc_html_e('♥ 128 Likes', 'blog2social'); ?></div>
+                        </div>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-feature-list">
+                        <div class="b2s-posttype-info-modal-feature">
+                            <span class="b2s-posttype-info-modal-feature-icon b2s-posttype-info-modal-feature-icon--orange"><?php esc_html_e('◉', 'blog2social'); ?></span>
+                            <div><h3><?php esc_html_e('High visual impact', 'blog2social'); ?></h3><p><?php esc_html_e('Images grab more attention and engagement', 'blog2social'); ?><br><?php esc_html_e('in the feed.', 'blog2social'); ?></p></div>
+                        </div>
+                        <div class="b2s-posttype-info-modal-feature">
+                            <span class="b2s-posttype-info-modal-feature-icon b2s-posttype-info-modal-feature-icon--orange"><?php esc_html_e('▯', 'blog2social'); ?></span>
+                            <div><h3><?php esc_html_e('Native appearance in the feed', 'blog2social'); ?></h3><p><?php esc_html_e('The image is uploaded directly and displayed', 'blog2social'); ?><br><?php esc_html_e('natively on the platform.', 'blog2social'); ?></p></div>
+                        </div>
+                        <div class="b2s-posttype-info-modal-feature">
+                            <span class="b2s-posttype-info-modal-feature-icon b2s-posttype-info-modal-feature-icon--orange"><?php esc_html_e('◎', 'blog2social'); ?></span>
+                            <div><h3><?php esc_html_e('Ideal for branding & campaigns', 'blog2social'); ?></h3><p><?php esc_html_e('Perfect for promotions, announcements and content', 'blog2social'); ?><br><?php esc_html_e('that should stand out in the feed.', 'blog2social'); ?></p></div>
+                        </div>
+                        </div>
+
+                        <div class="b2s-posttype-info-modal-info-box b2s-posttype-info-modal-info-box--orange">
+                        <p><?php esc_html_e('Images are uploaded directly to the network', 'blog2social'); ?><br><?php esc_html_e('instead of generating a website preview.', 'blog2social'); ?></p>
+                        </div>
+                    </article>
+                    </section>
+                </main>
+                <!-- translators: %s: URL to the social media posts guide -->
+                </div>
             </div>
         </div>
     </div>
@@ -565,10 +755,151 @@ include (B2S_PLUGIN_DIR . 'views/b2s/partials/general-modal.php');
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2sInfoNetworkModal">&times;</button>
                 <h4 class="modal-title"><?php esc_html_e('Network collections', 'blog2social'); ?></h4>
             </div>
-            <?php $b2sNetworkInfoImg = plugins_url('/assets/images/b2s/' . ((substr(B2S_LANGUAGE, 0, 2) === 'de') ? 'network-collections-info-ger.png' : 'network-collections-info.png'), B2S_PLUGIN_FILE); ?>
-            <div class="modal-body" style="text-align:center; padding: 20px;">
-                <img src="<?php echo esc_url($b2sNetworkInfoImg); ?>" alt="<?php esc_attr_e('Network collections', 'blog2social'); ?>" style="max-width:100%; height:auto; display:inline-block; margin-bottom:20px;">
-                <div><a href="<?php echo esc_url(admin_url('admin.php?page=blog2social-network')); ?>" class="btn btn-primary"><?php esc_html_e('Open Networks', 'blog2social'); ?></a></div>
+            <div class="modal-body b2s-ni-body">
+                <div class="b2s-ni-wrap">
+                    <!-- Title -->
+                    <div class="b2s-ni-title-row">
+                        <div class="b2s-ni-title-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        </div>
+                        <div>
+                            <div class="b2s-ni-title-text"><?php esc_html_e('How Network Collections Work', 'blog2social'); ?></div>
+                            <div class="b2s-ni-subtitle"><?php esc_html_e('Organize your connected social media accounts and publish smarter.', 'blog2social'); ?></div>
+                        </div>
+                    </div>
+
+                    <!-- Steps -->
+                    <div class="b2s-ni-steps">
+
+                        <!-- Step 1 -->
+                        <div class="b2s-ni-step">
+                            <div class="b2s-ni-step-head">
+                                <span class="b2s-ni-step-num">1</span>
+                                <strong class="b2s-ni-step-title"><?php esc_html_e('Connect your social accounts', 'blog2social'); ?></strong>
+                            </div>
+                            <p class="b2s-ni-step-body"><?php esc_html_e('Share links, images, or videos to your connected accounts.', 'blog2social'); ?></p>
+                            <div class="b2s-ni-connect-row">
+                                <div class="b2s-ni-icon-col">
+                                    <?php foreach (array(1, 45, 12, 3, 32, 36) as $b2sNid) : ?>
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/' . (int) $b2sNid . '_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-sm" alt="">
+                                    <?php endforeach; ?>
+                                </div>
+                                <span class="b2s-ni-arrow">&#8594;</span>
+                                <div class="b2s-ni-dest">
+                                    <div class="b2s-ni-dest-icon">
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    </div>
+                                    <span class="b2s-ni-dest-label"><?php esc_html_e('Connected accounts', 'blog2social'); ?></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="b2s-ni-step-arrow">&#8594;</div>
+
+                        <!-- Step 2 -->
+                        <div class="b2s-ni-step">
+                            <div class="b2s-ni-step-head">
+                                <span class="b2s-ni-step-num">2</span>
+                                <strong class="b2s-ni-step-title"><?php esc_html_e('All accounts go into the default group "My Profile"', 'blog2social'); ?></strong>
+                            </div>
+                            <p class="b2s-ni-step-body"><?php esc_html_e('By default, every connected network is automatically added to "My Profile".', 'blog2social'); ?></p>
+                            <div class="b2s-ni-group-box">
+                                <div class="b2s-ni-group-head">
+                                    <div class="b2s-ni-group-icon">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    </div>
+                                    <strong class="b2s-ni-group-name"><?php esc_html_e('My Profile', 'blog2social'); ?></strong>
+                                </div>
+                                <div class="b2s-ni-group-icons">
+                                    <?php foreach (array(1, 45, 12, 3, 32, 36) as $b2sNid) : ?>
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/' . (int) $b2sNid . '_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-md" alt="">
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="b2s-ni-group-label"><?php esc_html_e('Standard group (automatic)', 'blog2social'); ?></div>
+                            </div>
+                        </div>
+
+                        <div class="b2s-ni-step-arrow">&#8594;</div>
+
+                        <!-- Step 3 (Pro) -->
+                        <div class="b2s-ni-step b2s-ni-step-pro">
+                            <div class="b2s-ni-step-head b2s-ni-step-head-wrap">
+                                <span class="b2s-ni-step-num b2s-ni-step-num-pro">3</span>
+                                <strong class="b2s-ni-step-title b2s-ni-step-title-pro"><?php esc_html_e('With Pro, create more custom groups', 'blog2social'); ?></strong>
+                                <span class="b2s-ni-pro-badge"><?php esc_html_e('PRO', 'blog2social'); ?></span>
+                            </div>
+                            <p class="b2s-ni-step-body b2s-ni-step-body-sm"><?php esc_html_e('Create additional network groups to organize your profiles more flexibly.', 'blog2social'); ?></p>
+                            <div class="b2s-ni-custom-groups">
+                                <div class="b2s-ni-cg-row b2s-ni-cg-row-green">
+                                    <div class="b2s-ni-cg-label-wrap">
+                                        <div class="b2s-ni-cg-icon b2s-ni-cg-icon-green">
+                                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#22c55e" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                        </div>
+                                        <span class="b2s-ni-cg-name b2s-ni-cg-name-green"><?php esc_html_e('Team A', 'blog2social'); ?></span>
+                                    </div>
+                                    <div class="b2s-ni-cg-icons">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/1_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/3_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                    </div>
+                                </div>
+                                <div class="b2s-ni-cg-row b2s-ni-cg-row-purple">
+                                    <div class="b2s-ni-cg-label-wrap">
+                                        <div class="b2s-ni-cg-icon b2s-ni-cg-icon-purple">
+                                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#a855f7" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                        </div>
+                                        <span class="b2s-ni-cg-name b2s-ni-cg-name-purple"><?php esc_html_e('Clients', 'blog2social'); ?></span>
+                                    </div>
+                                    <div class="b2s-ni-cg-icons">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/12_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/3_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/32_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                    </div>
+                                </div>
+                                <div class="b2s-ni-cg-row b2s-ni-cg-row-blue">
+                                    <div class="b2s-ni-cg-label-wrap">
+                                        <div class="b2s-ni-cg-icon b2s-ni-cg-icon-blue">
+                                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                        </div>
+                                        <span class="b2s-ni-cg-name b2s-ni-cg-name-blue"><?php esc_html_e('My Profile', 'blog2social'); ?></span>
+                                    </div>
+                                    <div class="b2s-ni-cg-icons">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/1_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/45_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/12_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                        <img src="<?php echo esc_url(plugins_url('/assets/images/portale/36_flat.png', B2S_PLUGIN_FILE)); ?>" class="b2s-ni-net-icon-xs" alt="">
+                                    </div>
+                                </div>
+                                <div class="b2s-ni-group-label"><?php esc_html_e('Custom groups (Pro feature)', 'blog2social'); ?></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom info row -->
+                    <div class="b2s-ni-info-row">
+                        <div class="b2s-ni-info-item">
+                            <div class="b2s-ni-info-icon b2s-ni-info-icon-circle">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            </div>
+                            <div>
+                                <strong class="b2s-ni-info-title"><?php esc_html_e('Manage your collections in Network Settings', 'blog2social'); ?></strong>
+                                <p class="b2s-ni-info-text"><?php esc_html_e('Create and manage your Network Collections in Blog2Social.', 'blog2social'); ?></p>
+                            </div>
+                        </div>
+                        <div class="b2s-ni-info-item">
+                            <div class="b2s-ni-info-icon b2s-ni-info-icon-square">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                            </div>
+                            <div>
+                                <strong class="b2s-ni-info-title"><?php esc_html_e('Open "Networks" to create a Collection.', 'blog2social'); ?></strong>
+                                <p class="b2s-ni-info-text"><?php esc_html_e('Go to Network Settings and open "Networks".', 'blog2social'); ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="b2s-ni-open-btn-wrap">
+                    <a href="<?php echo esc_url(admin_url('admin.php?page=blog2social-network')); ?>" class="btn btn-primary"><?php esc_html_e('Open Networks', 'blog2social'); ?></a>
+                </div>
             </div>
         </div>
     </div>

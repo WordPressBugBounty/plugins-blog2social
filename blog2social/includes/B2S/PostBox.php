@@ -220,6 +220,10 @@ class B2S_PostBox {
                     <div class="b2s-options" style="display:none;">
                     <br>
                     <input type="checkbox" class="b2s-enable-auto-post" id="b2s-enable-auto-post" name="b2s-enable-auto-post" value="1" ' . (($autoPostActive) ? 'checked' : '') . '><label for="b2s-enable-auto-post">' . esc_html__('enable Auto Poster', 'blog2social') . '</label>
+                    <br>
+                    <input type="checkbox" id="b2s-image-is-ai-generated" name="image_is_ai_generated" value="1"><label for="b2s-image-is-ai-generated">' . esc_html__('Image is AI generated', 'blog2social') . '</label>
+                    <br>
+                    <input type="checkbox" id="b2s-text-is-ai-generated" name="text_is_ai_generated" value="1"><label for="b2s-text-is-ai-generated">' . esc_html__('Text is AI generated', 'blog2social') . '</label>
                     ' . ((isset($advancedOptions)) ? $advancedOptions : '') . '
                     <a href="#b2s-post-box-calendar-header" id="b2s-post-box-calendar-btn">' . esc_html__('show calendar', 'blog2social') . '</a>
                     <input type="hidden" name="b2s-profile-selected" value="' . ((isset($selectedProfileId)) ? esc_attr($selectedProfileId) : '-1') . '">
@@ -291,7 +295,7 @@ class B2S_PostBox {
         $content = '';
         if (!$show) {
             $content .= '<div class="panel panel-group b2s-info-assignd-by"><div class="panel-body">';
-            $content .= '<span>' . esc_html__('A WordPress admin has defined the Auto-Poster settings for you. You can deactivate these settings for your profile in the Auto-Poster settings at any time.', 'blog2social') . '</span>';
+            $content .= '<span>' . esc_html__('A WordPress admin has defined the Auto Poster settings for you. You can deactivate these settings for your profile in the Auto Poster settings at any time.', 'blog2social') . '</span>';
             $content .= '</div>';
             $content .= '</div>';
             $content .= '<div style="display:none">';

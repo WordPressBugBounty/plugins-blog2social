@@ -571,6 +571,40 @@ class B2S_Ship_Save {
                         $data['multi_images'] = json_encode($multi_images);
                     }
 
+                    //Multi Image AI Tags
+                    $multi_image_ai_tags = array();
+                    if (isset($schedData['multi_image_ai_tag_1'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_1'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_2'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_2'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_3'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_3'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_4'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_4'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_5'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_5'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_6'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_6'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_7'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_7'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_8'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_8'][$key]);
+                    }
+                    if (isset($schedData['multi_image_ai_tag_9'][$key])) {
+                        array_push($multi_image_ai_tags, (int) $schedData['multi_image_ai_tag_9'][$key]);
+                    }
+                    if (!empty($multi_image_ai_tags)) {
+                        $serializeData['multi_image_ai_tags'] = json_encode($multi_image_ai_tags);
+                        $data['multi_image_ai_tags'] = json_encode($multi_image_ai_tags);
+                    }
+
                     //content
                     if (isset($schedData['sched_content'][$key]) && !empty($schedData['sched_content'][$key])) {
                         $serializeData['content'] = $schedData['sched_content'][$key];
@@ -598,6 +632,26 @@ class B2S_Ship_Save {
                         } 
                     }else if(isset($data['share_as_story'])){//Update Edit Post
                         $serializeData['share_as_story'] = $data['share_as_story'];
+                    }
+
+                    if(isset($serializeData['text_is_ai_generated'])){
+                        unset($serializeData['text_is_ai_generated']);
+                    }
+
+                    if(isset($schedData['text_is_ai_generated'][$key])){
+                        $serializeData['text_is_ai_generated'] = (int)$schedData['text_is_ai_generated'][$key] === 1 ? 1 : 0;
+                    }else if(isset($data['text_is_ai_generated'])){//Update Edit Post
+                        $serializeData['text_is_ai_generated'] = $data['text_is_ai_generated'];
+                    }
+
+                    if(isset($serializeData['image_is_ai_generated'])){
+                        unset($serializeData['image_is_ai_generated']);
+                    }
+
+                    if(isset($schedData['image_is_ai_generated'][$key])){
+                        $serializeData['image_is_ai_generated'] = (int)$schedData['image_is_ai_generated'][$key] === 1 ? 1 : 0;
+                    }else if(isset($data['image_is_ai_generated'])){//Update Edit Post
+                        $serializeData['image_is_ai_generated'] = $data['image_is_ai_generated'];
                     }
 
                     //Update - calendar edit function

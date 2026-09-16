@@ -77,21 +77,37 @@ class B2S_Loader {
         define('B2S_PLUGIN_CHANGELOG_CONTENT', serialize(array(
             'version_info' => esc_html__('Blog2Social Version 9.0 (June 26)', 'blog2social'),
             'new' => array(
-                // translators: %s is a link
-                sprintf(__('Dev: Publish technical, developer, and gaming content to a focused community for tutorials, updates, and practical insights.  <a target="_blank" href="%s">Connect your Dev.to profile</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_connect_dev'))),
-                // translators: %s is a link
-                sprintf(__('Share Posts Editor: Create new social post from scratch using text, links, images, or video in one unified preview editor. <a target="_blank" href="%s">How to create social media posts and share link, text, image or video posts</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('how_to_social_media_posting'))),
-                // translators: %s is a link
-                sprintf(__('Resharer: Select oldest, newest, or random posts to bring evergreen content back into your social media schedule. <a target="_blank" href="%s">Find setup help</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('network_guide_re_sharer'))),
-                // translators: %s is a link
-                sprintf(__('Blog2Social Mobile App: Share posts, links, and images from your smartphone and create AI-powered captions on the go. <a target="_blank" href="%1$s">Learn more about mobile publishing with Blog2Social </a> <br><a target="_blank" href="%2$s">Get mobile sharing instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('blog2social_mobile_app')), esc_url(B2S_Tools::getSupportLink('blog2social_mobile_app_share'))),
-                // translators: %s is a link
-                sprintf(__('Social Media API for Developers: Integrate once and publish across multiple networks through one unified API. <a target="_blank" href="%s">Explore the Blog2Social Social Media API</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('blog2social_api'))),
-                // translators: %s is a link
-                sprintf(__('<a target="_blank" href="%s">Find all details in the guides & instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_direct')))
+                "headingbadges"=>array(
+                    esc_html__('New', 'blog2social'),
+                    esc_html__('New', 'blog2social'),
+                    esc_html__('Fixed', 'blog2social'),
                 ),
-            'improvements' => array(
-               // esc_html__('Optimized Threads post publishing', 'blog2social')
+                "headings" => array(
+                    esc_html__('AI Support for Custom Social Media Posts ', 'blog2social'),
+                    esc_html__('EU AI Acts transparency rules: Use AI Labels for your AI-generated social media posts or images', 'blog2social'),
+                    esc_html__('Resharer', 'blog2social'),
+                ),
+                "texts"=>array(
+                // translators: %s is a link
+                sprintf(__('Activate AI to create, rewrite, or update your copy  for all your social media post based on text, link, image or video Use a network-specific AI template and your own instructions to tailor the text to the selected network. <a target="_blank" href="%s">Find detailed instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_social_media_all_format'))),
+                // translators: %s is a link
+                sprintf(__('With the EU AI Acts transparency rules taking effect on August 2, 2026, some social media networks like X, TikTok, Instagram, and Pinterest provide AI- Tags to label your posts. These labels can be now easily applied directly in your Blog2Social dashboard.<a target="_blank" href="%s">Find detailed information and instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('ai_generation'))),
+                )
+            ),
+            'fixes & tweaks' => array(
+               "headingbadges" => array(
+                   esc_html__('Improvements', 'blog2social'),
+                   esc_html__('Improvements', 'blog2social'),
+               ),
+               "headings" => array(
+                   esc_html__('Blog2Social Menu', 'blog2social'),
+                   esc_html__('LinkedIn Post Preview', 'blog2social'),
+               ),
+               "texts" => array(
+                   esc_html__('Find features and sections faster with the restructured navigation.', 'blog2social'),
+                    // translators: %s is a link
+                   sprintf(__('Updated to match the current LinkedIn layout. <a target="_blank" href="%s">Find detailed instructions</a>', 'blog2social'), esc_url(B2S_Tools::getSupportLink('faq_direct'))),
+               )
             ),
             'fixed' => array(),
             'upcoming' => array()
@@ -360,7 +376,6 @@ class B2S_Loader {
                                     }
                                 } 
                             }
-
                             if ($filter && isset($autoPostData['network_auth_id']) && !empty($autoPostData['network_auth_id']) && is_array($autoPostData['network_auth_id'])) {
                                 //LIMIT
                                 $limit = false;
@@ -434,7 +449,6 @@ class B2S_Loader {
                                         $time = ($delay == 0) ? "-30 seconds" : "+" . $delay . " minutes";
                                         $sched_date = wp_date('Y-m-d H:i:s', strtotime($time, strtotime($current_user_datetime)), new DateTimeZone(date_default_timezone_get()));
                                         $sched_date_utc = wp_date('Y-m-d H:i:s', strtotime($time, strtotime($current_utc_datetime)), new DateTimeZone(date_default_timezone_get()));
-
                                         $defaultPostData = array('default_titel' => $title,
                                             'image_url' => ($image_url !== false) ? trim(urldecode($image_url)) : '',
                                             'lang' => trim(strtolower(substr(B2S_LANGUAGE, 0, 2))),
@@ -443,7 +457,7 @@ class B2S_Loader {
 
                                         $defaultBlogPostData = array('post_id' => (int) $post->ID, 'blog_user_id' => (int) $post->post_author, 'user_timezone' => $userTimeZoneOffset, 'sched_type' => $sched_type, 'sched_date' => $sched_date, 'sched_date_utc' => $sched_date_utc);
 
-                                        $autoShare = new B2S_AutoPost((int) $post->ID, $defaultBlogPostData, $current_user_date, false, $title, $content, $excerpt, $url, $image_url, $keywords, trim(strtolower(substr(B2S_LANGUAGE, 0, 2))), $optionPostFormat, true, $userVersion);
+                                        $autoShare = new B2S_AutoPost((int) $post->ID, $defaultBlogPostData, $current_user_date, false, $title, $content, $excerpt, $url, $image_url, $keywords, trim(strtolower(substr(B2S_LANGUAGE, 0, 2))), $optionPostFormat, true, $userVersion, 0, 0, isset($autoPostData['image_is_ai_generated']) && (int) $autoPostData['image_is_ai_generated'] === 1, isset($autoPostData['text_is_ai_generated']) && (int) $autoPostData['text_is_ai_generated'] === 1);
                                         //TOS Twitter 032018 - none multiple Accounts - User select once
                                         $networkTos = true;
 
@@ -1004,7 +1018,9 @@ class B2S_Loader {
 
                                                     $defaultBlogPostData = array('post_id' => (int) $_POST['post_ID'], 'blog_user_id' => B2S_PLUGIN_BLOG_USER_ID, 'user_timezone' => $user_timezone, 'sched_type' => $sched_type, 'sched_date' => $sched_date, 'sched_date_utc' => $sched_date_utc);
 
-                                                    $autoShare = new B2S_AutoPost((int) $_POST['post_ID'], $defaultBlogPostData, $current_user_date, $myTimeSettings, $title, $content, $excerpt, $url, $image_url, $keywords, $b2sPostLang, $optionPostFormat, true, 0, $echo, $delay);
+                                                    $imageIsAiGenerated = isset($_POST['image_is_ai_generated']) && (int) $_POST['image_is_ai_generated'] === 1;
+                                                    $textAiGeneratedChecked = isset($_POST['text_is_ai_generated']) && (int) $_POST['text_is_ai_generated'] === 1;
+                                                    $autoShare = new B2S_AutoPost((int) $_POST['post_ID'], $defaultBlogPostData, $current_user_date, $myTimeSettings, $title, $content, $excerpt, $url, $image_url, $keywords, $b2sPostLang, $optionPostFormat, true, 0, $echo, $delay, $imageIsAiGenerated, $textAiGeneratedChecked);
                                                     define('B2S_SAVE_META_BOX_AUTO_SHARE', (int) $_POST['post_ID']);
                                                     if (isset($_POST['b2s-user-last-selected-profile-id']) && (int) $_POST['b2s-user-last-selected-profile-id'] != (int) $_POST['b2s-post-meta-box-profil-dropdown'] && (int) $_POST['b2s-post-meta-box-profil-dropdown'] != 0) {
                                                         update_option('B2S_PLUGIN_SAVE_META_BOX_AUTO_SHARE_PROFILE_USER_' . B2S_PLUGIN_BLOG_USER_ID, (int) $_POST['b2s-post-meta-box-profil-dropdown'], false);

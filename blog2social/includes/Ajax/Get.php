@@ -843,8 +843,12 @@ class Ajax_Get {
 
     public function searchUser() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
+            wp_die();
+        }
+        if(!current_user_can('list_users')) {
+            echo json_encode(array('result' => false, 'error' => 'permission_administrator'));
             wp_die();
         }
 
@@ -859,8 +863,13 @@ class Ajax_Get {
 
     public function getSelectMandantUser() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
+            wp_die();
+        }
+
+        if(!current_user_can('list_users')) {
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_administrator'));
             wp_die();
         }
 
@@ -1249,6 +1258,8 @@ class Ajax_Get {
                 'twitter_select' => isset($postData['twitter_select']) ? (int) $postData['twitter_select'] : 0,
                 'apply_post_templates' => isset($postData['apply_post_templates']) ? (int) $postData['apply_post_templates'] : 0,
                 'post_format' => isset($postData['post_format']) ? (int) $postData['post_format'] : 0,
+                'image_is_ai_generated' => isset($postData['image_is_ai_generated']) ? (int) $postData['image_is_ai_generated'] : 0,
+                'text_is_ai_generated' => isset($postData['text_is_ai_generated']) ? (int) $postData['text_is_ai_generated'] : 0,
             );
             $drafts[] = $draft;
 

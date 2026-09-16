@@ -33,8 +33,12 @@ class B2S_RePost_Save {
     private $default_template;
     private $setPreFillTextLimit;
     private $limitHashTag =array(47=>4);
+    private $imageAiGeneratedNetworks;
+    private $textIsAiGenerated = array(45);
+    private $imageIsAiGenerated = false;
+    private $textAiGeneratedChecked = false;
 
-    function __construct($blogUserId = 0, $b2sUserLang = 'en', $userTimezone = 0, $optionPostFormat = array(), $allowHashTag = true, $bestTimes = array(), $userVersion = 0) {
+    function __construct($blogUserId = 0, $b2sUserLang = 'en', $userTimezone = 0, $optionPostFormat = array(), $allowHashTag = true, $bestTimes = array(), $userVersion = 0, $imageIsAiGenerated = false, $textAiGeneratedChecked = false) {
         $this->userVersion = defined("B2S_PLUGIN_USER_VERSION") ? B2S_PLUGIN_USER_VERSION : (int) $userVersion;
         $this->blogUserId = $blogUserId;
         $this->userTimezone = $userTimezone;
@@ -47,9 +51,12 @@ class B2S_RePost_Save {
         $this->notAllowNetwork = array(4, 11, 14, 16);
         $this->allowHtml = array(4, 11, 14, 47);
         $this->allowNetworkOnlyImage = array(6, 7, 12, 20, 21, 36);
+        $this->imageAiGeneratedNetworks = array(1, 6, 12, 45);
         $this->tosCrossPosting = unserialize(B2S_PLUGIN_NETWORK_CROSSPOSTING_LIMIT);
         $this->linkNoCache = B2S_Tools::getNoCacheData(B2S_PLUGIN_BLOG_USER_ID);
         $this->default_template = (defined('B2S_PLUGIN_NETWORK_SETTINGS_TEMPLATE_DEFAULT')) ? unserialize(B2S_PLUGIN_NETWORK_SETTINGS_TEMPLATE_DEFAULT) : false;
+        $this->imageIsAiGenerated = (bool) $imageIsAiGenerated;
+        $this->textAiGeneratedChecked = (bool) $textAiGeneratedChecked;
     }
 
     public function setPostData($postId = 0, $title = '', $content = '', $excerpt = '', $url = '', $imageUrl = '', $keywords = '') {
@@ -461,6 +468,13 @@ class B2S_RePost_Save {
                     $postData['content'] = (isset($this->setPreFillText[$networkType][$networkId])) ? B2S_Util::getExcerpt($this->content, (int) $this->setPreFillText[$networkType][$networkId], (isset($this->setPreFillTextLimit[$networkType][$networkId]) ? (int) $this->setPreFillTextLimit[$networkType][$networkId] : false)) : $this->content;
                     $postData['custom_title'] = wp_strip_all_tags($this->title);
                 }
+            }
+
+            if ($this->imageIsAiGenerated && in_array($networkId, $this->imageAiGeneratedNetworks)) {
+                $postData['image_is_ai_generated'] = 1;
+            }
+            if ($this->textAiGeneratedChecked && in_array($networkId, $this->textIsAiGenerated)) {
+                $postData['text_is_ai_generated'] = 1;
             }
 
             // Process comment from template if it exists for all networks

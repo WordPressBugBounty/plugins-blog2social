@@ -39,6 +39,7 @@ class B2S_Settings_Item {
 
         $isCheckedAllowShortcode = (get_option('B2S_PLUGIN_USER_ALLOW_SHORTCODE_' . B2S_PLUGIN_BLOG_USER_ID) !== false) ? 1 : 0;
         $isCheckedUsePermalink = (get_option('B2S_PLUGIN_USER_USE_PERMALINKS_' . B2S_PLUGIN_BLOG_USER_ID) !== false) ? 1 : 0;
+        $imageAiTag = $this->options->_getOption('image_ai_tag');
 
         $optionUserTimeZone = $this->options->_getOption('user_time_zone');
         $optionUserTimeFormat = $this->options->_getOption('user_time_format');
@@ -127,7 +128,11 @@ class B2S_Settings_Item {
             $content .= '<strong>' . esc_html__('This is a global system setting  for your website / blog, which can be edited by users with admin rights only.', 'blog2social') . '</strong><br>';
             $content .= '<input type="checkbox" value="' . (($isCheckedLegacyMode == 1) ? 0 : 1) . '" id="b2s-general-settings-legacy-mode" ' . (($isCheckedLegacyMode == 1) ? 'checked="checked"' : '') . ' /><label for="b2s-general-settings-legacy-mode"> ' . esc_html__('activate Legacy mode', 'blog2social') . ' <a href="#" class="b2s-info-btn del-padding-left b2sInfoLegacyModeBtn">' . esc_html__('Info', 'blog2social') . '</a></label>';
         }
+        $content .= '<br>';
+        $content .= '<br>';
+
         return $content;
+
     }
 
     public function getSocialMetaDataHtml() {

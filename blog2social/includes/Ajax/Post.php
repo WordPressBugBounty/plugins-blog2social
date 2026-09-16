@@ -1,5 +1,7 @@
 <?php
 
+use PHP_CodeSniffer\Tokenizers\JS;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -187,6 +189,8 @@ class Ajax_Post {
         if (isset($_POST['postFormat'])) {
             $text = isset($_POST['comment']) && !empty($_POST['comment']) ? sanitize_textarea_field(wp_unslash($_POST['comment'])) : '';
             $title = isset($_POST['title']) && !empty($_POST['title']) ? sanitize_textarea_field(wp_unslash($_POST['title'])) : '';
+            $imageIsAiGenerated = isset($_POST['image_is_ai_generated']) && (int) $_POST['image_is_ai_generated'] === 1 ? true : false;
+            $textIsAiGenerated = isset($_POST['text_is_ai_generated']) && (int) $_POST['text_is_ai_generated'] === 1 ? true : false;
 
             if (empty($text)) {
                 echo json_encode(array('result' => false, 'error' => 'NO_DATA'));
@@ -263,6 +267,13 @@ class Ajax_Post {
                         $redirect_url .= '&postFormat=1';
                     }
                 }
+                if($imageIsAiGenerated){
+                    $redirect_url .= '&imageIsAiGenerated=1';
+                }
+                if($textIsAiGenerated){
+                    $redirect_url .= '&textIsAiGenerated=1';
+                }
+
                 $draft_data = array(
                     'ship_type' => isset($_POST['ship_type']) ? sanitize_text_field(wp_unslash($_POST['ship_type'])) : '0',
                     'profile_select' => isset($_POST['profile_select']) ? sanitize_text_field(wp_unslash($_POST['profile_select'])) : '0',
@@ -281,6 +292,13 @@ class Ajax_Post {
                 if (isset($_POST['twitter_select'])) {
                     $draft_data['twitter_select'] = sanitize_text_field(wp_unslash($_POST['twitter_select']));
                 }
+                if($imageIsAiGenerated){
+                    $draft_data['image_is_ai_generated'] = 1;
+                }
+                if($textIsAiGenerated){
+                    $draft_data['text_is_ai_generated'] = 1;
+                }
+
                 global $wpdb;
                 if ($wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}b2s_posts_drafts'") == $wpdb->prefix . 'b2s_posts_drafts') {
                     $options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
@@ -319,6 +337,8 @@ class Ajax_Post {
         if (isset($_POST['postFormat'])) {
 
             $applyPostTemplates = isset($_POST['apply_post_templates']) ? true : false;
+            $imageIsAiGenerated = isset($_POST['image_is_ai_generated']) && (int) $_POST['image_is_ai_generated'] === 1 ? true : false;
+            $textIsAiGenerated = isset($_POST['text_is_ai_generated']) && (int) $_POST['text_is_ai_generated'] === 1 ? true : false;
             $b2sExPostFormat = "";
             $text = isset($_POST['comment']) && !empty($_POST['comment']) ? sanitize_textarea_field(wp_unslash($_POST['comment'])) : '';
             $title = isset($_POST['title']) && !empty($_POST['title']) ? sanitize_textarea_field(wp_unslash($_POST['title'])) : '';
@@ -496,6 +516,14 @@ class Ajax_Post {
                                             $shareData['network_auth_id'] = $value->networkAuthId;
                                             $shareData = array_merge($shareData, $defaultShareData);
                                             $shareData['share_settings'] = array('mode' => 0); //share as draft - tiktok
+
+                                            if($imageIsAiGenerated){
+                                                $shareData['image_is_ai_generated'] = 1;
+                                            }
+
+                                            if($textIsAiGenerated){
+                                                $shareData['text_is_ai_generated'] = 1;
+                                            }
 
                                             if ($value->networkId == 36) {
                                                 $options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
@@ -705,8 +733,11 @@ class Ajax_Post {
                 }
 
                 $ignoreTemplate = (isset($_POST['apply_post_templates']) && sanitize_text_field(wp_unslash($_POST['apply_post_templates'])) == 1) ? 0 : 1;
-
                 $redirect_url .= '&ignoreTemplate=' . $ignoreTemplate;
+                $imageIsAiGenerated = isset($_POST['image_is_ai_generated']) && (int) $_POST['image_is_ai_generated'] === 1 ? true : false;
+                $redirect_url .= '&imageIsAiGenerated=' . ($imageIsAiGenerated ? 1 : 0);
+                $textIsAiGenerated = isset($_POST['text_is_ai_generated']) && (int) $_POST['text_is_ai_generated'] === 1 ? true : false;
+                $redirect_url .= '&textIsAiGenerated=' . ($textIsAiGenerated ? 1 : 0);
 
                 if (isset($_POST['postFormat'])) {
                     if (sanitize_text_field(wp_unslash($_POST['postFormat'])) == '0') {
@@ -864,7 +895,6 @@ class Ajax_Post {
     }
 
     public function saveShipData() {
-
         if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
@@ -877,6 +907,18 @@ class Ajax_Post {
 
         require_once (B2S_PLUGIN_DIR . 'includes/B2S/Ship/Save.php');
         $post = $_POST;
+
+        // Decode JSON Payload to avoid max_input_vars limitation
+        if (isset($post['b2s_json'])) {
+          
+            $post= B2S_Tools::decodeB2sJsonPostArray($post);
+           
+            if($post === false) {
+                echo wp_json_encode(array('result' => false, 'error' => 'invalid_json'));
+                wp_die();
+            }
+        }
+     
         $metaOg = false;
         $metaCard = false;
 
@@ -884,7 +926,7 @@ class Ajax_Post {
             echo json_encode(array('result' => false));
             wp_die();
         }
-
+        
         $b2sShipSend = new B2S_Ship_Save();
 
         delete_option('B2S_PLUGIN_POST_META_TAGES_TWITTER_' . (int) $post['post_id']);
@@ -918,9 +960,7 @@ class Ajax_Post {
             'lang' => trim(strtolower(substr(B2S_LANGUAGE, 0, 2))));
 
         $threadsItemOffset = 0;
-
         foreach ($post['b2s'] as $networkAuthId => $data) {
-
             if (!isset($data['network_id'])) {
                 continue;
             }
@@ -1062,11 +1102,14 @@ class Ajax_Post {
             }
 
             $comment = '';
-
+       
             if (isset($data['has_comment'][-1]) && !empty($data['has_comment'][-1]) && (int) $data['has_comment'][-1] === 1) {
                 $comment = (isset($data['sched_comment'][-1]) && !empty($data['sched_comment'][-1])) ? sanitize_text_field($data['sched_comment'][-1]) : '';
             }
 
+            //Handle image alt text, can be an array since json encoding
+            $data['image_alt_text'] = is_string($data['image_alt_text']) ? $data['image_alt_text'] : (is_array($data['image_alt_text']) ? (isset(array_values($data['image_alt_text'])[0]) ? array_values($data['image_alt_text'])[0] : '') : '');
+           
             $sendData = array("board" => isset($data['board']) ? sanitize_text_field($data['board']) : '',
                 "status_privacy" => isset($data['status_privacy']) ? sanitize_text_field($data['status_privacy']) : '',
                 "group" => isset($data['group']) ? sanitize_text_field($data['group']) : '',
@@ -1075,6 +1118,7 @@ class Ajax_Post {
                 'share_as_reel' => $reel,
                 'url' => isset($data['url']) ? htmlspecialchars_decode(esc_url_raw($data['url'])) : '',
                 'image_url' => isset($data['image_url']) ? trim(esc_url_raw($data['image_url'])) : '',
+                'image_is_ai_generated' => isset($data['image_is_ai_generated'][-1]) ? (int) $data['image_is_ai_generated'][-1] : 0,
                 'image_alt_text' => isset($data['image_alt_text']) ? trim(sanitize_text_field($data['image_alt_text'])) : '',
                 'video_url' => ((isset($post['is_video']) && (int) $post['is_video'] == 1 && isset($post['video_upload_url']) && !empty($post['video_upload_url'])) ? htmlspecialchars_decode(esc_url_raw($post['video_upload_url'])) : ''),
                 'video_size' => ((isset($post['is_video']) && (int) $post['is_video'] == 1 && isset($post['video_upload_size']) && !empty($post['video_upload_size'])) ? sanitize_text_field($post['video_upload_size']) : 0),
@@ -1095,9 +1139,13 @@ class Ajax_Post {
                 'share_as_story' => (isset($data['share_as_story'][-1]) && (int) $data['share_as_story'][-1] === 1) ? (int) $data['share_as_story'][-1] : 0,
                 'video_upload_api_share' => 1, //since 7.3.1
                 'share_settings' => $share_settings,
-                'comment' => $comment
+                'comment' => $comment,
+                'text_is_ai_generated' => (isset($data['text_is_ai_generated'][-1]) && (int) $data['text_is_ai_generated'][-1] === 1) ? 1 : 0,
             );
 
+            if (isset($post['is_video']) && (int) $post['is_video'] === 1) {
+                $sendData['video_is_ai_generated'] = isset($post['video_is_ai_generated']) ? (int) $post['video_is_ai_generated'] : 0;
+            }
             if (isset($post['is_video']) && (int) $post['is_video'] == 0) {
                 if ((isset($data['post_format']) && (int) $data['post_format'] == 1) || (int) $data['network_id'] == 12 || (int) $data['network_id'] == 36) { //Case IG + TK
                     $multi_images = array();
@@ -1135,6 +1183,42 @@ class Ajax_Post {
                     }
                 }
 
+                //add here multi image AI Tags
+                if ((isset($data['post_format']) && (int) $data['post_format'] == 1) || (int) $data['network_id'] == 12 || (int) $data['network_id'] == 36) {
+                    $multi_image_ai_tags = array();
+                    if (isset($data['multi_image_ai_tag_1'][-1])) {
+                        array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_1'][-1]);
+                    }
+                    if (isset($data['multi_image_ai_tag_2'][-1])) {
+                        array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_2'][-1]);
+                    }
+                    if (isset($data['multi_image_ai_tag_3'][-1])) {
+                        array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_3'][-1]);
+                    }
+                    if ((int) $data['network_id'] == 12 || (int) $data['network_id'] == 36) {
+                        if (isset($data['multi_image_ai_tag_4'][-1])) {
+                            array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_4'][-1]);
+                        }
+                        if (isset($data['multi_image_ai_tag_5'][-1])) {
+                            array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_5'][-1]);
+                        }
+                        if (isset($data['multi_image_ai_tag_6'][-1])) {
+                            array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_6'][-1]);
+                        }
+                        if (isset($data['multi_image_ai_tag_7'][-1])) {
+                            array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_7'][-1]);
+                        }
+                        if (isset($data['multi_image_ai_tag_8'][-1])) {
+                            array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_8'][-1]);
+                        }
+                        if (isset($data['multi_image_ai_tag_9'][-1])) {
+                            array_push($multi_image_ai_tags, (int) $data['multi_image_ai_tag_9'][-1]);
+                        }
+                    }
+                    if (!empty($multi_image_ai_tags)) {
+                        $sendData['multi_image_ai_tags'] = json_encode($multi_image_ai_tags);
+                    }
+                }
                 //since V4.8.0 Check Relay and prepare Data
                 $relayData = array();
                 if (((int) $data['network_id'] == 2 || (int) $data['network_id'] == 45) && isset($data['post_relay_account'][0]) && !empty($data['post_relay_account'][0]) && isset($data['post_relay_delay'][0]) && !empty($data['post_relay_delay'][0])) {
@@ -1202,12 +1286,30 @@ class Ajax_Post {
                             }
                         }
                     }
+                    $text_is_ai_generated_sched = array();
+                    if (isset($data['text_is_ai_generated']) && is_array($data['text_is_ai_generated'])) {
+                        foreach ($data['text_is_ai_generated'] as $schedKey => $aiGenVal) {
+                            if ($schedKey >= 0) {
+                                $text_is_ai_generated_sched[$schedKey] = (int) $aiGenVal === 1 ? 1 : 0;
+                            }
+                        }
+                    }
+                    $image_is_ai_generated_sched = array();
+                    if (isset($data['image_is_ai_generated']) && is_array($data['image_is_ai_generated'])) {
+                        foreach ($data['image_is_ai_generated'] as $schedKey => $aiGenVal) {
+                            if ($schedKey >= 0) {
+                                $image_is_ai_generated_sched[$schedKey] = (int) $aiGenVal === 1 ? 1 : 0;
+                            }
+                        }
+                    }
                     $schedData = array(
                         'date' => isset($data['date']) ? $data['date'] : array(),
                         'time' => isset($data['time']) ? $data['time'] : array(),
                         'sched_content' => isset($data['sched_content']) ? $data['sched_content'] : array(),
                         'sched_comment' => $schedComments,
                         'share_as_story' => $share_as_stories,
+                        'text_is_ai_generated' => $text_is_ai_generated_sched,
+                        'image_is_ai_generated' => $image_is_ai_generated_sched,
                         'sched_image_url' => isset($data['sched_image_url']) ? $data['sched_image_url'] : array(),
                         'image_alt_text' => isset($data['image_alt_text']) ? $data['image_alt_text'] : "",
                         'sched_multi_image_1' => isset($data['sched_multi_image_1']) ? $data['sched_multi_image_1'] : array(),
@@ -1219,6 +1321,15 @@ class Ajax_Post {
                         'sched_multi_image_7' => isset($data['sched_multi_image_7']) ? $data['sched_multi_image_7'] : array(),
                         'sched_multi_image_8' => isset($data['sched_multi_image_8']) ? $data['sched_multi_image_8'] : array(),
                         'sched_multi_image_9' => isset($data['sched_multi_image_9']) ? $data['sched_multi_image_9'] : array(),
+                        'multi_image_ai_tag_1' => isset($data['multi_image_ai_tag_1']) ? $data['multi_image_ai_tag_1'] : array(),
+                        'multi_image_ai_tag_2' => isset($data['multi_image_ai_tag_2']) ? $data['multi_image_ai_tag_2'] : array(),
+                        'multi_image_ai_tag_3' => isset($data['multi_image_ai_tag_3']) ? $data['multi_image_ai_tag_3'] : array(),
+                        'multi_image_ai_tag_4' => isset($data['multi_image_ai_tag_4']) ? $data['multi_image_ai_tag_4'] : array(),
+                        'multi_image_ai_tag_5' => isset($data['multi_image_ai_tag_5']) ? $data['multi_image_ai_tag_5'] : array(),
+                        'multi_image_ai_tag_6' => isset($data['multi_image_ai_tag_6']) ? $data['multi_image_ai_tag_6'] : array(),
+                        'multi_image_ai_tag_7' => isset($data['multi_image_ai_tag_7']) ? $data['multi_image_ai_tag_7'] : array(),
+                        'multi_image_ai_tag_8' => isset($data['multi_image_ai_tag_8']) ? $data['multi_image_ai_tag_8'] : array(),
+                        'multi_image_ai_tag_9' => isset($data['multi_image_ai_tag_9']) ? $data['multi_image_ai_tag_9'] : array(),
                         'releaseSelect' => isset($data['releaseSelect']) ? $data['releaseSelect'] : 0,
                         'user_timezone' => isset($post['user_timezone']) ? sanitize_text_field(wp_unslash($post['user_timezone'])) : 0,
                         'saveSetting' => isset($data['saveSchedSetting']) ? true : false
@@ -1491,6 +1602,7 @@ class Ajax_Post {
             echo json_encode(array('result' => true, 'content' => (((int) $_POST['legacy_mode'] == 1) ? 0 : 1)));
             wp_die();
         }
+
         echo json_encode(array('result' => false));
         wp_die();
     }
@@ -1527,7 +1639,9 @@ class Ajax_Post {
             'post_categories_state' => (isset($_POST['b2s-import-auto-post-categories-state']) ) ? sanitize_text_field(wp_unslash($_POST['b2s-import-auto-post-categories-state'])) : 'all',
             'post_categories' => $post_categories,
             'post_taxonomies_state' => ((isset($_POST['b2s-import-auto-post-taxonomies-state'])) ? sanitize_text_field(wp_unslash($_POST['b2s-import-auto-post-taxonomies-state'])) : 'all'),
-            'post_taxonomies' => $post_taxonomies);
+            'post_taxonomies' => $post_taxonomies,
+            'image_is_ai_generated' => (isset($_POST['b2s-import-auto-post-image-ai-generated']) && (int) $_POST['b2s-import-auto-post-image-ai-generated'] === 1) ? 1 : 0,
+            'text_is_ai_generated' => (isset($_POST['b2s-import-auto-post-text-ai-generated']) && (int) $_POST['b2s-import-auto-post-text-ai-generated'] === 1) ? 1 : 0);
 
         $options = new B2S_Options(B2S_PLUGIN_BLOG_USER_ID);
         $options->_setOption('auto_post_import', $auto_post_import);
@@ -2280,23 +2394,53 @@ class Ajax_Post {
             echo wp_json_encode(array('result' => false, 'error' => 'permission_author'));
             wp_die();
         }
-
+       
         global $wpdb;
+      
         if (isset($_POST['b2s_id']) && is_numeric($_POST['b2s_id']) && isset($_POST['sched_date']) && is_string($_POST['sched_date']) && isset($_POST['user_timezone'])) {
-//since V4.9.1 Instant Share Approve - Facebook Profile
+        
+            // Security + state guard: for non admins only allow moving rows owned by the current user.
+            if(!current_user_can('administrator')) {
+                $row = $wpdb->get_row($wpdb->prepare(
+                "SELECT id, hook_action, publish_date FROM {$wpdb->prefix}b2s_posts WHERE id = %d AND blog_user_id = %d",
+                (int) $_POST['b2s_id'],
+                get_current_user_id()
+                ));
 
+                if (!$row) {
+                    echo wp_json_encode(array('result' => false, 'error' => 'permission_post'));
+                    wp_die();
+                }
+
+            }else{
+                $row = $wpdb->get_row($wpdb->prepare(
+                "SELECT id, hook_action, publish_date FROM {$wpdb->prefix}b2s_posts WHERE id = %d",
+                (int) $_POST['b2s_id']
+                ));
+            }
+
+            if(!isset($row->hook_action) && !isset($row->publish_date)) {
+                echo wp_json_encode(array('result' => false, 'error' => 'incomplete_row_entry'));
+                wp_die();
+            }
+
+            // A row that is already published must not be treated as a scheduled item.
+            $publishDate = ((int) $row->hook_action === 0 && $row->publish_date !== '0000-00-00 00:00:00') ? $row->publish_date : '0000-00-00 00:00:00';
+
+            //since V4.9.1 Instant Share Approve - Facebook Profile
             $shareApprove = (isset($_POST['post_for_approve']) && (int) $_POST['post_for_approve'] == 1) ? 1 : 0;
 
             $wpdb->query($wpdb->prepare(
                             "UPDATE {$wpdb->prefix}b2s_posts "
                             . "SET sched_date = %s, "
                             . "user_timezone = %d, "
-                            . "publish_date = '0000-00-00 00:00:00' ,"
+                            . "publish_date = %s, "
                             . "sched_date_utc = %s, "
                             . "hook_action = %d "
                             . " WHERE id = %d",
                             wp_date('Y-m-d H:i:s', strtotime(sanitize_text_field(wp_unslash($_POST['sched_date']))), new DateTimeZone(date_default_timezone_get())),
                             (int) $_POST['user_timezone'],
+                            $publishDate,
                             B2S_Util::getUTCForDate(sanitize_text_field(wp_unslash($_POST['sched_date'])), (int) $_POST['user_timezone'] * -1),
                             (($shareApprove == 0) ? 2 : 0),
                             (int) $_POST['b2s_id']
@@ -2616,6 +2760,16 @@ class Ajax_Post {
                             }
                             if (isset($data['multi_image_9']) && !empty($data['multi_image_9'])) {
                                 $schedData['sched_multi_image_9'][0] = $data['multi_image_9'];
+                            }
+                        }
+
+                        $sendData['text_is_ai_generated'] = isset($data['text_is_ai_generated'][-1]) ? (int) $data['text_is_ai_generated'][-1] : 0;
+                        $schedData['text_is_ai_generated'][0] = $sendData['text_is_ai_generated'];
+                        $sendData['image_is_ai_generated'] = isset($data['image_is_ai_generated'][-1]) ? (int) $data['image_is_ai_generated'][-1] : 0;
+                        $schedData['image_is_ai_generated'][0] = $sendData['image_is_ai_generated'];
+                        for ($i = 1; $i <= 9; $i++) {
+                            if (isset($data['multi_image_ai_tag_' . $i][-1])) {
+                                $schedData['multi_image_ai_tag_' . $i][0] = (int) $data['multi_image_ai_tag_' . $i][-1];
                             }
                         }
 
@@ -3123,6 +3277,20 @@ class Ajax_Post {
             wp_die();
         }
 
+        // Decode JSON Payload to avoid max_input_vars limitation
+        if (isset($_POST['b2s_json'])) {
+            
+            $_POST = B2S_Tools::decodeB2sJsonPostArray($_POST);
+
+            if($_POST === false) {
+                echo wp_json_encode(array('result' => false, 'error' => 'invalid_json'));
+                wp_die();
+            }
+        }
+    
+   
+
+
         if (isset($_POST['post_id']) && (int) $_POST['post_id'] > 0) {
             global $wpdb;
             if ($wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}b2s_posts_drafts'") == $wpdb->prefix . 'b2s_posts_drafts') {
@@ -3552,7 +3720,9 @@ class Ajax_Post {
 
                             $date = new DateTime();
                             $optionPostFormat = $options->_getOption('post_template');
-                            $rePost = new B2S_RePost_Save(B2S_PLUGIN_BLOG_USER_ID, $userLang, $userTimeZoneOffset, $optionPostFormat, true, $bestTimes);
+                            $imageIsAiGenerated = isset($_POST['b2s-re-post-image-ai-generated']) && (int) $_POST['b2s-re-post-image-ai-generated'] === 1;
+                            $textAiGeneratedChecked = isset($_POST['b2s-re-post-text-ai-generated']) && (int) $_POST['b2s-re-post-text-ai-generated'] === 1;
+                            $rePost = new B2S_RePost_Save(B2S_PLUGIN_BLOG_USER_ID, $userLang, $userTimeZoneOffset, $optionPostFormat, true, $bestTimes, 0, $imageIsAiGenerated, $textAiGeneratedChecked);
                             foreach ($postIds as $k => $postId) {
                                 //get Postdata
                                 $postData = get_post((int) $postId);
@@ -4065,7 +4235,14 @@ class Ajax_Post {
         if ($wpdb->get_var($wpdb->prepare("SELECT `id`, `access_token` FROM `{$wpdb->prefix}b2s_user_tool` WHERE `blog_user_id` = %d AND `tool_id` = 1", (int) B2S_PLUGIN_BLOG_USER_ID))) {
             $sqlResult = $wpdb->get_row($wpdb->prepare("SELECT `id`, `access_token` FROM `{$wpdb->prefix}b2s_user_tool` WHERE `blog_user_id` = %d AND `tool_id` = 1", (int) B2S_PLUGIN_BLOG_USER_ID));
 
-            if (isset($sqlResult->id) && (int) $sqlResult->id > 0 && isset($sqlResult->access_token) && !empty($sqlResult->access_token) && isset($_POST['post_id']) && (int) $_POST['post_id'] > 0) {
+            $curation = isset($_POST['curation']) && (int) $_POST['curation'] === 1 ? true : false;
+            $postIdCheck= isset($_POST['post_id']) && (int) $_POST['post_id'] > 0 ? (int) $_POST['post_id'] : 0;
+
+            if($curation) {
+                $postIdCheck = true;
+            }
+
+            if (isset($sqlResult->id) && (int) $sqlResult->id > 0 && isset($sqlResult->access_token) && !empty($sqlResult->access_token) && $postIdCheck) {
                 require_once(B2S_PLUGIN_DIR . 'includes/Options.php');
                 $options = new B2S_Options((int) B2S_PLUGIN_BLOG_USER_ID, 'B2S_PLUGIN_USER_TOOL');
                 $optionData = $options->_getOption(1);
@@ -4075,13 +4252,16 @@ class Ajax_Post {
                     $displayedContent = $optionData['settings']['displayed_content'] == true ? true : false;
                 }
 
+                if($curation) {
+                    $displayedContent = true;
+                }
+
                 $postUrl = isset($_POST['post_url']) ? esc_url_raw(wp_unslash($_POST['post_url'])) : "";
                 $postLang = isset($_POST['post_lang']) ? sanitize_text_field(wp_unslash($_POST['post_lang'])) : "";
 
                 $networkId = isset($_POST['network_id']) ? (int) $_POST['network_id'] : 0;
                 $allowHtml = false;
                 $postText = "";
-
                 if ($displayedContent && isset($_POST['input_text']) && !empty($_POST['input_text'])) {
 
                     if ($networkId == 4 || $networkId == 11 || $networkId == 25 || $networkId == 47) {
@@ -4104,13 +4284,10 @@ class Ajax_Post {
                         $postText = sanitize_text_field(B2S_Util::prepareContent((int) $_POST['post_id'], $postData->post_content, $postUrl, false, false, $postLang)); // only content
                     }
                 }
-
                 if (empty($postText)) {
                     echo json_encode(array('result' => false, 'error' => '3100')); //No content error
                     wp_die();
                 }
-
-
 
                 $allowEmojis = false;
                 if (isset($optionData['settings']['deactivate_emojis'])) {
@@ -4132,7 +4309,6 @@ class Ajax_Post {
                     'allow_emojis' => $allowEmojis,
                     'allow_html' => $allowHtml
                 );
-
                 $aiTemplateSettings = array();
 
                 if (isset($_POST['ai_template_settings'])) {
@@ -4168,9 +4344,12 @@ class Ajax_Post {
                 if (isset($postData['ai_template_settings']) && B2S_PLUGIN_USER_VERSION < 1) {
                     $postData['ai_template_settings']['enabled'] = 0; //Always disable advanced settings for free users if they are set from e.g. previous version
                 }
+
                 $result = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, $postData), true);
+
                 if (is_array($result) && !empty($result)) {
                     if (isset($result['ass_text']) && !empty($result['ass_text']) && isset($result['ass_words_open'])) {
+
                         $optionData['account']['words_open'] = (int) $result['ass_words_open'];
                         $options->_setOption(1, $optionData);
 
@@ -4189,6 +4368,13 @@ class Ajax_Post {
                                 'class' => array(),
                             ),
                         ));
+
+                        
+                        if($curation){
+                            echo json_encode(array('result' => true, 'ass_text' => $assText, 'ass_words_open' => (int) $result['ass_words_open'], 'ass_words_total' => (int) $result['ass_words_total']));
+                            wp_die();
+                        }
+
 
                         $b2sItem = null;
                         require_once(B2S_PLUGIN_DIR . 'includes/B2S/Ship/Item.php');
@@ -4248,6 +4434,7 @@ class Ajax_Post {
             echo json_encode(array('result' => false, 'error' => 401));
             wp_die();
         }
+        
         echo json_encode(array('result' => false));
         wp_die();
     }
