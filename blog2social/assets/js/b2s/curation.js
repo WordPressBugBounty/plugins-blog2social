@@ -167,8 +167,6 @@ jQuery(document).on('click', '.b2s-post-item-ass-create-btn', function () {
                 b2sCurationShowAssError(response.error);
             } else if (response.result === true && response.ass_text) {
                 $textarea.val(response.ass_text).trigger('input');
-                jQuery('#b2s-curation-ai-text-tag-hidden').val('1');
-                jQuery('#b2s-curation-ai-text-tag-btn').addClass('ai-tag-active b2s-ai-generated-tag-btn-inactive');
                 jQuery('#sidebar_ship_ass_words_open').text(response.ass_words_open);
                 jQuery('#sidebar_ship_ass_words_total').text(response.ass_words_total);
             } else {

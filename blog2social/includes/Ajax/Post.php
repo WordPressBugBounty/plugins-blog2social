@@ -1,7 +1,5 @@
 <?php
 
-use PHP_CodeSniffer\Tokenizers\JS;
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -322,7 +320,7 @@ class Ajax_Post {
     }
 
     public function curationShare() {
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -639,7 +637,7 @@ class Ajax_Post {
 
     public function curationCustomize() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -895,7 +893,7 @@ class Ajax_Post {
     }
 
     public function saveShipData() {
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -1856,12 +1854,32 @@ class Ajax_Post {
         wp_die();
     }
 
-    public function deleteUserAuth() {
+    public function deleteUserAuth() { 
 
         if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
+
+        if(!isset($_POST['networkAuthId']) || (int) $_POST['networkAuthId'] == 0) {
+            echo wp_json_encode(array('result' => false));
+            wp_die();
+        }
+
+        //Check Authorization 
+        $post = array(
+            'token' => B2S_PLUGIN_TOKEN,
+            'action' => 'checkAuthorization',
+            'network_auth_id' => (int) $_POST['networkAuthId'],
+            );
+
+        $checkResult = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, $post), true);
+        
+        if(!isset($checkResult['result']) || empty($checkResult['result'])){
+           echo wp_json_encode(array('result' => false, 'error' => 'permission_authorization'));
+           wp_die();
+        }
+      
 
         $assignList = array();
         require_once (B2S_PLUGIN_DIR . 'includes/B2S/Post/Tools.php');
@@ -1891,7 +1909,33 @@ class Ajax_Post {
                 }
                 //V5.5.0 Approve User > Business Version 
                 if (isset($_POST['assignList']) && !empty($_POST['assignList'])) {
-                    $assignList = json_decode(sanitize_text_field(wp_unslash($_POST['assignList'])), true);
+                    $assignList = json_decode(sanitize_text_field(wp_unslash($_POST['assignList'])), true);                
+                    global $wpdb;
+
+                    //Filter non belonging Assignment Entries from Deletion
+                    $blogUserTokenResult = $wpdb->get_results("SELECT token FROM `{$wpdb->prefix}b2s_user`");
+                    $blogUserToken = array();
+                    foreach ($blogUserTokenResult as $k => $row) {
+                        array_push($blogUserToken, $row->token);
+                    }
+
+                    $data = array('action' => 'getTeamAssignUserAuth', 'token' => B2S_PLUGIN_TOKEN, 'networkAuthId' => (int) $_POST['networkAuthId'], 'blogUser' => $blogUserToken);
+                    $networkAuthAssignment = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, $data, 30), true);
+                    $checkAssignmentList = isset($networkAuthAssignment['assignList']) && is_array($networkAuthAssignment['assignList']) ? $networkAuthAssignment['assignList'] : array();
+
+                    foreach ($assignList as $bloguserId => $assignAuthId) {
+                        $entryExists = false;
+                        foreach ($checkAssignmentList as $key => $checkassignedAuthId) {
+                            if (isset($checkassignedAuthId["assign_blog_user_id"]) && $checkassignedAuthId["assign_blog_user_id"] == $bloguserId && isset($checkassignedAuthId["assign_network_auth_id"]) && $checkassignedAuthId["assign_network_auth_id"] == $assignAuthId) {
+                                $entryExists = true;
+                                break;
+                            }
+                        }
+                        if (!$entryExists) {
+                            unset($assignList[$bloguserId]);
+                        }
+                    }
+
                     if (is_array($assignList) && !empty($assignList)) {
                         foreach ($assignList as $i => $assignAuthId) {
                             $res = $wpdb->get_results($wpdb->prepare("SELECT b.id, b.post_id, b.post_for_approve, b.post_for_relay FROM {$wpdb->prefix}b2s_posts b LEFT JOIN {$wpdb->prefix}b2s_posts_network_details d ON (d.id = b.network_details_id) WHERE d.network_auth_id= %d AND b.hide = %d AND b.publish_date =%s", $assignAuthId, 0, '0000-00-00 00:00:00'));
@@ -2126,7 +2170,7 @@ class Ajax_Post {
 
     public function deleteUserPublishPost() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -2174,7 +2218,7 @@ class Ajax_Post {
 
     public function deleteUserApprovePost() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -2306,7 +2350,25 @@ class Ajax_Post {
             wp_die();
         }
 
+        
         if (isset($_POST['mandandId']) && isset($_POST['networkAuthId']) && (int) $_POST['networkAuthId'] > 0 && isset($_POST['networkId']) && (int) $_POST['networkId'] > 0 && isset($_POST['networkType']) && isset($_POST['displayName']) && !empty($_POST['displayName'])) {
+           
+            //Check Authorization and Mandant Belongs to the Current User
+            $post = array(
+                'token' => B2S_PLUGIN_TOKEN,
+                'action' => 'checkAuthorization',
+                'check_for_mandant' => true,
+                'network_auth_id' => (int) $_POST['networkAuthId'],
+                'mandant_id' => (int) $_POST['mandandId']
+                );
+    
+            $checkResult = json_decode(B2S_Api_Post::post(B2S_PLUGIN_API_ENDPOINT, $post), true);
+    
+            if(!isset($checkResult['result']) || empty($checkResult['result'])){
+               echo wp_json_encode(array('result' => false, 'error' => 'permission_authorization'));
+               wp_die();
+            }
+
             global $wpdb;
             $networkDetailsIdSelect = $wpdb->get_col($wpdb->prepare("SELECT postNetworkDetails.id FROM {$wpdb->prefix}b2s_posts_network_details AS postNetworkDetails WHERE postNetworkDetails.network_auth_id = %s", sanitize_text_field(wp_unslash($_POST['networkAuthId']))));
             if (!isset($networkDetailsIdSelect[0])) {
@@ -2570,8 +2632,8 @@ class Ajax_Post {
     }
 
     public function b2sEditSavePost() {
-
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+ 
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -2581,7 +2643,39 @@ class Ajax_Post {
             wp_die();
         }
 
+        // Security + state guard: for non admins only allow deleting rows owned by the current user.
+        if(!current_user_can('edit_post', (int) $_POST['post_id'])) {
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_post'));
+            wp_die();
+        }
+
+        if (!isset($_POST['b2s_id']) || !is_numeric($_POST['b2s_id']) || (int) $_POST['b2s_id'] <= 0) {
+            echo wp_json_encode(array('result' => false));
+            wp_die();
+        }
+
+        if (!isset($_POST['post_id']) || (int) $_POST['post_id'] == 0) {
+            echo json_encode(array('result' => false));
+            wp_die();
+        }
+
+        
         global $wpdb;
+       
+        if(!current_user_can('administrator')) {
+            $row = $wpdb->get_row($wpdb->prepare(
+            "SELECT id FROM {$wpdb->prefix}b2s_posts WHERE id = %d AND blog_user_id = %d",
+            (int) $_POST['b2s_id'],
+            get_current_user_id()
+            ));
+
+            if (!$row) {
+                echo wp_json_encode(array('result' => false, 'error' => 'permission_post'));
+                wp_die();
+            }
+
+        }
+
         require_once (B2S_PLUGIN_DIR . 'includes/B2S/Calendar/Save.php');
 
         $post = $_POST;
@@ -2589,10 +2683,6 @@ class Ajax_Post {
         $metaCard = false;
         $sched_date = '';
 
-        if (!isset($post['post_id']) || (int) $post['post_id'] == 0) {
-            echo json_encode(array('result' => false));
-            wp_die();
-        }
 
         $b2sids = array($post['b2s_id']);
         delete_option('B2S_PLUGIN_POST_META_TAGES_TWITTER_' . (int) $post['post_id']);
@@ -2705,7 +2795,7 @@ class Ajax_Post {
                         'url' => isset($data['url']) ? htmlspecialchars_decode(esc_url_raw($data['url'])) : '',
                         'image_url' => isset($data['image_url']) ? trim(esc_url_raw($data['image_url'])) : '',
                         'tags' => isset($data['tags']) ? $data['tags'] : array(),
-                        'share_as_story' => (isset($data['share_as_story']) && (int) $data['share_as_story'] == 1) ? (int) $data['share_as_story'] : 0,
+                        'share_as_story' => (isset($data['share_as_story'][-1]) && (int) $data['share_as_story'][-1] == 1) ? (int) $data['share_as_story'][-1] : 0,
                         'network_id' => isset($data['network_id']) ? (int) $data['network_id'] : '',
                         'network_type' => isset($data['network_type']) ? (int) $data['network_type'] : '',
                         'network_tos_group_id' => (isset($data['network_tos_group_id']) && !empty($data['network_tos_group_id'])) ? sanitize_text_field($data['network_tos_group_id']) : '',
@@ -3141,8 +3231,13 @@ class Ajax_Post {
 
     public function saveAiPostTemplate() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
+            wp_die();
+        }
+        
+        if (!current_user_can('edit_posts')) {
+            echo json_encode(array('result' => false, 'error' => 'permission_author'));
             wp_die();
         }
 
@@ -3151,11 +3246,7 @@ class Ajax_Post {
             wp_die();
         }
 
-        if (!current_user_can('edit_posts')) {
-            echo json_encode(array('result' => false, 'error' => 'permission_author'));
-            wp_die();
-        }
-
+        
         $networkId = (isset($_POST['networkId']) ? (int) $_POST['networkId'] : 0);
         $typeId = (isset($_POST['typeId']) ? (int) $_POST['typeId'] : -1);
         if ($networkId <= 0 || $typeId < 0) {
@@ -3267,7 +3358,7 @@ class Ajax_Post {
 
     public function saveDraftData() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -3317,7 +3408,7 @@ class Ajax_Post {
 
     public function deleteDraft() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }
@@ -3462,7 +3553,7 @@ class Ajax_Post {
 
     public function rePostSubmit() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }

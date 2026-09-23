@@ -6,7 +6,7 @@ Donate link: https://paypal.me/adenion
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 9.1.0
+Stable tag: 9.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,8 @@ No. Default WordPress plugin permissions (755) are sufficient.
 
 
 == Changelog ==
+= 9.1.1 =
+Additional Security Update
 = 9.1.0 =
 AI Tags, Assistini Content Creation & Improved Sharing
 = 9.0.3 =
@@ -249,6 +251,8 @@ Usability Optimization
 Integration AI Text Assistent Assistini
 
 == Upgrade Notice ==
+= 9.1.1 =
+Additional Security Update
 = 9.1.0 =
 AI Tags, Assistini Content Creation & Improved Sharing
 = 9.0.3 =

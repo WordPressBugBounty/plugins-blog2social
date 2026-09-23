@@ -6425,10 +6425,6 @@ function assGenerateText(networkAuthId, networkName, schedCount = false) {
                 if(!tumblrLink){
                     jQuery(".b2s-post-item-countChar[data-network-count='" + networkCountId + "'][data-network-auth-id='" + networkAuthId + "']").html(data.ass_text.length);
                 }
-                var $aiTextTagBtn = jQuery('.b2s-ai-generated-tag-btn[data-network-auth-id="' + networkAuthId + '"][data-network-count="' + networkCountId + '"]');
-                if ($aiTextTagBtn.length) {
-                    b2sSetAiTextTagState($aiTextTagBtn, true);
-                }
                 jQuery('#sidebar_ship_ass_words_open').text(data.ass_words_open);
                 jQuery('#sidebar_ship_ass_words_total').text(data.ass_words_total);
             } else {

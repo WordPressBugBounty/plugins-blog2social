@@ -121,7 +121,7 @@ $hideFinalTrailModal = $options->_getOption('hide_final_trail');
 <div class="panel panel-group b2s-header-notice b2s-left-border-danger b2s-no-permission b2s-no-permission-post" style="display:none;">
     <div class="panel-body">
         <button class="close b2s-warning-close"><span aria-hidden="true">&times;</span></button>
-        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('You must be an admin to move posts owned by someone else.', 'blog2social'); ?>
+        <span class="glyphicon glyphicon-remove glyphicon-danger"></span> <?php echo esc_html_e('You must be an admin to move or edit posts owned by someone else.', 'blog2social'); ?>
     </div>
 </div>
 

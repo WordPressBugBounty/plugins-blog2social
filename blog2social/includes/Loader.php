@@ -75,7 +75,7 @@ class B2S_Loader {
         define('B2S_PLUGIN_ALLOW_ADD_LINK', serialize(array(1, 2, 3, 6, 12, 43, 44, 45, 46)));
         define('B2S_PLUGIN_REMOVE_PAGE_TITLE', serialize(array('blog2social', 'blog2social-video', 'blog2social-onboarding', 'blog2social-curation', 'blog2social-ship')));
         define('B2S_PLUGIN_CHANGELOG_CONTENT', serialize(array(
-            'version_info' => esc_html__('Blog2Social Version 9.0 (June 26)', 'blog2social'),
+            'version_info' => esc_html__('Blog2Social Version 9.1 (September 26)', 'blog2social'),
             'new' => array(
                 "headingbadges"=>array(
                     esc_html__('New', 'blog2social'),

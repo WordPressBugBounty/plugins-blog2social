@@ -23,7 +23,7 @@ class Ajax_Get {
         add_action('wp_ajax_b2s_publish_post_data', array($this, 'getPublishPostData'));
         add_action('wp_ajax_b2s_sched_post_data', array($this, 'getSchedPostData'));
         add_action('wp_ajax_b2s_approve_post_data', array($this, 'getApprovePostData'));
-        add_action('wp_ajax_b2s_ship_navbar_item', array($this, 'getNavbarItem'));
+        add_action('wp_ajax_b2s_ship_navbar_item', array($this, 'getNavbarItem')); 
         add_action('wp_ajax_b2s_scrape_url', array($this, 'scrapeUrl'));
         add_action('wp_ajax_b2s_get_settings_sched_time_default', array($this, 'getSettingsSchedTimeDefault'));
         add_action('wp_ajax_b2s_get_settings_sched_time_user', array($this, 'getUserTimeSettings'));
@@ -694,8 +694,13 @@ class Ajax_Get {
 
     public function getPostEditModal() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
+            wp_die();
+        }
+
+        if(!current_user_can('administrator')) {
+            echo wp_json_encode(array('result' => false, 'error' => 'permission_post'));
             wp_die();
         }
 
@@ -817,7 +822,7 @@ class Ajax_Get {
 
     public function b2sSupportSystemRequirements() {
 
-        if (!current_user_can('edit_posts') || !check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
+        if (!check_ajax_referer('b2s_security_nonce', 'b2s_security_nonce', false)) {
             echo wp_json_encode(array('result' => false, 'error' => 'nonce'));
             wp_die();
         }

@@ -87,7 +87,7 @@ $postsPerPage = (isset($optionPostFilters['postsPerPage']) && (int) $optionPostF
                                             )
                                         ));
                                         ?>
-                                        <a id="b2s-post-notice-delete-all-btn" class="btn btn-sm btn-primary margin-top-8"><?php esc_html_e('Delete all', 'blog2social'); ?></a>
+                                        <a id="b2s-post-notice-delete-all-btn" class="btn btn-sm btn-primary"><?php esc_html_e('Delete all', 'blog2social'); ?></a>
                                     </form>
                                 </div>
                                 <!-- Filter Post Ende-->

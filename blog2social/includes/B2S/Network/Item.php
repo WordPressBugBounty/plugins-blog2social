@@ -1025,6 +1025,10 @@ class B2S_Network_Item {
         $html .= '<span class="b2s-ai-template-enable-label toggle-label-b2s-global-ai-settings-checkbox-4-original-content" id="toggle-label-b2s-global-ai-settings-checkbox-4-original-content" style="display:none;">' . esc_html__('Original Blog Post', 'blog2social') . '</span>';
         $html .= '<div class="b2s-global-ai-settings-checkbox-4-displayed-content-checked">' . $b2s_gai_disp_full . '</div>';
         $html .= '<div class="b2s-global-ai-settings-checkbox-4-original-content-checked" style="display:none;">' . $b2s_gai_orig_full . '</div>';
+        if($isFreeUser){
+            $html .= '<hr>';
+            $html .= '<button type="button" class="btn btn-primary btn-sm b2s-edit-template-save-ai-btn pull-right">' . esc_html__('save', 'blog2social') . '</button>';
+        }
         $html .= '</div>';
         $html .= '</div>';
         $html .= '</div>';
@@ -1926,8 +1930,9 @@ class B2S_Network_Item {
         $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';
-        $content .= '<hr>';
-        $content .= '<button type="button" class="btn btn-primary btn-sm b2s-edit-template-save-ai-btn pull-right" data-network-type="' . esc_attr($networkType) . '">' . esc_html__('save', 'blog2social') . '</button>';
+        if(!$isFreeUser){
+            $content .= '<button type="button" class="btn btn-primary btn-sm b2s-edit-template-save-ai-btn pull-right" data-network-type="' . esc_attr($networkType) . '">' . esc_html__('save', 'blog2social') . '</button>';
+        }
         $content .= '<br>';
 
         return $content;

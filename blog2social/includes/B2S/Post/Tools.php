@@ -165,10 +165,18 @@ class B2S_Post_Tools {
 
     public static function deletePostNoticeAll() {
         global $wpdb;
-        $result = $wpdb->query("UPDATE {$wpdb->prefix}b2s_posts SET hook_action = 0, hide = 1 WHERE publish_error_code != '' AND hide = 0");
-        if ((int) $result >= 0) {
+
+        $query = "UPDATE {$wpdb->prefix}b2s_posts SET hook_action = 0, hide = 1 WHERE publish_error_code != '' AND hide = 0";
+        if (!B2S_PLUGIN_ADMIN) {
+            $query .= ' AND blog_user_id = %d';
+            $query = $wpdb->prepare($query, (int) B2S_PLUGIN_BLOG_USER_ID);
+        }
+
+        $result = $wpdb->query($query);
+        if ($result !== false) {
             return array('result' => true);
         }
+
         return array('result' => false);
     }
 }
