@@ -755,8 +755,11 @@ function loginSuccess(networkId, networkType, displayName, networkAuthId, mandan
             networkTypeName = typOverrideName[networkId][networkType];
         }
     }
+
+    var networkAuthSelector = '.b2s-network-item-auth-list-li[data-network-auth-id="' + networkAuthId + '"][data-network-id="' + networkId + '"][data-network-type="' + networkType + '"]';
+    
     //NEW
-    if (jQuery('.b2s-network-item-auth-list-li[data-network-auth-id="' + networkAuthId + '"]').length == 0) {
+    if (jQuery(networkAuthSelector).length == 0) {
         var html = "<li class='b2s-network-item-auth-list-li b2s-label-success-border-left' data-network-auth-id='" + networkAuthId + "' data-network-mandant-id='" + mandandId + "' data-network-id='" + networkId + "' data-network-type='" + networkType + "'>";
         html += '<div class="pull-left"><span class="b2s-network-item-auth-type">' + networkTypeName + '</span>: ';
         html += '<span class="b2s-network-item-auth-user-name">' + displayName + '</span>';
@@ -797,8 +800,12 @@ function loginSuccess(networkId, networkType, displayName, networkAuthId, mandan
         html += '<div class="clearfix"></div>';
         html += '</li>';
 
-        jQuery(html).insertAfter('.b2s-network-item-auth-list-li[data-network-mandant-id="' + mandandId + '"][data-network-id="' + networkId + '"][data-view="all"]:first');
-        jQuery(html).insertAfter('.b2s-network-item-auth-list-li[data-network-mandant-id="' + mandandId + '"][data-network-id="' + networkId + '"][data-view="selected"]:first');
+        jQuery.each(['all', 'selected'], function (index, view) {
+            var target = jQuery('.b2s-network-item-auth-list-li[data-network-mandant-id="' + mandandId + '"][data-network-id="' + networkId + '"][data-view="' + view + '"]').first();
+            if (target.length > 0) {
+                jQuery(html).insertAfter(target);
+            }
+        });
         jQuery('.b2s-settings-sched-item-input-time[data-network-auth-id="' + networkAuthId + '"]').val(time);
         var networkCount = jQuery('.b2s-network-auth-count-current[data-network-count-trigger="true"][data-network-id="' + networkId + '"]').text();
         var newCount = parseInt(networkCount) + 1;
@@ -810,8 +817,8 @@ function loginSuccess(networkId, networkType, displayName, networkAuthId, mandan
 
         //Update
     } else {
-        jQuery('.b2s-network-auth-update-btn[data-network-auth-id="' + networkAuthId + '"').show();
-        if (jQuery('.b2s-network-item-auth-list-li[data-network-auth-id="' + networkAuthId + '"][data-network-mandant-id="' + mandandId + '"][data-network-id="' + networkId + '"][data-network-type="' + networkType + '"]').length > 0) {
+        jQuery('.b2s-network-auth-update-btn[data-network-auth-id="' + networkAuthId + '"]').show();
+        if (jQuery(networkAuthSelector).length > 0) {
             var html = '<span class="b2s-network-item-auth-type">' + networkTypeName + '</span>: ';
             html += '<span class="b2s-network-item-auth-user-name">' + displayName + '</span>';
             if (mandandId >= 0) {
@@ -821,8 +828,8 @@ function loginSuccess(networkId, networkType, displayName, networkAuthId, mandan
                 }
                 html += ' <span class="b2s-network-mandant-name">(' + mandantName + ')</span>';
             }
-            jQuery('.b2s-network-item-auth-list-li[data-network-auth-id="' + networkAuthId + '"][data-network-mandant-id="' + mandandId + '"][data-network-id="' + networkId + '"][data-network-type="' + networkType + '"] div:first').html(html);
-            jQuery('.b2s-network-item-auth-list-li[data-network-auth-id="' + networkAuthId + '"][data-network-mandant-id="' + mandandId + '"][data-network-id="' + networkId + '"][data-network-type="' + networkType + '"]').removeClass('b2s-label-danger-border-left').addClass('b2s-label-success-border-left');
+            jQuery(networkAuthSelector + ' div:first').html(html);
+            jQuery(networkAuthSelector).removeClass('b2s-label-danger-border-left').addClass('b2s-label-success-border-left');
         }
     }
     //Update other Auth with same networkId, networkType and displayName (only optional)
@@ -1052,6 +1059,15 @@ function getActiveTemplateType() {
     if (jQuery('.b2s-template-group').closest('li.active').length > 0) {
         return 2;
     }
+    if (jQuery('.b2s-ai-template-profile').closest('li.active').length > 0) {
+        return 0;
+    }
+    if (jQuery('.b2s-ai-template-page').closest('li.active').length > 0) {
+        return 1;
+    }
+    if (jQuery('.b2s-ai-template-group').closest('li.active').length > 0) {
+        return 2;
+    }
     // Fallback: no nav tabs rendered (single-type network), detect via active tab-pane class
     if (jQuery('.b2s-template-tab-1.active').length > 0) {
         return 1;
@@ -1076,13 +1092,8 @@ function setEditTemplateMode(mode) {
         jQuery('.b2s-edit-template-save-btn').hide();
         jQuery('.b2s-edit-template-no-cache-area').hide();
         jQuery('.b2s-edit-template-content').addClass('b2s-ai-mode-active');
-        var $tabsNav = jQuery('.b2s-tabs-nav-container');
-        if ($tabsNav.length) {
-            var $config = jQuery('.tab-pane.active .b2s-ai-template-config');
-            if ($config.length) {
-                $config.before($tabsNav.detach());
-            }
-        }
+        jQuery('.b2s-tabs-nav-container').not('.b2s-ai-tabs-nav-container').hide();
+        jQuery('.b2s-ai-tabs-nav-container').show();
         jQuery.ajax({
             url: ajaxurl,
             type: 'POST',
@@ -1124,11 +1135,8 @@ function setEditTemplateMode(mode) {
         jQuery('.b2s-edit-template-save-btn').show();
         jQuery('.b2s-edit-template-no-cache-area').show();
         jQuery('.b2s-edit-template-content').removeClass('b2s-ai-mode-active');
-        var $tabsNav = jQuery('.b2s-tabs-nav-container');
-        var $tabContent = jQuery('.tab-content.clearfix');
-        if ($tabsNav.length && $tabContent.length) {
-            $tabContent.before($tabsNav.detach());
-        }
+        jQuery('.b2s-tabs-nav-container').not('.b2s-ai-tabs-nav-container').show();
+        jQuery('.b2s-ai-tabs-nav-container').hide();
     }
 
     initAiTemplateSettings(jQuery('.b2s-edit-template-content'));
@@ -1229,16 +1237,11 @@ jQuery('#b2sProFeatureEditTemplateModal').on('hidden.bs.modal', function () {
     }
 });
 
-jQuery(document).on('shown.bs.tab', '.b2s-template-profile, .b2s-template-page, .b2s-template-group', function () {
-    if (getCurrentEditTemplateMode() === 'ai') {
-        var $tabsNav = jQuery('.b2s-tabs-nav-container');
-        if ($tabsNav.length) {
-            var $config = jQuery('.tab-pane.active .b2s-ai-template-config');
-            if ($config.length) {
-                $config.before($tabsNav.detach());
-            }
-        }
-    }
+jQuery(document).on('shown.bs.tab', '.b2s-template-profile, .b2s-template-page, .b2s-template-group, .b2s-ai-template-profile, .b2s-ai-template-page, .b2s-ai-template-group', function () {
+    var target = jQuery(this).attr('href');
+    jQuery('.b2s-tabs-nav-container a').each(function () {
+        jQuery(this).closest('li').toggleClass('active', jQuery(this).attr('href') === target);
+    });
 });
 
 jQuery(document).on('click', '.b2s-edit-template-save-ai-btn', function () {

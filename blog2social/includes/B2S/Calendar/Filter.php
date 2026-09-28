@@ -221,12 +221,7 @@ class B2S_Calendar_Filter {
         if (!is_numeric($id)) {
             return null;
         }
-
-        $blogPostCheck ='';
-        if(!current_user_can('administrator')) {
-            $blogPostCheck = "AND {$wpdb->prefix}b2s_posts.blog_user_id = %d";
-        }
-
+     
         $sql = "SELECT {$wpdb->prefix}b2s_posts.sched_date, "
                 . "{$wpdb->prefix}b2s_posts.blog_user_id, "
                 . "{$wpdb->prefix}b2s_posts.id as b2s_id, "
@@ -253,7 +248,6 @@ class B2S_Calendar_Filter {
                 . "LEFT JOIN {$wpdb->prefix}b2s_posts_sched_details ON {$wpdb->prefix}b2s_posts.sched_details_id = {$wpdb->prefix}b2s_posts_sched_details.id "
                 . "INNER JOIN " . $wpdb->posts . " post ON post.ID = {$wpdb->prefix}b2s_posts.post_id "
                 . "WHERE {$wpdb->prefix}b2s_posts.id = %d "
-                . $blogPostCheck . " "
                 . "AND {$wpdb->prefix}b2s_posts.publish_link = '' "
                 . "AND {$wpdb->prefix}b2s_posts.hide = 0 "
                 . "ORDER BY sched_date";

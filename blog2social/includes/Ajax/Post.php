@@ -2642,6 +2642,11 @@ class Ajax_Post {
             echo wp_json_encode(array('result' => false, 'error' => 'permission_author'));
             wp_die();
         }
+        
+        if (!isset($_POST['post_id']) || (int) $_POST['post_id'] == 0) {
+            echo json_encode(array('result' => false));
+            wp_die();
+        }
 
         // Security + state guard: for non admins only allow deleting rows owned by the current user.
         if(!current_user_can('edit_post', (int) $_POST['post_id'])) {
@@ -2654,11 +2659,7 @@ class Ajax_Post {
             wp_die();
         }
 
-        if (!isset($_POST['post_id']) || (int) $_POST['post_id'] == 0) {
-            echo json_encode(array('result' => false));
-            wp_die();
-        }
-
+ 
         
         global $wpdb;
        

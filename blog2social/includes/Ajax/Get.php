@@ -699,14 +699,25 @@ class Ajax_Get {
             wp_die();
         }
 
-        if(!current_user_can('administrator')) {
-            echo wp_json_encode(array('result' => false, 'error' => 'permission_post'));
-            wp_die();
-        }
-
-        require_once (B2S_PLUGIN_DIR . 'includes/B2S/Calendar/Filter.php');
         if (isset($_POST['id']) && (int) $_POST['id'] > 0) {
+
+            global $wpdb;
+            if(!current_user_can('administrator')) {
+                $row = $wpdb->get_row($wpdb->prepare(
+                    "SELECT id FROM {$wpdb->prefix}b2s_posts WHERE id = %d AND blog_user_id = %d",
+                    (int) $_POST['id'],
+                    get_current_user_id()
+                    ));
+                    
+                    if (!$row) {
+                        echo wp_json_encode(array('result' => false, 'error' => 'permission_post'));
+                        wp_die();
+                    }
+            }  
+                        
+            require_once (B2S_PLUGIN_DIR . 'includes/B2S/Calendar/Filter.php');
             $item = B2S_Calendar_Filter::getById((int) $_POST['id']);
+            
             if ($item != null) {
                 $lock_user_id = get_option("B2S_PLUGIN_CALENDAR_BLOCKED_" . (int) $_POST['id']);
                 if (!$lock_user_id) {

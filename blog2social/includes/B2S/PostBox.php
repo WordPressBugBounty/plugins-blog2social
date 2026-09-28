@@ -54,15 +54,18 @@ class B2S_PostBox {
                 }
             }
         }
-
         if (B2S_PLUGIN_USER_VERSION > 0) {
             if ($optionAutoPost !== false) {
                 if (!isset($optionAutoPost['active']) || (isset($optionAutoPost['active']) && (int) $optionAutoPost['active'] == 1)) {
                     $state = ($postId == 0) ? 'publish' : (($postStatus != '' && ($postStatus == 'publish')) ? 'update' : 'publish');
-                    if (is_array($optionAutoPost) && isset($optionAutoPost[$state])) {
-                        if (in_array($postType, $optionAutoPost[$state])) {
-                            $autoPostActive = true;
-                        }
+                    $stateSelection = isset($optionAutoPost[$state . '_state'])
+                        ? $optionAutoPost[$state . '_state']
+                        : (($state === 'publish') ? 'all' : 'none');
+                    $selectedPostTypes = (is_array($optionAutoPost) && isset($optionAutoPost[$state]) && is_array($optionAutoPost[$state]))
+                        ? $optionAutoPost[$state]
+                        : array();
+                    if ($stateSelection === 'all' || ($stateSelection == '0' && in_array($postType, $selectedPostTypes))) {
+                        $autoPostActive = true;
                     }
                 }
             }
@@ -434,10 +437,14 @@ class B2S_PostBox {
             if ($optionAutoPost !== false) {
                 if (!isset($optionAutoPost['active']) || (isset($optionAutoPost['active']) && (int) $optionAutoPost['active'] == 1)) {
                     $state = ($postStatus != false && $postStatus != '' && ($postStatus == 'publish')) ? 'update' : 'publish';
-                    if (is_array($optionAutoPost) && isset($optionAutoPost[$state])) {
-                        if ($postType != false && in_array($postType, $optionAutoPost[$state])) {
-                            $autoPostActive = true;
-                        }
+                    $stateSelection = isset($optionAutoPost[$state . '_state'])
+                        ? $optionAutoPost[$state . '_state']
+                        : (($state === 'publish') ? 'all' : 'none');
+                    $selectedPostTypes = (is_array($optionAutoPost) && isset($optionAutoPost[$state]) && is_array($optionAutoPost[$state]))
+                        ? $optionAutoPost[$state]
+                        : array();
+                    if ($postType != false && ($stateSelection === 'all' || ($stateSelection == '0' && in_array($postType, $selectedPostTypes)))) {
+                        $autoPostActive = true;
                     }
                 }
             }

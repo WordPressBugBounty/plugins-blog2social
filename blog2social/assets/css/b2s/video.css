@@ -23,6 +23,10 @@ h3{
 #b2sSortPostAuthor{
     margin-bottom: 9px !important;
 }
+.b2s-panel-video{
+    margin-top: 10px;   
+    border-radius: 14px !important
+}
 
 /*Video Area*/
 .b2s-video-upload-file-area{

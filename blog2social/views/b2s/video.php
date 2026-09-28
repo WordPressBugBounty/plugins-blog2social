@@ -145,7 +145,7 @@ $canUseVideoAddon = (defined('B2S_PLUGIN_ADDON_VIDEO') && !empty(B2S_PLUGIN_ADDO
                 <input type="hidden" id="b2sMaxSchedDate" value="<?php echo esc_attr(wp_date('Y-m-d', strtotime("+ 3 years"), new DateTimeZone(date_default_timezone_get()))); ?>">
                 <input type="hidden" id="b2s_user_version" value="<?php echo esc_attr(B2S_PLUGIN_USER_VERSION); ?>">
 
-                <div class="panel panel-default">
+                <div class="panel panel-default b2s-panel-video">
                     <div class="panel-body">
                         <div class="clearfix"></div>
                         <div class="b2s-video-upload-drag-drop" >

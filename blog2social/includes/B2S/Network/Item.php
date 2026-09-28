@@ -342,7 +342,7 @@ class B2S_Network_Item {
                     $borderClass = 'b2s-label-danger-border-left';
                 }
 
-                $html .= '<li class="b2s-network-item-auth-list-li ' . $borderClass . '" data-network-type="0">';
+                $html .= '<li class="b2s-network-item-auth-list-li ' . $borderClass . '" data-network-auth-id="' . esc_attr($v['networkAuthId']) . '" data-network-mandant-id="' . esc_attr($mandantId) . '" data-network-id="' . esc_attr($networkId) . '" data-network-type="0">';
                 $html .= '<div class="pull-left">';
                 if ($notAllow) {
                     $html .= '<div class="b2s-network-auth-list-info"><span class="glyphicon glyphicon-remove-circle"></span> ' . esc_html__('To reactivate this connection,', 'blog2social') . ' <a class="b2s-info-btn" href="' . esc_url(B2S_Tools::getSupportLink('upgrade_version')) . '" target="_blank">' . esc_html__('please upgrade', 'blog2social') . '</a></div>';
@@ -818,6 +818,7 @@ class B2S_Network_Item {
         //TODO: V7.0.0 Pinterest Profile deprecated, ignore profiles, remove in V.7.X.X
         if ($networkId == 6 && isset($defaultSchema[0])) {
             unset($defaultSchema[0]);
+            unset($schema[0]);
         }
 
         $html = '<div class="row">';
@@ -1037,19 +1038,7 @@ class B2S_Network_Item {
         $html .= '</div>';
 
         if (count($defaultSchema) > 1) {
-            $html .= '<div class="b2s-tabs-nav-container">';
-            $html .= '<div class="">';
-            $html .= '<ul class="nav nav-pills">';
-            $html .= '<li class="active"><a href="#b2s-template-profile" class="b2s-template-profile" data-toggle="tab">' . esc_html__('Profile', 'blog2social') . '</a></li>';
-            if (isset($defaultSchema[1]) && !empty($defaultSchema[1]) && $networkId != 11) {
-                $html .= '<li><a href="#b2s-template-page" class="b2s-template-page" data-toggle="tab">' . esc_html__('Page', 'blog2social') . '</a></li>';
-            }
-            if (isset($defaultSchema[2]) && !empty($defaultSchema[2])) {
-                $html .= '<li><a href="#b2s-template-group" class="b2s-template-group" data-toggle="tab">' . esc_html__('Group', 'blog2social') . '</a></li>';
-            }
-            $html .= '</ul>';
-            $html .= '</div>';
-            $html .= '</div>';
+            $html .= $this->getEditTemplateTabsNav($defaultSchema, $networkId);
             if ($networkId == 1 || $networkId == 3 || $networkId == 19) {
                 $linkNoCache = B2S_Tools::getNoCacheData(B2S_PLUGIN_BLOG_USER_ID);
                 $html .= '<div class="pull-right b2s-edit-template-no-cache-area"><input id="link-no-cache" type="checkbox" class="standard-template-form-element" ' . ((isset($linkNoCache[$networkId]) && $linkNoCache[$networkId] == 1) ? 'checked' : '') . ' name="no_cache"> <label for="link-no-cache">' . esc_html__('Activate Instant Caching', 'blog2social') . '</label> <a href="#" class="b2s-info-btn vertical-middle del-padding-left b2sInfoNoCacheBtn">' . esc_html__('Info', 'blog2social') . '</a></div>';
@@ -1072,6 +1061,26 @@ class B2S_Network_Item {
             $html .= '</div>';
         }
         $html .= '</div>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    private function getEditTemplateTabsNav($schema, $networkId, $isAi = false) {
+        $prefix = $isAi ? 'b2s-ai-' : 'b2s-';
+        $containerClass = $isAi ? 'b2s-tabs-nav-container b2s-ai-tabs-nav-container' : 'b2s-tabs-nav-container';
+        $html = '<div class="' . esc_attr($containerClass) . '">';
+        $html .= '<div class="">';
+        $html .= '<ul class="nav nav-pills">';
+        $html .= '<li class="active"><a href="#b2s-template-profile" class="' . esc_attr($prefix) . 'template-profile" data-toggle="tab">' . esc_html__('Profile', 'blog2social') . '</a></li>';
+        if (isset($schema[1]) && !empty($schema[1]) && $networkId != 11) {
+            $html .= '<li><a href="#b2s-template-page" class="' . esc_attr($prefix) . 'template-page" data-toggle="tab">' . esc_html__('Page', 'blog2social') . '</a></li>';
+        }
+        if (isset($schema[2]) && !empty($schema[2])) {
+            $html .= '<li><a href="#b2s-template-group" class="' . esc_attr($prefix) . 'template-group" data-toggle="tab">' . esc_html__('Group', 'blog2social') . '</a></li>';
+        }
+        $html .= '</ul>';
         $html .= '</div>';
         $html .= '</div>';
 
@@ -1477,22 +1486,24 @@ class B2S_Network_Item {
 
         $content .= '</div>';
         $content .= '</div>';
-        $content .= '</div>';
         
         $assConnected = $this->isAssistiniConnected();
-        $content .= '<div class="b2s-edit-template-ai-content" style="display:none;">';
+        $content .= '<div class="b2s-edit-template-ai-content" style="display:none; position:relative;">';
+        if (count($schema) > 1) {
+            $content .= $this->getEditTemplateTabsNav($schema, $networkId, true);
+        }
         if (!$assConnected || $isFreeUser) {
             $content .= '<div style="position:relative;">';
             $content .= $this->getAiTemplateFormContent($networkId, $networkType, $aiTemplate, $isFreeUser);
             if ($isFreeUser) {
                 $content .= '<div class="b2s-ai-template-free-overlay"></div>';
             }
-            if (!$assConnected) {
-                $content .= '<div class="b2s-ai-template-not-connected-overlay"></div>';
-            }
             $content .= '</div>';
         } else {
             $content .= $this->getAiTemplateFormContent($networkId, $networkType, $aiTemplate);
+        }
+        if (!$assConnected) {
+            $content .= '<div class="b2s-ai-template-not-connected-overlay"></div>';
         }
         $content .= '</div>';
 
@@ -2156,6 +2167,7 @@ class B2S_Network_Item {
 
                 $preview .= '</div>'; // closes b2s-network-3-card
                 $preview .= '</div>'; // closes col-sm-8
+                $preview .= '</div>';
                 break;
             case '4':
                 $preview .= '<div class="row">';

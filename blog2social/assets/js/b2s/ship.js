@@ -732,7 +732,7 @@ jQuery(document).on('click', '.b2s-post-item-details-release-area-sched-for-all'
         if (jQuery(this).attr('data-network-auth-id') != dataNetworkAuthId && jQuery(this).has('option[value="' + jQuery('.b2s-post-item-details-release-input-date-select[data-network-auth-id="' + dataNetworkAuthId + '"]').val() + '"]').length > 0) {
             jQuery(this).val(jQuery('.b2s-post-item-details-release-input-date-select[data-network-auth-id="' + dataNetworkAuthId + '"]').val());
             //view elements
-            releaseChoose(jQuery('.b2s-post-item-details-release-input-date-select[data-network-auth-id="' + dataNetworkAuthId + '"]').val(), jQuery(this).attr('data-network-auth-id'), dataNetworkCount);
+            releaseChoose(jQuery('.b2s-post-item-details-release-input-date-select[data-network-auth-id="' + dataNetworkAuthId + '"]').val(), jQuery(this).attr('data-network-auth-id'), dataNetworkCount, jQuery(this).attr('data-network-id'));
             //view elements interval
             if (selMode == 2) {
                 for (var i = 0; i <= dataNetworkCount; i++) {
@@ -7017,13 +7017,8 @@ function setEditTemplateMode(mode) {
         jQuery('.b2s-edit-template-save-btn').hide();
         jQuery('.b2s-edit-template-no-cache-area').hide();
         jQuery('.b2s-edit-template-content').addClass('b2s-ai-mode-active');
-        var $tabsNav = jQuery('.b2s-tabs-nav-container');
-        if ($tabsNav.length) {
-            var $config = jQuery('.tab-pane.active .b2s-ai-template-config');
-            if ($config.length) {
-                $config.before($tabsNav.detach());
-            }
-        }
+        jQuery('.b2s-tabs-nav-container').not('.b2s-ai-tabs-nav-container').hide();
+        jQuery('.b2s-ai-tabs-nav-container').show();
         jQuery.ajax({
             url: ajaxurl,
             type: 'POST',
@@ -7065,11 +7060,8 @@ function setEditTemplateMode(mode) {
         jQuery('.b2s-edit-template-save-btn').show();
         jQuery('.b2s-edit-template-no-cache-area').show();
         jQuery('.b2s-edit-template-content').removeClass('b2s-ai-mode-active');
-        var $tabsNav = jQuery('.b2s-tabs-nav-container');
-        var $tabContent = jQuery('.tab-content.clearfix');
-        if ($tabsNav.length && $tabContent.length) {
-            $tabContent.before($tabsNav.detach());
-        }
+        jQuery('.b2s-tabs-nav-container').not('.b2s-ai-tabs-nav-container').show();
+        jQuery('.b2s-ai-tabs-nav-container').hide();
     }
 
     initAiTemplateSettings(jQuery('.b2s-edit-template-content'));
@@ -7137,16 +7129,11 @@ jQuery('#b2sProFeatureEditTemplateModal').on('hidden.bs.modal', function () {
     }
 });
 
-jQuery(document).on('shown.bs.tab', '.b2s-template-profile, .b2s-template-page, .b2s-template-group', function () {
-    if (getCurrentEditTemplateMode() === 'ai') {
-        var $tabsNav = jQuery('.b2s-tabs-nav-container');
-        if ($tabsNav.length) {
-            var $config = jQuery('.tab-pane.active .b2s-ai-template-config');
-            if ($config.length) {
-                $config.before($tabsNav.detach());
-            }
-        }
-    }
+jQuery(document).on('shown.bs.tab', '.b2s-template-profile, .b2s-template-page, .b2s-template-group, .b2s-ai-template-profile, .b2s-ai-template-page, .b2s-ai-template-group', function () {
+    var target = jQuery(this).attr('href');
+    jQuery('.b2s-tabs-nav-container a').each(function () {
+        jQuery(this).closest('li').toggleClass('active', jQuery(this).attr('href') === target);
+    });
 });
 
 // Load Global AI Settings on page load
@@ -8169,6 +8156,15 @@ function getActiveTemplateType() {
     }
     // Group
     if (jQuery('.b2s-template-group').closest('li.active').length > 0) {
+        return 2;
+    }
+    if (jQuery('.b2s-ai-template-profile').closest('li.active').length > 0) {
+        return 0;
+    }
+    if (jQuery('.b2s-ai-template-page').closest('li.active').length > 0) {
+        return 1;
+    }
+    if (jQuery('.b2s-ai-template-group').closest('li.active').length > 0) {
         return 2;
     }
 
