@@ -2461,8 +2461,8 @@ class Ajax_Post {
       
         if (isset($_POST['b2s_id']) && is_numeric($_POST['b2s_id']) && isset($_POST['sched_date']) && is_string($_POST['sched_date']) && isset($_POST['user_timezone'])) {
         
-            // Security + state guard: for non admins only allow moving rows owned by the current user.
-            if(!current_user_can('administrator')) {
+            // Security + state guard: for non admins or editors only allow moving rows owned by the current user.
+            if(!current_user_can('edit_others_posts')) {
                 $row = $wpdb->get_row($wpdb->prepare(
                 "SELECT id, hook_action, publish_date FROM {$wpdb->prefix}b2s_posts WHERE id = %d AND blog_user_id = %d",
                 (int) $_POST['b2s_id'],
@@ -2663,7 +2663,7 @@ class Ajax_Post {
         
         global $wpdb;
        
-        if(!current_user_can('administrator')) {
+        if(!current_user_can('edit_others_posts')) {
             $row = $wpdb->get_row($wpdb->prepare(
             "SELECT id FROM {$wpdb->prefix}b2s_posts WHERE id = %d AND blog_user_id = %d",
             (int) $_POST['b2s_id'],

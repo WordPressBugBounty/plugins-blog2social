@@ -1004,7 +1004,7 @@ class B2S_Network_Item {
         if (!$assConnected) {
             $html .= '<div id="b2s-global-ai-settings-not-connected-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:10;background:rgba(255,255,255,0.6);border-radius:8px;"></div>';
         }
-        $html .= '<div class="row">';
+        $html .= '<div class="row b2s-edit-template-ai-heading-margin">';
         $html .= '<div class="col-md-12 media-heading">';
         $html .= '<span class="b2s-edit-template-section-headline-first">' . esc_html__('Basic AI Settings', 'blog2social') . '</span>';
         $html .= '</div>';

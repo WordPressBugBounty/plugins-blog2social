@@ -1854,6 +1854,9 @@ select.error,
     margin-bottom: 12px;
     box-shadow: 7px 8px 8px rgba(0, 0, 0, 0.08);
 }
+.b2s-edit-template-ai-heading-margin{
+    margin-bottom:0px !important;
+}
 
 .b2s-edit-template-ai-content:not(.b2s-global-ai-settings-section),
 .b2s-edit-template-ai-content-connect-gate {

@@ -96,7 +96,13 @@ ul.chosen-choices {
     display: inline-block;
     margin-right: 5px;
 }
-
+.b2s-auto-post-header-margin-top{
+    margin-top: 20px;
+}
+.b2s-auto-post-area-margin-top{
+    margin-top: 10px;
+}
+    
 /* Modern toggle switch */
 .b2s-ap-switch {
     position: relative;

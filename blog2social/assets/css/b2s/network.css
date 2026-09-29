@@ -940,6 +940,10 @@ ul.b2s-network-item-auth-list li:last-child{
     box-shadow: 7px 8px 8px rgba(0, 0, 0, 0.08);
 }
 
+.b2s-edit-template-ai-heading-margin{
+    margin-bottom:0px !important;
+}
+
 .b2s-edit-template-post-content {
     width: 100%;
     height: 80px;

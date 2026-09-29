@@ -3314,6 +3314,10 @@ jQuery("#b2sNetworkSent").validate({
     },
     submitHandler: function (form) {
 
+        var userDate = new Date();
+        var pubDate = userDate.getFullYear() + "-" + padDate(userDate.getMonth() + 1) + "-" + padDate(userDate.getDate()) + " " + padDate(userDate.getHours()) + ":" + padDate(userDate.getMinutes()) + ":" + padDate(userDate.getSeconds());
+        jQuery('#publish_date').val(pubDate);
+        
         var send = jQuery(form).serialize() + '&b2s_security_nonce=' + jQuery('#b2s_security_nonce').val();
 
         //Check for Max input vars and use JSON serialization if limit exceeded
@@ -3337,9 +3341,7 @@ jQuery("#b2sNetworkSent").validate({
 
        
 
-        var userDate = new Date();
-        var pubDate = userDate.getFullYear() + "-" + padDate(userDate.getMonth() + 1) + "-" + padDate(userDate.getDate()) + " " + padDate(userDate.getHours()) + ":" + padDate(userDate.getMinutes()) + ":" + padDate(userDate.getSeconds());
-        jQuery('#publish_date').val(pubDate);
+   
         jQuery(".b2s-loading-area").show();
         jQuery(".b2s-post-area").hide();
         jQuery(".b2s-settings-user-sched-time-area").hide();
