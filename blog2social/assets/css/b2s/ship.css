@@ -602,6 +602,17 @@ input[type="checkbox"], input[type="radio"] {
 .b2s-post-item-loading-impulse-area{
     margin-top:5em;
 }
+.b2s-loader-impulse.b2s-post-item-loading-impulse-area{
+    animation: 1.5s ease-in-out 0s normal none infinite running sk-pulseScaleOut;
+    background-color: #79b331;
+    border: 0;
+    box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    .b2s-loader-impulse.b2s-post-item-loading-impulse-area{
+        animation: none;
+    }
+}
 .b2s-post-item-details-portal-img-area{
     margin-top:1em;
     margin-bottom: 1em;

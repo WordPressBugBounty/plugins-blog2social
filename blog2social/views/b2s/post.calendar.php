@@ -147,7 +147,7 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
 <input type="hidden" id="b2sInsertImageType" value="0">
 <input type="hidden" id="isOgMetaChecked" value="<?php echo (isset($metaSettings['og_active']) ? (int) $metaSettings['og_active'] : 0); ?>">
 <input type="hidden" id="isCardMetaChecked" value="<?php echo (isset($metaSettings['card_active']) ? (int) $metaSettings['card_active'] : 0); ?>">
-<input type="hidden" id="b2sRedirectUrlContentCuration" value="<?php echo esc_url(get_option('siteurl') . ((substr(get_option('siteurl'), -1, 1) == '/') ? '' : '/') . 'wp-admin/admin.php?page=blog2social-curation'); ?>">
+<input type="hidden" id="b2sRedirectUrlContentCuration" value="<?php echo esc_url(admin_url('admin.php?page=blog2social-post&opencontent=1')); ?>">
 <input type="hidden" id="b2sNotAllowGif" value="<?php echo esc_attr(implode(";", json_decode(B2S_PLUGIN_NETWORK_NOT_ALLOW_GIF, true))); ?>">
 <input type="hidden" id="b2sAnimateGif" value='<?php echo esc_attr(B2S_PLUGIN_NETWORK_ANIMATE_GIF); ?>'>
 <input type="hidden" id="ogMetaNetworks" value="<?php echo esc_attr(implode(';', json_decode(B2S_PLUGIN_NETWORK_META_TAGS, true)['og'])); ?>">
@@ -290,43 +290,45 @@ $metaSettings = get_option('B2S_PLUGIN_GENERAL_OPTIONS');
 </div>
 
 <div id="b2s-show-post-type-modal" class="modal fade" role="dialog" aria-labelledby="b2s-show-post-type-modal" aria-hidden="true" data-backdrop="false" style="display:none;z-index: 1070;">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="b2s-modal-close close" data-modal-name="#b2s-show-post-type-modal">&times;</button>
                 <h4 class="modal-title"><?php esc_html_e('What would you like to share?', 'blog2social') ?></h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6 col-xs-12">
-                        <div class="b2s-post-type-area text-center">
-                            <div class="image">
-                                <img class="img-width-150" src="<?php echo esc_url(plugins_url('/assets/images/b2s/blog-post-icon.png', B2S_PLUGIN_FILE)); ?>" alt="blog post">
-                            </div>
-                            <div class="text">
-                                <?php esc_html_e("Share your WordPress posts, pages or products", "blog2social") ?>
-                            </div>
-                            <div class="action">
-                                <button class="btn btn-primary" id="b2s-btn-select-blog-post"><?php esc_html_e("select", "blog2social"); ?></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xs-12">
-                        <div class="b2s-post-type-area text-center">
-                            <div class="image">
-                                <img class="img-width-150" src="<?php echo esc_url(plugins_url('/assets/images/b2s/content-curation-icon.png', B2S_PLUGIN_FILE)); ?>" alt="content curation">
-                            </div>
-                            <div class="text">
-                                <?php esc_html_e("Create or share content from other sources", "blog2social") ?>
-                            </div>
-                            <div class="action">
-                                <button class="btn btn-primary" id="b2s-btn-select-content-curation"><?php esc_html_e("select", "blog2social"); ?></button>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" id="b2sSelSchedDate" value="">
-
+                <div class="action-grid">
+                    <button type="button" class="btn b2s-compose-expand-btn action-card" id="b2s-btn-select-blog-post">
+                        <span class="icon icon-green" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
+                                stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <path d="M14 2v6h6"/>
+                                <path d="M8 13h8"/>
+                                <path d="M8 17h8"/>
+                                <path d="M8 9h3"/>
+                            </svg>
+                        </span>
+                        <span class="content">
+                            <span class="action-title"><?php esc_html_e("Share your WordPress posts, pages or products", "blog2social"); ?></span>
+                        </span>
+                    </button>
+                    <button type="button" class="btn b2s-compose-expand-btn action-card" id="b2s-btn-select-content-curation">
+                        <span class="icon icon-blue" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
+                                stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round">
+                                <path d="M12 5v14"/>
+                                <path d="M5 12h14"/>
+                            </svg>
+                        </span>
+                        <span class="content">
+                            <span class="action-title"><?php esc_html_e("Create or share content from other sources", "blog2social"); ?></span>
+                        </span>
+                    </button>
                 </div>
+                <input type="hidden" id="b2sSelSchedDate" value="">
             </div>
         </div>
     </div>

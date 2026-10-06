@@ -1106,7 +1106,14 @@ class Ajax_Post {
             }
 
             //Handle image alt text, can be an array since json encoding
-            $data['image_alt_text'] = is_string($data['image_alt_text']) ? $data['image_alt_text'] : (is_array($data['image_alt_text']) ? (isset(array_values($data['image_alt_text'])[0]) ? array_values($data['image_alt_text'])[0] : '') : '');
+            $imageAltText = isset($data['image_alt_text']) ? $data['image_alt_text'] : '';
+            if (is_array($imageAltText)) {
+                $imageAltText = array_values($imageAltText);
+                $imageAltText = isset($imageAltText[0]) ? $imageAltText[0] : '';
+            } elseif (!is_string($imageAltText)) {
+                $imageAltText = '';
+            }
+            $data['image_alt_text'] = $imageAltText;
            
             $sendData = array("board" => isset($data['board']) ? sanitize_text_field($data['board']) : '',
                 "status_privacy" => isset($data['status_privacy']) ? sanitize_text_field($data['status_privacy']) : '',

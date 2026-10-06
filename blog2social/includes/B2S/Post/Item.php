@@ -842,7 +842,6 @@ class B2S_Post_Item {
                                          </div>
                                     </li>';
             }
-
             if ($this->type == 'draft') {
                 $browser = (get_post_meta($var->ID, "b2s_source", true) == "b2s_browser_extension") ? ' - <strong>' . esc_html__('via Browser-Extension', 'blog2social') . '</strong>' : '';
                 $userInfoName = get_the_author_meta('display_name', $var->post_author);

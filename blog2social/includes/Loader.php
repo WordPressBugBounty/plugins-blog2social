@@ -73,7 +73,7 @@ class B2S_Loader {
         define('B2S_PLUGIN_DEFAULT_USER_APP_QUANTITY', serialize(array(0 => 1, 1 => 1, 2 => 3, 3 => 5)));
         define('B2S_PLUGIN_ALLOW_VIDEO_MIME_TYPE', serialize(array('video/x-msvideo', 'video/avi', 'video/mp4', 'video/mpeg', 'video/ogg', 'video/x-flv', 'video/quicktime', 'video/x-ms-asf')));
         define('B2S_PLUGIN_ALLOW_ADD_LINK', serialize(array(1, 2, 3, 6, 12, 43, 44, 45, 46)));
-        define('B2S_PLUGIN_REMOVE_PAGE_TITLE', serialize(array('blog2social', 'blog2social-video', 'blog2social-onboarding', 'blog2social-curation', 'blog2social-ship')));
+        define('B2S_PLUGIN_REMOVE_PAGE_TITLE', serialize(array('blog2social', 'blog2social-video', 'blog2social-onboarding','blog2social-ship')));
         define('B2S_PLUGIN_CHANGELOG_CONTENT', serialize(array(
             'version_info' => esc_html__('Blog2Social Version 9.1 (September 26)', 'blog2social'),
             'new' => array(
@@ -185,7 +185,7 @@ class B2S_Loader {
         define('B2S_PLUGIN_SYSTEMREQUIREMENT_PLUGINWARNING_WORDS', serialize(array('hotlink', 'firewall', 'total cache', 'security', 'heartbeat', 'disable', 'buy me a coffee')));
         define('B2S_PLUGIN_SYSTEMREQUIREMENT_WPJSON', true);
         define('B2S_PLUGIN_SYSTEMREQUIREMENT_OPENSSL', true);
-        define('B2S_PLUGIN_PAGE_SLUG', serialize(array('blog2social', 'blog2social-post', 'blog2social-calendar', 'blog2social-curation', 'blog2social-network', 'blog2social-settings', 'prg-post', 'blog2social-support', 'blog2social-premium', 'blog2social-sched', 'blog2social-approve', 'blog2social-publish', 'blog2social-notice', 'blog2social-ship', 'blog2social-video', 'blog2social-draft-post', 'prg-login', 'prg-ship')));
+        define('B2S_PLUGIN_PAGE_SLUG', serialize(array('blog2social', 'blog2social-post', 'blog2social-calendar', 'blog2social-network', 'blog2social-settings', 'prg-post', 'blog2social-support', 'blog2social-premium', 'blog2social-sched', 'blog2social-approve', 'blog2social-publish', 'blog2social-notice', 'blog2social-ship', 'blog2social-video', 'blog2social-draft-post', 'prg-login', 'prg-ship')));
         define('B2S_PLUGIN_NETWORK_NOT_ALLOW_GIF', json_encode(array(18, 26, 38, 42, 43)));
         define('B2S_PLUGIN_NETWORK_ANIMATE_GIF', json_encode(array(1 => array(0 => false, 1 => true), 3 => array(0 => true, 1 => true), 4 => array(0 => true), 6 => array(0 => true), 7 => array(0 => false), 11 => array(0 => true), 12 => array(0 => false, 1 => false), 14 => array(0 => true), 15 => array(0 => false), 17 => array(0 => false), 19 => array(0 => true, 1 => true), 21 => array(0 => true), 24 => array(0 => true), 44 => array(0 => false), 45 => array(0 => false))));
         define('B2S_PLUGIN_NETWORK_META_TAGS', json_encode(array('og' => array(1, 3, 15, 19, 17, 43, 44), 'twitter' => array(2, 24, 45))));
@@ -1513,7 +1513,6 @@ class B2S_Loader {
 
         $subPages[] = add_submenu_page('blog2social', esc_html__('Networks', 'blog2social'), esc_html__('Networks', 'blog2social'), 'blog2social_access', 'blog2social-network', array($this, 'b2sNetwork'));
         $subPages[] = add_submenu_page('blog2social', esc_html__('Share Posts', 'blog2social'), esc_html__('Share Posts', 'blog2social'), 'blog2social_access', 'blog2social-post', array($this, 'b2sPost'));
-        $subPages[] = add_submenu_page('blog2social_hidden', 'Create Social Media Posts', 'Social Media Posts', 'blog2social_access', 'blog2social-curation', array($this, 'b2sContentCuration'));
         $subPages[] = add_submenu_page('blog2social', esc_html__('Video Posts', 'blog2social'), esc_html__('Video Posts', 'blog2social'), 'blog2social_access', 'blog2social-video', array($this, 'b2sVideo'));
         if ((defined("B2S_PLUGIN_USER_VERSION") && B2S_PLUGIN_USER_VERSION >= 3 && (!defined("B2S_PLUGIN_TRAIL_END") || (defined("B2S_PLUGIN_TRAIL_END") && strtotime(B2S_PLUGIN_TRAIL_END) < time()))) || (defined('B2S_PLUGIN_PERMISSION_INSIGHTS') && B2S_PLUGIN_PERMISSION_INSIGHTS == 1)) {
             $subPages[] = add_submenu_page('blog2social', '', esc_html__('Social Media Metrics', 'blog2social'), 'blog2social_access', 'blog2social-metrics', array($this, 'b2sMetrics'));

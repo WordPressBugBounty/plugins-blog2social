@@ -77,7 +77,12 @@ class B2S_Video_Item {
             foreach ($result as $var) {
 
                 $publishLink = (!empty($var->publish_link)) ? '<a target="_blank" href="' . esc_url($var->publish_link) . '">' . esc_html__('show', 'blog2social') . '</a> | ' : '';
-                $reshareLink = (!empty($var->publish_link)) ? '<a href="' . esc_url('admin.php?page=blog2social-curation&type=link&url=' . urlencode($var->publish_link)) . '">' . esc_html__('Share on social media', 'blog2social') . '</a> | ' : '';
+                $reshareUrl = add_query_arg(
+                    'url',
+                    $var->publish_link,
+                    admin_url('admin.php?page=blog2social-post&opencontent=1')
+                );
+                $reshareLink = (!empty($var->publish_link)) ? '<a href="' . esc_url($reshareUrl) . '">' . esc_html__('Share on social media', 'blog2social') . '</a> | ' : '';
 
                 $error = '';
                 if (!empty($var->publish_error_code)) {

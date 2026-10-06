@@ -1,6 +1,7 @@
 
 //Load the "Share new post" area ///////////////////////////////////////////////////////////////////
 var b2sComposeLoaded = false;
+var b2sComposeInitialUrl = '';
 
 function showTextError(){
  jQuery('.b2s-compose-textarea-wrap').addClass('b2s-curation-text-error');
@@ -21,7 +22,25 @@ jQuery(document).on('click', '#b2s-compose-expand-btn', function () {
 
     b2sSetComposeCollapsed(false);
     b2sLoadShipSettings(function () {
+        if (jQuery('#b2sSelSchedDate').val() !== '') {
+            var $settingsPanel = jQuery('#b2s-compose-settings-panel');
+            if (!$settingsPanel.is(':visible')) {
+                jQuery('#b2s-compose-settings-toggle').trigger('click');
+            }
+
+            var $shipType = jQuery('#b2s-post-curation-ship-type');
+            $shipType.val('1').trigger('change');
+
+            var schedDate = parseInt(jQuery('#b2sSelSchedDate').val(), 10);
+            if (!isNaN(schedDate)) {
+                jQuery('#b2s-post-curation-ship-date-date').datepicker('update', new Date(schedDate));
+            }
+        }
         b2sSetupNetworkGroupPreview();
+        if (b2sComposeInitialUrl) {
+            jQuery('#b2s-compose-main-textarea').val(b2sComposeInitialUrl).trigger('input');
+            b2sComposeInitialUrl = '';
+        }
     });
 });
 
@@ -143,9 +162,9 @@ jQuery(document).on('click', '.b2s-post-item-ass-create-btn', function () {
             'b2s_security_nonce': jQuery('#b2s_security_nonce').val(),
             'post_lang':          jQuery('#b2s-curation-user-lang').val(),
             'post_id':            0,
-            'network_id':         0, //Facebook...need a general Endpoint
+            'network_id':         0,
             'network_type':       0,
-            'post_network_name':  '',
+            'post_network_name':  'generic',
             'input_text':         $textarea.val(),
             'curation': 1
         },
@@ -1472,6 +1491,7 @@ jQuery(window).on('load', function () {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get('page') === 'blog2social-post' && params.get('opencontent') === '1' ){
+        b2sComposeInitialUrl = params.get('url') || '';
         jQuery('#b2s-compose-expand-btn').trigger('click');
     }
 });

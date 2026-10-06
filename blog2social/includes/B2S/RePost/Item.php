@@ -122,14 +122,14 @@ class B2S_RePost_Item {
         $content .= '</div>'; // .row
 
         // --- Advanced Filters collapsible ---
-        $content .= '<a class="b2s-rp-new-collapse-trigger collapsed" data-toggle="collapse" aria-expanded="false">';
+        $content .= '<a class="b2s-rp-new-collapse-trigger" data-toggle="collapse" aria-expanded="true">';
         $content .= '<span>' . esc_html__('Advanced Filter', 'blog2social') . '</span>';
         $content .= '<span class="glyphicon glyphicon-chevron-down b2s-rp-new-chevron"></span>';
         $content .= '</a>';
-        $content .= '<input hidden style="display:none;" type="radio" id="b2s-re-post-settings-option-1" name="b2s-re-post-settings-option" class="b2s-re-post-settings-option" checked value="0">';
+        $content .= '<input hidden style="display:none;" type="radio" id="b2s-re-post-settings-option-1" name="b2s-re-post-settings-option" class="b2s-re-post-settings-option" checked value="1">';
 
 
-        $content .= '<div id="b2s-rp-new-advanced-filters" style="display:none;" class="collapse">';
+        $content .= '<div id="b2s-rp-new-advanced-filters" class="collapse in">';
         $content .= '<div class="b2s-rp-new-filter-list">';
 
         // Content Types

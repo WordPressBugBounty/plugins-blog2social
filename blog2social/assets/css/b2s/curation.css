@@ -453,7 +453,6 @@
 #b2s-compose-settings-panel {
     border-top: 1px solid #eee;
     margin-top: 10px;
-    padding-top: 6px;
 }
 
 /* ---- Send options panel ---- */
@@ -936,7 +935,7 @@
 
 /* --- Loading spinner ----------------------------------------- */
 .b2s-loader-impulse {
-    color: #6366f1;
+    color: #79b331;
 }
 
 /* --- Main textarea ------------------------------------------- */
@@ -1058,7 +1057,6 @@
 /* --- Send options (settings area from JS) -------------------- */
 .b2s-compose-send-options {
     margin-top: 16px;
-    padding: 16px;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 10px;

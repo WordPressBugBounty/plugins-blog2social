@@ -304,6 +304,72 @@ body .fc-day-grid-event .fc-content{
     margin-top:10px;
 }
 
+#b2s-show-post-type-modal .action-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#b2s-show-post-type-modal .b2s-compose-expand-btn.action-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
+    min-height: 60px;
+    padding: 10px 15px;
+    overflow: hidden;
+    color: inherit;
+    text-align: left;
+    white-space: normal;
+    background: #fff;
+    border: 1px solid #d1d1d1;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
+    transition: all .2s ease;
+}
+
+#b2s-show-post-type-modal .b2s-compose-expand-btn.action-card:hover,
+#b2s-show-post-type-modal .b2s-compose-expand-btn.action-card:focus {
+    background: #EDF3FD;
+    border-color: #9cc4ff;
+    box-shadow: 0 0 0 1px rgba(59,130,246,.15), 0 4px 12px rgba(0,0,0,.04);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+#b2s-show-post-type-modal .action-card .icon {
+    display: flex;
+    flex: 0 0 32px;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+#b2s-show-post-type-modal .action-card .icon-green {
+    color: #5da94c;
+    background: #e8f5e4;
+}
+
+#b2s-show-post-type-modal .action-card .icon-blue {
+    color: #4f8df7;
+    background: #eef4ff;
+}
+
+#b2s-show-post-type-modal .action-card .content {
+    min-width: 0;
+}
+
+#b2s-show-post-type-modal .action-title {
+    display: block;
+    color: #111827;
+    font-size: 16px;
+    font-weight: 600;
+    overflow-wrap: break-word;
+}
+
 .img-width-150{
     width: 150px;
 }
@@ -667,4 +733,3 @@ input:disabled + .b2s-toggle-slider {
     min-height: 60px;
     font-size: 13px;
 }
-

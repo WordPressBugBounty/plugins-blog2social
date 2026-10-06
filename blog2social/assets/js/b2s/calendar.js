@@ -673,7 +673,7 @@ jQuery(document).on('click', '#b2s-btn-select-blog-post', function () {
 });
 
 jQuery(document).on('click', '#b2s-btn-select-content-curation', function () {
-    window.location.href = jQuery('#b2sRedirectUrlContentCuration').val() + '&schedDate=' + jQuery('#b2sSelSchedDate').val();
+    window.location.href = jQuery('#b2sRedirectUrlContentCuration').val() + '&schedDate=' + encodeURIComponent(jQuery('#b2sSelSchedDate').val());
     return false;
 });
 
