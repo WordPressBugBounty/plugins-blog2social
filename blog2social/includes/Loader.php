@@ -11,6 +11,7 @@ class B2S_Loader {
 
     public $blogUserData;
     public $lastVersion;
+    private $dbUpdateLockToken = false;
 
     public function __construct() {
         
@@ -509,10 +510,41 @@ class B2S_Loader {
     }
 
     public function update_db_check() {
+
         $this->lastVersion = get_option('b2s_plugin_version');
-        if ($this->lastVersion == false || (int) $this->lastVersion < B2S_PLUGIN_VERSION) {
+
+        if ($this->lastVersion !== false && (int) $this->lastVersion >= B2S_PLUGIN_VERSION) {
+            return;
+        }
+
+        /*
+        * Prevent multiple requests from running the database update
+        * simultaneously.
+        */
+        if (!$this->acquireDbUpdateLock()) {
+            return;
+        }
+
+        try {
+            /*
+            * Re-check the version after acquiring the lock.
+            *
+            * Another request may have completed the update while we
+            * just between the time we checked and acquired the lock.
+            */
+            $this->lastVersion = get_option('b2s_plugin_version');
+
+            if ($this->lastVersion !== false && (int) $this->lastVersion >= B2S_PLUGIN_VERSION) {
+                return;
+            }
             $this->activatePlugin();
             update_option('b2s_plugin_version', B2S_PLUGIN_VERSION, false);
+
+        } finally {
+            /*
+            * Release the option lock on every exit path.
+            */
+            $this->releaseDbUpdateLock();
         }
     }
 
@@ -2280,6 +2312,47 @@ class B2S_Loader {
         }
     }
 
+    /**
+     * Acquire the database update lock.
+     *
+     * @return bool
+      */
+     protected function acquireDbUpdateLock() {
+         $lockName = 'b2s_plugin_db_update';
+
+         $this->dbUpdateLockToken = wp_generate_uuid4();
+         if (add_option($lockName, $this->dbUpdateLockToken, '', 'no')) {
+             return true;
+         }
+
+        $this->dbUpdateLockToken = false;
+        return false;
+    }
+
+    /**
+     * Release the database update lock.
+     *
+     * @return void
+     */
+    protected function releaseDbUpdateLock() {
+        global $wpdb;
+
+        if ($this->dbUpdateLockToken !== false) {
+            // Delete only our own lock in case another request has acquired it.
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            $wpdb->query(
+                $wpdb->prepare(
+                    "DELETE FROM {$wpdb->options} WHERE option_name = %s AND option_value = %s",
+                    'b2s_plugin_db_update',
+                    $this->dbUpdateLockToken
+                )
+            );
+        }
+
+        $this->dbUpdateLockToken = false;
+    }
+    
+
     public function activatePlugin() {
 
         require_once(B2S_PLUGIN_DIR . 'includes/Tools.php');
@@ -2440,24 +2513,72 @@ class B2S_Loader {
             }
         }
 
-        //Change Collation >=V4.0 Emoji
-        $existsTable = $wpdb->get_results('SHOW TABLES LIKE "' . $wpdb->prefix . 'b2s_posts_sched_details"');
-        if (is_array($existsTable) && !empty($existsTable)) {
-            $wpdb->query('ALTER TABLE `' . $wpdb->prefix . 'b2s_posts_sched_details` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
-            $wpdb->query('ALTER TABLE `' . $wpdb->prefix . 'b2s_posts_sched_details` CHANGE sched_data sched_data TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
-            $wpdb->query('REPAIR TABLE `' . $wpdb->prefix . 'b2s_posts_sched_details`');
-            $wpdb->query('OPTIMIZE TABLE `' . $wpdb->prefix . 'b2s_posts_sched_details`');
-        } else {
-            $sqlCreateUserSchedDetails = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}b2s_posts_sched_details` (
+
+        // Ensure UTF-8mb4 support for scheduled post details.
+        $schedDetailsTable = $wpdb->prefix . 'b2s_posts_sched_details';
+        
+        $sqlCreateSchedDetails = "CREATE TABLE IF NOT EXISTS `{$schedDetailsTable}` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `sched_data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
             `image_url` varchar(255) NOT NULL,
             PRIMARY KEY (`id`)
-            ) DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci AUTO_INCREMENT=1 ;";
-            //No User input in statement
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-            $wpdb->query($sqlCreateUserSchedDetails);
+        ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci AUTO_INCREMENT=1;";
+        
+        // No user input is used in this statement.
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        if (!$wpdb->query($sqlCreateSchedDetails)) {
+            $mySqlPermission = false;
         }
+        
+        $existsTable = $wpdb->get_row(
+            $wpdb->prepare(
+                'SHOW TABLE STATUS LIKE %s',
+                $wpdb->esc_like($schedDetailsTable)
+            )
+        );
+        
+        if ($existsTable !== null) {
+            $tableCollation = isset($existsTable->Collation)
+                ? $existsTable->Collation
+                : '';
+        
+            if ($tableCollation !== 'utf8mb4_unicode_ci') {
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+                if (!$wpdb->query(
+                    "ALTER TABLE `{$schedDetailsTable}`
+                     CONVERT TO CHARACTER SET utf8mb4
+                     COLLATE utf8mb4_unicode_ci"
+                )) {
+                    $mySqlPermission = false;
+                }
+            }
+        
+            $schedDataColumn = $wpdb->get_row(
+                $wpdb->prepare(
+                    'SHOW FULL COLUMNS FROM `' . $schedDetailsTable . '` WHERE Field = %s',
+                    'sched_data'
+                )
+            );
+        
+            if ($schedDataColumn !== null) {
+                $schedDataCollation = isset($schedDataColumn->Collation)
+                    ? $schedDataColumn->Collation
+                    : '';
+        
+                if ($schedDataCollation !== 'utf8mb4_unicode_ci') {
+                    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+                    if (!$wpdb->query(
+                        "ALTER TABLE `{$schedDetailsTable}`
+                         CHANGE `sched_data` `sched_data`
+                         TEXT CHARACTER SET utf8mb4
+                         COLLATE utf8mb4_unicode_ci NOT NULL"
+                    )) {
+                        $mySqlPermission = false;
+                    }
+                }
+            }
+        }
+
 
         $sqlCreateUserNetworkDetails = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}b2s_posts_network_details` (
             `id` int(11) NOT NULL AUTO_INCREMENT,

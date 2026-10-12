@@ -278,6 +278,11 @@ class Ajax_Get {
         }
 
         if (isset($_POST['postId']) && (int) $_POST['postId'] > 0 && isset($_POST['networkId']) && (int) (int) $_POST['networkId'] > 0 && isset($_POST['networkAuthId']) && (int) $_POST['networkAuthId'] > 0) {
+            if (!current_user_can('read_post', (int) $_POST['postId'])) {
+                echo wp_json_encode(array('result' => false, 'error' => 'permission_author'));
+                wp_die();
+            }
+
             //TOS XING Group
             if ((int) $_POST['networkId'] == 19 && isset($_POST['networkTosGroupId']) && !empty($_POST['networkTosGroupId'])) {
                 $options = new B2S_Options(0, 'B2S_PLUGIN_TOS_XING_GROUP_CROSSPOSTING');
@@ -626,6 +631,11 @@ class Ajax_Get {
 
         if (isset($_POST['networkId']) && (int) $_POST['networkId'] > 0 && isset($_POST['networkAuthId']) && (int) $_POST['networkAuthId'] > 0 && isset($_POST['url']) && !empty($_POST['url'])) {
             if (isset($_POST['postId']) && (int) $_POST['postId'] > 0 && isset($_POST['defaultUrl']) && esc_url_raw(wp_unslash($_POST['defaultUrl'])) == esc_url_raw(wp_unslash($_POST['url'])) && (!isset($_POST['postType']) || sanitize_text_field(wp_unslash($_POST['postType'])) != 'ex')) {
+                if (!current_user_can('read_post', (int) $_POST['postId'])) {
+                    echo wp_json_encode(array('result' => false, 'error' => 'permission_author'));
+                    wp_die();
+                }
+
                 $postData = get_post((int) $_POST['postId']);
                 if ($postData->post_status != 'publish') {
                     $postUrl = (get_permalink($postData->ID) !== false ? get_permalink($postData->ID) : $postData->guid);
