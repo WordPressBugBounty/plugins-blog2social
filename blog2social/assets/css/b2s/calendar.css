@@ -278,6 +278,10 @@ body .fc-day-grid-event .fc-content{
 .b2s-calendar-filter-network-legend-text{    
     font-weight: 600;
 }
+#b2s-calendar-filter-status {
+    margin-bottom: 9px !important;
+    font-weight: normal;
+}
 .b2s-calendar-filter-network-list > label > input{ 
     visibility: hidden;
     position: absolute; 

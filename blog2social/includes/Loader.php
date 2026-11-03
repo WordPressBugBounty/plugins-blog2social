@@ -2555,7 +2555,8 @@ class B2S_Loader {
         
             $schedDataColumn = $wpdb->get_row(
                 $wpdb->prepare(
-                    'SHOW FULL COLUMNS FROM `' . $schedDetailsTable . '` WHERE Field = %s',
+                    'SHOW FULL COLUMNS FROM %i WHERE Field = %s',
+                    $schedDetailsTable,
                     'sched_data'
                 )
             );

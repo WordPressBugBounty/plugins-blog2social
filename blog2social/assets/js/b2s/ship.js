@@ -7017,6 +7017,7 @@ function setEditTemplateMode(mode) {
             jQuery('.b2s-edit-template-ai-content-connect-gate').show();
         }
         jQuery('.b2s-edit-template-save-btn').hide();
+        jQuery('.b2s-edit-template-save-ai-btn').show();
         jQuery('.b2s-edit-template-no-cache-area').hide();
         jQuery('.b2s-edit-template-content').addClass('b2s-ai-mode-active');
         jQuery('.b2s-tabs-nav-container').not('.b2s-ai-tabs-nav-container').hide();
@@ -7060,6 +7061,7 @@ function setEditTemplateMode(mode) {
         jQuery('.b2s-edit-template-ai-content').hide();
         jQuery('.b2s-edit-template-ai-content-connect-gate').hide();
         jQuery('.b2s-edit-template-save-btn').show();
+        jQuery('.b2s-edit-template-save-ai-btn').hide();
         jQuery('.b2s-edit-template-no-cache-area').show();
         jQuery('.b2s-edit-template-content').removeClass('b2s-ai-mode-active');
         jQuery('.b2s-tabs-nav-container').not('.b2s-ai-tabs-nav-container').show();

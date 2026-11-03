@@ -1242,6 +1242,7 @@ $hasDisconnectedNetworks = !empty($disconnectedNetworks);
                                 </div>
                             </div>
 
+                           
                             <div class="modal fade" id="b2s-edit-template" tabindex="-1" role="dialog" aria-labelledby="b2s-edit-template" aria-hidden="true" data-backdrop="false"  style="display:none;">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content custom-edit-template-modal-width">
@@ -1290,13 +1291,14 @@ $hasDisconnectedNetworks = !empty($disconnectedNetworks);
 
                                         </div>
                                         <div class="modal-footer b2s-edit-template-footer">
+                                            <button type="button" class="btn btn-primary btn-sm b2s-edit-template-save-ai-btn" style="display: none;"><?php esc_html_e('save', 'blog2social'); ?></button>
                                             <button class="btn btn-primary btn-sm b2s-edit-template-save-btn"><?php esc_html_e('save', 'blog2social'); ?></button>
                                             <input type="hidden" value="" id="b2s-edit-template-network-id">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                    
                             <div class="modal fade" id="b2sInfoNetwork18" tabindex="-1" role="dialog"  aria-labelledby="b2sInfoNetwork18" aria-hidden="true" data-backdrop="false"  style="display:none;">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">

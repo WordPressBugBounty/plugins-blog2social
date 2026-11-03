@@ -282,7 +282,7 @@ $getPage = (isset($_GET['page']) && !empty($_GET['page'])) ? sanitize_text_field
                             </div>
                         </div>
                         <div class="b2s-ass-sidebar-account panel panel-default b2s-margin-right-10 b2s-margin-bottom-10 b2s-margin-top-8 license-card" style="display:none;">
-                            <div class="panel panel-default b2s-ass-sidebar-account-container b2s-margin-right-10 b2s-margin-bottom-10">
+                            <div class="b2s-ass-sidebar-account-container b2s-margin-right-10 b2s-margin-bottom-10">
                                 <div class="panel-body b2s-padding-10">
                                     <div class="media d-flex align">
                                         <div class="align-self-center">
@@ -488,5 +488,4 @@ $getPage = (isset($_GET['page']) && !empty($_GET['page'])) ? sanitize_text_field
     </div>
 </div>
 <!-- Sidebar|End-->
-
 
