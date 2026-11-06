@@ -15,32 +15,33 @@ class B2S_Util
         return base64_decode($data);
     }
 
-
     public static function getUTCForDate($date, $userTimezone)
     {
         $userTimezone = self::normalizeTimezoneOffset($userTimezone);
-        $timestamp = strtotime($date . ' UTC');
-        if ($timestamp === false) {
-            return false;
-        }
-
-        $utcTime = $timestamp - ($userTimezone * 3600);
-        return wp_date(
-            'Y-m-d H:i:s',
-            (int) $utcTime,
-            new DateTimeZone('UTC')
-        );
+        $utcTime = strtotime($date) + ($userTimezone * 3600);
+        return wp_date('Y-m-d H:i:s', $utcTime, new DateTimeZone(date_default_timezone_get()));
     }
 
     public static function getLocalDate($userTimezone, $lang = 'en')
     {
-        $ident = ($lang === 'de') ? 'd.m.Y H:i' : 'Y/m/d g:i a';
-        return self::getbyIdentLocalDate($userTimezone, $ident);
+        $userTimezone = self::normalizeTimezoneOffset($userTimezone);
+        $ident = ($lang == 'de') ? 'd.m.Y H:i' : 'Y/m/d g:i a';
+        $localTime = strtotime(gmdate('Y-m-d H:i:s')) + ($userTimezone * 3600);
+        return wp_date($ident, $localTime, new DateTimeZone(date_default_timezone_get()));
     }
 
-    public static function getCustomLocaleDateTime($userTimezone, $ident = 'Y-m-d H:i:s')
+    public static function getbyIdentLocalDate($userTimezone, $ident = "Y-m-d H:i:s")
     {
-        return self::getbyIdentLocalDate($userTimezone, $ident);
+        $userTimezone = self::normalizeTimezoneOffset($userTimezone);
+        $localTime = strtotime(gmdate('Y-m-d H:i:s')) + ($userTimezone * 3600);
+        return wp_date($ident, $localTime, new DateTimeZone(date_default_timezone_get()));
+    }
+
+    public static function getCustomLocaleDateTime($userTimezone, $ident = "Y-m-d H:i:s")
+    {
+        $userTimezone = self::normalizeTimezoneOffset($userTimezone);
+        $localTime = strtotime(gmdate('Y-m-d H:i:s')) + ($userTimezone * 3600);
+        return wp_date($ident, $localTime, new DateTimeZone(date_default_timezone_get()));
     }
 
     private static function normalizeTimezoneOffset($userTimezone)
@@ -48,25 +49,11 @@ class B2S_Util
         if (!is_numeric($userTimezone)) {
             return 0.0;
         }
-
         $timezoneOffset = (float) $userTimezone;
         if (!is_finite($timezoneOffset)) {
             return 0.0;
         }
         return $timezoneOffset;
-    }
-
-    public static function getbyIdentLocalDate($userTimezone, $ident = 'Y-m-d H:i:s')
-    {
-        $userTimezone = self::normalizeTimezoneOffset($userTimezone);
-
-        $localTime = time() + ($userTimezone * 3600);
-
-        return wp_date(
-            $ident,
-            (int) $localTime,
-            new DateTimeZone('UTC')
-        );
     }
 
     public static function getVersion($version = 000)
